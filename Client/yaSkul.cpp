@@ -1,4 +1,4 @@
-#include "yaCuphead.h"
+#include "yaSkul.h"
 #include "yaTime.h"
 #include "yaSceneManager.h"
 #include "yaInput.h"
@@ -7,19 +7,19 @@
 
 namespace ya
 {
-	Cuphead::Cuphead()
+	Skul::Skul()
 	{
 	}
-	Cuphead::~Cuphead()
+	Skul::~Skul()
 	{
 	}
-	void Cuphead::Initialize()
+	void Skul::Initialize()
 	{
 		mImage = Resources::Load<Image>(L"Cuphead", L"..\\Resources\\Idle.bmp");
 
 		GameObject::Initialize();
 	}
-	void Cuphead::Update()
+	void Skul::Update()
 	{
 		GameObject::Update();
 
@@ -47,14 +47,14 @@ namespace ya
 		}
 		tr->SetPos(pos);
 	}
-	void Cuphead::Render(HDC hdc)
+	void Skul::Render(HDC hdc)
 	{
 		GameObject::Render(hdc);
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
 		BitBlt(hdc, pos.x, pos.y, mImage->GetWidth(), mImage->GetHeight(), mImage->GetHdc(), 0, 0, SRCCOPY);
 	}
-	void Cuphead::Release()
+	void Skul::Release()
 	{
 		GameObject::Release();
 
