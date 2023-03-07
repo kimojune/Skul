@@ -8,17 +8,21 @@
 namespace ya
 {
 	Cuphead::Cuphead()
+		: mTime(0.0f)
+		, mIdx(0)
 	{
 	}
 	Cuphead::~Cuphead()
 	{
 	}
+
 	void Cuphead::Initialize()
 	{
-		mImage = Resources::Load<Image>(L"Cuphead", L"..\\Resources\\Idle.bmp");
+		mImage = Resources::Load<Image>(L"Cuphead", L"..\\Resources\\Cuphead_Stage.bmp");
 
 		GameObject::Initialize();
 	}
+
 	void Cuphead::Update()
 	{
 		GameObject::Update();
@@ -47,12 +51,32 @@ namespace ya
 		}
 		tr->SetPos(pos);
 	}
+
 	void Cuphead::Render(HDC hdc)
 	{
 		GameObject::Render(hdc);
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
-		BitBlt(hdc, pos.x, pos.y, mImage->GetWidth(), mImage->GetHeight(), mImage->GetHdc(), 0, 0, SRCCOPY);
+
+
+		mTime += Time::DeltaTime();
+
+		if (mIdx >= 16)
+		{
+			mIdx = 0;
+		}
+
+		if (mTime > 0.1f)
+		{
+			mIdx++;
+			mTime = 0.0f;
+		}
+
+		TransparentBlt(hdc, pos.x, pos.y, 103, 113
+			, mImage->GetHdc(), (103 * mIdx), 0, 103, 113, RGB(255, 0, 255));
+
+
+		//BitBlt(hdc, pos.x, pos.y, mImage->GetWidth() * 2, mImage->GetHeight() * 2, mImage->GetHdc(), 0, 0, SRCCOPY);
 	}
 	void Cuphead::Release()
 	{

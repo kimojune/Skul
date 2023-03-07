@@ -3,11 +3,9 @@
 
 namespace ya
 {
-
-
-
 	Entity::Entity()
 	{
+
 	}
 
 	Entity::~Entity()
