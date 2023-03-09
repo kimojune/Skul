@@ -142,7 +142,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="yaApplication.h" />
     <ClInclude Include="yaComponent.h" />
-    <ClInclude Include="yaCuphead.h" />
+    <ClInclude Include="yaSkul.h" />
     <ClInclude Include="yaEntity.h" />
     <ClInclude Include="yaEnums.h" />
     <ClInclude Include="yaGameObject.h" />
@@ -170,7 +170,7 @@
     <ClCompile Include="yaResources.cpp" />
     <ClCompile Include="yaApplication.cpp" />
     <ClCompile Include="yaComponent.cpp" />
-    <ClCompile Include="yaCuphead.cpp" />
+    <ClCompile Include="yaSkul.cpp" />
     <ClCompile Include="yaEntity.cpp" />
     <ClCompile Include="yaGameObject.cpp" />
     <ClCompile Include="yaImage.cpp" />

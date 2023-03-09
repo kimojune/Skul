@@ -5,7 +5,7 @@
 namespace ya
 {
 	class Animator;
-	class Cuphead : public GameObject
+	class Skul : public GameObject
 	{
 	public:
 		enum class eCupheadState
@@ -16,8 +16,8 @@ namespace ya
 			Idle,
 		};
 
-		Cuphead();
-		~Cuphead();
+		Skul();
+		~Skul();
 
 		virtual void Initialize() override;
 		virtual void Update() override;

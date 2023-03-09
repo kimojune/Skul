@@ -1,4 +1,4 @@
-#include "yaCuphead.h"
+#include "yaSkul.h"
 #include "yaTime.h"
 #include "yaSceneManager.h"
 #include "yaInput.h"
@@ -11,14 +11,14 @@
 
 namespace ya
 {
-	Cuphead::Cuphead()
+	Skul::Skul()
 	{
 	}
-	Cuphead::~Cuphead()
+	Skul::~Skul()
 	{
 	}
 
-	void Cuphead::Initialize()
+	void Skul::Initialize()
 	{
 		Transform* tr = GetComponent<Transform>();
 		tr->SetPos(Vector2(400.0f, 400.0f));
@@ -32,7 +32,7 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Idle", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Aim\\Straight", Vector2::Zero, 0.1f);
 
-		mAnimator->GetStartEvent(L"ChaliseIdle") = std::bind(&Cuphead::idleCompleteEvent, this);
+		mAnimator->GetStartEvent(L"ChaliseIdle") = std::bind(&Skul::idleCompleteEvent, this);
 		mAnimator->Play(L"ChaliseIdle", true);
 		
 		Collider* collider = AddComponent<Collider>();
@@ -43,22 +43,22 @@ namespace ya
 		GameObject::Initialize();
 	}
 
-	void Cuphead::Update()
+	void Skul::Update()
 	{
 		GameObject::Update();
 
 		switch (mState)
 		{
-		case ya::Cuphead::eCupheadState::Move:
+		case ya::Skul::eCupheadState::Move:
 			move();
 			break;
-		case ya::Cuphead::eCupheadState::Shoot:
+		case ya::Skul::eCupheadState::Shoot:
 			shoot();
 			break;
-		case ya::Cuphead::eCupheadState::Death:
+		case ya::Skul::eCupheadState::Death:
 			death();
 			break;
-		case ya::Cuphead::eCupheadState::Idle:
+		case ya::Skul::eCupheadState::Idle:
 			idle();
 			break;
 		default:
@@ -99,16 +99,16 @@ namespace ya
 		tr->SetPos(pos);*/
 	}
 
-	void Cuphead::Render(HDC hdc)
+	void Skul::Render(HDC hdc)
 	{
 		GameObject::Render(hdc);
 	}
-	void Cuphead::Release()
+	void Skul::Release()
 	{
 		GameObject::Release();
 
 	}
-	void Cuphead::move()
+	void Skul::move()
 	{
 		if (Input::GetKeyUp(eKeyCode::A)
 			|| Input::GetKeyUp(eKeyCode::D)
@@ -136,7 +136,7 @@ namespace ya
 		
 		tr->SetPos(pos);
 	}
-	void Cuphead::shoot()
+	void Skul::shoot()
 	{
 		Transform* tr = GetComponent<Transform>();
 		if (Input::GetKey(eKeyCode::K))
@@ -147,10 +147,10 @@ namespace ya
 			curScene->AddGameObeject(bullet, eLayerType::Bullet);
 		}
 	}
-	void Cuphead::death()
+	void Skul::death()
 	{
 	}
-	void Cuphead::idle()
+	void Skul::idle()
 	{
 		if (Input::GetKeyDown(eKeyCode::A)
 			|| Input::GetKeyDown(eKeyCode::D)
@@ -168,7 +168,7 @@ namespace ya
 		}
 	}
 
-	void Cuphead::idleCompleteEvent(/*const Cuphead* this*/)
+	void Skul::idleCompleteEvent(/*const Cuphead* this*/)
 	{
 		int a = 0;
 		//mState =
