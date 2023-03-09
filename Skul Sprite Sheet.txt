@@ -1,0 +1,18 @@
+Skul Sprite Sheet 
+
+
+처음 
+left top
+5 13
+높이 41
+
+
+높이 105
+길이 124
+
+idle 
+
+40x33
+4
+
+offset -85 -50

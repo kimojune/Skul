@@ -22,21 +22,25 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		tr->SetPos(Vector2(400.0f, 400.0f));
+		tr->SetScale(Vector2(2.5f,2.5f));
 		//tr->SetScale(Vector2(1.5f, 1.5f));
 
-		Image* mImage = Resources::Load<Image>(L"Cuphead", L"..\\Resources\\Cuphead_Stage.bmp");
+		Image* mImage = Resources::Load<Image>(L"Skul", L"..\\Resources\\Skul.bmp");
 		mAnimator = AddComponent<Animator>();
-		mAnimator->CreateAnimation(L"FowardRun", mImage, Vector2::Zero, 16, 8, 16, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"FowardRight", mImage, Vector2(0.0f, 113.0f), 16, 8, 15, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"Idle", mImage, Vector2(0.0f, 113.0f * 5), 16, 8, 9, Vector2(-50.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Idle", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Aim\\Straight", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimation(L"Idle", mImage, Vector2(0.0f, 0.0f), 20, 20, 4, Vector2(-85.0f,-50.0f), 0.1);
+		mAnimator->CreateAnimation(L"RightRun", mImage, Vector2(0.0f, 124.0f), 20, 20, 8, Vector2(0.0f,0.0f), 0.1);
 
-		mAnimator->GetStartEvent(L"ChaliseIdle") = std::bind(&Skul::idleCompleteEvent, this);
-		mAnimator->Play(L"ChaliseIdle", true);
-		
+		//mAnimator->CreateAnimation(L"FowardRun", mImage, Vector2::Zero, 16, 8, 16, Vector2::Zero, 0.1);
+		//mAnimator->CreateAnimation(L"FowardRight", mImage, Vector2(0.0f, 113.0f), 16, 8, 15, Vector2::Zero, 0.1);
+		//mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Idle", Vector2::Zero, 0.1f);
+		//mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Aim\\Straight", Vector2::Zero, 0.1f);
+
+		mAnimator->GetStartEvent(L"Idle") = std::bind(&Skul::idleCompleteEvent, this);
+		mAnimator->Play(L"Idle", true);
+		//
 		Collider* collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(-60.0f, -80.0f));
+		collider->SetCenter(Vector2(-20.0f, -25.0f));
+		collider->SetSize(Vector2(50.0f, 50.0f));
 
 		mState = eCupheadState::Idle;
 
