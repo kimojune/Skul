@@ -32,8 +32,9 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Idle", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Aim\\Straight", Vector2::Zero, 0.1f);
 
+		mAnimator->GetStartEvent(L"ChaliseIdle") = std::bind(&Cuphead::idleCompleteEvent, this);
 		mAnimator->Play(L"ChaliseIdle", true);
-
+		
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-60.0f, -80.0f));
 
@@ -165,5 +166,16 @@ namespace ya
 			mState = eCupheadState::Shoot;
 			mAnimator->Play(L"AimStraight", true);
 		}
+	}
+
+	void Cuphead::idleCompleteEvent(/*const Cuphead* this*/)
+	{
+		int a = 0;
+		//mState =
+		//Transform* tr = GetComponent<Transform>();
+		//Scene* curScene = SceneManager::GetActiveScene();
+		//BaseBullet* bullet = new BaseBullet();
+		//bullet->GetComponent<Transform>()->SetPos(tr->GetPos());
+		//curScene->AddGameObeject(bullet, eLayerType::Bullet);
 	}
 }
