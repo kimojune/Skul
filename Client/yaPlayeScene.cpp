@@ -2,6 +2,8 @@
 #include "yaCuphead.h"
 #include "yaInput.h"
 #include "yaSceneManager.h"
+#include "yaMonster.h"
+#include "yaCollisionManager.h"
 
 namespace ya
 {
@@ -18,6 +20,11 @@ namespace ya
 		mCuphead = new Cuphead();
 		AddGameObeject(mCuphead, eLayerType::Player);
 
+		Monster* monster = new Monster();
+		AddGameObeject(monster, eLayerType::Monster);
+
+
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster,   true);
 		Scene::Initialize();
 	}
 

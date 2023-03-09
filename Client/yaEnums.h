@@ -18,7 +18,7 @@ enum class eLayerType
 	Test,
 	Effect,
 	UI,
-	End,
+	End = 16,
 };
 
 enum class eComponentType

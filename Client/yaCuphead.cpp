@@ -20,6 +20,10 @@ namespace ya
 
 	void Cuphead::Initialize()
 	{
+		Transform* tr = GetComponent<Transform>();
+		tr->SetPos(Vector2(400.0f, 400.0f));
+		//tr->SetScale(Vector2(1.5f, 1.5f));
+
 		Image* mImage = Resources::Load<Image>(L"Cuphead", L"..\\Resources\\Cuphead_Stage.bmp");
 		mAnimator = AddComponent<Animator>();
 		mAnimator->CreateAnimation(L"FowardRun", mImage, Vector2::Zero, 16, 8, 16, Vector2::Zero, 0.1);

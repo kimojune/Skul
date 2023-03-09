@@ -54,6 +54,15 @@ struct Vector2
 		return temp;
 	}
 
+	Vector2 operator*(const Vector2& other)
+	{
+		Vector2 temp;
+		temp.x = x * other.x;
+		temp.y = y * other.y;
+
+		return temp;
+	}
+
 	void operator+=(const Vector2& other)
 	{
 		x += other.x;

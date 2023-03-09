@@ -7,6 +7,13 @@ namespace ya
 	class GameObject : public Entity
 	{
 	public:
+		enum class eState
+		{
+			Active,
+			Pause,
+			Death,
+		};
+
 		GameObject();
 		virtual ~GameObject();
 
@@ -14,6 +21,10 @@ namespace ya
 		virtual void Update();
 		virtual void Render(HDC hdc);
 		virtual void Release();
+
+		//virtual void OnCollisionEnter(Collider* other);
+		//virtual void OnCollisionStay(Collider* other);
+		//virtual void OnCollisionExit(Collider* other);
 
 		template <typename T>
 		T* AddComponent()
