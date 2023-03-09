@@ -16,3 +16,7 @@ idle
 4
 
 offset -85 -50
+
+Skul Idle Right 
+
+-10 x 17

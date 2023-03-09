@@ -42,7 +42,7 @@ namespace ya
 		collider->SetCenter(Vector2(-20.0f, -25.0f));
 		collider->SetSize(Vector2(50.0f, 50.0f));
 
-		mState = eCupheadState::Idle;
+		mState = eSkulState::Idle;
 
 		GameObject::Initialize();
 	}
@@ -53,17 +53,29 @@ namespace ya
 
 		switch (mState)
 		{
-		case ya::Skul::eCupheadState::Move:
+		case ya::Skul::eSkulState::Idle:
+			idle();
+			break;
+		case ya::Skul::eSkulState::Move:
 			move();
 			break;
-		case ya::Skul::eCupheadState::Shoot:
-			shoot();
+		case ya::Skul::eSkulState::Dash:
+			dash();
 			break;
-		case ya::Skul::eCupheadState::Death:
-			death();
-			break;
-		case ya::Skul::eCupheadState::Idle:
-			idle();
+		case ya::Skul::eSkulState::Jump:
+			jump();
+		case ya::Skul::eSkulState::Fall:
+			fall();
+		case ya::Skul::eSkulState::FallRepeat:
+			fallrepeat();		
+		case ya::Skul::eSkulState::AttackA:
+			attackA();
+		case ya::Skul::eSkulState::AttackB:
+			attackB();
+		case ya::Skul::eSkulState::JumpAttack:
+			jumpattack();
+		case ya::Skul::eSkulState::Skill:
+			skill();
 			break;
 		default:
 			break;
@@ -119,7 +131,7 @@ namespace ya
 			|| Input::GetKeyUp(eKeyCode::S)
 			|| Input::GetKeyUp(eKeyCode::W))
 		{
-			mState = eCupheadState::Idle;
+			mState = eSkulState::Move;
 			//mAnimator->Play(L"Idle", true);
 		}
 
@@ -140,7 +152,30 @@ namespace ya
 		
 		tr->SetPos(pos);
 	}
-	void Skul::shoot()
+	void Skul::dash()
+	{
+	}
+	void Skul::jump()
+	{
+	}
+	void Skul::fall()
+	{
+	}
+	void Skul::fallrepeat()
+	{
+	}
+	void Skul::attackA()
+	{
+	}
+	void Skul::attackB()
+	{
+	}
+
+	void Skul::jumpattack()
+	{
+	}
+
+	void Skul::skill()
 	{
 		Transform* tr = GetComponent<Transform>();
 		if (Input::GetKey(eKeyCode::K))
@@ -151,9 +186,9 @@ namespace ya
 			curScene->AddGameObeject(bullet, eLayerType::Bullet);
 		}
 	}
-	void Skul::death()
-	{
-	}
+	////void Skul::death()
+	//{
+	//}
 	void Skul::idle()
 	{
 		if (Input::GetKeyDown(eKeyCode::A)
@@ -161,13 +196,13 @@ namespace ya
 			|| Input::GetKeyDown(eKeyCode::S)
 			|| Input::GetKeyDown(eKeyCode::W))
 		{
-			mState = eCupheadState::Move;
+			mState = eSkulState::Move;
 			//mAnimator->Play(L"FowardRun", true);
 		}
 
 		if (Input::GetKeyDown(eKeyCode::K))
 		{
-			mState = eCupheadState::Shoot;
+			mState = eSkulState::Skill;
 			mAnimator->Play(L"AimStraight", true);
 		}
 	}

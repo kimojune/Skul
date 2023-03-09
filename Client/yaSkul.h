@@ -8,12 +8,20 @@ namespace ya
 	class Skul : public GameObject
 	{
 	public:
-		enum class eCupheadState
+		enum class eSkulState
 		{
-			Move,
-			Shoot,
-			Death,
 			Idle,
+			Move,
+			Dash,
+			Jump,
+			Fall,
+			FallRepeat,
+			AttackA,
+			AttackB,
+			JumpAttack,
+			Skill,
+			Fall_Dead,
+
 		};
 
 		Skul();
@@ -25,15 +33,20 @@ namespace ya
 		virtual void Release() override;
 		
 	private:
-		void move();
-		void shoot();
-		void death();
-		void idle();
-
+		void	idle();
+		void	move();
+		void	dash();
+		void	jump();
+		void	fall();
+		void	fallrepeat();
+		void	attackA();
+		void	attackB();
+		void	jumpattack();
+		void	skill();
 		void idleCompleteEvent();
 
 	private:
-		eCupheadState mState;
+		eSkulState mState;
 		Animator* mAnimator;
 	};
 }
