@@ -50,6 +50,15 @@
     <Filter Include="Engine\Resource">
       <UniqueIdentifier>{25bd4d29-77ad-4205-b963-e464704dbafe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Bullet">
+      <UniqueIdentifier>{594ae07a-d668-4f87-af1b-f4e47cb27492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Monster">
+      <UniqueIdentifier>{68c4f34a-2d3b-40a9-b605-27198c82d870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Collider">
+      <UniqueIdentifier>{f07b3a6f-b431-436f-a7f0-247859073138}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -124,6 +133,24 @@
     <ClInclude Include="yaTransform.h">
       <Filter>Engine\Component</Filter>
     </ClInclude>
+    <ClInclude Include="yaAnimation.h">
+      <Filter>Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="yaAnimator.h">
+      <Filter>Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBaseBullet.h">
+      <Filter>Contents\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMonster.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCollider.h">
+      <Filter>Engine\Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCollisionManager.h">
+      <Filter>Engine\Component\Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -192,6 +219,24 @@
     </ClCompile>
     <ClCompile Include="yaTransform.cpp">
       <Filter>Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="yaAnimation.cpp">
+      <Filter>Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="yaAnimator.cpp">
+      <Filter>Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBaseBullet.cpp">
+      <Filter>Contents\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMonster.cpp">
+      <Filter>Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCollider.cpp">
+      <Filter>Engine\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCollisionManager.cpp">
+      <Filter>Engine\Component\Collider</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
