@@ -4,11 +4,11 @@
 
 namespace ya
 {
-	class Skul : public GameObject
+	class Cuphead : public GameObject
 	{
 	public:
-		Skul();
-		~Skul();
+		Cuphead();
+		~Cuphead();
 
 		virtual void Initialize() override;
 		virtual void Update() override;

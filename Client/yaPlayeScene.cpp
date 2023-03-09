@@ -1,5 +1,5 @@
 #include "yaPlayeScene.h"
-#include "yaSkul.h"
+#include "yaCuphead.h"
 #include "yaInput.h"
 #include "yaSceneManager.h"
 
@@ -16,8 +16,8 @@ namespace ya
 	void PlayeScene::Initialize()
 	{
 		
-		mSkul = new Skul();
-		AddGameObeject(mSkul, eLayerType::Player);
+		mCuphead = new Cuphead();
+		AddGameObeject(mCuphead, eLayerType::Player);
 
 		Scene::Initialize();
 	}
