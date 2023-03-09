@@ -4,9 +4,18 @@
 
 namespace ya
 {
+	class Animator;
 	class Cuphead : public GameObject
 	{
 	public:
+		enum class eCupheadState
+		{
+			Move,
+			Shoot,
+			Death,
+			Idle,
+		};
+
 		Cuphead();
 		~Cuphead();
 
@@ -16,8 +25,13 @@ namespace ya
 		virtual void Release() override;
 		
 	private:
-		Image* mImage;
-		float mTime;
-		int mIdx;
+		void move();
+		void shoot();
+		void death();
+		void idle();
+
+	private:
+		eCupheadState mState;
+		Animator* mAnimator;
 	};
 }
