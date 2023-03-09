@@ -1,7 +1,9 @@
 #include "yaPlayeScene.h"
-#include "yaCuphead.h"
+#include "yaSkul.h"
 #include "yaInput.h"
 #include "yaSceneManager.h"
+#include "yaMonster.h"
+#include "yaCollisionManager.h"
 
 namespace ya
 {
@@ -15,9 +17,14 @@ namespace ya
 
 	void PlayeScene::Initialize()
 	{
-		mCuphead = new Cuphead();
+		mCuphead = new Skul();
 		AddGameObeject(mCuphead, eLayerType::Player);
 
+		Monster* monster = new Monster();
+		AddGameObeject(monster, eLayerType::Monster);
+
+
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster,   true);
 		Scene::Initialize();
 	}
 
