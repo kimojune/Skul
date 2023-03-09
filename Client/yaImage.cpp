@@ -19,6 +19,7 @@ namespace ya
 		HDC mainHdc = application.GetHdc();
 
 		image->mBitmap = CreateCompatibleBitmap(mainHdc, widht, height);
+		
 		image->mHdc = CreateCompatibleDC(mainHdc);
 
 		HBITMAP oldBitmap = (HBITMAP)SelectObject(image->mHdc, image->mBitmap);
@@ -29,6 +30,8 @@ namespace ya
 
 		image->SetKey(name);
 		Resources::Insert<Image>(name, image);
+
+		Rectangle(image->GetHdc(), -1, -1, image->mWidth + 1, image->mHeight + 1);
 
 		return image;
 	}

@@ -5,6 +5,9 @@
 #include "yaResources.h"
 #include "yaTransform.h"
 #include "yaAnimator.h"
+#include "yaCollider.h"
+#include "yaBaseBullet.h"
+#include "yaScene.h"
 
 namespace ya
 {
@@ -22,10 +25,13 @@ namespace ya
 		mAnimator->CreateAnimation(L"FowardRun", mImage, Vector2::Zero, 16, 8, 16, Vector2::Zero, 0.1);
 		mAnimator->CreateAnimation(L"FowardRight", mImage, Vector2(0.0f, 113.0f), 16, 8, 15, Vector2::Zero, 0.1);
 		mAnimator->CreateAnimation(L"Idle", mImage, Vector2(0.0f, 113.0f * 5), 16, 8, 9, Vector2(-50.0f, -50.0f), 0.1);
-
 		mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Idle", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Aim\\Straight", Vector2::Zero, 0.1f);
 
-		mAnimator->Play(L"Idle", true);
+		mAnimator->Play(L"ChaliseIdle", true);
+
+		Collider* collider = AddComponent<Collider>();
+		collider->SetCenter(Vector2(-60.0f, -80.0f));
 
 		mState = eCupheadState::Idle;
 
@@ -105,7 +111,7 @@ namespace ya
 			|| Input::GetKeyUp(eKeyCode::W))
 		{
 			mState = eCupheadState::Idle;
-			mAnimator->Play(L"Idle", true);
+			//mAnimator->Play(L"Idle", true);
 		}
 
 		Transform* tr = GetComponent<Transform>();
@@ -127,6 +133,14 @@ namespace ya
 	}
 	void Cuphead::shoot()
 	{
+		Transform* tr = GetComponent<Transform>();
+		if (Input::GetKey(eKeyCode::K))
+		{
+			Scene* curScene = SceneManager::GetActiveScene();
+			BaseBullet* bullet = new BaseBullet();
+			bullet->GetComponent<Transform>()->SetPos(tr->GetPos());
+			curScene->AddGameObeject(bullet, eLayerType::Bullet);
+		}
 	}
 	void Cuphead::death()
 	{
@@ -139,7 +153,13 @@ namespace ya
 			|| Input::GetKeyDown(eKeyCode::W))
 		{
 			mState = eCupheadState::Move;
-			mAnimator->Play(L"FowardRun", true);
+			//mAnimator->Play(L"FowardRun", true);
+		}
+
+		if (Input::GetKeyDown(eKeyCode::K))
+		{
+			mState = eCupheadState::Shoot;
+			mAnimator->Play(L"AimStraight", true);
 		}
 	}
 }

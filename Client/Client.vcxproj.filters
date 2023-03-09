@@ -50,6 +50,9 @@
     <Filter Include="Engine\Resource">
       <UniqueIdentifier>{25bd4d29-77ad-4205-b963-e464704dbafe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Bullet">
+      <UniqueIdentifier>{594ae07a-d668-4f87-af1b-f4e47cb27492}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -130,6 +133,10 @@
     <ClInclude Include="yaAnimator.h">
       <Filter>Engine\Component</Filter>
     </ClInclude>
+    <ClInclude Include="yaCollider.h" />
+    <ClInclude Include="yaBaseBullet.h">
+      <Filter>Contents\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -204,6 +211,10 @@
     </ClCompile>
     <ClCompile Include="yaAnimator.cpp">
       <Filter>Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCollider.cpp" />
+    <ClCompile Include="yaBaseBullet.cpp">
+      <Filter>Contents\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
