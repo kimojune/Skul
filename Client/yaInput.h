@@ -9,7 +9,9 @@ namespace ya
 		A, S, D, F, G, H, J, K, L,
 		Z, X, C, V, B, N, M,
 
-		//LBUTTON, RBUTTON
+		UP,DOWN,LEFT,RIGHT,
+
+		LBUTTON, RBUTTON,
 		END,
 	};
 
@@ -59,6 +61,11 @@ namespace ya
 			return mKeys[static_cast<UINT>(keyCode)].state == eKeyState::Up;
 		}
 		
+		static __forceinline bool GetKeyNone(eKeyCode keyCode)
+		{
+			return mKeys[static_cast<UINT>(keyCode)].state == eKeyState::None;
+		}
+
 
 	private:
 		static std::vector<Key> mKeys;

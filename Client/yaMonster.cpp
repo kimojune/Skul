@@ -22,16 +22,18 @@ namespace ya
 	{
 		//Goopy Le Grande\Phase 1\Jump
 		Transform* tr = GetComponent<Transform>();
-		tr->SetPos(Vector2(700.0f, 400.0f));
-		tr->SetScale(Vector2(1.5f, 1.5f));
+		tr->SetPos(Vector2(800.0f, 700.0f));
+		tr->SetScale(Vector2(2.0f, 2.0f));
 
 		mAnimator = AddComponent<Animator>();
-		mAnimator->CreateAnimations(L"..\\Resources\\Goopy Le Grande\\Phase 1\\Jump", Vector2::Zero, 0.1f);
+		//mAnimator->CreateAnimations(L"..\\Resources\\Goopy Le Grande\\Phase 1\\Jump", Vector2::Zero, 0.1f);
 
-		mAnimator->Play(L"Phase 1Jump", true);
+		mAnimator->CreateAnimations(L"..\\Resources\\Monster\\Ent\\Idle", Vector2(-14.0f,-8.0f), 0.1f);
+
+		mAnimator->Play(L"EntIdle", true);
 
 		Collider* collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(-60.0f, -80.0f));
+		collider->SetCenter(Vector2(-40.0f, -45.0f));
 
 		GameObject::Initialize();
 	}

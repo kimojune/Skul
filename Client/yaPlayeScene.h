@@ -19,6 +19,6 @@ namespace ya
 		virtual void OnExit() override;
 
 	private:
-		Skul* mCuphead;
+		Skul* mSkul;
 	};
 }

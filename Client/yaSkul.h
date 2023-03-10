@@ -24,6 +24,13 @@ namespace ya
 
 		};
 
+		enum class eSkulDirection
+		{
+			Left,
+			Right,
+		};
+
+
 		Skul();
 		~Skul();
 
@@ -47,6 +54,8 @@ namespace ya
 
 	private:
 		eSkulState mState;
+		eSkulDirection mDirect;
 		Animator* mAnimator;
+		
 	};
 }

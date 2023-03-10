@@ -17,8 +17,8 @@ namespace ya
 
 	void PlayeScene::Initialize()
 	{
-		mCuphead = new Skul();
-		AddGameObeject(mCuphead, eLayerType::Player);
+		mSkul = new Skul();
+		AddGameObeject(mSkul, eLayerType::Player);
 
 		Monster* monster = new Monster();
 		AddGameObeject(monster, eLayerType::Monster);

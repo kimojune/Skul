@@ -24,7 +24,7 @@ namespace ya
 
 			}
 		};
-
+		
 		Animation();
 		~Animation();
 

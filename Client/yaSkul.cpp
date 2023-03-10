@@ -21,22 +21,29 @@ namespace ya
 	void Skul::Initialize()
 	{
 		Transform* tr = GetComponent<Transform>();
-		tr->SetPos(Vector2(400.0f, 400.0f));
+		tr->SetPos(Vector2(400.0f, 700.0f));
 		tr->SetScale(Vector2(2.5f,2.5f));
 		//tr->SetScale(Vector2(1.5f, 1.5f));
 
-		Image* mImage = Resources::Load<Image>(L"Skul", L"..\\Resources\\Skul.bmp");
-		mAnimator = AddComponent<Animator>();
-		mAnimator->CreateAnimation(L"Idle", mImage, Vector2(0.0f, 0.0f), 20, 20, 4, Vector2(-85.0f,-50.0f), 0.1);
-		mAnimator->CreateAnimation(L"RightRun", mImage, Vector2(0.0f, 124.0f), 20, 20, 8, Vector2(0.0f,0.0f), 0.1);
+		mDirect = eSkulDirection::Left;
 
-		//mAnimator->CreateAnimation(L"FowardRun", mImage, Vector2::Zero, 16, 8, 16, Vector2::Zero, 0.1);
+		Image* LeftImage = Resources::Load<Image>(L"LeftSkul", L"..\\Resources\\SkulLeft.bmp");
+		Image* RightImage = Resources::Load<Image>(L"RightSkul", L"..\\Resources\\SkulRight.bmp");
+
+		mAnimator = AddComponent<Animator>();
+
+		mAnimator->CreateAnimation(L"LeftIdle", LeftImage, Vector2(2480.0f, 0.0f), -20, 20, 4, Vector2::Zero, 0.1);
+		mAnimator->CreateAnimation(L"LeftRun", LeftImage, Vector2(2480.0f, 124.0f), -20, 20, 8, Vector2::Zero, 0.1);
+
+		mAnimator->CreateAnimation(L"RightIdle", RightImage, Vector2(0.0f, 0.0f), 20, 20, 4, Vector2(-85.0f,-50.0f), 0.1);
+		mAnimator->CreateAnimation(L"RightRun", RightImage, Vector2(0.0f, 124.0f), 20, 20, 8, Vector2(-85.0f, -50.0f), 0.1);
+
 		//mAnimator->CreateAnimation(L"FowardRight", mImage, Vector2(0.0f, 113.0f), 16, 8, 15, Vector2::Zero, 0.1);
 		//mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Idle", Vector2::Zero, 0.1f);
 		//mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Aim\\Straight", Vector2::Zero, 0.1f);
 
-		mAnimator->GetStartEvent(L"Idle") = std::bind(&Skul::idleCompleteEvent, this);
-		mAnimator->Play(L"Idle", true);
+		mAnimator->GetStartEvent(L"RightIdle") = std::bind(&Skul::idleCompleteEvent, this);
+		mAnimator->Play(L"LeftIdle", true);
 		//
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-20.0f, -25.0f));
@@ -80,39 +87,6 @@ namespace ya
 		default:
 			break;
 		}
-
-		/*Transform* tr = GetComponent<Transform>();
-		Vector2 pos = tr->GetPos();
-		Animator* animator = GetComponent<Animator>();
-		if (Input::GetKeyState(eKeyCode::A) == eKeyState::Pressed)
-		{
-			pos.x -= 100.0f * Time::DeltaTime();
-		}
-
-		if (Input::GetKeyState(eKeyCode::D) == eKeyState::Pressed)
-		{
-			pos.x += 100.0f * Time::DeltaTime();
-		}
-
-		if (Input::GetKeyState(eKeyCode::W) == eKeyState::Pressed)
-		{
-			pos.y -= 100.0f * Time::DeltaTime();
-		}
-
-		if (Input::GetKeyState(eKeyCode::W) == eKeyState::Down)
-		{
-			animator->Play(L"FowardRun", true);
-		}
-		if (Input::GetKeyState(eKeyCode::W) == eKeyState::Up)
-		{
-			animator->Play(L"Idle", true);
-		}
-
-		if (Input::GetKeyState(eKeyCode::S) == eKeyState::Pressed)
-		{
-			pos.y += 100.0f * Time::DeltaTime();
-		}
-		tr->SetPos(pos);*/
 	}
 
 	void Skul::Render(HDC hdc)
@@ -126,10 +100,31 @@ namespace ya
 	}
 	void Skul::move()
 	{
-		if (Input::GetKeyUp(eKeyCode::A)
-			|| Input::GetKeyUp(eKeyCode::D)
-			|| Input::GetKeyUp(eKeyCode::S)
-			|| Input::GetKeyUp(eKeyCode::W))
+		if (Input::GetKeyNone(eKeyCode::LEFT)
+			&& Input::GetKeyNone(eKeyCode::RIGHT)
+			&& Input::GetKeyNone(eKeyCode::DOWN)
+			&& Input::GetKeyNone(eKeyCode::UP))
+		{
+			switch(mDirect)
+			{
+				case ya::Skul::eSkulDirection::Left:
+				{
+					mState = eSkulState::Idle;
+					mAnimator->Play(L"LeftIdle", true);
+				}
+				case ya::Skul::eSkulDirection::Right:
+				{
+					mState = eSkulState::Idle;
+					mAnimator->Play(L"RightIdle", true);
+				}
+			}
+
+		}
+	
+		if (Input::GetKeyDown(eKeyCode::LEFT)
+			|| Input::GetKeyDown(eKeyCode::RIGHT)
+			|| Input::GetKeyDown(eKeyCode::DOWN)
+			|| Input::GetKeyDown(eKeyCode::UP))
 		{
 			mState = eSkulState::Move;
 			//mAnimator->Play(L"Idle", true);
@@ -138,18 +133,18 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
 		
-		if (Input::GetKey(eKeyCode::A))
+		if (Input::GetKey(eKeyCode::LEFT))
 			pos.x -= 100.0f * Time::DeltaTime();
 
-		if (Input::GetKey(eKeyCode::D))
+		if (Input::GetKey(eKeyCode::RIGHT))
 			pos.x += 100.0f * Time::DeltaTime();
 
-		if (Input::GetKey(eKeyCode::W))
-			pos.y -= 100.0f * Time::DeltaTime();
-		
-		if (Input::GetKey(eKeyCode::S))
-			pos.y += 100.0f * Time::DeltaTime();
-		
+		//if (Input::GetKey(eKeyCode::W))
+		//	pos.y -= 100.0f * Time::DeltaTime();
+		//
+		//if (Input::GetKey(eKeyCode::S))
+		//	pos.y += 100.0f * Time::DeltaTime();
+		//
 		tr->SetPos(pos);
 	}
 	void Skul::dash()
@@ -191,13 +186,28 @@ namespace ya
 	//}
 	void Skul::idle()
 	{
-		if (Input::GetKeyDown(eKeyCode::A)
-			|| Input::GetKeyDown(eKeyCode::D)
-			|| Input::GetKeyDown(eKeyCode::S)
-			|| Input::GetKeyDown(eKeyCode::W))
+		if (Input::GetKeyDown(eKeyCode::LEFT)
+			|| Input::GetKeyDown(eKeyCode::RIGHT)
+			|| Input::GetKeyDown(eKeyCode::DOWN)
+			|| Input::GetKeyDown(eKeyCode::UP)
+			)
+
 		{
-			mState = eSkulState::Move;
-			//mAnimator->Play(L"FowardRun", true);
+			if (Input::GetKeyDown(eKeyCode::LEFT))
+			{
+				mDirect = eSkulDirection::Left;
+				mState = eSkulState::Move;
+				mAnimator->Play(L"LeftRun", true);
+			}
+
+			else if (Input::GetKeyDown(eKeyCode::RIGHT))
+			{
+				mDirect = eSkulDirection::Right;
+				mState = eSkulState::Move;
+				mAnimator->Play(L"RightRun", true);
+			}
+			//mAnimator->Play(L"RightRun", true);
+				
 		}
 
 		if (Input::GetKeyDown(eKeyCode::K))
