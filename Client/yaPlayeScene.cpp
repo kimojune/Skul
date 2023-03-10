@@ -23,7 +23,7 @@ namespace ya
 	void PlayeScene::Initialize()
 	{
 		
-		mBG = new BG(eSceneType::Play);
+		BG* mBG = new BG(eSceneType::Play);
 		AddGameObeject(mBG, eLayerType::BG);
 		mSkul = new Skul();
 		AddGameObeject(mSkul, eLayerType::Player);
@@ -40,7 +40,6 @@ namespace ya
 	{
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
-			mBG->SetScene(eSceneType::Title);
 			SceneManager::LoadScene(eSceneType::Title);
 		}
 

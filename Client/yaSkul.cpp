@@ -25,7 +25,7 @@ namespace ya
 		tr->SetScale(Vector2(2.5f,2.5f));
 		//tr->SetScale(Vector2(1.5f, 1.5f));
 
-		mDirect = eSkulDirection::Left;
+		mDirect = eSkulDirection::Right;
 
 		Image* LeftImage = Resources::Load<Image>(L"LeftSkul", L"..\\Resources\\SkulLeft.bmp");
 		Image* RightImage = Resources::Load<Image>(L"RightSkul", L"..\\Resources\\SkulRight.bmp");

@@ -15,7 +15,7 @@ namespace ya
 	void TitleScene::Initialize()
 	{
 		
-		mBG = new BG(eSceneType::Title);
+		BG* mBG = new BG(eSceneType::Title);
 		
 		AddGameObeject(mBG, eLayerType::BG);
 
@@ -25,11 +25,10 @@ namespace ya
 	{
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
-			mBG->SetScene(eSceneType::Play);
 			SceneManager::LoadScene(eSceneType::Play);
 			
 		}
-
+		Scene::Update();
 	}
 	void TitleScene::Render(HDC hdc)
 	{

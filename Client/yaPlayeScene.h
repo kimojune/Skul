@@ -21,6 +21,6 @@ namespace ya
 		
 	private:
 		Skul* mSkul;
-		BG* mBG;
+	
 	};
 }
