@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="yaBG.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="framework.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="yaTransform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="yaBG.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="yaAnimation.cpp" />
     <ClCompile Include="yaAnimator.cpp" />

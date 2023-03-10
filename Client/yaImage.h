@@ -15,7 +15,7 @@ namespace ya
 
 		HDC GetHdc() { return mHdc; }
 		HBITMAP GetBitmap() { return mBitmap; }
-		INT GetWidth() { return mWidth; }
+		UINT GetWidth() { return mWidth; }
 		UINT GetHeight() { return mHeight; }
 
 	private:

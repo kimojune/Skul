@@ -59,6 +59,9 @@
     <Filter Include="Engine\Component\Collider">
       <UniqueIdentifier>{f07b3a6f-b431-436f-a7f0-247859073138}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\BG">
+      <UniqueIdentifier>{f276f040-cb44-4636-8b27-79b155f371cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -151,6 +154,9 @@
     <ClInclude Include="yaCollisionManager.h">
       <Filter>Engine\Component\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="yaBG.h">
+      <Filter>Contents\BG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -237,6 +243,9 @@
     </ClCompile>
     <ClCompile Include="yaCollisionManager.cpp">
       <Filter>Engine\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBG.cpp">
+      <Filter>Contents\BG</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

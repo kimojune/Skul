@@ -4,11 +4,16 @@
 #include "yaSceneManager.h"
 #include "yaMonster.h"
 #include "yaCollisionManager.h"
+#include "yaBG.h"
+
+
 
 namespace ya
 {
 	PlayeScene::PlayeScene()
+			
 	{
+
 	}
 
 	PlayeScene::~PlayeScene()
@@ -17,6 +22,9 @@ namespace ya
 
 	void PlayeScene::Initialize()
 	{
+		
+		mBG = new BG(eSceneType::Play);
+		AddGameObeject(mBG, eLayerType::BG);
 		mSkul = new Skul();
 		AddGameObeject(mSkul, eLayerType::Player);
 
@@ -32,6 +40,7 @@ namespace ya
 	{
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
+			mBG->SetScene(eSceneType::Title);
 			SceneManager::LoadScene(eSceneType::Title);
 		}
 
@@ -53,6 +62,7 @@ namespace ya
 	}
 	void PlayeScene::OnExit()
 	{
+		
 		//mCuphead->SetPos(Vector2{ 0.0f, 0.0f });
 	}
 }

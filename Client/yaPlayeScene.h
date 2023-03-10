@@ -4,6 +4,7 @@
 namespace ya
 {
 	class Skul;
+	class BG;
 	class PlayeScene : public Scene
 	{
 	public:
@@ -17,8 +18,9 @@ namespace ya
 
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
-
+		
 	private:
 		Skul* mSkul;
+		BG* mBG;
 	};
 }

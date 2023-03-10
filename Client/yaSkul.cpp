@@ -21,7 +21,7 @@ namespace ya
 	void Skul::Initialize()
 	{
 		Transform* tr = GetComponent<Transform>();
-		tr->SetPos(Vector2(400.0f, 700.0f));
+		tr->SetPos(Vector2(400.0f, 725.0f));
 		tr->SetScale(Vector2(2.5f,2.5f));
 		//tr->SetScale(Vector2(1.5f, 1.5f));
 
