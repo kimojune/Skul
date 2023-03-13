@@ -166,8 +166,13 @@ namespace ya
 		}
 
 		mActiveAnimation = FindAnimation(name);
-		mActiveAnimation->Reset();
+		//mActiveAnimation->Reset();
 		mbLoop = loop;
+
+		if (!mbLoop)
+		{
+			mActiveAnimation->Reset();
+		}
 
 		Animator::Events* events
 			= FindEvents(mActiveAnimation->GetName());

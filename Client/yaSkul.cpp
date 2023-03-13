@@ -12,6 +12,7 @@
 namespace ya
 {
 	Skul::Skul()
+		: mState(eSkulState::Idle)
 	{
 	}
 	Skul::~Skul()
@@ -63,28 +64,28 @@ namespace ya
 		switch (mState)
 		{
 		case ya::Skul::eSkulState::Idle:
-			idle();
+			Idle();
 			break;
 		case ya::Skul::eSkulState::Move:
-			move();
+			Move();
 			break;
 		case ya::Skul::eSkulState::Dash:
-			dash();
+			Dash();
 			break;
 		case ya::Skul::eSkulState::Jump:
-			jump();
+			Jump();
 		case ya::Skul::eSkulState::Fall:
-			fall();
+			Fall();
 		case ya::Skul::eSkulState::FallRepeat:
-			fallrepeat();		
+			Fallrepeat();		
 		case ya::Skul::eSkulState::AttackA:
-			attackA();
+			AttackA();
 		case ya::Skul::eSkulState::AttackB:
-			attackB();
+			AttackB();
 		case ya::Skul::eSkulState::JumpAttack:
-			jumpattack();
+			Jumpattack();
 		case ya::Skul::eSkulState::Skill:
-			skill();
+			Skill();
 			break;
 		default:
 			break;
@@ -100,150 +101,23 @@ namespace ya
 		GameObject::Release();
 
 	}
-	void Skul::move()
-	{
-
-		if (Input::GetKeyNone(eKeyCode::LEFT)
-			&& Input::GetKeyNone(eKeyCode::RIGHT)
-			&& Input::GetKeyNone(eKeyCode::DOWN)
-			&& Input::GetKeyNone(eKeyCode::UP))
-		{
-			switch (mDirect)
-			{
-			case ya::Skul::eSkulDirection::Left:
-			{
-				mState = eSkulState::Idle;
-				mAnimator->Play(L"LeftIdle", true);
-			}
-			case ya::Skul::eSkulDirection::Right:
-			{
-				mState = eSkulState::Idle;
-				mAnimator->Play(L"RightIdle", true);
-			}
-			}
-		}
-
-		if (Input::GetKeyDown(eKeyCode::LEFT)
-			|| Input::GetKeyDown(eKeyCode::RIGHT)
-			/*|| Input::GetKeyDown(eKeyCode::DOWN)
-			|| Input::GetKeyDown(eKeyCode::UP)*/)
-		{
-			switch (mDirect)
-			{
-			case ya::Skul::eSkulDirection::Left:
-			{
-
-				mState = eSkulState::Move;
-				mAnimator->Play(L"LeftMove", true);
-			}
-			case ya::Skul::eSkulDirection::Right:
-			{
-				mState = eSkulState::Move;
-				mAnimator->Play(L"RightMove", true);
-			}
-			default:
-				break;
-			//mAnimator->Play(L"Idle", true);
-			}
-		}
-
-
-		//이동 부
-		Transform* tr = GetComponent<Transform>();
-		Vector2 pos = tr->GetPos();
-
-		if (Input::GetKey(eKeyCode::LEFT))
-			pos.x -= 200.0f * Time::DeltaTime();
-
-		if (Input::GetKey(eKeyCode::RIGHT))
-			pos.x += 200.0f * Time::DeltaTime();
-
-		//if (Input::GetKey(eKeyCode::W))
-		//	pos.y -= 100.0f * Time::DeltaTime();
-		//
-		//if (Input::GetKey(eKeyCode::S))
-		//	pos.y += 100.0f * Time::DeltaTime();
-		//
-		tr->SetPos(pos);
-	}
-	void Skul::dash()
-	{
-	}
-	void Skul::jump()
-	{
-	}
-	void Skul::fall()
-	{
-	}
-	void Skul::fallrepeat()
-	{
-	}
-	void Skul::attackA()
-	{
-	}
-	void Skul::attackB()
-	{
-	}
-
-	void Skul::jumpattack()
-	{
-	}
-
-	void Skul::skill()
-	{
-		if (Input::GetKeyNone(eKeyCode::A))
-		{
-			switch (mDirect)
-			{
-			case ya::Skul::eSkulDirection::Left:
-			{
-				mState = eSkulState::Idle;
-				mAnimator->Play(L"LeftIdle", true);
-			}
-			case ya::Skul::eSkulDirection::Right:
-			{
-				mState = eSkulState::Idle;
-				mAnimator->Play(L"RightIdle", true);
-			}
-			}
-		}
-
-		Transform* tr = GetComponent<Transform>();
-		if (Input::GetKey(eKeyCode::A))
-		{
-			Scene* curScene = SceneManager::GetActiveScene();
-			BaseBullet* bullet = new BaseBullet();
-			bullet->GetComponent<Transform>()->SetPos(tr->GetPos());
-			curScene->AddGameObeject(bullet, eLayerType::Bullet);
-		}
-	}
-	////void Skul::death()
-	//{
-	//}
-	void Skul::idle()
+	void Skul::Idle()
 	{
 		if (Input::GetKeyDown(eKeyCode::LEFT)
-			|| Input::GetKeyDown(eKeyCode::RIGHT)
-			|| Input::GetKeyDown(eKeyCode::DOWN)
-			|| Input::GetKeyDown(eKeyCode::UP)
-			)
-
-		{
+			|| Input::GetKeyDown(eKeyCode::RIGHT))
+			{
+				mState = eSkulState::Move;
 			if (Input::GetKeyDown(eKeyCode::LEFT))
 			{
 				mDirect = eSkulDirection::Left;
-				mState = eSkulState::Move;
 				mAnimator->Play(L"LeftRun", true);
 			}
 
-			else if (Input::GetKeyDown(eKeyCode::RIGHT))
+			if (Input::GetKeyDown(eKeyCode::RIGHT))
 			{
 				mDirect = eSkulDirection::Right;
-				mState = eSkulState::Move;
 				mAnimator->Play(L"RightRun", true);
 			}
-			//mAnimator->Play(L"RightRun", true);
-				
 		}
 
 		if (Input::GetKeyDown(eKeyCode::A))
@@ -254,16 +128,119 @@ namespace ya
 			{
 			case ya::Skul::eSkulDirection::Left:
 				mAnimator->Play(L"LeftSkill", true);
+				mState=eSkulState::Skill;
+				break;
 
 			case ya::Skul::eSkulDirection::Right:
 				mAnimator->Play(L"RightSkill", true);
-				
+				mState = eSkulState::Skill;
+				break;
+
 			default:
 				break;
 
 			} 
 		}
 	}
+	void Skul::Move()
+	{
+
+		if (Input::GetKeyNone(eKeyCode::LEFT)
+			&& Input::GetKeyNone(eKeyCode::RIGHT))
+		{
+			mState = eSkulState::Idle;
+
+			switch (mDirect)
+			{
+			case ya::Skul::eSkulDirection::Left:
+			{
+				mAnimator->Play(L"LeftIdle", true);
+				break;
+			}
+			case ya::Skul::eSkulDirection::Right:
+			{
+				mAnimator->Play(L"RightIdle", true);
+				break;
+			}
+			}
+		}
+		//이동 부
+		Transform* tr = GetComponent<Transform>();
+		Vector2 pos = tr->GetPos();
+		
+		
+
+		if (Input::GetKey(eKeyCode::LEFT))
+		{
+			pos.x -= 200.0f * Time::DeltaTime();
+			mAnimator->Play(L"LeftRun", true);
+		}
+
+		if (Input::GetKey(eKeyCode::RIGHT))
+		{
+			pos.x += 200.0f * Time::DeltaTime();
+			mAnimator->Play(L"RightRun", true);
+
+		}
+
+		tr->SetPos(pos);
+	}
+	void Skul::Dash()
+	{
+	}
+	void Skul::Jump()
+	{
+	}
+	void Skul::Fall()
+	{
+	}
+	void Skul::Fallrepeat()
+	{
+	}
+	void Skul::AttackA()
+	{
+	}
+	void Skul::AttackB()
+	{
+	}
+
+	void Skul::Jumpattack()
+	{
+	}
+
+	void Skul::Skill()
+	{
+
+		Transform* tr = GetComponent<Transform>();
+		if (Input::GetKeyDown(eKeyCode::A))
+		{
+			Scene* curScene = SceneManager::GetActiveScene();
+			BaseBullet* bullet = new BaseBullet();
+			bullet->GetComponent<Transform>()->SetPos(tr->GetPos());
+			curScene->AddGameObeject(bullet, eLayerType::Bullet);
+		}
+		if (Input::GetKeyNone(eKeyCode::A))
+		{
+			switch (mDirect)
+			{
+			case ya::Skul::eSkulDirection::Left:
+			{
+				mState = eSkulState::Idle;
+				mAnimator->Play(L"LeftIdle", true);
+				break;
+			}
+			case ya::Skul::eSkulDirection::Right:
+			{
+				mState = eSkulState::Idle;
+				mAnimator->Play(L"RightIdle", true);
+				break;
+			}
+			}
+		}
+	}
+	////void Skul::death()
+	//{
+	//}
 
 	void Skul::idleCompleteEvent(/*const Cuphead* this*/)
 	{

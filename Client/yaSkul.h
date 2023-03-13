@@ -40,16 +40,16 @@ namespace ya
 		virtual void Release() override;
 		
 	private:
-		void	idle();
-		void	move();
-		void	dash();
-		void	jump();
-		void	fall();
-		void	fallrepeat();
-		void	attackA();
-		void	attackB();
-		void	jumpattack();
-		void	skill();
+		void	Idle();
+		void	Move();
+		void	Dash();
+		void	Jump();
+		void	Fall();
+		void	Fallrepeat();
+		void	AttackA();
+		void	AttackB();
+		void	Jumpattack();
+		void	Skill();
 		void idleCompleteEvent();
 
 	private:
