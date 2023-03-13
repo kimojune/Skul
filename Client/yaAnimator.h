@@ -41,7 +41,7 @@ namespace ya
 		//완성된 스프라이트 시트를 지정해서 애니메이션 제작하는 함수
 		void CreateAnimation(const std::wstring& name
 			, Image* sheet
-			, Vector2 leftTop
+			, Vector2 leftTop ,int next
 			, UINT coulmn, UINT row, UINT spriteLength
 			, Vector2 offset, float duration);
 

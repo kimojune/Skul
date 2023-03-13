@@ -1,6 +1,7 @@
 #include "yaAnimator.h"
 #include "yaResources.h"
 
+
 namespace ya
 {
 	Animator::Animator()
@@ -26,6 +27,13 @@ namespace ya
 	}
 	void Animator::Initialize()
 	{
+		/*HDC mSpriteHdc = mSpriteSheet->GetHdc();
+
+		HBRUSH magentaBrush = CreateSolidBrush(RGB(255, 0, 255));
+		HBRUSH oldBrush = (HBRUSH)SelectObject(mSpriteHdc, magentaBrush);
+		Rectangle(mSpriteHdc, -1, -1, 1602, 902);
+		SelectObject(mSpriteHdc, oldBrush);
+		DeleteObject(magentaBrush);*/
 	}
 	void Animator::Update()
 	{
@@ -56,7 +64,7 @@ namespace ya
 	{
 	}
 	void Animator::CreateAnimation(const std::wstring& name
-		, Image* sheet, Vector2 leftTop
+		, Image* sheet, Vector2 leftTop, int next
 		, UINT coulmn, UINT row, UINT spriteLength
 		, Vector2 offset, float duration)
 	{
@@ -66,7 +74,7 @@ namespace ya
 			return;
 
 		animation = new Animation();
-		animation->Create(sheet, leftTop, coulmn, row, spriteLength, offset, duration);
+		animation->Create(sheet, leftTop, next, coulmn, row, spriteLength, offset, duration);
 		animation->SetName(name);
 		animation->SetAnimator(this);
 
@@ -109,25 +117,31 @@ namespace ya
 
 		std::wstring key = fs.parent_path().filename();
 		key += fs.filename();
+
 		mSpriteSheet = Image::Create(key, width * fileCount, height);
 
-		//
+		HBRUSH magentaBrush = CreateSolidBrush(RGB(255, 0, 255));
+		HBRUSH oldBrush = (HBRUSH)SelectObject(mSpriteSheet->GetHdc(), magentaBrush);
+		Rectangle(mSpriteSheet->GetHdc(), -1, -2, width * fileCount+2, height);
+		DeleteObject(magentaBrush);
+
 		int index = 0;
 		for (Image* image : images)
 		{
 			int centerX = (width - image->GetWidth()) / 2;
 			int centerY = (height - image->GetHeight());
 
+		
 			BitBlt(mSpriteSheet->GetHdc()
 				, width * index + centerX
 				, 0 + centerY
 				, image->GetWidth(), image->GetHeight()
 				, image->GetHdc(), 0, 0, SRCCOPY);
 
+			SelectObject(mSpriteSheet->GetHdc(), oldBrush);
 			index++;
 		}
-
-		CreateAnimation(key, mSpriteSheet, Vector2::Zero, index, 1, index, offset, duration);
+		CreateAnimation(key, mSpriteSheet, Vector2::Zero,1, index, 1, index, offset, duration);
 	}
 
 	Animation* Animator::FindAnimation(const std::wstring& name)

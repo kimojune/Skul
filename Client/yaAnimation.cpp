@@ -69,7 +69,7 @@ namespace ya
     }
 
     void Animation::Create(Image* sheet, Vector2 leftTop
-        , UINT coulmn, UINT row, UINT spriteLength
+        ,int next, UINT coulmn, UINT row, UINT spriteLength
         , Vector2 offset, float duration)
     {
         mSheetImage = sheet;
@@ -83,7 +83,7 @@ namespace ya
         {
             Sprite spriteInfo;
 
-            spriteInfo.leftTop.x = leftTop.x + (size.x * i);
+            spriteInfo.leftTop.x = leftTop.x + (size.x * i * next);
             spriteInfo.leftTop.y = leftTop.y;
             spriteInfo.size = size;
             spriteInfo.offset = offset;

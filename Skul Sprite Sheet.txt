@@ -20,3 +20,6 @@ offset -85 -50
 Skul Idle Right 
 
 -10 x 17
+
+
+GIF convert  sprite
