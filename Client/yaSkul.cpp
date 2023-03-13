@@ -42,8 +42,8 @@ namespace ya
 		//mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Idle", Vector2::Zero, 0.1f);
 		//mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Aim\\Straight", Vector2::Zero, 0.1f);
 
-		mAnimator->GetStartEvent(L"RightIdle") = std::bind(&Skul::idleCompleteEvent, this);
-		mAnimator->Play(L"LeftIdle", true);
+		//mAnimator->GetStartEvent(L"RightIdle") = std::bind(&Skul::idleCompleteEvent, this);
+		mAnimator->Play(L"RightIdle", true);
 		//
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-20.0f, -25.0f));
