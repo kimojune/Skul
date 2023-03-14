@@ -31,5 +31,6 @@ namespace ya::object
 	static void Destory(GameObject* obj)
 	{
 		obj->SetState(GameObject::eState::Death);
+
 	}
 }

@@ -22,7 +22,7 @@ namespace ya
 	{
 		Scene::Initialize();
 
-		object::Instantiate<Cuphead>(Vector2(400.0f, 400.0f), eLayerType::Player);
+		object::Instantiate<Cuphead>(Vector2(0.0f, 400.0f), eLayerType::Player);
 		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Player);
 	}
 
