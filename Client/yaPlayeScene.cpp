@@ -6,6 +6,7 @@
 #include "yaCollisionManager.h"
 #include "yaTransform.h"
 #include "yaCamera.h"
+#include "yaObject.h"
 
 namespace ya
 {
@@ -19,20 +20,15 @@ namespace ya
 
 	void PlayeScene::Initialize()
 	{
-		mCuphead = new Cuphead();
-		AddGameObeject(mCuphead, eLayerType::Player);
+
+		object::Instantiate<Cuphead>(Vector2(400.0f, 400.0f), eLayerType::Player);
 
 		//Camera::SetTarget(mCuphead);
+		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Monster);
+		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Monster);
 
-		Monster* monster = new Monster();
-		AddGameObeject(monster, eLayerType::Monster);
 		
-		monster = new Monster();
-		AddGameObeject(monster, eLayerType::Monster);
-		
-
-		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster,   true);
-		Scene::Initialize();
+		//Scene::Initialize();
 		//monster->GetComponent<Transform>()->SetPos(Vector2(550.0f, 400.0f));
 	}
 
@@ -58,6 +54,7 @@ namespace ya
 	}
 	void PlayeScene::OnEnter()
 	{
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 	}
 	void PlayeScene::OnExit()
 	{

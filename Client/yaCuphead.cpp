@@ -8,6 +8,7 @@
 #include "yaCollider.h"
 #include "yaBaseBullet.h"
 #include "yaScene.h"
+#include "yaObject.h"
 
 namespace ya
 {
@@ -20,8 +21,8 @@ namespace ya
 
 	void Cuphead::Initialize()
 	{
-		Transform* tr = GetComponent<Transform>();
-		tr->SetPos(Vector2(400.0f, 400.0f));
+		//Transform* tr = GetComponent<Transform>();
+		//tr->SetPos(Vector2(400.0f, 400.0f));
 		//tr->SetScale(Vector2(1.5f, 1.5f));
 
 		Image* mImage = Resources::Load<Image>(L"Cuphead", L"..\\Resources\\Cuphead_Stage.bmp");
@@ -156,10 +157,12 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		if (Input::GetKey(eKeyCode::K))
 		{
-			Scene* curScene = SceneManager::GetActiveScene();
+			object::Instantiate<BaseBullet>(Vector2(400.0f, 400.0f), eLayerType::Bullet);
+			
+			/*Scene* curScene = SceneManager::GetActiveScene();
 			BaseBullet* bullet = new BaseBullet();
 			bullet->GetComponent<Transform>()->SetPos(tr->GetPos());
-			curScene->AddGameObeject(bullet, eLayerType::Bullet);
+			curScene->AddGameObeject(bullet, eLayerType::Bullet);*/
 		}
 	}
 	void Cuphead::death()

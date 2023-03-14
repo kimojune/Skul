@@ -1,10 +1,12 @@
 #include "yaBaseBullet.h"
 #include "yaTransform.h"
 #include "yaTime.h"
+#include "yaObject.h"
 
 namespace ya
 {
 	BaseBullet::BaseBullet()
+		: mTime(0.0f)
 	{
 	}
 	BaseBullet::~BaseBullet()
@@ -17,7 +19,7 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		
-		Vector2 dir = Vector2(500.0f, 500.0f) - tr->GetPos();
+		Vector2 dir = Vector2(500.0f, 500.0f);
 		dir.Normalize();
 		/*float x = cosf(-PI / 4.0f);
 		float y = sinf(-PI / 4.0f);*/	
@@ -30,6 +32,13 @@ namespace ya
 		pos.y += 100.0f * dir.y * Time::DeltaTime();
 
 		tr->SetPos(pos);
+
+		mTime += Time::DeltaTime();
+
+		if (mTime > 2.0f)
+		{
+			object::Destory(this);
+		}
 
 	}
 	void BaseBullet::Render(HDC hdc)

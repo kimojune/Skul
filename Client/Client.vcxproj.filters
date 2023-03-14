@@ -155,6 +155,9 @@
       <Filter>Engine\Component\Collider</Filter>
     </ClInclude>
     <ClInclude Include="yaCamera.h" />
+    <ClInclude Include="yaObject.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

@@ -49,7 +49,12 @@ namespace ya
 			return nullptr;
 		}
 		
+		eState GetState() { return mState; }
+		void SetState(eState state) { mState = state; }
+
+
 	private:
 		std::vector<Component*> mComponents;
+		eState mState;
 	};
 }
