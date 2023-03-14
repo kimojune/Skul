@@ -27,7 +27,7 @@ namespace ya
 		std::vector<GameObject*>&  lefts = scene->GetGameObjects(left);
 		std::vector<GameObject*>& rights = scene->GetGameObjects(right);
 
-		for ( auto leftObject : lefts)
+		for (auto leftObject : lefts)
 		{
 			Collider* leftCollider = leftObject->GetComponent<Collider>();
 			if (leftCollider == nullptr)
@@ -103,6 +103,12 @@ namespace ya
 		// 거리가 더 길다면 충돌 X, 거리가 더 짧다면 충돌 O
 		Vector2 leftSize = left->GetSize();
 		Vector2 rightSize = right->GetSize();
+
+		leftPos.x = leftPos.x + leftSize.x / 2.0f;
+		leftPos.y = leftPos.y + leftSize.y / 2.0f;
+
+		rightPos.x = rightPos.x + rightSize.x / 2.0f;
+		rightPos.y = rightPos.y + rightSize.y / 2.0f;
 
 		if (fabs(leftPos.x - rightPos.x) < (leftSize.x / 2.0f) + (rightSize.x / 2.0f)
 			&& fabs(leftPos.y - rightPos.y) < (leftSize.y / 2.0f) + (rightSize.y / 2.0f))

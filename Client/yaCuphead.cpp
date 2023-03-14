@@ -9,6 +9,7 @@
 #include "yaBaseBullet.h"
 #include "yaScene.h"
 #include "yaObject.h"
+#include "yaRigidbody.h"
 
 namespace ya
 {
@@ -38,6 +39,10 @@ namespace ya
 		
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-60.0f, -80.0f));
+		collider->SetSize(Vector2(50.0f, 50.0f));
+
+		mRigidbody = AddComponent<Rigidbody>();
+		mRigidbody->SetMass(1.0f);
 
 		mState = eCupheadState::Idle;
 
@@ -111,7 +116,7 @@ namespace ya
 	}
 	void Cuphead::OnCollisionEnter(Collider* other)
 	{
-		
+		int a = 0;
 	}
 
 	void Cuphead::OnCollisionStay(Collider* other)
@@ -139,16 +144,20 @@ namespace ya
 		Vector2 pos = tr->GetPos();
 		
 		if (Input::GetKey(eKeyCode::A))
-			pos.x -= 100.0f * Time::DeltaTime();
+			mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
+			//pos.x -= 100.0f * Time::DeltaTime();
 
 		if (Input::GetKey(eKeyCode::D))
-			pos.x += 100.0f * Time::DeltaTime();
+			mRigidbody->AddForce(Vector2(200.0f, 0.0f));
+			//pos.x += 100.0f * Time::DeltaTime();
 
 		if (Input::GetKey(eKeyCode::W))
-			pos.y -= 100.0f * Time::DeltaTime();
+			mRigidbody->AddForce(Vector2(0.0f, -200.0f));
+			//pos.y -= 100.0f * Time::DeltaTime();
 		
 		if (Input::GetKey(eKeyCode::S))
-			pos.y += 100.0f * Time::DeltaTime();
+			mRigidbody->AddForce(Vector2(0.0f, +200.0f));
+			//pos.y += 100.0f * Time::DeltaTime();
 		
 		tr->SetPos(pos);
 	}

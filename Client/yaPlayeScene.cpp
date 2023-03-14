@@ -23,8 +23,7 @@ namespace ya
 		Scene::Initialize();
 
 		object::Instantiate<Cuphead>(Vector2(400.0f, 400.0f), eLayerType::Player);
-		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Monster);
-		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Monster);
+		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Player);
 	}
 
 	void PlayeScene::Update()
@@ -49,7 +48,7 @@ namespace ya
 	}
 	void PlayeScene::OnEnter()
 	{
-		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Player, true);
 	}
 	void PlayeScene::OnExit()
 	{

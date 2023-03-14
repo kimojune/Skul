@@ -62,6 +62,15 @@
     <Filter Include="Engine\Camera">
       <UniqueIdentifier>{26593c6d-c528-4533-ade1-6c14c7c1e711}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Component\Animator">
+      <UniqueIdentifier>{d34cb4e7-521e-4585-8483-ce6ea8587b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Transform">
+      <UniqueIdentifier>{e9db28fe-65c4-49d0-9c39-c8935b610ca7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\RigidBody">
+      <UniqueIdentifier>{245397c3-8a84-4a48-ba57-86b62383c815}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -133,15 +142,6 @@
     <ClInclude Include="yaTitleScene.h">
       <Filter>Contents\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="yaTransform.h">
-      <Filter>Engine\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="yaAnimation.h">
-      <Filter>Engine\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="yaAnimator.h">
-      <Filter>Engine\Component</Filter>
-    </ClInclude>
     <ClInclude Include="yaBaseBullet.h">
       <Filter>Contents\Bullet</Filter>
     </ClInclude>
@@ -154,10 +154,22 @@
     <ClInclude Include="yaCollisionManager.h">
       <Filter>Engine\Component\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="yaCamera.h" />
     <ClInclude Include="yaObject.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="yaAnimation.h">
+      <Filter>Engine\Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="yaAnimator.h">
+      <Filter>Engine\Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTransform.h">
+      <Filter>Engine\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCamera.h">
+      <Filter>Engine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRigidbody.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -194,9 +206,6 @@
     <ClCompile Include="yaSceneManager.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="yaComponent.cpp">
-      <Filter>Engine\Component</Filter>
-    </ClCompile>
     <ClCompile Include="yaLayer.cpp">
       <Filter>Engine\Layer</Filter>
     </ClCompile>
@@ -224,15 +233,6 @@
     <ClCompile Include="yaTitleScene.cpp">
       <Filter>Contents\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="yaTransform.cpp">
-      <Filter>Engine\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="yaAnimation.cpp">
-      <Filter>Engine\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="yaAnimator.cpp">
-      <Filter>Engine\Component</Filter>
-    </ClCompile>
     <ClCompile Include="yaBaseBullet.cpp">
       <Filter>Contents\Bullet</Filter>
     </ClCompile>
@@ -245,6 +245,21 @@
     <ClCompile Include="yaCollisionManager.cpp">
       <Filter>Engine\Component\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="yaCamera.cpp" />
+    <ClCompile Include="yaAnimation.cpp">
+      <Filter>Engine\Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="yaAnimator.cpp">
+      <Filter>Engine\Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTransform.cpp">
+      <Filter>Engine\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCamera.cpp">
+      <Filter>Engine\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="yaComponent.cpp">
+      <Filter>Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRigidbody.cpp" />
   </ItemGroup>
 </Project>

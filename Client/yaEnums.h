@@ -27,6 +27,7 @@ enum class eComponentType
 	SpriteRenderer,
 	Animator,
 	Collider,
+	Rigidbody,
 	Audio,
 	End,
 };
