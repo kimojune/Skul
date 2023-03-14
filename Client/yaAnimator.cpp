@@ -81,7 +81,6 @@ namespace ya
 		UINT height = 0;
 		UINT fileCount = 0;
 
-
 		std::filesystem::path fs(path);
 		std::vector<Image*> images = {};
 		for (const auto& p : std::filesystem::recursive_directory_iterator(path))
@@ -140,6 +139,7 @@ namespace ya
 
 		return iter->second;
 	}
+
 	void Animator::Play(const std::wstring& name, bool loop)
 	{
 		if (mActiveAnimation != nullptr)

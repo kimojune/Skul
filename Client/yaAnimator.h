@@ -59,6 +59,7 @@ namespace ya
 	private:
 		std::map<std::wstring, Animation*> mAnimations;
 		std::map<std::wstring, Events*> mEvents;
+
 		Animation* mActiveAnimation;
 		Image* mSpriteSheet;
 		bool mbLoop;
