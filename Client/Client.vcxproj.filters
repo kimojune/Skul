@@ -169,7 +169,9 @@
     <ClInclude Include="yaCamera.h">
       <Filter>Engine\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="yaRigidbody.h" />
+    <ClInclude Include="yaRigidbody.h">
+      <Filter>Engine\Component\RigidBody</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -260,6 +262,8 @@
     <ClCompile Include="yaComponent.cpp">
       <Filter>Engine\Component</Filter>
     </ClCompile>
-    <ClCompile Include="yaRigidbody.cpp" />
+    <ClCompile Include="yaRigidbody.cpp">
+      <Filter>Engine\Component\RigidBody</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
