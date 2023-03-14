@@ -57,6 +57,8 @@ namespace ya
 		std::function<void()>& GetEndEvent(const std::wstring& name);
 		bool IsComplte() { return mActiveAnimation->IsComplete(); }
 
+
+
 	private:
 		std::map<std::wstring, Animation*> mAnimations;
 		std::map<std::wstring, Events*> mEvents;

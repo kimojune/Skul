@@ -1,5 +1,5 @@
 #include "yaScene.h"
-
+#include "yaSceneManager.h"
 
 
 namespace ya
@@ -15,11 +15,8 @@ namespace ya
 	}
 	void Scene::Initialize()
 	{
-		//*(lyaer)
-		//for (Layer& layer : mLayers)
-		//{
-		//	layer.Initialize();
-		//}
+		SceneManager::SetActiveScene(this);
+		
 	}
 	void Scene::Update()
 	{
@@ -35,6 +32,7 @@ namespace ya
 			layer.Render(hdc);
 		}
 	}
+
 	void Scene::Destroy()
 	{
 		std::vector<GameObject*> deleteGameObjects = {};

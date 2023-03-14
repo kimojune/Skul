@@ -20,16 +20,11 @@ namespace ya
 
 	void PlayeScene::Initialize()
 	{
+		Scene::Initialize();
 
 		object::Instantiate<Cuphead>(Vector2(400.0f, 400.0f), eLayerType::Player);
-
-		//Camera::SetTarget(mCuphead);
 		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Monster);
 		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Monster);
-
-		
-		//Scene::Initialize();
-		//monster->GetComponent<Transform>()->SetPos(Vector2(550.0f, 400.0f));
 	}
 
 	void PlayeScene::Update()

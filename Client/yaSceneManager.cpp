@@ -2,6 +2,7 @@
 #include "yaPlayeScene.h"
 #include "yaTitleScene.h"
 #include "yaCollisionManager.h"
+#include "yaCamera.h"
 
 namespace ya
 {	
@@ -17,8 +18,6 @@ namespace ya
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 		mScenes[(UINT)eSceneType::Play] = new PlayeScene();
 
-		mActiveScene = mScenes[(UINT)eSceneType::Play];
-
 		for ( Scene* scene : mScenes )
 		{
 			if (scene == nullptr)
@@ -26,6 +25,8 @@ namespace ya
 
 			scene->Initialize();
 		}
+
+		mActiveScene = mScenes[(UINT)eSceneType::Title];
 	}
 
 	void SceneManager::Update()
@@ -36,6 +37,11 @@ namespace ya
 	void SceneManager::Render(HDC hdc)
 	{
 		mActiveScene->Render(hdc);
+	}
+
+	void SceneManager::Destroy()
+	{
+		mActiveScene->Destroy();
 	}
 
 	void SceneManager::Release()
@@ -52,6 +58,8 @@ namespace ya
 
 	void SceneManager::LoadScene(eSceneType type)
 	{
+		Camera::Clear();
+
 		// ÇöÀç¾À
 		mActiveScene->OnExit();
 		

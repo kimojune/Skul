@@ -18,14 +18,10 @@ namespace ya
 	}
 	void TitleScene::Initialize()
 	{
-		Cuphead* mCuphead = new Cuphead();
-		AddGameObeject(mCuphead, eLayerType::Player);
-		//mCuphead->GetComponent<Transform>()->SetPos();
-		//Camera::SetTarget(mCuphead);
-		object::Instantiate<Monster>(eLayerType::Monster);
+		Scene::Initialize();
 
-		
-		//Scene::Initialize();
+		object::Instantiate<Cuphead>(eLayerType::Player);
+		object::Instantiate<Monster>(eLayerType::Monster);
 	}
 	void TitleScene::Update()
 	{
