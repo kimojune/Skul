@@ -5,6 +5,7 @@
 #include "yaMonster.h"
 #include "yaCollisionManager.h"
 #include "yaTransform.h"
+#include "yaCamera.h"
 
 namespace ya
 {
@@ -20,6 +21,8 @@ namespace ya
 	{
 		mCuphead = new Cuphead();
 		AddGameObeject(mCuphead, eLayerType::Player);
+
+		//Camera::SetTarget(mCuphead);
 
 		Monster* monster = new Monster();
 		AddGameObeject(monster, eLayerType::Monster);
