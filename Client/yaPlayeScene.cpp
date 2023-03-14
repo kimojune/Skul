@@ -25,6 +25,7 @@ namespace ya
 		
 		BG* mBG = new BG(eSceneType::Play);
 		AddGameObeject(mBG, eLayerType::BG);
+
 		mSkul = new Skul();
 		AddGameObeject(mSkul, eLayerType::Player);
 

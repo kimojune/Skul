@@ -2,6 +2,8 @@
 #include "yaInput.h"
 #include "yaSceneManager.h"
 #include "yaBG.h"
+#include "yaTitleLogo.h"
+#include "yaFadeInOut.h"
 
 namespace ya
 {
@@ -16,8 +18,13 @@ namespace ya
 	{
 		
 		BG* mBG = new BG(eSceneType::Title);
-		
 		AddGameObeject(mBG, eLayerType::BG);
+	
+		FadeInOut* mfadeInout = new FadeInOut;
+		AddGameObeject(mfadeInout, eLayerType::Effect);
+
+		/*TitleLogo* Logo = new TitleLogo;
+		AddGameObeject(Logo, eLayerType::Effect);*/
 
 		Scene::Initialize();
 	}

@@ -164,22 +164,20 @@ namespace ya
 			}
 			}
 		}
+
+
 		//¿Ãµø ∫Œ
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
 		
-		
-
 		if (Input::GetKey(eKeyCode::LEFT))
 		{
 			pos.x -= 200.0f * Time::DeltaTime();
-			mAnimator->Play(L"LeftRun", true);
 		}
 
 		if (Input::GetKey(eKeyCode::RIGHT))
 		{
 			pos.x += 200.0f * Time::DeltaTime();
-			mAnimator->Play(L"RightRun", true);
 
 		}
 

@@ -26,7 +26,6 @@ namespace ya
 		std::vector<Image*> mImage;
 		 eSceneType mScene;
 		 Image* ActiveBG;
-		
 	};
 
 }

@@ -62,6 +62,12 @@
     <Filter Include="Contents\BG">
       <UniqueIdentifier>{f276f040-cb44-4636-8b27-79b155f371cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\UI">
+      <UniqueIdentifier>{f7a3f48b-d680-4546-a147-aac0ad8949c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Effect">
+      <UniqueIdentifier>{94a8d32f-64bd-4169-95c5-c5ec72c1a4c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -157,6 +163,10 @@
     <ClInclude Include="yaBG.h">
       <Filter>Contents\BG</Filter>
     </ClInclude>
+    <ClInclude Include="yaTitleLogo.h">
+      <Filter>Contents\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="yaFadeInOut.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -247,5 +257,9 @@
     <ClCompile Include="yaBG.cpp">
       <Filter>Contents\BG</Filter>
     </ClCompile>
+    <ClCompile Include="yaTitleLogo.cpp">
+      <Filter>Contents\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="yaFadeInOut.cpp" />
   </ItemGroup>
 </Project>
