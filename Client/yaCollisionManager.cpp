@@ -6,6 +6,7 @@ namespace ya
 {
 	WORD CollisionManager::mMatrix[(UINT)eLayerType::End] = {};
 
+	std::map<UINT64, bool> CollisionManager::mCollisionMap;
 	void CollisionManager::Update()
 	{
 		Scene* scene = SceneManager::GetActiveScene();
@@ -18,7 +19,6 @@ namespace ya
 				{
 					LayerCollision(scene, (eLayerType)row, (eLayerType)col);
 				}
-
 			}
 		}
 	}
@@ -43,19 +43,57 @@ namespace ya
 				if (leftObject == rightObject)
 					continue;
 
-				if (Intersect(leftCollider, rightCollider))
-				{
-					// 충돌 O
-				}
-				else
-				{
-					// 충돌 X
-				}
+				ColliderCollision(leftCollider, rightCollider, left, right);
 			}
 		}
-
 	}
 
+	void CollisionManager::ColliderCollision(Collider* leftCol, Collider* rightCol, eLayerType left, eLayerType right)
+	{
+		ColliderID colliderID = {};
+		colliderID.left = (UINT)leftCol->GetID();
+		colliderID.right = (UINT)rightCol->GetID();
+
+		//static std::map<UINT64, bool> mCollisionMap;
+		std::map<UINT64, bool>::iterator iter
+			= mCollisionMap.find(colliderID.id);
+
+		if (iter == mCollisionMap.end())
+		{
+			mCollisionMap.insert(std::make_pair(colliderID.id, false));
+			iter = mCollisionMap.find(colliderID.id);
+		}
+
+		if (Intersect(leftCol, rightCol))
+		{
+			// 최초 충돌 시작했을때 enter
+			if (iter->second == false)
+			{
+				leftCol->OnCollisionEnter(rightCol);
+				rightCol->OnCollisionEnter(leftCol);
+
+				iter->second = true;
+			}
+			else // 충돌 중인상태 stay
+			{
+				leftCol->OnCollisionStay(rightCol);
+				rightCol->OnCollisionStay(leftCol);
+			}
+		}
+		else
+		{
+			// Exit
+			// 이전프레임 충돌 O
+			// 현재는 충돌 X 
+			if (iter->second == true)
+			{
+				leftCol->OnCollisionExit(rightCol);
+				rightCol->OnCollisionExit(leftCol);
+
+				iter->second = false;
+			}
+		}
+	}
 	bool CollisionManager::Intersect(Collider* left, Collider* right)
 	{
 		Vector2 leftPos = left->GetPos();
@@ -102,7 +140,8 @@ namespace ya
 
 	void CollisionManager::Clear()
 	{
-
+		memset(mMatrix, 0, sizeof(WORD) * (UINT)eLayerType::End);
+		mCollisionMap.clear();
 	}
 }
 

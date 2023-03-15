@@ -1,6 +1,7 @@
 #include "yaSceneManager.h"
 #include "yaPlayeScene.h"
 #include "yaTitleScene.h"
+#include "yaCollisionManager.h"
 
 namespace ya
 {	
@@ -54,8 +55,11 @@ namespace ya
 		// ÇöÀç¾À
 		mActiveScene->OnExit();
 		
+		CollisionManager::Clear();
 		//´ÙÀ½¾À
 		mActiveScene = mScenes[(UINT)type];
 		mActiveScene->OnEnter();
+
+
 	}
 }

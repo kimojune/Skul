@@ -59,7 +59,7 @@ namespace ya
 
 	void Skul::Update()
 	{
-		GameObject::Update();
+	
 
 		switch (mState)
 		{
@@ -90,6 +90,7 @@ namespace ya
 		default:
 			break;
 		}
+		GameObject::Update();
 	}
 
 	void Skul::Render(HDC hdc)
@@ -101,6 +102,19 @@ namespace ya
 		GameObject::Release();
 
 	}
+
+	void Skul::OnCollisionEnter(Collider* other)
+	{
+	}
+
+	void Skul::OnCollisionStay(Collider* other)
+	{
+	}
+
+	void Skul::OnCollisionExit(Collider* other)
+	{
+	}
+
 	void Skul::Idle()
 	{
 		if (Input::GetKeyDown(eKeyCode::LEFT)
@@ -165,6 +179,21 @@ namespace ya
 			}
 		}
 
+		if (Input::GetKeyDown(eKeyCode::LEFT)
+			|| Input::GetKeyDown(eKeyCode::RIGHT))
+		{
+			if (Input::GetKeyDown(eKeyCode::LEFT))
+			{
+				mDirect = eSkulDirection::Left;
+				mAnimator->Play(L"LeftRun", true);
+			}
+
+			if (Input::GetKeyDown(eKeyCode::RIGHT))
+			{
+				mDirect = eSkulDirection::Right;
+				mAnimator->Play(L"RightRun", true);
+			}
+		}
 
 		//¿Ãµø ∫Œ
 		Transform* tr = GetComponent<Transform>();
@@ -210,6 +239,7 @@ namespace ya
 	{
 
 		Transform* tr = GetComponent<Transform>();
+
 		if (Input::GetKeyDown(eKeyCode::A))
 		{
 			Scene* curScene = SceneManager::GetActiveScene();

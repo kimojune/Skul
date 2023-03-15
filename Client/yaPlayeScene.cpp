@@ -5,7 +5,7 @@
 #include "yaMonster.h"
 #include "yaCollisionManager.h"
 #include "yaBG.h"
-
+#include "yaTransform.h"
 
 
 namespace ya
@@ -33,7 +33,6 @@ namespace ya
 		AddGameObeject(monster, eLayerType::Monster);
 
 
-		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster,   true);
 		Scene::Initialize();
 	}
 
@@ -59,6 +58,8 @@ namespace ya
 	}
 	void PlayeScene::OnEnter()
 	{
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
+
 	}
 	void PlayeScene::OnExit()
 	{
