@@ -117,6 +117,9 @@ namespace ya
 
 	void Skul::Idle()
 	{
+		Transform* tr = GetComponent<Transform>();
+		tr->SetPos(Vector2(400.0f, 725.0f));
+
 		if (Input::GetKeyDown(eKeyCode::LEFT)
 			|| Input::GetKeyDown(eKeyCode::RIGHT))
 			{
@@ -136,18 +139,20 @@ namespace ya
 
 		if (Input::GetKeyDown(eKeyCode::A))
 		{
-			mState = eSkulState::Skill;
+			Scene* curScene = SceneManager::GetActiveScene();
+			BaseBullet* bullet = new BaseBullet();
+			bullet->GetComponent<Transform>()->SetPos(tr->GetPos());
+			curScene->AddGameObeject(bullet, eLayerType::Bullet);
+
 		
 			switch (mDirect)
 			{
 			case ya::Skul::eSkulDirection::Left:
-				mAnimator->Play(L"LeftSkill", true);
-				mState=eSkulState::Skill;
+				mAnimator->Play(L"LeftSkill", 0);
 				break;
 
 			case ya::Skul::eSkulDirection::Right:
-				mAnimator->Play(L"RightSkill", true);
-				mState = eSkulState::Skill;
+				mAnimator->Play(L"RightSkill", 0);
 				break;
 
 			default:
@@ -240,12 +245,8 @@ namespace ya
 
 		Transform* tr = GetComponent<Transform>();
 
-		if (Input::GetKeyDown(eKeyCode::A))
+		if (Input::GetKey(eKeyCode::A))
 		{
-			Scene* curScene = SceneManager::GetActiveScene();
-			BaseBullet* bullet = new BaseBullet();
-			bullet->GetComponent<Transform>()->SetPos(tr->GetPos());
-			curScene->AddGameObeject(bullet, eLayerType::Bullet);
 		}
 		if (Input::GetKeyNone(eKeyCode::A))
 		{
