@@ -68,6 +68,9 @@
     <Filter Include="Contents\Effect">
       <UniqueIdentifier>{94a8d32f-64bd-4169-95c5-c5ec72c1a4c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Camera">
+      <UniqueIdentifier>{bed6ef32-7dc0-4113-928f-5cd385f2d206}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -167,6 +170,7 @@
       <Filter>Contents\Effect</Filter>
     </ClInclude>
     <ClInclude Include="yaFadeInOut.h" />
+    <ClInclude Include="yaCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -261,5 +265,6 @@
       <Filter>Contents\Effect</Filter>
     </ClCompile>
     <ClCompile Include="yaFadeInOut.cpp" />
+    <ClCompile Include="yaCamera.cpp" />
   </ItemGroup>
 </Project>

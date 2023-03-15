@@ -6,7 +6,7 @@
 #include "yaCollisionManager.h"
 #include "yaBG.h"
 #include "yaTransform.h"
-
+#include "yaCamera.h"
 
 namespace ya
 {
@@ -22,12 +22,14 @@ namespace ya
 
 	void PlayeScene::Initialize()
 	{
-		
+
 		BG* mBG = new BG(eSceneType::Play);
 		AddGameObeject(mBG, eLayerType::BG);
 
 		mSkul = new Skul();
 		AddGameObeject(mSkul, eLayerType::Player);
+		
+		Camera::SetTarget(mSkul);
 
 		Monster* monster = new Monster();
 		AddGameObeject(monster, eLayerType::Monster);
