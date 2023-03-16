@@ -1,9 +1,15 @@
 #include "yaTitleScene.h"
 #include "yaInput.h"
 #include "yaSceneManager.h"
-#include "yaBG.h"
+#include "yaTitleBG.h"
 #include "yaTitleLogo.h"
 #include "yaFadeInOut.h"
+#include "yaSkul.h"
+#include "yaMonster.h"
+#include "yaCollisionManager.h"
+#include "yaTransform.h"
+#include "yaCamera.h"
+#include "yaObject.h"
 
 namespace ya
 {
@@ -16,26 +22,23 @@ namespace ya
 	}
 	void TitleScene::Initialize()
 	{
-		
-		BG* mBG = new BG(eSceneType::Title);
-		AddGameObeject(mBG, eLayerType::BG);
-	
-		FadeInOut* mfadeInout = new FadeInOut;
-		AddGameObeject(mfadeInout, eLayerType::Effect);
-
-		/*TitleLogo* Logo = new TitleLogo;
-		AddGameObeject(Logo, eLayerType::Effect);*/
 
 		Scene::Initialize();
+
+		object::Instantiate<TitleBG>(eLayerType::BG);
+		//BG* mBG = new BG;
+		//mBG->Initialize();
+		//AddGameObeject(mBG, eLayerType::BG);
+
 	}
 	void TitleScene::Update()
 	{
+		Scene::Update();
+
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
-			SceneManager::LoadScene(eSceneType::Play);
-			
+			SceneManager::LoadScene(eSceneType::Play);	
 		}
-		Scene::Update();
 	}
 	void TitleScene::Render(HDC hdc)
 	{
@@ -47,6 +50,7 @@ namespace ya
 	}
 	void TitleScene::OnEnter()
 	{
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 	}
 	void TitleScene::OnExit()
 	{

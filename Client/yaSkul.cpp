@@ -8,6 +8,7 @@
 #include "yaCollider.h"
 #include "yaBaseBullet.h"
 #include "yaScene.h"
+#include "yaObject.h"
 
 namespace ya
 {
@@ -21,9 +22,9 @@ namespace ya
 
 	void Skul::Initialize()
 	{
-		Transform* tr = GetComponent<Transform>();
-		tr->SetPos(Vector2(400.0f, 725.0f));
-		tr->SetScale(Vector2(2.5f,2.5f));
+		//Transform* tr = GetComponent<Transform>();
+		//tr->SetPos(Vector2(400.0f, 725.0f));
+		//tr->SetScale(Vector2(2.5f,2.5f));
 		//tr->SetScale(Vector2(1.5f, 1.5f));
 
 		mDirect = eSkulDirection::Right;
@@ -139,11 +140,7 @@ namespace ya
 
 		if (Input::GetKeyDown(eKeyCode::A))
 		{
-			Scene* curScene = SceneManager::GetActiveScene();
-			BaseBullet* bullet = new BaseBullet();
-			bullet->GetComponent<Transform>()->SetPos(tr->GetPos());
-			curScene->AddGameObeject(bullet, eLayerType::Bullet);
-
+			object::Instantiate<BaseBullet>(Vector2(400.0f, 400.0f), eLayerType::Bullet);
 		
 			switch (mDirect)
 			{

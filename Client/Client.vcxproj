@@ -128,7 +128,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="yaBG.h" />
+    <ClInclude Include="yaObject.h" />
+    <ClInclude Include="yaPlayBG.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="framework.h" />
@@ -159,12 +160,13 @@
     <ClInclude Include="yaScene.h" />
     <ClInclude Include="yaSceneManager.h" />
     <ClInclude Include="yaTime.h" />
+    <ClInclude Include="yaTitleBG.h" />
     <ClInclude Include="yaTitleLogo.h" />
     <ClInclude Include="yaTitleScene.h" />
     <ClInclude Include="yaTransform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="yaBG.cpp" />
+    <ClCompile Include="yaPlayBG.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="yaAnimation.cpp" />
     <ClCompile Include="yaAnimator.cpp" />
@@ -189,6 +191,7 @@
     <ClCompile Include="yaScene.cpp" />
     <ClCompile Include="yaSceneManager.cpp" />
     <ClCompile Include="yaTime.cpp" />
+    <ClCompile Include="yaTitleBG.cpp" />
     <ClCompile Include="yaTitleLogo.cpp" />
     <ClCompile Include="yaTitleScene.cpp" />
     <ClCompile Include="yaTransform.cpp" />

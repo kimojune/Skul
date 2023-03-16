@@ -4,9 +4,10 @@
 #include "yaSceneManager.h"
 #include "yaMonster.h"
 #include "yaCollisionManager.h"
-#include "yaBG.h"
+#include "yaPlayBG.h"
 #include "yaTransform.h"
 #include "yaCamera.h"
+#include "yaObject.h"
 
 namespace ya
 {
@@ -22,20 +23,17 @@ namespace ya
 
 	void PlayeScene::Initialize()
 	{
-
-		BG* mBG = new BG(eSceneType::Play);
-		AddGameObeject(mBG, eLayerType::BG);
-
-		mSkul = new Skul();
-		AddGameObeject(mSkul, eLayerType::Player);
-		
-		Camera::SetTarget(mSkul);
-
-		Monster* monster = new Monster();
-		AddGameObeject(monster, eLayerType::Monster);
-
-
 		Scene::Initialize();
+
+		object::Instantiate<PlayBG>(eLayerType::BG);
+		object::Instantiate<Skul>(Vector2(400.0f, 400.0f), eLayerType::Player);
+		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Monster);
+		object::Instantiate<Monster>(Vector2(400.0f, 500.0f), eLayerType::Monster);
+
+		//Monster* monster = new Monster();
+		//AddGameObeject(monster, eLayerType::Monster);
+
+
 	}
 
 	void PlayeScene::Update()

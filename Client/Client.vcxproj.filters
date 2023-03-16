@@ -163,14 +163,22 @@
     <ClInclude Include="yaCollisionManager.h">
       <Filter>Engine\Component\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="yaBG.h">
+    <ClInclude Include="yaPlayBG.h">
       <Filter>Contents\BG</Filter>
     </ClInclude>
     <ClInclude Include="yaTitleLogo.h">
       <Filter>Contents\Effect</Filter>
     </ClInclude>
     <ClInclude Include="yaFadeInOut.h" />
-    <ClInclude Include="yaCamera.h" />
+    <ClInclude Include="yaCamera.h">
+      <Filter>Engine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="yaObject.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTitleBG.h">
+      <Filter>Contents\BG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -258,13 +266,18 @@
     <ClCompile Include="yaCollisionManager.cpp">
       <Filter>Engine\Component\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="yaBG.cpp">
+    <ClCompile Include="yaPlayBG.cpp">
       <Filter>Contents\BG</Filter>
     </ClCompile>
     <ClCompile Include="yaTitleLogo.cpp">
       <Filter>Contents\Effect</Filter>
     </ClCompile>
     <ClCompile Include="yaFadeInOut.cpp" />
-    <ClCompile Include="yaCamera.cpp" />
+    <ClCompile Include="yaCamera.cpp">
+      <Filter>Engine\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTitleBG.cpp">
+      <Filter>Contents\BG</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

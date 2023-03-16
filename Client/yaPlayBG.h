@@ -1,14 +1,17 @@
 #pragma once
 #include "yaGameObject.h"
+#include "yaImage.h"
+#include "yaEntity.h"
 
 
 namespace ya
-{
-	class BaseBullet : public GameObject
+	
+{ 
+	class PlayBG : public GameObject
 	{
 	public:
-		BaseBullet();
-		~BaseBullet();
+		PlayBG();
+		~PlayBG();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -16,6 +19,7 @@ namespace ya
 		virtual void Release() override;
 
 	private:
-		float mTime;
+		Image* mImage;
 	};
+
 }

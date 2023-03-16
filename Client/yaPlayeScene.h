@@ -4,7 +4,7 @@
 namespace ya
 {
 	class Skul;
-	class BG;
+	class TitleBG;
 	class PlayeScene : public Scene
 	{
 	public:

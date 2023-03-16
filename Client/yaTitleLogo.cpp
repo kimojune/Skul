@@ -27,7 +27,7 @@ namespace ya
 		func.AlphaFormat = AC_SRC_ALPHA;
 		func.SourceConstantAlpha = 255; // 0(투명) ~ 255(불투명) 알파값
 
-		AlphaBlend(hdc, 0, 0, mImage->GetWidth(), mImage->GetHeight(), mImage->GetHdc(), 0, 0, mImage->GetWidth(), mImage->GetHeight(), func);
+		//AlphaBlend(hdc, 0, 0, mImage->GetWidth(), mImage->GetHeight(), mImage->GetHdc(), 0, 0, mImage->GetWidth(), mImage->GetHeight(), func);
 	}
 	void TitleLogo::Release()
 	{

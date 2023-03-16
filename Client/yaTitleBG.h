@@ -5,27 +5,21 @@
 
 
 namespace ya
-
-{ 
-
-	class BG : public GameObject
+{
+	class TitleBG : public GameObject
 	{
 	public:
-		BG(eSceneType type);
-		~BG();
+		TitleBG();
+		~TitleBG();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
-		void SetScene(eSceneType scene);
-
-
 
 	private:
-		std::vector<Image*> mImage;
-		 eSceneType mScene;
-		 Image* ActiveBG;
+		Image* mImage;
 	};
 
-}
+};
+

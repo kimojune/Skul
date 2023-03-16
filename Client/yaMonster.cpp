@@ -21,9 +21,9 @@ namespace ya
 	void Monster::Initialize()
 	{
 		//Goopy Le Grande\Phase 1\Jump
-		Transform* tr = GetComponent<Transform>();
-		tr->SetPos(Vector2(800.0f, 700.0f));
-		tr->SetScale(Vector2(2.0f, 2.0f));
+		//Transform* tr = GetComponent<Transform>();
+		//tr->SetPos(Vector2(800.0f, 700.0f));
+		//tr->SetScale(Vector2(2.0f, 2.0f));
 
 		mAnimator = AddComponent<Animator>();
 		//mAnimator->CreateAnimations(L"..\\Resources\\Goopy Le Grande\\Phase 1\\Jump", Vector2::Zero, 0.1f);
