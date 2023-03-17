@@ -6,7 +6,7 @@
 #include "yaTransform.h"
 #include "yaAnimator.h"
 #include "yaCollider.h"
-#include "yaBaseBullet.h"
+#include "yaSkulHead.h"
 #include "yaScene.h"
 #include "yaObject.h"
 
@@ -22,13 +22,11 @@ namespace ya
 
 	void Skul::Initialize()
 	{
-		//Transform* tr = GetComponent<Transform>();
-		//tr->SetPos(Vector2(400.0f, 725.0f));
-		//tr->SetScale(Vector2(2.5f,2.5f));
-		//tr->SetScale(Vector2(1.5f, 1.5f));
+		Transform* tr = GetComponent<Transform>();
+		tr->SetScale(Vector2(2.5f,2.5f));
 
 		mDirect = eSkulDirection::Right;
-
+		
 		Image* LeftImage = Resources::Load<Image>(L"LeftSkul", L"..\\Resources\\SkulLeft.bmp");
 		Image* RightImage = Resources::Load<Image>(L"RightSkul", L"..\\Resources\\SkulRight.bmp");
 
@@ -36,32 +34,38 @@ namespace ya
 
 		mAnimator->CreateAnimation(L"LeftIdle", LeftImage, Vector2(2356.0f, 0.0f),-1, 20, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"LeftRun", LeftImage, Vector2(2356.0f, 124.0f),-1, 20, 20, 8, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"LeftSkill", LeftImage, Vector2(2356.0f, (124.0f * 9)),-1, 20, 20, 4, Vector2(-85.0f, -50.0f), 0.05);
+		mAnimator->CreateAnimation(L"LeftSkill", LeftImage, Vector2(2356.0f, (124.0f * 9)),-1, 20, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 
 		mAnimator->CreateAnimation(L"RightIdle", RightImage, Vector2(0.0f, 0.0f),1, 20, 20, 4, Vector2(-85.0f,-50.0f), 0.1);
 		mAnimator->CreateAnimation(L"RightRun", RightImage, Vector2(0.0f, 124.0f),1, 20, 20, 8, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"RightSkill", RightImage, Vector2(0.0f, (124.0f* 9)),1, 20, 20, 4, Vector2(-85.0f, -50.0f), 0.05);
+		mAnimator->CreateAnimation(L"RightSkill", RightImage, Vector2(0.0f, (124.0f* 9)),1, 20, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 
+		
 		//mAnimator->CreateAnimation(L"FowardRight", mImage, Vector2(0.0f, 113.0f), 16, 8, 15, Vector2::Zero, 0.1);
 		//mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Idle", Vector2::Zero, 0.1f);
 		//mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Aim\\Straight", Vector2::Zero, 0.1f);
 
-		//mAnimator->GetStartEvent(L"RightIdle") = std::bind(&Skul::idleCompleteEvent, this);
+		mAnimator->GetStartEvent(L"LeftSkill") = std::bind(&Skul::StartShoot, this);
+		mAnimator->GetCompleteEvent(L"LeftSkill") = std::bind(&Skul::CompleteShoot, this);
+		mAnimator->GetEndEvent(L"LeftSkill") = std::bind(&Skul::EndShoot, this);
+
+		mAnimator->GetStartEvent(L"RightSkill") = std::bind(&Skul::StartShoot, this);
+		mAnimator->GetCompleteEvent(L"RightSkill") = std::bind(&Skul::CompleteShoot, this);
+		mAnimator->GetEndEvent(L"RightSkill") = std::bind(&Skul::EndShoot, this);
 		mAnimator->Play(L"RightIdle", true);
-		//
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-20.0f, -25.0f));
 		collider->SetSize(Vector2(50.0f, 50.0f));
 
 		mState = eSkulState::Idle;
 
+
+
 		GameObject::Initialize();
 	}
 
 	void Skul::Update()
 	{
-	
-
 		switch (mState)
 		{
 		case ya::Skul::eSkulState::Idle:
@@ -116,10 +120,11 @@ namespace ya
 	{
 	}
 
+
 	void Skul::Idle()
 	{
 		Transform* tr = GetComponent<Transform>();
-		tr->SetPos(Vector2(400.0f, 725.0f));
+		Vector2 pos = tr->GetPos();
 
 		if (Input::GetKeyDown(eKeyCode::LEFT)
 			|| Input::GetKeyDown(eKeyCode::RIGHT))
@@ -128,7 +133,7 @@ namespace ya
 			if (Input::GetKeyDown(eKeyCode::LEFT))
 			{
 				mDirect = eSkulDirection::Left;
-				mAnimator->Play(L"LeftRun", true);
+				mAnimator->Play(L"LeftRun", false);
 			}
 
 			if (Input::GetKeyDown(eKeyCode::RIGHT))
@@ -140,16 +145,15 @@ namespace ya
 
 		if (Input::GetKeyDown(eKeyCode::A))
 		{
-			object::Instantiate<BaseBullet>(Vector2(400.0f, 400.0f), eLayerType::Bullet);
-		
+
 			switch (mDirect)
 			{
 			case ya::Skul::eSkulDirection::Left:
-				mAnimator->Play(L"LeftSkill", 0);
+				mAnimator->Play(L"LeftSkill", false);
 				break;
 
 			case ya::Skul::eSkulDirection::Right:
-				mAnimator->Play(L"RightSkill", 0);
+				mAnimator->Play(L"RightSkill", false);
 				break;
 
 			default:
@@ -267,15 +271,32 @@ namespace ya
 	////void Skul::death()
 	//{
 	//}
-
-	void Skul::idleCompleteEvent(/*const Cuphead* this*/)
+	void Skul::StartShoot()
 	{
-		int a = 0;
-		//mState =
-		//Transform* tr = GetComponent<Transform>();
-		//Scene* curScene = SceneManager::GetActiveScene();
-		//BaseBullet* bullet = new BaseBullet();
-		//bullet->GetComponent<Transform>()->SetPos(tr->GetPos());
-		//curScene->AddGameObeject(bullet, eLayerType::Bullet);
+		Transform* tr = GetComponent<Transform>();
+		Scene* curScene = SceneManager::GetActiveScene();
+		SkulHead* head = new SkulHead();
+		head->GetComponent<Transform>()->SetPos(tr->GetPos());
+		
+		if (mDirect == eSkulDirection::Left)
+			head->SetDirect((bool)eSkulDirection::Left);
+		
+		else if (mDirect == eSkulDirection::Right)
+			head->SetDirect((bool)eSkulDirection::Right);
+
+		curScene->AddGameObeject(head, eLayerType::Bullet);
+
+	}
+
+	void Skul::CompleteShoot()
+	{
+
+		mState = eSkulState::Idle;
+		mAnimator->Play(L"RightIdle", true);
+	}
+
+
+	void Skul::EndShoot()
+	{
 	}
 }

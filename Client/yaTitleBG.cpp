@@ -15,10 +15,10 @@ namespace ya
 	{
 		mImage = Resources::Load<Image>(L"TitleBG", L"..\\Resources\\BG\\Title\\TitleBG.bmp");
 
-
 	}
 	void TitleBG::Update()
 	{
+
 	}
 	void TitleBG::Render(HDC hdc)
 	{

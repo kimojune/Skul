@@ -41,14 +41,16 @@ namespace ya
 		{
 			mActiveAnimation->Update();
 
-			if (mbLoop && mActiveAnimation->IsComplete())
+			if (mActiveAnimation->IsComplete())
 			{
 				Animator::Events* events
-					= FindEvents(mActiveAnimation->GetName());
+					= FindEvents(mActiveAnimation->GetAnimationName());
 
 				if (events != nullptr)
 					events->mCompleteEvent();
-
+			}
+			if (mbLoop == true && mActiveAnimation->IsComplete())
+			{
 				mActiveAnimation->Reset();
 			}
 		}
@@ -75,7 +77,7 @@ namespace ya
 
 		animation = new Animation();
 		animation->Create(sheet, leftTop, next, coulmn, row, spriteLength, offset, duration);
-		animation->SetName(name);
+		animation->SetAnimationName(name);
 		animation->SetAnimator(this);
 
 		mAnimations.insert(std::make_pair(name, animation));
@@ -159,23 +161,23 @@ namespace ya
 		if (mActiveAnimation != nullptr)
 		{
 			Animator::Events* prevEvents
-				= FindEvents(mActiveAnimation->GetName());
+				= FindEvents(mActiveAnimation->GetAnimationName());
 
 			if (prevEvents != nullptr)
 				prevEvents->mEndEvent();
 		}
 
 		mActiveAnimation = FindAnimation(name);
-		//mActiveAnimation->Reset();
+		mActiveAnimation->Reset();
 		mbLoop = loop;
 
 		if (!mbLoop)
 		{
-			mActiveAnimation->Reset();
+			//mActiveAnimation->Reset();
 		}
 
 		Animator::Events* events
-			= FindEvents(mActiveAnimation->GetName());
+			= FindEvents(mActiveAnimation->GetAnimationName());
 
 		if (events != nullptr)
 			events->mStartEvent();
@@ -196,7 +198,7 @@ namespace ya
 		Animation* animation = FindAnimation(name);
 
 		Animator::Events* events
-			= FindEvents(animation->GetName());
+			= FindEvents(animation->GetAnimationName());
 
 		return events->mStartEvent.mEvent;
 	}
@@ -205,7 +207,7 @@ namespace ya
 		Animation* animation = FindAnimation(name);
 
 		Animator::Events* events
-			= FindEvents(animation->GetName());
+			= FindEvents(animation->GetAnimationName());
 
 		return events->mCompleteEvent.mEvent;
 	}
@@ -214,7 +216,7 @@ namespace ya
 		Animation* animation = FindAnimation(name);
 
 		Animator::Events* events
-			= FindEvents(animation->GetName());
+			= FindEvents(animation->GetAnimationName());
 
 		return events->mEndEvent.mEvent;
 	}

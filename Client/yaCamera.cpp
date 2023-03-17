@@ -23,12 +23,12 @@ namespace ya
 	void Camera::Update()
 	{
 
-		if (Input::GetKey(eKeyCode::LEFT))
+		if (Input::GetKey(eKeyCode::Q))
 		{
 			mLookPosition.x -= 200.0f * Time::DeltaTime();
 		}
 
-		if (Input::GetKey(eKeyCode::RIGHT))
+		if (Input::GetKey(eKeyCode::W))
 		{
 			mLookPosition.x += 200.0f * Time::DeltaTime();
 

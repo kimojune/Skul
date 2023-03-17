@@ -151,7 +151,7 @@
     <ClInclude Include="yaAnimator.h">
       <Filter>Engine\Component</Filter>
     </ClInclude>
-    <ClInclude Include="yaBaseBullet.h">
+    <ClInclude Include="yaSkulHead.h">
       <Filter>Contents\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="yaMonster.h">
@@ -254,7 +254,7 @@
     <ClCompile Include="yaAnimator.cpp">
       <Filter>Engine\Component</Filter>
     </ClCompile>
-    <ClCompile Include="yaBaseBullet.cpp">
+    <ClCompile Include="yaSkulHead.cpp">
       <Filter>Contents\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="yaMonster.cpp">

@@ -26,9 +26,9 @@ namespace ya
 		Scene::Initialize();
 
 		object::Instantiate<PlayBG>(eLayerType::BG);
-		object::Instantiate<Skul>(Vector2(400.0f, 400.0f), eLayerType::Player);
-		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Monster);
-		object::Instantiate<Monster>(Vector2(400.0f, 500.0f), eLayerType::Monster);
+		mSkul = object::Instantiate<Skul>(Vector2(400.0f, 400.0f), eLayerType::Player);
+		object::Instantiate<Monster>(Vector2(500.0f, 400.0f), eLayerType::Monster);
+		object::Instantiate<Monster>(Vector2(400.0f, 400.0f), eLayerType::Monster);
 
 		//Monster* monster = new Monster();
 		//AddGameObeject(monster, eLayerType::Monster);
@@ -58,12 +58,13 @@ namespace ya
 	}
 	void PlayeScene::OnEnter()
 	{
+		Camera::SetTarget(mSkul);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 
 	}
 	void PlayeScene::OnExit()
 	{
-		
+		Camera::SetTarget(nullptr);
 		//mCuphead->SetPos(Vector2{ 0.0f, 0.0f });
 	}
 }

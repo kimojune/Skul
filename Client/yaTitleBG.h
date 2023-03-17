@@ -21,5 +21,6 @@ namespace ya
 		Image* mImage;
 	};
 
+	
 };
 

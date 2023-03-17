@@ -43,6 +43,11 @@ namespace ya
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 
+		void StartShoot();
+		void CompleteShoot();
+		void EndShoot();
+		eSkulDirection GetSkulDirect() { return mDirect; }
+
 	private:
 		void	Idle();
 		void	Move();
@@ -52,14 +57,15 @@ namespace ya
 		void	Fallrepeat();
 		void	AttackA();
 		void	AttackB();
+		void	Shoot();
 		void	Jumpattack();
 		void	Skill();
-		void idleCompleteEvent();
 
 	private:
 		eSkulState mState;
 		eSkulDirection mDirect;
 		Animator* mAnimator;
+		bool head;
 		
 	};
 }
