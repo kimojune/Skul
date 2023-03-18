@@ -31,3 +31,16 @@ enum class eComponentType
 	Audio,
 	End,
 };
+
+enum class eDirection
+{
+	Left,
+	Right,
+	Up,
+	Down,
+	LeftUp,
+	RightUp,
+	LeftDown,
+	RightDown,
+	End,
+};

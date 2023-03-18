@@ -10,7 +10,7 @@ namespace ya
 {
 	SkulHead::SkulHead()
 		:mTime(0.0f)
-		, mDirect(true)
+		, mDirect(eDirection::Left)
 	{
 		mLeftImage = Resources::Load<Image>(L"LeftSkulHead", L"..\\Resources\\LeftSkulHead.bmp");
 		mRightImage = Resources::Load<Image>(L"RightSkulHead", L"..\\Resources\\SkulHead.bmp");
@@ -32,7 +32,7 @@ namespace ya
 	{
 
 		Transform* tr = GetComponent<Transform>();
-		Vector2 dir = Vector2(100.0f, 500.0f);
+		Vector2 dir = Vector2(500.0f, 500.0f);
 		dir.Normalize();
 		/*float x = cosf(-PI / 4.0f);
 		float y = sinf(-PI / 4.0f);*/
@@ -43,11 +43,11 @@ namespace ya
 
 		Vector2 pos = tr->GetPos();
 
-		if (!mDirect)
-			pos.x -= 500.0f * dir.x * Time::DeltaTime();
+		if(mDirect == eDirection::Left)
+			pos.x -= 1500.0f * dir.x * Time::DeltaTime();
 
-		else if (mDirect)
-			pos.x += 500.0f * dir.x * Time::DeltaTime();
+		else if (mDirect== eDirection::Right)
+			pos.x += 1500.0f * dir.x * Time::DeltaTime();
 
 		tr->SetPos(pos);
 
@@ -66,8 +66,9 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = Camera::CaluatePos(tr->GetPos());
 
-		if (!mDirect)
+		switch (mDirect)
 		{
+		case eDirection::Left:
 			TransparentBlt(hdc
 				, pos.x, pos.y - 50.0f
 				, mLeftImage->GetWidth() * 2.8f, mLeftImage->GetHeight() * 2.8f
@@ -75,9 +76,9 @@ namespace ya
 				, 0, 0
 				, mLeftImage->GetWidth(), mLeftImage->GetHeight()
 				, RGB(255, 0, 255));
-		}
-		else if(mDirect)
-		{
+			break;
+
+		case eDirection::Right:
 			TransparentBlt(hdc
 				, pos.x, pos.y - 50.0f
 				, mRightImage->GetWidth() * 2.8f, mRightImage->GetHeight() * 2.8f
@@ -85,8 +86,13 @@ namespace ya
 				, 0, 0
 				, mRightImage->GetWidth(), mRightImage->GetHeight()
 				, RGB(255, 0, 255));
-		
+			break;
+
+		default:
+			break;
 		}
+
+
 
 		GameObject::Render(hdc);
 	}

@@ -17,13 +17,13 @@ namespace ya
 		virtual void Release() override;
 
 
-		virtual void SetDirect(bool direct) { mDirect = direct; }
+		virtual void SetDirect(eDirection direct) { mDirect = direct; }
 
 	private:
 		float mTime;
 		Image* mLeftImage;
 		Image* mRightImage;
 		Vector2 mPos;
-		bool mDirect;
+		eDirection mDirect;
 	};
 }

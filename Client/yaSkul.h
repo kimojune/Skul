@@ -19,15 +19,10 @@ namespace ya
 			AttackA,
 			AttackB,
 			JumpAttack,
-			Skill,
+			SkillA,
+			SkillS,
 			Fall_Dead,
 
-		};
-
-		enum class eSkulDirection
-		{
-			Left,
-			Right,
 		};
 
 
@@ -46,8 +41,7 @@ namespace ya
 		void StartShoot();
 		void CompleteShoot();
 		void EndShoot();
-		eSkulDirection GetSkulDirect() { return mDirect; }
-
+		
 	private:
 		void	Idle();
 		void	Move();
@@ -57,15 +51,15 @@ namespace ya
 		void	Fallrepeat();
 		void	AttackA();
 		void	AttackB();
-		void	Shoot();
+		void	SkillA();
+		void	SkillB();
 		void	Jumpattack();
-		void	Skill();
 
 	private:
 		eSkulState mState;
-		eSkulDirection mDirect;
+		eDirection mDirect;
 		Animator* mAnimator;
 		bool head;
-		
-	};
+
+		};
 }
