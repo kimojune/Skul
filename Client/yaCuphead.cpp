@@ -38,8 +38,8 @@ namespace ya
 		mAnimator->Play(L"ChaliseIdle", true);
 		
 		Collider* collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(-60.0f, -80.0f));
-		collider->SetSize(Vector2(50.0f, 50.0f));
+		collider->SetCenter(Vector2(-75.0f, -145.0f));
+		collider->SetSize(Vector2(150.0f, 150.0f));
 
 		mRigidbody = AddComponent<Rigidbody>();
 		mRigidbody->SetMass(1.0f);
@@ -157,6 +157,9 @@ namespace ya
 		
 		if (Input::GetKey(eKeyCode::S))
 			mRigidbody->AddForce(Vector2(0.0f, +200.0f));
+
+
+			
 			//pos.y += 100.0f * Time::DeltaTime();
 		
 		tr->SetPos(pos);
@@ -186,6 +189,15 @@ namespace ya
 		{
 			mState = eCupheadState::Move;
 			//mAnimator->Play(L"FowardRun", true);
+		}
+
+		if (Input::GetKeyDown(eKeyCode::SPACE))
+		{
+			Vector2 velocity = mRigidbody->GetVelocity();
+			velocity.y -= 500.0f;
+
+			mRigidbody->SetVelocity(velocity);
+			mRigidbody->SetGround(false);
 		}
 
 		if (Input::GetKeyDown(eKeyCode::K))

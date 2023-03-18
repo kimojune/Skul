@@ -7,6 +7,7 @@
 #include "yaTransform.h"
 #include "yaCamera.h"
 #include "yaObject.h"
+#include "yaGround.h"
 
 namespace ya
 {
@@ -22,8 +23,9 @@ namespace ya
 	{
 		Scene::Initialize();
 
-		object::Instantiate<Cuphead>(Vector2(0.0f, 400.0f), eLayerType::Player);
-		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Player);
+		object::Instantiate<Cuphead>(Vector2(500.0f, 400.0f), eLayerType::Player);
+		//object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Player);
+		object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 	}
 
 	void PlayeScene::Update()
@@ -49,6 +51,7 @@ namespace ya
 	void PlayeScene::OnEnter()
 	{
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Player, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
 	}
 	void PlayeScene::OnExit()
 	{

@@ -21,13 +21,18 @@ namespace ya
 	Collider::~Collider()
 	{
 	}
+
 	void Collider::Initialize()
 	{
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		mPos = tr->GetPos() + mCenter;
+
+		int a = 0;
 	}
+
 	void Collider::Update()
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
-		mCenter = Vector2(10.0f, 0.0f);
 		mPos = tr->GetPos() + mCenter;
 	}
 	

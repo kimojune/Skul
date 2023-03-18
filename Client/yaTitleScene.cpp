@@ -20,8 +20,8 @@ namespace ya
 	{
 		Scene::Initialize();
 
-		object::Instantiate<Cuphead>(eLayerType::Player);
-		object::Instantiate<Monster>(eLayerType::Monster);
+		//object::Instantiate<Cuphead>(eLayerType::Player);
+		//object::Instantiate<Monster>(eLayerType::Monster);
 	}
 	void TitleScene::Update()
 	{
