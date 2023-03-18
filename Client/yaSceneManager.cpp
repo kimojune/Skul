@@ -19,7 +19,7 @@ namespace ya
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 		mScenes[(UINT)eSceneType::Play] = new PlayeScene();
 		mScenes[(UINT)eSceneType::Tool] = new ToolScene();
-
+		
 		for ( Scene* scene : mScenes )
 		{
 			if (scene == nullptr)

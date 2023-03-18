@@ -134,10 +134,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    //main
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
+      0, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
 
    HWND hWnd2 = CreateWindowW(L"AtlasWindow", szTitle, WS_OVERLAPPEDWINDOW,
-       CW_USEDEFAULT, 0, 500, 500, nullptr, nullptr, hInstance, nullptr);
+       1600, 0, 500, 500, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
