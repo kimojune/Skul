@@ -37,8 +37,6 @@ namespace ya
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 
-
-
 		void StartDash();
 		void CompleteDash();
 		void EndDash();
@@ -51,6 +49,10 @@ namespace ya
 		void CompleteJump();
 		void EndJump();
 
+		void StartFall();
+		void CompleteFall();
+		void EndFall ();
+
 		void StartShoot();
 		void CompleteShoot();
 		void EndShoot();
@@ -61,7 +63,6 @@ namespace ya
 		void	Dash();
 		void	Jump();
 		void	Fall();
-		void	Fallrepeat();
 		void	Attack();
 		void	SkillA();
 		void	SkillB();
