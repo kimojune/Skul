@@ -16,6 +16,7 @@ enum class eLayerType
 	Monster,
 	Player,
 	Bullet,
+	Ground,
 	Test,
 	Effect,
 	UI,

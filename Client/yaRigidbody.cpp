@@ -97,8 +97,6 @@ namespace ya
 		Vector2 pos = tr->GetPos();
 		pos = pos + mVelocity * Time::DeltaTime();
 
-		if (pos.y > 900.0f)
-			mbGround = true;
 
 		tr->SetPos(pos);
 		mForce.Clear();

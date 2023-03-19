@@ -9,10 +9,10 @@ namespace ya
 		'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
 		'Z', 'X', 'C', 'V', 'B', 'N', 'M',
 
-		38,40,37,39,
+		VK_UP, VK_DOWN, VK_LEFT ,VK_RIGHT,
 		VK_LBUTTON, VK_RBUTTON,
 	};
-
+	    
 	std::vector<Input::Key> Input::mKeys;
 
 	void Input::Initialize()

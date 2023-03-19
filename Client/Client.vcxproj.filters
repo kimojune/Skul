@@ -184,6 +184,9 @@
     <ClInclude Include="yaRigidbody.h">
       <Filter>Engine\Component\RigidBody</Filter>
     </ClInclude>
+    <ClInclude Include="yaGround.h">
+      <Filter>Engine\Component\RigidBody</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -284,6 +287,9 @@
       <Filter>Contents\BG</Filter>
     </ClCompile>
     <ClCompile Include="yaRigidbody.cpp">
+      <Filter>Engine\Component\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGround.cpp">
       <Filter>Engine\Component\RigidBody</Filter>
     </ClCompile>
   </ItemGroup>

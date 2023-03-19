@@ -178,6 +178,16 @@ namespace ya
 			}
 		}
 
+		if (Input::GetKeyDown(eKeyCode::C))
+		{
+			Vector2 velocity = mRigidbody->GetVelocity();
+			velocity.y -= 500.0f;
+
+			mRigidbody->SetVelocity(velocity);
+			mRigidbody->SetGround(false);
+		}
+
+
 		if (Input::GetKeyDown(eKeyCode::A))
 		{
 			switch (mDirect)

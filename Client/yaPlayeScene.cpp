@@ -8,6 +8,7 @@
 #include "yaTransform.h"
 #include "yaCamera.h"
 #include "yaObject.h"
+#include "yaGround.h"
 
 namespace ya
 {
@@ -27,8 +28,9 @@ namespace ya
 
 		object::Instantiate<PlayBG>(eLayerType::BG);
 		mSkul = object::Instantiate<Skul>(Vector2(400.0f, 0.0f), eLayerType::Player);
-		object::Instantiate<Monster>(Vector2(500.0f, 400.0f), eLayerType::Monster);
-		object::Instantiate<Monster>(Vector2(400.0f, 400.0f), eLayerType::Monster);
+		object::Instantiate<Monster>(Vector2(500.0f, 800.0f), eLayerType::Monster);
+		object::Instantiate<Monster>(Vector2(400.0f, 800.0f), eLayerType::Monster);
+		object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 
 		//Monster* monster = new Monster();
 		//AddGameObeject(monster, eLayerType::Monster);
@@ -61,6 +63,7 @@ namespace ya
 		Camera::SetTarget(mSkul);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Monster, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
 
 	}
 	void PlayeScene::OnExit()
