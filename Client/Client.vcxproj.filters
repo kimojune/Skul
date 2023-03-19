@@ -71,6 +71,9 @@
     <Filter Include="Engine\Camera">
       <UniqueIdentifier>{bed6ef32-7dc0-4113-928f-5cd385f2d206}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Component\RigidBody">
+      <UniqueIdentifier>{0196d41a-bd17-40d3-af5a-2d96f1df79dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -169,7 +172,6 @@
     <ClInclude Include="yaTitleLogo.h">
       <Filter>Contents\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="yaFadeInOut.h" />
     <ClInclude Include="yaCamera.h">
       <Filter>Engine\Camera</Filter>
     </ClInclude>
@@ -180,7 +182,7 @@
       <Filter>Contents\BG</Filter>
     </ClInclude>
     <ClInclude Include="yaRigidbody.h">
-      <Filter>Engine\Component</Filter>
+      <Filter>Engine\Component\RigidBody</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -275,7 +277,6 @@
     <ClCompile Include="yaTitleLogo.cpp">
       <Filter>Contents\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="yaFadeInOut.cpp" />
     <ClCompile Include="yaCamera.cpp">
       <Filter>Engine\Camera</Filter>
     </ClCompile>
@@ -283,7 +284,7 @@
       <Filter>Contents\BG</Filter>
     </ClCompile>
     <ClCompile Include="yaRigidbody.cpp">
-      <Filter>Engine\Component</Filter>
+      <Filter>Engine\Component\RigidBody</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

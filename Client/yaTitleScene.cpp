@@ -3,7 +3,6 @@
 #include "yaSceneManager.h"
 #include "yaTitleBG.h"
 #include "yaTitleLogo.h"
-#include "yaFadeInOut.h"
 #include "yaSkul.h"
 #include "yaMonster.h"
 #include "yaCollisionManager.h"
