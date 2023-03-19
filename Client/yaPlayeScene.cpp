@@ -26,7 +26,7 @@ namespace ya
 		Scene::Initialize();
 
 		object::Instantiate<PlayBG>(eLayerType::BG);
-		mSkul = object::Instantiate<Skul>(Vector2(400.0f, 425.0f), eLayerType::Player);
+		mSkul = object::Instantiate<Skul>(Vector2(400.0f, 0.0f), eLayerType::Player);
 		object::Instantiate<Monster>(Vector2(500.0f, 400.0f), eLayerType::Monster);
 		object::Instantiate<Monster>(Vector2(400.0f, 400.0f), eLayerType::Monster);
 
