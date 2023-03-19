@@ -9,6 +9,8 @@
 #include "yaSkulHead.h"
 #include "yaScene.h"
 #include "yaObject.h"
+#include "yaRigidbody.h"
+
 
 namespace ya
 {
@@ -54,9 +56,13 @@ namespace ya
 		mAnimator->GetCompleteEvent(L"RightSkillA") = std::bind(&Skul::CompleteShoot, this);
 		mAnimator->GetEndEvent(L"RightSkillA") = std::bind(&Skul::EndShoot, this);
 		mAnimator->Play(L"RightIdle", true);
+		
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-20.0f, -25.0f));
 		collider->SetSize(Vector2(50.0f, 50.0f));
+
+		mRigidbody = AddComponent<Rigidbody>();
+		mRigidbody->SetMass(1.0f);
 
 
 		mState = eSkulState::Idle;
@@ -283,12 +289,14 @@ namespace ya
 		
 		if (Input::GetKey(eKeyCode::LEFT))
 		{
-			pos.x -= 200.0f * Time::DeltaTime();
+			//pos.x -= 200.0f * Time::DeltaTime();
+			mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
 		}
 
 		if (Input::GetKey(eKeyCode::RIGHT))
 		{
-			pos.x += 200.0f * Time::DeltaTime();
+			//pos.x += 200.0f * Time::DeltaTime();
+			mRigidbody->AddForce(Vector2(200.0f, 0.0f));
 
 		}
 		tr->SetPos(pos);

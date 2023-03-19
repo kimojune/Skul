@@ -179,6 +179,9 @@
     <ClInclude Include="yaTitleBG.h">
       <Filter>Contents\BG</Filter>
     </ClInclude>
+    <ClInclude Include="yaRigidbody.h">
+      <Filter>Engine\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -278,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="yaTitleBG.cpp">
       <Filter>Contents\BG</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRigidbody.cpp">
+      <Filter>Engine\Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

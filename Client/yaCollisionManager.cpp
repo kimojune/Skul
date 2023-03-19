@@ -99,10 +99,19 @@ namespace ya
 		Vector2 leftPos = left->GetPos();
 		Vector2 rightPos = right->GetPos();
 
+
+
 		// 두 충돌체 간의 거리와, 각면적의 절반끼리의 합을 비교해서
 		// 거리가 더 길다면 충돌 X, 거리가 더 짧다면 충돌 O
 		Vector2 leftSize = left->GetSize();
 		Vector2 rightSize = right->GetSize();
+
+		leftPos.x = leftPos.x + leftSize.x / 2.0f;
+		leftPos.y = leftPos.y + leftSize.y / 2.0f;
+
+		rightPos.x = rightPos.x + rightSize.x / 2.0f;
+		rightPos.y = rightPos.y + rightSize.y / 2.0f;
+
 
 		if (fabs(leftPos.x - rightPos.x) < (leftSize.x / 2.0f) + (rightSize.x / 2.0f)
 			&& fabs(leftPos.y - rightPos.y) < (leftSize.y / 2.0f) + (rightSize.y / 2.0f))

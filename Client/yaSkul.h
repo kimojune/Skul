@@ -1,10 +1,11 @@
 #pragma once
 #include "yaGameObject.h"
-#include "yaImage.h"
+
 
 namespace ya
 {
 	class Animator;
+	class Rigidbody;
 	class Skul : public GameObject
 	{
 	public:
@@ -59,6 +60,7 @@ namespace ya
 		eSkulState mState;
 		eDirection mDirect;
 		Animator* mAnimator;
+		Rigidbody* mRigidbody;
 		bool head;
 
 		};
