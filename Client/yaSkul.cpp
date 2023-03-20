@@ -45,6 +45,7 @@ namespace ya
 		mAnimator->CreateAnimation(L"LeftFallRepeat", LeftImage, Vector2(2976.0f, 124.0f * 5), -1, 25, 20, 3, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"LeftAttackA", LeftImage, Vector2(2976.0f, 124.0f * 6), -1, 25, 20, 5, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"LeftAttackB", LeftImage, Vector2(2976.0f, 124.0f * 7), -1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"LeftJumpAttack", LeftImage, Vector2(2976.0f, 124.0f * 8), -1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"LeftSkillA", LeftImage, Vector2(2976.0f, (124.0f * 9)), -1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 
 		mAnimator->CreateAnimation(L"RightIdle", RightImage, Vector2(0.0f, 0.0f), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
@@ -55,6 +56,7 @@ namespace ya
 		mAnimator->CreateAnimation(L"RightFallRepeat", RightImage, Vector2(0.0f, 124.0f * 5), 1, 25, 20, 3, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"RightAttackA", RightImage, Vector2(0.0f, 124.0f * 6), 1, 25, 20, 5, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"RightAttackB", RightImage, Vector2(0.0f, 124.0f * 7), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"RightJumpAttack", RightImage, Vector2(0.0f, 124.0f * 7), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"RightSkillA", RightImage, Vector2(0.0f, (124.0f * 9)), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 
 		mAnimator->CreateAnimation(L"NoheadLeftIdle", LeftHeadlessImage, Vector2(1116.0f, 0.0f), -1, 10, 10, 4, Vector2(-85.0f, -50.0f), 0.1);
@@ -542,21 +544,7 @@ namespace ya
 
 		}
 
-		/*if (Input::GetKeyDown(eKeyCode::LEFT)
-			|| Input::GetKeyDown(eKeyCode::RIGHT))
-		{
-			if (Input::GetKeyDown(eKeyCode::LEFT))
-			{
-				mDirect = eDirection::Left;
-				mAnimator->Play(L"LeftRun", true);
-			}
 
-			if (Input::GetKeyDown(eKeyCode::RIGHT))
-			{
-				mDirect = eDirection::Right;
-				mAnimator->Play(L"RightRun", true);
-			}
-		}*/
 
 		if (Input::GetKey(eKeyCode::LEFT)
 			&& Input::GetKey(eKeyCode::RIGHT))
@@ -586,12 +574,12 @@ namespace ya
 				{
 				case eDirection::Left:
 				{
-					mAnimator->Play(L"LeftIdle", true);
+					mAnimator->Play(L"NoheadLeftIdle", true);
 					break;
 				}
 				case eDirection::Right:
 				{
-					mAnimator->Play(L"RightIdle", true);
+					mAnimator->Play(L"NoheadRightIdle", true);
 					break;
 				}
 				}
@@ -851,6 +839,8 @@ namespace ya
 			}
 		}
 
+
+
 		//이동 부
 
 		Transform* tr = GetComponent<Transform>();
@@ -908,6 +898,67 @@ namespace ya
 				}
 			}
 		}
+
+
+		if (Input::GetKeyDown(eKeyCode::X))
+		{a
+
+			if (head)
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"LeftJumpAttack", false);
+					break;
+
+				case eDirection::Right:
+					mAnimator->Play(L"RightJumpAttack", false);
+					break;
+
+				default:
+					break;
+				}
+			}
+			else
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"NoheadLeftJumpAttack", false);
+					break;
+
+				case eDirection::Right:
+					mAnimator->Play(L"NoheadRightJumpAttack", false);
+					break;
+
+				default:
+					break;
+				}
+			}
+		}
+
+		if (head)
+		{
+			if (Input::GetKeyDown(eKeyCode::A))
+			{
+				head = false;
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"LeftSkillA", false);
+					break;
+
+				case eDirection::Right:
+					mAnimator->Play(L"RightSkillA", false);
+					break;
+
+				default:
+					break;
+
+				}
+			}
+		}
+
 
 		//이동 부
 		Transform* tr = GetComponent<Transform>();
