@@ -46,6 +46,10 @@ namespace ya
 		void CompleteAttack();
 		void EndAttack();
 
+		void StartJumpAttack();
+		void CompleteJumpAttack();
+		void EndJumpAttack();
+
 		void StartJump();
 		void CompleteJump();
 		void EndJump();

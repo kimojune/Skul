@@ -56,7 +56,7 @@ namespace ya
 		mAnimator->CreateAnimation(L"RightFallRepeat", RightImage, Vector2(0.0f, 124.0f * 5), 1, 25, 20, 3, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"RightAttackA", RightImage, Vector2(0.0f, 124.0f * 6), 1, 25, 20, 5, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"RightAttackB", RightImage, Vector2(0.0f, 124.0f * 7), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"RightJumpAttack", RightImage, Vector2(0.0f, 124.0f * 7), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"RightJumpAttack", RightImage, Vector2(0.0f, 124.0f * 8), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"RightSkillA", RightImage, Vector2(0.0f, (124.0f * 9)), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 
 		mAnimator->CreateAnimation(L"NoheadLeftIdle", LeftHeadlessImage, Vector2(1116.0f, 0.0f), -1, 10, 10, 4, Vector2(-85.0f, -50.0f), 0.1);
@@ -171,6 +171,25 @@ namespace ya
 		mAnimator->GetEndEvent(L"NoheadRightAttackB") = std::bind(&Skul::EndAttack, this);
 
 
+		
+
+		mAnimator->GetStartEvent(L"LeftJumpAttack") = std::bind(&Skul::StartJumpAttack, this);
+		mAnimator->GetCompleteEvent(L"LeftJumpAttack") = std::bind(&Skul::CompleteJumpAttack, this);
+		mAnimator->GetEndEvent(L"LeftJumpAttack") = std::bind(&Skul::EndJumpAttack, this);
+
+		mAnimator->GetStartEvent(L"RightJumpAttack") = std::bind(&Skul::StartJumpAttack, this);
+		mAnimator->GetCompleteEvent(L"RightJumpAttack") = std::bind(&Skul::CompleteJumpAttack, this);
+		mAnimator->GetEndEvent(L"RightJumpAttack") = std::bind(&Skul::EndJumpAttack, this);
+		
+		mAnimator->GetStartEvent(L"NoheadLeftJumpAttack") = std::bind(&Skul::StartJumpAttack, this);
+		mAnimator->GetCompleteEvent(L"NoheadLeftJumpAttack") = std::bind(&Skul::CompleteJumpAttack, this);
+		mAnimator->GetEndEvent(L"NoheadLeftJumpAttack") = std::bind(&Skul::EndJumpAttack, this);
+
+		mAnimator->GetStartEvent(L"NoheadRightJumpAttack") = std::bind(&Skul::StartJumpAttack, this);
+		mAnimator->GetCompleteEvent(L"NoheadRightJumpAttack") = std::bind(&Skul::CompleteJumpAttack, this);
+		mAnimator->GetEndEvent(L"NoheadRightJumpAttack") = std::bind(&Skul::EndJumpAttack, this);
+
+
 
 
 
@@ -207,19 +226,15 @@ namespace ya
 
 		Vector2 pos = tr->GetPos();
 
-		if (pos.y == 900.0f)
-		{
-			mRigidbody->SetGround(true);
-		}
 
-		if (Input::GetKeyDown(eKeyCode::LEFT))
-		{
-			mDirect = eDirection::Left;
-		}
-		else if (Input::GetKeyDown(eKeyCode::RIGHT))
-		{
-			mDirect = eDirection::Right;
-		}
+		//if (Input::GetKeyDown(eKeyCode::LEFT))
+		//{
+		//	mDirect = eDirection::Left;
+		//}
+		//else if (Input::GetKeyDown(eKeyCode::RIGHT))
+		//{
+		//	mDirect = eDirection::Right;
+		//}
 
 		switch (mState)
 		{
@@ -742,12 +757,14 @@ namespace ya
 
 			if (Input::GetKey(eKeyCode::LEFT))
 			{
+				mDirect = eDirection::Left;
 				pos.x -= 200.0f * Time::DeltaTime();
 				//mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
 			}
 
 			if (Input::GetKey(eKeyCode::RIGHT))
 			{
+				mDirect = eDirection::Right;
 				pos.x += 200.0f * Time::DeltaTime();
 				//mRigidbody->AddForce(Vector2(200.0f, 0.0f));
 
@@ -839,7 +856,43 @@ namespace ya
 			}
 		}
 
+			if (Input::GetKeyDown(eKeyCode::X))
+		{
+			mState = eSkulState::JumpAttack;
 
+			if (head)
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"LeftJumpAttack", false);
+					break;
+
+				case eDirection::Right:
+					mAnimator->Play(L"RightJumpAttack", false);
+					break;
+
+				default:
+					break;
+				}
+			}
+			else
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"NoheadLeftJumpAttack", false);
+					break;
+
+				case eDirection::Right:
+					mAnimator->Play(L"NoheadRightJumpAttack", false);
+					break;
+
+				default:
+					break;
+				}
+			}
+		}
 
 		//¿Ãµø ∫Œ
 
@@ -902,6 +955,7 @@ namespace ya
 
 		if (Input::GetKeyDown(eKeyCode::X))
 		{
+			mState = eSkulState::JumpAttack;
 
 			if (head)
 			{
@@ -982,7 +1036,7 @@ namespace ya
 
 	void Skul::Attack()
 	{
-		if (AttackCount<3&&Input::GetKeyDown(eKeyCode::X))
+		if (AttackCount<2&&Input::GetKeyDown(eKeyCode::X))
 		{
 			AttackCount++;
 		}
@@ -993,30 +1047,31 @@ namespace ya
 		{
 			if (AttackCount > 0)
 			{
+				AttackCount--;
+
 				if (SecondAttack)
 				{
 					SecondAttack = false;
-					AttackCount--;
 
 					if (head)
 					{
-					switch (mDirect)
-					{
+						switch (mDirect)
+						{
 
-					case eDirection::Left:
-						mAnimator->Play(L"LeftAttackB", false);
-						break;
+						case eDirection::Left:
+							mAnimator->Play(L"LeftAttackB", false);
+							break;
 
-					case eDirection::Right:
-						mAnimator->Play(L"RightAttackB", false);
-						break;
+						case eDirection::Right:
+							mAnimator->Play(L"RightAttackB", false);
+							break;
 
-					default:
-						break;
-					}
+						default:
+							break;
+						}
 					}
 					else
-
+					{
 						if (head)
 						{
 							switch (mDirect)
@@ -1034,8 +1089,8 @@ namespace ya
 								break;
 							}
 						}
+					}
 				}
-
 				else
 				{
 					SecondAttack = true;
@@ -1129,6 +1184,42 @@ namespace ya
 
 	void Skul::Jumpattack()
 	{
+		Rigidbody* rd = GetComponent<Rigidbody>();
+
+		if (rd->GetGround())
+		{
+			mState = eSkulState::Idle;
+
+			if (head)
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"LeftIdle", true);
+					break;
+				case eDirection::Right:
+					mAnimator->Play(L"RightIdle", true);
+					break;
+				default:
+					break;
+				}
+			}
+			else
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"NoheadLeftIdle", true);
+					break;
+				case eDirection::Right:
+					mAnimator->Play(L"NoheadRightIdle", true);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+
 	}
 
 	////void Skul::death()
@@ -1204,6 +1295,49 @@ namespace ya
 	{
 	}
 
+	void Skul::StartJumpAttack()
+	{
+	}
+
+	void Skul::CompleteJumpAttack()
+	{
+		mState = eSkulState::Fall;
+	   
+
+		if (head)
+		{
+			switch (mDirect)
+			{
+			case eDirection::Left:
+				mAnimator->Play(L"LeftFall", false);
+				break;
+			case eDirection::Right:
+				mAnimator->Play(L"RightFall", false);
+				break;
+			default:
+				break;
+			}
+		}
+		else
+		{
+			switch (mDirect)
+			{
+			case eDirection::Left:
+				mAnimator->Play(L"NoheadLeftFall", false);
+				break;
+			case eDirection::Right:
+				mAnimator->Play(L"NoheadRightFall", false);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	void Skul::EndJumpAttack()
+	{
+	}
+
 
 	void Skul::StartJump()
 	{
@@ -1229,6 +1363,35 @@ namespace ya
 			break;
 		default:
 			break;
+		}
+
+		if (head)
+		{
+			switch (mDirect)
+			{
+			case eDirection::Left:
+				mAnimator->Play(L"LeftFallRepeat", true);
+				break;
+			case eDirection::Right:
+				mAnimator->Play(L"RightFallRepeat", true);
+				break;
+			default:
+				break;
+			}
+		}
+		else
+		{
+			switch (mDirect)
+			{
+			case eDirection::Left:
+				mAnimator->Play(L"NoheadLeftFallRepeat", true);
+				break;
+			case eDirection::Right:
+				mAnimator->Play(L"NoheadRightFallRepeat", true);
+				break;
+			default:
+				break;
+			}
 		}
 
 

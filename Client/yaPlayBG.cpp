@@ -12,7 +12,7 @@ namespace ya
 	}
 	void PlayBG::Initialize()
 	{
-		mImage = Resources::Load<Image>(L"PlayBG", L"..\\Resources\\BG\\Stage1\\Stage1.bmp");
+		mImage = Resources::Load<Image>(L"PlayBG", L"..\\Resources\\BG\\Stage1\\Stage2.bmp");
 	}
 	void PlayBG::Update()
 	{
