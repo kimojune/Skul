@@ -901,7 +901,7 @@ namespace ya
 
 
 		if (Input::GetKeyDown(eKeyCode::X))
-		{a
+		{
 
 			if (head)
 			{

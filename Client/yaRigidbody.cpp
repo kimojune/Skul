@@ -36,7 +36,7 @@ namespace ya
 		mAccelation = mForce / mMass;
 
 		// 속도에 가속도를 더해준다.
-		mVelocity += mAccelation * Time::DeltaTime();
+		//mVelocity += mAccelation * Time::DeltaTime();
 
 		if (mbGround)
 		{
