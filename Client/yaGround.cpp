@@ -17,7 +17,7 @@ namespace ya
 	void Ground::Initialize()
 	{
 		mCollider = AddComponent<Collider>();
-		mCollider->SetSize(Vector2(1600.0f, 50.0f));
+		mCollider->SetSize(Vector2(3200.0f, 50.0f));
 		GameObject::Initialize();
 	}
 
@@ -73,5 +73,13 @@ namespace ya
 	}
 	void Ground::OnCollisionExit(Collider* other)
 	{
+		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
+
+		if (skul == nullptr)
+			return;
+
+		Rigidbody* rb = skul->GetComponent<Rigidbody>();
+		rb->SetGround(false);
+
 	}
 }

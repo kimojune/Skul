@@ -29,31 +29,53 @@ namespace ya
 		tr->SetScale(Vector2(2.5f, 2.5f));
 
 		mDirect = eDirection::Right;
-
+		
 		Image* LeftImage = Resources::Load<Image>(L"LeftSkul", L"..\\Resources\\SkulLeft.bmp");
 		Image* RightImage = Resources::Load<Image>(L"RightSkul", L"..\\Resources\\SkulRight.bmp");
+		Image* LeftHeadlessImage = Resources::Load<Image>(L"LeftHeadless", L"..\\Resources\\LeftHeadless.bmp");
+		Image* RightHeadlessImage = Resources::Load<Image>(L"RightHeadless", L"..\\Resources\\RightHeadless.bmp");
 
 		mAnimator = AddComponent<Animator>();
 
-		mAnimator->CreateAnimation(L"LeftIdle", LeftImage, Vector2(2356.0f, 0.0f), -1, 20, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"LeftRun", LeftImage, Vector2(2356.0f, 124.0f), -1, 20, 20, 8, Vector2(-85.0f, -50.0f), 0.08);
-		mAnimator->CreateAnimation(L"LeftDash", LeftImage, Vector2(2356.0f, 124.0f * 2), -1, 20, 20, 1, Vector2(-85.0f, -50.0f), 1);
-		mAnimator->CreateAnimation(L"LeftJump", LeftImage, Vector2(2356.0f, 124.0f * 3), -1, 20, 20, 2, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"LeftFall", LeftImage, Vector2(2356.0f, 124.0f * 4), -1, 20, 20, 2, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"LeftFallRepeat", LeftImage, Vector2(2356.0f, 124.0f * 5), -1, 20, 20, 3, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"LeftAttackA", LeftImage, Vector2(2356.0f, 124.0f * 6), -1, 20, 20, 5, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"LeftAttackB", LeftImage, Vector2(2356.0f, 124.0f * 7), -1, 20, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"LeftSkillA", LeftImage, Vector2(2356.0f, (124.0f * 9)), -1, 20, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"LeftIdle", LeftImage, Vector2(2976.0f, 0.0f), -1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"LeftRun", LeftImage, Vector2(2976.0f, 124.0f), -1, 25, 20, 8, Vector2(-85.0f, -50.0f), 0.08);
+		mAnimator->CreateAnimation(L"LeftDash", LeftImage, Vector2(2976.0f, 124.0f * 2), -1, 25, 20, 1, Vector2(-85.0f, -50.0f), 1);
+		mAnimator->CreateAnimation(L"LeftJump", LeftImage, Vector2(2976.0f, 124.0f * 3), -1, 25, 20, 2, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"LeftFall", LeftImage, Vector2(2976.0f, 124.0f * 4), -1, 25, 20, 2, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"LeftFallRepeat", LeftImage, Vector2(2976.0f, 124.0f * 5), -1, 25, 20, 3, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"LeftAttackA", LeftImage, Vector2(2976.0f, 124.0f * 6), -1, 25, 20, 5, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"LeftAttackB", LeftImage, Vector2(2976.0f, 124.0f * 7), -1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"LeftSkillA", LeftImage, Vector2(2976.0f, (124.0f * 9)), -1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 
-		mAnimator->CreateAnimation(L"RightIdle", RightImage, Vector2(0.0f, 0.0f), 1, 20, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"RightRun", RightImage, Vector2(0.0f, 124.0f), 1, 20, 20, 8, Vector2(-85.0f, -50.0f), 0.08);
-		mAnimator->CreateAnimation(L"RightDash", RightImage, Vector2(0.0f, 124.0f * 2), 1, 20, 20, 1, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"RightJump", RightImage, Vector2(0.0f, 124.0f * 3), 1, 20, 20, 2, Vector2(-85.0f, -50.0f), 1);
-		mAnimator->CreateAnimation(L"RightFall", RightImage, Vector2(0.0f, 124.0f * 4), 1, 20, 20, 2, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"RightFallRepeat", RightImage, Vector2(0.0f, 124.0f * 5), 1, 20, 20, 3, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"RightAttackA", RightImage, Vector2(0.0f, 124.0f * 6), 1, 20, 20, 5, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"RightAttackB", RightImage, Vector2(0.0f, 124.0f * 7), 1, 20, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"RightSkillA", RightImage, Vector2(0.0f, (124.0f * 9)), 1, 20, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"RightIdle", RightImage, Vector2(0.0f, 0.0f), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"RightRun", RightImage, Vector2(0.0f, 124.0f), 1, 25, 20, 8, Vector2(-85.0f, -50.0f), 0.08);
+		mAnimator->CreateAnimation(L"RightDash", RightImage, Vector2(0.0f, 124.0f * 2), 1, 25, 20, 1, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"RightJump", RightImage, Vector2(0.0f, 124.0f * 3), 1, 25, 20, 2, Vector2(-85.0f, -50.0f), 1);
+		mAnimator->CreateAnimation(L"RightFall", RightImage, Vector2(0.0f, 124.0f * 4), 1, 25, 20, 2, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"RightFallRepeat", RightImage, Vector2(0.0f, 124.0f * 5), 1, 25, 20, 3, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"RightAttackA", RightImage, Vector2(0.0f, 124.0f * 6), 1, 25, 20, 5, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"RightAttackB", RightImage, Vector2(0.0f, 124.0f * 7), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"RightSkillA", RightImage, Vector2(0.0f, (124.0f * 9)), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
+
+		mAnimator->CreateAnimation(L"NoheadLeftIdle", LeftHeadlessImage, Vector2(1116.0f, 0.0f), -1, 10, 10, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"NoheadLeftRun", LeftHeadlessImage, Vector2(1116.0f, 124.0f), -1, 10, 10, 8, Vector2(-85.0f, -50.0f), 0.08);
+		mAnimator->CreateAnimation(L"NoheadLeftDash", LeftHeadlessImage, Vector2(1116.0f, 124.0f * 2), -1, 10, 10, 1, Vector2(-85.0f, -50.0f), 1);
+		mAnimator->CreateAnimation(L"NoheadLeftJump", LeftHeadlessImage, Vector2(1116.0f, 124.0f * 3), -1, 10, 10, 2, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"NoheadLeftFall", LeftHeadlessImage, Vector2(1116.0f, 124.0f * 4), -1, 10, 10, 2, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"NoheadLeftFallRepeat", LeftHeadlessImage, Vector2(1116.0f, 124.0f * 5), -1, 10, 10, 3, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"NoheadLeftAttackA", LeftHeadlessImage, Vector2(1116.0f, 124.0f * 6), -1, 10, 10, 5, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"NoheadLeftAttackB", LeftHeadlessImage, Vector2(1116.0f, 124.0f * 7), -1, 10, 10, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"NoheadLeftJumpAttack", LeftHeadlessImage, Vector2(1116.0f, 124.0f * 8), -1, 10, 10, 4, Vector2(-85.0f, -50.0f), 0.1);
+									   
+		mAnimator->CreateAnimation(L"NoheadRightIdle", RightHeadlessImage, Vector2(0.0f, 0.0f), 1, 10, 10, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"NoheadRightRun", RightHeadlessImage, Vector2(0.0f, 124.0f), 1, 10, 10, 8, Vector2(-85.0f, -50.0f), 0.08);
+		mAnimator->CreateAnimation(L"NoheadRightDash", RightHeadlessImage, Vector2(0.0f, 124.0f * 2), 1, 10, 10, 1, Vector2(-85.0f, -50.0f), 1);
+		mAnimator->CreateAnimation(L"NoheadRightJump", RightHeadlessImage, Vector2(0.0f, 124.0f * 3), 1, 10, 10, 2, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"NoheadRightFall", RightHeadlessImage, Vector2(0.0f, 124.0f * 4), 1, 10, 20, 2, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"NoheadRightFallRepeat", RightHeadlessImage, Vector2(0.0f, 124.0f * 5), 1, 10, 10, 3, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"NoheadRightAttackA", RightHeadlessImage, Vector2(0.0f, 124.0f * 6), 1, 10, 10, 5, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"NoheadRightAttackB", RightHeadlessImage, Vector2(0.0f, 124.0f * 7), 1, 10, 10, 4, Vector2(-85.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimation(L"NoheadRightJumpAttack", RightHeadlessImage, Vector2(0.0f, 124.0f * 8), 1, 10, 10, 4, Vector2(-85.0f, -50.0f), 0.1);
 
 
 		//mAnimator->CreateAnimation(L"FowardRight", mImage, Vector2(0.0f, 113.0f), 16, 8, 15, Vector2::Zero, 0.1);
@@ -67,6 +89,15 @@ namespace ya
 		mAnimator->GetCompleteEvent(L"RightDash") = std::bind(&Skul::CompleteAttack, this);
 		mAnimator->GetEndEvent(L"RightDash") = std::bind(&Skul::EndAttack, this);
 
+		mAnimator->GetStartEvent(L"NoheadLeftDash") = std::bind(&Skul::StartAttack, this);
+		mAnimator->GetCompleteEvent(L"NoheadLeftDash") = std::bind(&Skul::CompleteAttack, this);
+		mAnimator->GetEndEvent(L"NoheadLeftDash") = std::bind(&Skul::EndAttack, this);
+
+		mAnimator->GetStartEvent(L"NoheadRightDash") = std::bind(&Skul::StartAttack, this);
+		mAnimator->GetCompleteEvent(L"NoheadRightDash") = std::bind(&Skul::CompleteAttack, this);
+		mAnimator->GetEndEvent(L"NoheadRightDash") = std::bind(&Skul::EndAttack, this);
+
+
 
 		mAnimator->GetStartEvent(L"LeftJump") = std::bind(&Skul::StartJump, this);
 		mAnimator->GetCompleteEvent(L"LeftJump") = std::bind(&Skul::CompleteJump, this);
@@ -75,6 +106,16 @@ namespace ya
 		mAnimator->GetStartEvent(L"RightJump") = std::bind(&Skul::StartJump, this);
 		mAnimator->GetCompleteEvent(L"RightJump") = std::bind(&Skul::CompleteJump, this);
 		mAnimator->GetEndEvent(L"RightJump") = std::bind(&Skul::EndJump, this);
+		
+		mAnimator->GetStartEvent(L"NoheadLeftJump") = std::bind(&Skul::StartJump, this);
+		mAnimator->GetCompleteEvent(L"NoheadLeftJump") = std::bind(&Skul::CompleteJump, this);
+		mAnimator->GetEndEvent(L"NoheadLeftJump") = std::bind(&Skul::EndJump, this);
+
+		mAnimator->GetStartEvent(L"NoheadRightJump") = std::bind(&Skul::StartJump, this);
+		mAnimator->GetCompleteEvent(L"NoheadRightJump") = std::bind(&Skul::CompleteJump, this);
+		mAnimator->GetEndEvent(L"NoheadRightJump") = std::bind(&Skul::EndJump, this);
+
+
 
 		mAnimator->GetStartEvent(L"LeftFall") = std::bind(&Skul::StartFall, this);
 		mAnimator->GetCompleteEvent(L"LeftFall") = std::bind(&Skul::CompleteFall, this);
@@ -84,6 +125,16 @@ namespace ya
 		mAnimator->GetCompleteEvent(L"RightFall") = std::bind(&Skul::CompleteFall, this);
 		mAnimator->GetEndEvent(L"RightFall") = std::bind(&Skul::EndFall, this);
 
+		mAnimator->GetStartEvent(L"NoheadLeftFall") = std::bind(&Skul::StartFall, this);
+		mAnimator->GetCompleteEvent(L"NoheadLeftFall") = std::bind(&Skul::CompleteFall, this);
+		mAnimator->GetEndEvent(L"NoheadLeftFall") = std::bind(&Skul::EndFall, this);
+
+		mAnimator->GetStartEvent(L"NoheadRightFall") = std::bind(&Skul::StartFall, this);
+		mAnimator->GetCompleteEvent(L"NoheadRightFall") = std::bind(&Skul::CompleteFall, this);
+		mAnimator->GetEndEvent(L"NoheadRightFall") = std::bind(&Skul::EndFall, this);
+
+
+
 		mAnimator->GetStartEvent(L"LeftAttackA") = std::bind(&Skul::StartAttack, this);
 		mAnimator->GetCompleteEvent(L"LeftAttackA") = std::bind(&Skul::CompleteAttack, this);
 		mAnimator->GetEndEvent(L"LeftAttackA") = std::bind(&Skul::EndAttack, this);
@@ -91,6 +142,15 @@ namespace ya
 		mAnimator->GetStartEvent(L"RightAttackA") = std::bind(&Skul::StartAttack, this);
 		mAnimator->GetCompleteEvent(L"RightAttackA") = std::bind(&Skul::CompleteAttack, this);
 		mAnimator->GetEndEvent(L"RightAttackA") = std::bind(&Skul::EndAttack, this);
+		
+		mAnimator->GetStartEvent(L"NoheadLeftAttackA") = std::bind(&Skul::StartAttack, this);
+		mAnimator->GetCompleteEvent(L"NoheadLeftAttackA") = std::bind(&Skul::CompleteAttack, this);
+		mAnimator->GetEndEvent(L"NoheadLeftAttackA") = std::bind(&Skul::EndAttack, this);
+
+		mAnimator->GetStartEvent(L"NoheadRightAttackA") = std::bind(&Skul::StartAttack, this);
+		mAnimator->GetCompleteEvent(L"NoheadRightAttackA") = std::bind(&Skul::CompleteAttack, this);
+		mAnimator->GetEndEvent(L"NoheadRightAttackA") = std::bind(&Skul::EndAttack, this);
+
 
 		mAnimator->GetStartEvent(L"LeftAttackB") = std::bind(&Skul::StartAttack, this);
 		mAnimator->GetCompleteEvent(L"LeftAttackB") = std::bind(&Skul::CompleteAttack, this);
@@ -99,6 +159,14 @@ namespace ya
 		mAnimator->GetStartEvent(L"RightAttackB") = std::bind(&Skul::StartAttack, this);
 		mAnimator->GetCompleteEvent(L"RightAttackB") = std::bind(&Skul::CompleteAttack, this);
 		mAnimator->GetEndEvent(L"RightAttackB") = std::bind(&Skul::EndAttack, this);
+		
+		mAnimator->GetStartEvent(L"NoheadLeftAttackB") = std::bind(&Skul::StartAttack, this);
+		mAnimator->GetCompleteEvent(L"NoheadLeftAttackB") = std::bind(&Skul::CompleteAttack, this);
+		mAnimator->GetEndEvent(L"NoheadLeftAttackB") = std::bind(&Skul::EndAttack, this);
+
+		mAnimator->GetStartEvent(L"NoheadRightAttackB") = std::bind(&Skul::StartAttack, this);
+		mAnimator->GetCompleteEvent(L"NoheadRightAttackB") = std::bind(&Skul::CompleteAttack, this);
+		mAnimator->GetEndEvent(L"NoheadRightAttackB") = std::bind(&Skul::EndAttack, this);
 
 
 
@@ -121,10 +189,10 @@ namespace ya
 
 		mRigidbody = AddComponent<Rigidbody>();
 		mRigidbody->SetMass(1.0f);
+		mRigidbody->SetGround(false);
 
-
-		mState = eSkulState::Idle;
-
+		mState = eSkulState::Fall;
+		
 
 
 		GameObject::Initialize();
@@ -133,6 +201,15 @@ namespace ya
 
 	void Skul::Update()
 	{
+		Transform* tr = GetComponent<Transform>();
+
+		Vector2 pos = tr->GetPos();
+
+		if (pos.y == 900.0f)
+		{
+			mRigidbody->SetGround(true);
+		}
+
 		if (Input::GetKeyDown(eKeyCode::LEFT))
 		{
 			mDirect = eDirection::Left;
@@ -227,97 +304,178 @@ namespace ya
 			{
 				mState = eSkulState::Move;
 				mDirect = eDirection::Left;
-				mAnimator->Play(L"LeftRun", true);
+
+				if (head)
+				{
+					mAnimator->Play(L"LeftRun", true);
+				}
+				else
+				{
+					mAnimator->Play(L"NoheadLeftRun", true);
+				}
 			}
 
 			if (Input::GetKey(eKeyCode::RIGHT))
 			{
 				mState = eSkulState::Move;
 				mDirect = eDirection::Right;
-				mAnimator->Play(L"RightRun", true);
+				
+				if (head)
+				{
+					mAnimator->Play(L"RightRun", true);
+				}
+				else
+				{
+					mAnimator->Play(L"NoheadRightRun", true);
+				}
 			}
 		}
+
 
 		if (Input::GetKeyDown(eKeyCode::Z))
 		{
 			mState = eSkulState::Dash;
 
-			switch (mDirect)
+
+			if (head)
 			{
-			case eDirection::Left:
-				mAnimator->Play(L"LeftDash", true);
-				break;
+				switch (mDirect)
+				{
+				case eDirection::Left:
+				{
+					mAnimator->Play(L"LeftDash", true);
+					break;
+				}
+				case eDirection::Right:
+				{
+					mAnimator->Play(L"RightDash", true);
+					break;
+				}
+				}
+			}
 
-			case eDirection::Right:
-				mAnimator->Play(L"RightDash", true);
-				break;
-
-			default:
-				break;
-
+			else
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+				{
+					mAnimator->Play(L"NoheadLeftDash", true);
+					break;
+				}
+				case eDirection::Right:
+				{
+					mAnimator->Play(L"NoheadRightDash", true);
+					break;
+				}
+				}
 			}
 		}
+
+
 
 		if (Input::GetKeyDown(eKeyCode::X))
 		{
 			mState = eSkulState::Attack;
+			SecondAttack = true;
 
-			switch (mDirect)
+			if (head)
 			{
-			case eDirection::Left:
-				mAnimator->Play(L"LeftAttackA", false);
-				break;
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"LeftAttackA", false);
+					break;
 
-			case eDirection::Right:
-				mAnimator->Play(L"RightAttackA", false);
-				break;
+				case eDirection::Right:
+					mAnimator->Play(L"RightAttackA", false);
+					break;
 
-			default:
-				break;
+				default:
+					break;
+				}
+			}
+			else
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"NoheadLeftAttackA", false);
+					break;
 
+				case eDirection::Right:
+					mAnimator->Play(L"NoheadRightAttackA", false);
+					break;
+
+				default:
+					break;
+				}
 			}
 		}
+
+
 
 		if (Input::GetKeyDown(eKeyCode::C))
 		{
 			mState = eSkulState::Jump;
 
-			switch (mDirect)
+			if (head)
 			{
-			case eDirection::Left:
-				mAnimator->Play(L"LeftJump", true);
-				break;
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"LeftJump", true);
+					break;
 
-			case eDirection::Right:
-				mAnimator->Play(L"RightJump", true);
-				break;
+				case eDirection::Right:
+					mAnimator->Play(L"RightJump", true);
+					break;
 
-			default:
-				break;
+				default:
+					break;
+				}
+			}
 
+			else
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"NoheadLeftJump", true);
+					break;
+
+				case eDirection::Right:
+					mAnimator->Play(L"NoheadRightJump", true);
+					break;
+
+				default:
+					break;
+				}
 			}
 		}
 
 
-		if (Input::GetKeyDown(eKeyCode::A))
+		if (head)
 		{
-			mState = eSkulState::SkillA;
-
-			switch (mDirect)
+			if (Input::GetKeyDown(eKeyCode::A))
 			{
-			case eDirection::Left:
-				mAnimator->Play(L"LeftSkillA", false);
-				break;
+				mState = eSkulState::SkillA;
+				head = false;
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"LeftSkillA", false);
+					break;
 
-			case eDirection::Right:
-				mAnimator->Play(L"RightSkillA", false);
-				break;
+				case eDirection::Right:
+					mAnimator->Play(L"RightSkillA", false);
+					break;
 
-			default:
-				break;
+				default:
+					break;
 
+				}
 			}
-
 		}
 
 		//if (Input::GetKeyDown(eKeyCode::S))
@@ -339,6 +497,7 @@ namespace ya
 
 		//}
 	}
+
 	void Skul::Move()
 	{
 
@@ -347,20 +506,40 @@ namespace ya
 		{
 			mState = eSkulState::Idle;
 
+			if (head)
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+				{
+					mAnimator->Play(L"LeftIdle", true);
+					break;
+				}
+				case eDirection::Right:
+				{
+					mAnimator->Play(L"RightIdle", true);
+					break;
+				}
+				}
+			}
 
-			switch (mDirect)
+			else
 			{
-			case eDirection::Left:
-			{
-				mAnimator->Play(L"LeftIdle", true);
-				break;
+				switch (mDirect)
+				{
+				case eDirection::Left:
+				{
+					mAnimator->Play(L"NoheadLeftIdle", true);
+					break;
+				}
+				case eDirection::Right:
+				{
+					mAnimator->Play(L"NoheadRightIdle", true);
+					break;
+				}
+				}
 			}
-			case eDirection::Right:
-			{
-				mAnimator->Play(L"RightIdle", true);
-				break;
-			}
-			}
+
 		}
 
 		/*if (Input::GetKeyDown(eKeyCode::LEFT)
@@ -384,18 +563,38 @@ namespace ya
 		{
 			mState = eSkulState::Idle;
 
-			switch (mDirect)
+			if (head)
 			{
-			case eDirection::Left:
-			{
-				mAnimator->Play(L"LeftIdle", true);
-				break;
+				switch (mDirect)
+				{
+				case eDirection::Left:
+				{
+					mAnimator->Play(L"LeftIdle", true);
+					break;
+				}
+				case eDirection::Right:
+				{
+					mAnimator->Play(L"RightIdle", true);
+					break;
+				}
+				}
 			}
-			case eDirection::Right:
+
+			else
 			{
-				mAnimator->Play(L"RightIdle", true);
-				break;
-			}
+				switch (mDirect)
+				{
+				case eDirection::Left:
+				{
+					mAnimator->Play(L"LeftIdle", true);
+					break;
+				}
+				case eDirection::Right:
+				{
+					mAnimator->Play(L"RightIdle", true);
+					break;
+				}
+				}
 			}
 		}
 
@@ -404,19 +603,39 @@ namespace ya
 		{
 			mState = eSkulState::Dash;
 
-			switch (mDirect)
+
+			if (head)
 			{
-			case eDirection::Left:
-				mAnimator->Play(L"LeftDash", true);
-				break;
+				switch (mDirect)
+				{
+				case eDirection::Left:
+				{
+					mAnimator->Play(L"LeftDash", true);
+					break;
+				}
+				case eDirection::Right:
+				{
+					mAnimator->Play(L"RightDash", true);
+					break;
+				}
+				}
+			}
 
-			case eDirection::Right:
-				mAnimator->Play(L"RightDash", true);
-				break;
-
-			default:
-				break;
-
+			else
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+				{
+					mAnimator->Play(L"NoheadLeftDash", true);
+					break;
+				}
+				case eDirection::Right:
+				{
+					mAnimator->Play(L"NoheadRightDash", true);
+					break;
+				}
+				}
 			}
 		}
 
@@ -425,19 +644,39 @@ namespace ya
 		if (Input::GetKeyDown(eKeyCode::X))
 		{
 			mState = eSkulState::Attack;
+			SecondAttack = true;
 
-			switch (mDirect)
+			if (head)
 			{
-			case eDirection::Left:
-				mAnimator->Play(L"LeftAttackA", false);
-				break;
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"LeftAttackA", false);
+					break;
 
-			case eDirection::Right:
-				mAnimator->Play(L"RightAttackA", false);
-				break;
+				case eDirection::Right:
+					mAnimator->Play(L"RightAttackA", false);
+					break;
 
-			default:
-				break;
+				default:
+					break;
+				}
+			}
+			else
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"NoheadLeftAttackA", false);
+					break;
+
+				case eDirection::Right:
+					mAnimator->Play(L"NoheadRightAttackA", false);
+					break;
+
+				default:
+					break;
+				}
 			}
 		}
 
@@ -447,43 +686,65 @@ namespace ya
 		{
 			mState = eSkulState::Jump;
 
-			switch (mDirect)
+			if (head)
 			{
-			case eDirection::Left:
-				mAnimator->Play(L"LeftJump", true);
-				break;
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"LeftJump", true);
+					break;
 
-			case eDirection::Right:
-				mAnimator->Play(L"RightJump", true);
-				break;
+				case eDirection::Right:
+					mAnimator->Play(L"RightJump", true);
+					break;
 
-			default:
-				break;
+				default:
+					break;
+				}
+			}
 
+			else
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"NoheadLeftJump", true);
+					break;
+
+				case eDirection::Right:
+					mAnimator->Play(L"NoheadRightJump", true);
+					break;
+
+				default:
+					break;
+				}
 			}
 		}
 
 
-		if (Input::GetKeyDown(eKeyCode::A))
+		if (head)
 		{
-
-			mState = eSkulState::SkillA;
-
-			switch (mDirect)
+			if (Input::GetKeyDown(eKeyCode::A))
 			{
-			case eDirection::Left:
-				mAnimator->Play(L"LeftSkillA", false);
-				break;
+				mState = eSkulState::SkillA;
+				head = false;
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"LeftSkillA", false);
+					break;
 
-			case eDirection::Right:
-				mAnimator->Play(L"RightSkillA", false);
-				break;
+				case eDirection::Right:
+					mAnimator->Play(L"RightSkillA", false);
+					break;
 
-			default:
-				break;
+				default:
+					break;
+
+				}
 			}
-
 		}
+
 
 		//이동 부
 		if (mState == eSkulState::Move)
@@ -512,51 +773,84 @@ namespace ya
 	{
 
 		Vector2 velocity = mRigidbody->GetVelocity();
+		Transform* tr = GetComponent<Transform>();
+		Vector2 pos = tr->GetPos();
+		Vector2 temp = pos;
+		
 
 		if (mDirect == eDirection::Left)
 		{
-			velocity.x -= 500.0f;
+			velocity.x -= 50.0f;
 			mRigidbody->SetVelocity(velocity);
+
+			if (pos.x <= temp.x - 50.f)
+			{
+				velocity.x = 0.0f;
+				mRigidbody->SetVelocity(velocity);
+			}
 		}
+
 		else if (mDirect == eDirection::Right)
 		{
-			velocity.x += 500.0f;
+			velocity.x += 50.0f;
 			mRigidbody->SetVelocity(velocity);
+
+			if (pos.x >= temp.x + 50.f)
+			{
+				velocity.x = 0.0f;
+				mRigidbody->SetVelocity(velocity);
+			}
 		}
 
-		if (velocity.x <= 0)
+
+		if (mDirect==eDirection::Left&&velocity.x >=0)
 		{
 			mState = eSkulState::Idle;
+			mAnimator->Play(L"RightIdle", true);
+		}
 
+		else if (mDirect == eDirection::Right && velocity.x <= 0)
+		{
+			mState = eSkulState::Idle;
+			mAnimator->Play(L"RightIdle", true);
+		}
+
+
+
+	}
+	void Skul::Jump()
+	{
+		mState = eSkulState::Fall;
+
+		if (head)
+		{
 			switch (mDirect)
 			{
 			case eDirection::Left:
-				mAnimator->Play(L"LeftIdle", true);
+				mAnimator->Play(L"LeftFall", false);
 				break;
 			case eDirection::Right:
-				mAnimator->Play(L"RightIdle", true);
+				mAnimator->Play(L"RightFall", false);
 				break;
 			default:
 				break;
 			}
 		}
-		
-	}
-	void Skul::Jump()
-	{
-		mState = eSkulState::Fall;
-		
-		switch (mDirect)
+		else
 		{
-		case eDirection::Left:
-			mAnimator->Play(L"LeftFall", false);
-			break;
-		case eDirection::Right:
-			mAnimator->Play(L"RightFall", false);
-			break;
-		default:
-			break;
+			switch (mDirect)
+			{
+			case eDirection::Left:
+				mAnimator->Play(L"NoheadLeftFall", false);
+				break;
+			case eDirection::Right:
+				mAnimator->Play(L"NoheadRightFall", false);
+				break;
+			default:
+				break;
+			}
 		}
+
 		//이동 부
 
 		Transform* tr = GetComponent<Transform>();
@@ -580,11 +874,13 @@ namespace ya
 	void Skul::Fall()
 	{
 		Rigidbody* rd = GetComponent<Rigidbody>();
-		
+
 		if (rd->GetGround())
 		{
 			mState = eSkulState::Idle;
 
+			if (head)
+			{
 			switch (mDirect)
 			{
 			case eDirection::Left:
@@ -596,6 +892,21 @@ namespace ya
 			default:
 				break;
 			}
+			}
+			else
+			{
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"NoheadLeftIdle", true);
+					break;
+				case eDirection::Right:
+					mAnimator->Play(L"NoheadRightIdle", true);
+					break;
+				default:
+					break;
+				}
+			}
 		}
 
 		//이동 부
@@ -605,13 +916,13 @@ namespace ya
 		if (Input::GetKey(eKeyCode::LEFT))
 		{
 			pos.x -= 100.0f * Time::DeltaTime();
-	/*		mRigidbody->AddForce(Vector2(-200.0f, 0.0f));*/
+			/*		mRigidbody->AddForce(Vector2(-200.0f, 0.0f));*/
 		}
 
 		if (Input::GetKey(eKeyCode::RIGHT))
 		{
 			pos.x += 100.0f * Time::DeltaTime();
-	/*		mRigidbody->AddForce(Vector2(200.0f, 0.0f));*/
+			/*		mRigidbody->AddForce(Vector2(200.0f, 0.0f));*/
 
 		}
 		tr->SetPos(pos);
@@ -620,30 +931,109 @@ namespace ya
 
 	void Skul::Attack()
 	{
-		Animation* mAnimation = mAnimator->GetAnimaiton();
+		if (AttackCount<3&&Input::GetKeyDown(eKeyCode::X))
+		{
+			AttackCount++;
+		}
 
+		Animation* mAnimation = mAnimator->GetAnimaiton();
 
 		if (mAnimation->IsComplete())
 		{
-			if (Input::GetKeyDown(eKeyCode::X))
+			if (AttackCount > 0)
 			{
-				switch (mDirect)
+				if (SecondAttack)
 				{
-				case eDirection::Left:
-					mAnimator->Play(L"LeftAttackB", false);
-					break;
+					SecondAttack = false;
+					AttackCount--;
 
-				case eDirection::Right:
-					mAnimator->Play(L"RightAttackB", false);
-					break;
+					if (head)
+					{
+					switch (mDirect)
+					{
 
-				default:
-					break;
+					case eDirection::Left:
+						mAnimator->Play(L"LeftAttackB", false);
+						break;
+
+					case eDirection::Right:
+						mAnimator->Play(L"RightAttackB", false);
+						break;
+
+					default:
+						break;
+					}
+					}
+					else
+
+						if (head)
+						{
+							switch (mDirect)
+							{
+
+							case eDirection::Left:
+								mAnimator->Play(L"NoheadLeftAttackB", false);
+								break;
+
+							case eDirection::Right:
+								mAnimator->Play(L"NoheadRightAttackB", false);
+								break;
+
+							default:
+								break;
+							}
+						}
+				}
+
+				else
+				{
+					SecondAttack = true;
+					AttackCount--;
+
+					if (head)
+					{
+						switch (mDirect)
+						{
+
+						case eDirection::Left:
+							mAnimator->Play(L"LeftAttackA", false);
+							break;
+
+						case eDirection::Right:
+							mAnimator->Play(L"RightAttackA", false);
+							break;
+
+						default:
+							break;
+						}
+					}
+
+					else
+					{
+						switch (mDirect)
+						{
+
+						case eDirection::Left:
+							mAnimator->Play(L"NoheadLeftAttackA", false);
+							break;
+
+						case eDirection::Right:
+							mAnimator->Play(L"NoheadRightAttackA", false);
+							break;
+
+						default:
+							break;
+						}
+					}
 				}
 			}
+
 			else
 			{
 				mState = eSkulState::Idle;
+			
+				if (head)
+				{
 
 				switch (mDirect)
 				{
@@ -656,12 +1046,28 @@ namespace ya
 				default:
 					break;
 				}
+				}
+				else
+				{
+					switch (mDirect)
+					{
+					case eDirection::Left:
+						mAnimator->Play(L"NoheadLeftIdle", true);
+						break;
+					case eDirection::Right:
+						mAnimator->Play(L"NoheadRightIdle", true);
+						break;
+					default:
+						break;
+					}
+				}
+
 			}
 
 		}
+
+
 	}
-
-
 	void Skul::SkillA()
 	{
 
@@ -719,10 +1125,10 @@ namespace ya
 		switch (mDirect)
 		{
 		case eDirection::Left:
-			mAnimator->Play(L"LeftIdle", true);
+			mAnimator->Play(L"NoheadLeftIdle", true);
 			break;
 		case eDirection::Right:
-			mAnimator->Play(L"RightIdle", true);
+			mAnimator->Play(L"NoheadRightIdle", true);
 			break;
 		default:
 			break;
@@ -736,21 +1142,6 @@ namespace ya
 
 	void Skul::StartAttack()
 	{
-		//Transform* tr = GetComponent<Transform>();
-		//Vector2 pos = tr->GetPos();
-
-		//switch (mDirect)
-		//{
-		//case eDirection::Left:
-		//	pos.x -= 5.0f;
-		//	break;
-		//case eDirection::Right:
-		//	pos.x += 5.0f;
-		//	break;
-		//default:
-		//	break;
-		//}
-		//tr->SetPos(tr->GetPos() + pos);
 
 	}
 	
@@ -776,6 +1167,7 @@ namespace ya
 	{
 		mState = eSkulState::Fall;
 
+		
 		switch (mDirect)
 		{
 		case eDirection::Left:
@@ -801,18 +1193,35 @@ namespace ya
 
 	void Skul::CompleteFall()
 	{
-
-		switch (mDirect)
+		if (head)
 		{
-		case eDirection::Left:
-			mAnimator->Play(L"LeftFallRepeat", true);
-			break;
-		case eDirection::Right:
-			mAnimator->Play(L"RightFallRepeat", true);
-			break;
-		default:
-			break;
+			switch (mDirect)
+			{
+			case eDirection::Left:
+				mAnimator->Play(L"LeftFallRepeat", true);
+				break;
+			case eDirection::Right:
+				mAnimator->Play(L"RightFallRepeat", true);
+				break;
+			default:
+				break;
+			}
 		}
+		else
+		{
+			switch (mDirect)
+			{
+			case eDirection::Left:
+				mAnimator->Play(L"NoheadLeftFallRepeat", true);
+				break;
+			case eDirection::Right:
+				mAnimator->Play(L"NoheadRightFallRepeat", true);
+				break;
+			default:
+				break;
+			}
+		}
+
 	}
 
 	void Skul::EndFall()

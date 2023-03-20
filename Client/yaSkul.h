@@ -17,6 +17,7 @@ namespace ya
 			Jump,
 			Fall,
 			Attack,
+			Attack2,
 			JumpAttack,
 			SkillA,
 			SkillS,
@@ -64,6 +65,7 @@ namespace ya
 		void	Jump();
 		void	Fall();
 		void	Attack();
+
 		void	SkillA();
 		void	SkillB();
 		void	Jumpattack();
@@ -74,6 +76,7 @@ namespace ya
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 		bool head;
-
+		int AttackCount;
+		bool SecondAttack;
 		};
 }
