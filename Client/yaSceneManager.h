@@ -24,4 +24,3 @@ namespace ya
 		static Scene* mActiveScene;
 	};
 }
-

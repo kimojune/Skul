@@ -3,7 +3,7 @@
 
 namespace ya
 {
-	class Player;
+	class Skul;
 	class TitleBG;
 	class PlayeScene : public Scene
 	{
@@ -20,7 +20,7 @@ namespace ya
 		virtual void OnExit() override;
 		
 	private:
-		Player* mSkul;
+		Skul* mSkul;
 	
 	};
 }

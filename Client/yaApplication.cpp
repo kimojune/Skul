@@ -81,9 +81,9 @@ namespace ya
 	}
 	void Application::clear()
 	{
-		HBRUSH grayBrush = CreateSolidBrush(RGB(0, 0, 0));
+		HBRUSH grayBrush = CreateSolidBrush(RGB(121, 121, 121));
 		HBRUSH oldBrush = (HBRUSH)SelectObject(mBackHDC, grayBrush);
-		Rectangle(mBackHDC, -1, -1, 1282, 722);
+		Rectangle(mBackHDC, -1, -1, 1602, 902);
 		SelectObject(mBackHDC, oldBrush);
 		DeleteObject(grayBrush);
 	}

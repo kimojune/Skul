@@ -1,15 +1,14 @@
 #pragma once
-#include "yaPlayer.h"
+#include "yaGameObject.h"
 
 
 namespace ya
 {
 	class Animator;
 	class Rigidbody;
-	class Skul : public Player
+	class Skul : public GameObject
 	{
 	public:
-
 		enum class eSkulState
 		{
 			Idle,
@@ -23,7 +22,7 @@ namespace ya
 			SkillA,
 			SkillS,
 			Fall_Dead,
-			End,
+
 		};
 
 
@@ -38,8 +37,6 @@ namespace ya
 		virtual void OnCollisionEnter(class Collider* other) override;
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
-		
-		virtual void SetHead(bool head) { mHead = head; }
 
 		void StartDash();
 		void CompleteDash();
@@ -65,7 +62,7 @@ namespace ya
 		void CompleteShoot();
 		void EndShoot();
 		
-	protected:
+	private:
 		void	Idle();
 		void	Move();
 		void	Dash();
@@ -82,7 +79,7 @@ namespace ya
 		eDirection mDirect;
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
-		bool mHead;
+		bool head;
 		int AttackCount;
 		bool SecondAttack;
 		};

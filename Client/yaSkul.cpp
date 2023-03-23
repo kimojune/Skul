@@ -16,7 +16,7 @@ namespace ya
 {
 	Skul::Skul()
 		: mState(eSkulState::Idle)
-		, mHead(true)
+		, head(true)
 	{
 	}
 	Skul::~Skul()
@@ -202,17 +202,17 @@ namespace ya
 		mAnimator->GetCompleteEvent(L"RightSkillA") = std::bind(&Skul::CompleteShoot, this);
 		mAnimator->GetEndEvent(L"RightSkillA") = std::bind(&Skul::EndShoot, this);
 
+		mAnimator->Play(L"RightIdle", true);
 
 		Collider* collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(-20.0f, -45.0f));
-		collider->SetSize(Vector2(50.0f, 70.0f));
+		collider->SetCenter(Vector2(-20.0f, -25.0f));
+		collider->SetSize(Vector2(50.0f, 50.0f));
 
 		mRigidbody = AddComponent<Rigidbody>();
 		mRigidbody->SetMass(1.0f);
-
+		mRigidbody->SetGround(false);
 
 		mState = eSkulState::Fall;
-		mAnimator->Play(L"RightFallRepeat", true);
 		
 
 
@@ -322,7 +322,7 @@ namespace ya
 				mState = eSkulState::Move;
 				mDirect = eDirection::Left;
 
-				if (mHead)
+				if (head)
 				{
 					mAnimator->Play(L"LeftRun", true);
 				}
@@ -337,7 +337,7 @@ namespace ya
 				mState = eSkulState::Move;
 				mDirect = eDirection::Right;
 				
-				if (mHead)
+				if (head)
 				{
 					mAnimator->Play(L"RightRun", true);
 				}
@@ -354,7 +354,7 @@ namespace ya
 			mState = eSkulState::Dash;
 
 
-			if (mHead)
+			if (head)
 			{
 				switch (mDirect)
 				{
@@ -396,7 +396,7 @@ namespace ya
 			mState = eSkulState::Attack;
 			SecondAttack = true;
 
-			if (mHead)
+			if (head)
 			{
 				switch (mDirect)
 				{
@@ -436,7 +436,7 @@ namespace ya
 		{
 			mState = eSkulState::Jump;
 
-			if (mHead)
+			if (head)
 			{
 				switch (mDirect)
 				{
@@ -472,12 +472,12 @@ namespace ya
 		}
 
 
-		if (mHead)
+		if (head)
 		{
 			if (Input::GetKeyDown(eKeyCode::A))
 			{
 				mState = eSkulState::SkillA;
-				mHead = false;
+				head = false;
 				switch (mDirect)
 				{
 				case eDirection::Left:
@@ -523,7 +523,7 @@ namespace ya
 		{
 			mState = eSkulState::Idle;
 
-			if (mHead)
+			if (head)
 			{
 				switch (mDirect)
 				{
@@ -566,7 +566,7 @@ namespace ya
 		{
 			mState = eSkulState::Idle;
 
-			if (mHead)
+			if (head)
 			{
 				switch (mDirect)
 				{
@@ -602,40 +602,12 @@ namespace ya
 		}
 
 
-		if (Input::GetKeyDown(eKeyCode::LEFT))
-		{
-			mDirect = eDirection::Left;
-
-			if (mHead)
-			{
-				mAnimator->Play(L"LeftRun", true);
-			}
-			else
-			{
-				mAnimator->Play(L"NoheadLeftRun", true);
-			}
-		}
-
-		if (Input::GetKeyDown(eKeyCode::RIGHT))
-		{
-			mDirect = eDirection::Right;
-
-			if (mHead)
-			{
-				mAnimator->Play(L"RightRun", true);
-			}
-			else
-			{
-				mAnimator->Play(L"NoheadRightRun", true);
-			}
-		}
-
 		if (Input::GetKeyDown(eKeyCode::Z))
 		{
 			mState = eSkulState::Dash;
 
 
-			if (mHead)
+			if (head)
 			{
 				switch (mDirect)
 				{
@@ -677,7 +649,7 @@ namespace ya
 			mState = eSkulState::Attack;
 			SecondAttack = true;
 
-			if (mHead)
+			if (head)
 			{
 				switch (mDirect)
 				{
@@ -717,7 +689,7 @@ namespace ya
 		{
 			mState = eSkulState::Jump;
 
-			if (mHead)
+			if (head)
 			{
 				switch (mDirect)
 				{
@@ -753,12 +725,12 @@ namespace ya
 		}
 
 
-		if (mHead)
+		if (head)
 		{
 			if (Input::GetKeyDown(eKeyCode::A))
 			{
 				mState = eSkulState::SkillA;
-				mHead = false;
+				head = false;
 				switch (mDirect)
 				{
 				case eDirection::Left:
@@ -807,35 +779,46 @@ namespace ya
 
 		Vector2 velocity = mRigidbody->GetVelocity();
 		Transform* tr = GetComponent<Transform>();
-		
+		Vector2 pos = tr->GetPos();
+		Vector2 temp = pos;
 		
 
 		if (mDirect == eDirection::Left)
 		{
-			velocity.x = -100.0f;
+			velocity.x -= 50.0f;
 			mRigidbody->SetVelocity(velocity);
 
+			if (pos.x <= temp.x - 50.f)
+			{
+				velocity.x = 0.0f;
+				mRigidbody->SetVelocity(velocity);
+			}
 		}
 
 		else if (mDirect == eDirection::Right)
 		{
-			velocity.x = +100.0f;
+			velocity.x += 50.0f;
 			mRigidbody->SetVelocity(velocity);
+
+			if (pos.x >= temp.x + 50.f)
+			{
+				velocity.x = 0.0f;
+				mRigidbody->SetVelocity(velocity);
+			}
 		}
 
-		
 
-		//if ()
-		//{
-		//	mState = eSkulState::Idle;
-		//	mAnimator->Play(L"RightIdle", true);
-		//}
+		if (mDirect==eDirection::Left&&velocity.x >=0)
+		{
+			mState = eSkulState::Idle;
+			mAnimator->Play(L"RightIdle", true);
+		}
 
-		//else if (mDirect == eDirection::Right && velocity.x <= 0)
-		//{
-		//	mState = eSkulState::Idle;
-		//	mAnimator->Play(L"RightIdle", true);
-		//}
+		else if (mDirect == eDirection::Right && velocity.x <= 0)
+		{
+			mState = eSkulState::Idle;
+			mAnimator->Play(L"RightIdle", true);
+		}
 
 
 
@@ -844,7 +827,7 @@ namespace ya
 	{
 		mState = eSkulState::Fall;
 
-		if (mHead)
+		if (head)
 		{
 			switch (mDirect)
 			{
@@ -877,7 +860,7 @@ namespace ya
 		{
 			mState = eSkulState::JumpAttack;
 
-			if (mHead)
+			if (head)
 			{
 				switch (mDirect)
 				{
@@ -935,12 +918,11 @@ namespace ya
 	{
 		Rigidbody* rd = GetComponent<Rigidbody>();
 
-
 		if (rd->GetGround())
 		{
 			mState = eSkulState::Idle;
 
-			if (mHead)
+			if (head)
 			{
 			switch (mDirect)
 			{
@@ -975,7 +957,7 @@ namespace ya
 		{
 			mState = eSkulState::JumpAttack;
 
-			if (mHead)
+			if (head)
 			{
 				switch (mDirect)
 				{
@@ -1009,11 +991,11 @@ namespace ya
 			}
 		}
 
-		if (mHead)
+		if (head)
 		{
 			if (Input::GetKeyDown(eKeyCode::A))
 			{
-				mHead = false;
+				head = false;
 				switch (mDirect)
 				{
 				case eDirection::Left:
@@ -1035,8 +1017,7 @@ namespace ya
 		//¿Ãµø ∫Œ
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
-		
-		float a = pos.y;
+
 		if (Input::GetKey(eKeyCode::LEFT))
 		{
 			pos.x -= 100.0f * Time::DeltaTime();
@@ -1072,7 +1053,7 @@ namespace ya
 				{
 					SecondAttack = false;
 
-					if (mHead)
+					if (head)
 					{
 						switch (mDirect)
 						{
@@ -1091,7 +1072,7 @@ namespace ya
 					}
 					else
 					{
-						if (mHead)
+						if (head)
 						{
 							switch (mDirect)
 							{
@@ -1115,7 +1096,7 @@ namespace ya
 					SecondAttack = true;
 					AttackCount--;
 
-					if (mHead)
+					if (head)
 					{
 						switch (mDirect)
 						{
@@ -1157,7 +1138,7 @@ namespace ya
 			{
 				mState = eSkulState::Idle;
 			
-				if (mHead)
+				if (head)
 				{
 
 				switch (mDirect)
@@ -1209,7 +1190,7 @@ namespace ya
 		{
 			mState = eSkulState::Idle;
 
-			if (mHead)
+			if (head)
 			{
 				switch (mDirect)
 				{
@@ -1323,7 +1304,7 @@ namespace ya
 		mState = eSkulState::Fall;
 	   
 
-		if (mHead)
+		if (head)
 		{
 			switch (mDirect)
 			{
@@ -1384,7 +1365,7 @@ namespace ya
 			break;
 		}
 
-		if (mHead)
+		if (head)
 		{
 			switch (mDirect)
 			{
@@ -1426,7 +1407,7 @@ namespace ya
 
 	void Skul::CompleteFall()
 	{
-		if (mHead)
+		if (head)
 		{
 			switch (mDirect)
 			{

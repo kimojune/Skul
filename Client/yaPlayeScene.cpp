@@ -1,5 +1,5 @@
 #include "yaPlayeScene.h"
-#include "yaPlayer.h"
+#include "yaSkul.h"
 #include "yaInput.h"
 #include "yaSceneManager.h"
 #include "yaMonster.h"
@@ -27,7 +27,7 @@ namespace ya
 		Scene::Initialize();
 
 		object::Instantiate<PlayBG>(eLayerType::BG);
-		mSkul = object::Instantiate<Player>(Vector2(400.0f, 0.0f), eLayerType::Player);
+		mSkul = object::Instantiate<Skul>(Vector2(400.0f, 0.0f), eLayerType::Player);
 		object::Instantiate<Monster>(Vector2(500.0f, 800.0f), eLayerType::Monster);
 		object::Instantiate<Monster>(Vector2(400.0f, 800.0f), eLayerType::Monster);
 		object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);

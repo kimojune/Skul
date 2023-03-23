@@ -13,10 +13,10 @@ namespace ya
 		, mVelocity(Vector2::Zero)
 	{
 		mLimitedVelocity.x = 200.0f;
-		mLimitedVelocity.y = 100.0f;
+		mLimitedVelocity.y = 1000.0f;
 		mbGround = false;
 		mGravity = Vector2(0.0f, 800.0f);
-		mFriction =100.0f;
+		mFriction = 100.0f;
 	}
 
 	Rigidbody::~Rigidbody()
@@ -50,7 +50,7 @@ namespace ya
 
 		else
 		{
-			mVelocity += mGravity * Time::DeltaTime(); 
+			mVelocity += mGravity * Time::DeltaTime();
 		}
 
 		// 중력가속도 최대 속도 제한
@@ -97,8 +97,6 @@ namespace ya
 		Vector2 pos = tr->GetPos();
 		pos = pos + mVelocity * Time::DeltaTime();
 
-		if (pos.y > 900.0f)
-			mbGround = true;
 
 		tr->SetPos(pos);
 		mForce.Clear();
