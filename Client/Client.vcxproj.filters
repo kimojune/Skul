@@ -187,6 +187,12 @@
     <ClInclude Include="yaGround.h">
       <Filter>Engine\Component\RigidBody</Filter>
     </ClInclude>
+    <ClInclude Include="yaPlayer.h">
+      <Filter>Contents\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBasicSkul.h">
+      <Filter>Contents\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -291,6 +297,12 @@
     </ClCompile>
     <ClCompile Include="yaGround.cpp">
       <Filter>Engine\Component\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayer.cpp">
+      <Filter>Contents\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBasicSkul.cpp">
+      <Filter>Contents\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

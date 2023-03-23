@@ -78,8 +78,9 @@ namespace ya
 		if (skul == nullptr)
 			return;
 
+		skul->StartFall();
 		Rigidbody* rb = skul->GetComponent<Rigidbody>();
 		rb->SetGround(false);
-
+		
 	}
 }

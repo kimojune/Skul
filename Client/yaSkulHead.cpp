@@ -5,7 +5,7 @@
 #include "yaCollider.h"
 #include "yaCamera.h"
 #include "yaResources.h"
-
+#include "yaSkul.h"
 namespace ya
 {
 	SkulHead::SkulHead()
@@ -16,7 +16,7 @@ namespace ya
 		mRightImage = Resources::Load<Image>(L"RightSkulHead", L"..\\Resources\\SkulHead.bmp");
 		Collider* collider = AddComponent<Collider>();
 		collider->SetSize(Vector2(45.0f, 45.0f));
-		collider->SetCenter(Vector2(0.0f, -50.0f));
+		collider->SetCenter(Vector2(0.0f, -65.0f));
 	}
 	SkulHead::~SkulHead()
 	{
@@ -40,7 +40,6 @@ namespace ya
 		//float y = dir.x * sinf(PI / 5.0f) + dir.y * cosf(PI / 5.0f);
 
 
-
 		Vector2 pos = tr->GetPos();
 
 		if(mDirect == eDirection::Left)
@@ -53,9 +52,10 @@ namespace ya
 
 		mTime += Time::DeltaTime();
 
-		if (mTime > 2.0f)
+		if (mTime > 5.0f)
 		{
 			object::Destory(this);
+			
 		}
 
 		GameObject::Update();
@@ -66,12 +66,14 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = Camera::CaluatePos(tr->GetPos());
 
+
+
 		switch (mDirect)
 		{
 		case eDirection::Left:
 			TransparentBlt(hdc
-				, pos.x, pos.y - 50.0f
-				, mLeftImage->GetWidth() * 2.8f, mLeftImage->GetHeight() * 2.8f
+				, pos.x, pos.y - 60.0f
+				, mLeftImage->GetWidth()*2.5f, mLeftImage->GetHeight()*2.5f
 				, mLeftImage->GetHdc()
 				, 0, 0
 				, mLeftImage->GetWidth(), mLeftImage->GetHeight()
@@ -80,8 +82,8 @@ namespace ya
 
 		case eDirection::Right:
 			TransparentBlt(hdc
-				, pos.x, pos.y - 50.0f
-				, mRightImage->GetWidth() * 2.8f, mRightImage->GetHeight() * 2.8f
+				, pos.x, pos.y - 60.0f
+				, mRightImage->GetWidth() * 2.5f, mRightImage->GetHeight() * 2.5f
 				, mRightImage->GetHdc()
 				, 0, 0
 				, mRightImage->GetWidth(), mRightImage->GetHeight()
