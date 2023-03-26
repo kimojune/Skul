@@ -79,8 +79,11 @@ namespace ya
 		eDirection mDirect;
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
+
 		bool head;
-		int AttackCount;
 		bool SecondAttack;
+
+		UINT AttackCount;
+		UINT MoveCount;
 		};
 }

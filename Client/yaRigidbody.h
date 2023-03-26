@@ -19,6 +19,7 @@ namespace ya
 		void SetGround(bool ground) { mbGround = ground; }
 		bool GetGround() { return mbGround; }
 		void SetVelocity(Vector2 velocity) { mVelocity = velocity; }
+		void Setfriction(float force) { mFriction = force; }
 		Vector2 GetVelocity() { return mVelocity; }
 
 	private:

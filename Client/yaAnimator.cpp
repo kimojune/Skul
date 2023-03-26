@@ -72,6 +72,7 @@ namespace ya
 	{
 		Animation* animation = FindAnimation(name);
 
+
 		if (animation != nullptr)
 			return;
 

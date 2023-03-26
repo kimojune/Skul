@@ -18,7 +18,8 @@ namespace ya
 
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
-		
+		Skul* GetSkul() { return mSkul; }
+
 	private:
 		Skul* mSkul;
 	

@@ -70,6 +70,34 @@ namespace ya
 	}
 	void Ground::OnCollisionStay(Collider* other)
 	{
+		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
+
+		if (skul == nullptr)
+			return;
+
+		Rigidbody* rb = skul->GetComponent<Rigidbody>();
+
+		Collider* skulCol = skul->GetComponent<Collider>();
+		Vector2 skulPos = skulCol->GetPos();
+
+		Collider* groundCol = this->GetComponent<Collider>();
+		Vector2 groundPos = groundCol->GetPos();
+
+		float fLen = fabs(skulPos.y - groundPos.y);
+		float fSize = (skulCol->GetSize().y / 2.0f) + (groundCol->GetSize().y / 2.0f);
+
+		if (fLen < fSize)
+		{
+			Transform* skulTr = skul->GetComponent<Transform>();
+			Transform* grTr = this->GetComponent<Transform>();
+
+			Vector2 skulPos = skulTr->GetPos();
+			Vector2 grPos = grTr->GetPos();
+
+			skulPos -= (fSize - fLen) - 1.0f;
+			skulTr->SetPos(skulPos);
+		}
+
 	}
 	void Ground::OnCollisionExit(Collider* other)
 	{
