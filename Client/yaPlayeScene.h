@@ -21,7 +21,7 @@ namespace ya
 		Skul* GetSkul() { return mSkul; }
 
 	private:
-		Skul* mSkul;
 	
+		Skul* mSkul;
 	};
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "yaGameObject.h"
-
+#include "yaSkulHead.h"
 
 namespace ya
 {
@@ -33,10 +33,12 @@ namespace ya
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
-		
+
 		virtual void OnCollisionEnter(class Collider* other) override;
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
+
+		void SetHead(bool head) { mHead = head; }
 
 		void StartDash();
 		void CompleteDash();
@@ -56,12 +58,16 @@ namespace ya
 
 		void StartFall();
 		void CompleteFall();
-		void EndFall ();
+		void EndFall();
 
 		void StartShoot();
 		void CompleteShoot();
 		void EndShoot();
-		
+
+		void StartSkillS();
+		void CompleteSkillS();
+		void EndSkillS();
+
 	private:
 		void	Idle();
 		void	Move();
@@ -71,7 +77,7 @@ namespace ya
 		void	Attack();
 
 		void	SkillA();
-		void	SkillB();
+		void	SkillS();
 		void	Jumpattack();
 
 	private:
@@ -80,10 +86,14 @@ namespace ya
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 
-		bool head;
+		bool mHead;
 		bool SecondAttack;
 
 		UINT AttackCount;
 		UINT MoveCount;
-		};
+
+		SkulHead* mSkulHead;
+
+	};
+
 }

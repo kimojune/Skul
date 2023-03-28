@@ -62,6 +62,7 @@ namespace ya
 	{
 		Camera::SetTarget(mSkul);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet, true);
 		CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
 

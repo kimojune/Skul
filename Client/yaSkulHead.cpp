@@ -5,13 +5,16 @@
 #include "yaCollider.h"
 #include "yaCamera.h"
 #include "yaResources.h"
+#include "yaSkul.h"
+#include "yaPlayeScene.h"
 
 namespace ya
 {
-	SkulHead::SkulHead()
+	SkulHead::SkulHead(Skul* skul)
 		:mTime(0.0f)
 		, mDirect(eDirection::Left)
 	{
+		mSkul = skul;
 		mLeftImage = Resources::Load<Image>(L"LeftSkulHead", L"..\\Resources\\LeftSkulHead.bmp");
 		mRightImage = Resources::Load<Image>(L"RightSkulHead", L"..\\Resources\\SkulHead.bmp");
 		Collider* collider = AddComponent<Collider>();
@@ -49,14 +52,19 @@ namespace ya
 		else if (mDirect== eDirection::Right)
 			pos.x += 1500.0f * dir.x * Time::DeltaTime();
 
-		tr->SetPos(pos);
+		mPos = pos;
+		tr->SetPos(mPos);
 
 		mTime += Time::DeltaTime();
 
-		if (mTime > 2.0f)
+		if (mTime > 4.0f)
 		{
+			mSkul->SetHead(true);
 			object::Destory(this);
+		
 		}
+
+		
 
 		GameObject::Update();
 
@@ -98,6 +106,29 @@ namespace ya
 	}
 
 	void SkulHead::Release()
+	{
+	}
+
+	void SkulHead::OnCollisionEnter(Collider* other)
+	{
+		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
+
+
+		if (skul == nullptr)
+			return;
+
+		if (mTime > 0.2f)
+		{
+			mSkul->SetHead(true);
+			object::Destory(this);
+		}
+	}
+
+	void SkulHead::OnCollisionStay(Collider* other)
+	{
+	}
+
+	void SkulHead::OnCollisionExit(Collider* other)
 	{
 	}
 
