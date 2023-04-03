@@ -31,6 +31,8 @@ namespace ya
 		float mFriction;
 		bool mbGround;
 
+		float mGravityAccel;
+
 		/*float mStaticFriction;
 		float mKineticFriction;*/
 		//float mCoefficientFriction;

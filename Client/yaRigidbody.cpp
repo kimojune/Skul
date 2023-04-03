@@ -89,6 +89,7 @@ namespace ya
 				mVelocity += friction;
 			}
 		}
+		//
 
 		// 속도에 맞게끔 물체를 이동시킨다.
 		Transform* tr = GetOwner()->GetComponent<Transform>();

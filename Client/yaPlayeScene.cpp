@@ -23,9 +23,10 @@ namespace ya
 	{
 		Scene::Initialize();
 
-		object::Instantiate<Cuphead>(Vector2(500.0f, 400.0f), eLayerType::Player);
+		Cuphead* player = object::Instantiate<Cuphead>(Vector2(500.0f, 400.0f), eLayerType::Player);
 		//object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Player);
-		object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
+		Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
+		ground->SetPlayer(player);
 	}
 
 	void PlayeScene::Update()
