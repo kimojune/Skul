@@ -34,6 +34,11 @@ namespace ya
 	void SkulHead::Update()
 	{
 
+		if (mSkul->GetHead())
+		{
+			object::Destory(this);
+		}
+		
 		Transform* tr = GetComponent<Transform>();
 		Vector2 dir = Vector2(500.0f, 500.0f);
 		dir.Normalize();
@@ -42,7 +47,7 @@ namespace ya
 		//float x = dir.x * cosf(PI / 5.0f) - dir.y * sinf(PI / 5.0f);
 		//float y = dir.x * sinf(PI / 5.0f) + dir.y * cosf(PI / 5.0f);
 
-
+		
 
 		Vector2 pos = tr->GetPos();
 

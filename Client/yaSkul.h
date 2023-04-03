@@ -39,6 +39,7 @@ namespace ya
 		virtual void OnCollisionExit(class Collider* other) override;
 
 		void SetHead(bool head) { mHead = head; }
+		bool GetHead() { return mHead ;}
 
 		void StartDash();
 		void CompleteDash();

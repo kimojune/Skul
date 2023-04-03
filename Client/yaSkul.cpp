@@ -1637,6 +1637,8 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		Vector2 vr = mSkulHead->GetPos();
 		tr->SetPos(vr);
+		mHead = true;
+		
 	}
 
 	void Skul::CompleteSkillS()
