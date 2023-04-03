@@ -31,6 +31,13 @@ struct Vector2
 	{
 
 	}
+
+	Vector2(UINT32 x, UINT32 y)
+		: x(x)
+		, y(y)
+	{
+
+	}
 	Vector2(const Vector2&) = default;
 	Vector2& operator=(const Vector2&) = default;
 
