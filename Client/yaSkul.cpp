@@ -839,11 +839,25 @@ namespace ya
 		{
 			Transform* tr = GetComponent<Transform>();
 			Vector2 pos = tr->GetPos();
+			Animation* mAnimation = mAnimator->GetAnimaiton();
+			std::wstring mAnimationName = mAnimation->GetAnimationName();
 
 			if (Input::GetKey(eKeyCode::LEFT))
 			{
 				mDirect = eDirection::Left;
 				pos.x -= 200.0f * Time::DeltaTime();
+
+				if (!(mAnimationName == L"LeftRun" || mAnimationName == L"NoheadLeftRun"))
+				{
+					if (mHead)
+					{
+						mAnimator->Play(L"LeftRun", true);
+					}
+					else
+					{
+						mAnimator->Play(L"NoheadLeftRun", true);
+					}
+				}
 				//mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
 			}
 
@@ -853,10 +867,23 @@ namespace ya
 				pos.x += 200.0f * Time::DeltaTime();
 				//mRigidbody->AddForce(Vector2(200.0f, 0.0f));
 
+				if (!(mAnimationName == L"RightRun" || mAnimationName == L"NoheadRightRun"))
+				{
+					if (mHead)
+					{
+						mAnimator->Play(L"RightRun", true);
+					}
+					else
+					{
+						mAnimator->Play(L"NoheadRightRun", true);
+					}
+				}
 			}
 			tr->SetPos(pos);
 
 		}
+
+
 	}
 
 	void Skul::Dash()
