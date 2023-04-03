@@ -8,6 +8,8 @@
 #include "yaCamera.h"
 #include "yaObject.h"
 #include "yaGround.h"
+#include "yaSound.h"
+#include "yaResources.h"
 
 namespace ya
 {
@@ -22,6 +24,10 @@ namespace ya
 	void PlayeScene::Initialize()
 	{
 		Scene::Initialize();
+
+		Sound* mainTheme 
+			= Resources::Load<Sound>(L"MainTheme", L"..\\Resources\\Sound\\BGTheme.wav");
+		mainTheme->Play(true);
 
 		Cuphead* player = object::Instantiate<Cuphead>(Vector2(500.0f, 400.0f), eLayerType::Player);
 		//object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Player);

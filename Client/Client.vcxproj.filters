@@ -190,6 +190,8 @@
     <ClInclude Include="yaTilePalatte.h">
       <Filter>Contents\Tile</Filter>
     </ClInclude>
+    <ClInclude Include="yaSound.h" />
+    <ClInclude Include="yaSoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -295,5 +297,7 @@
     <ClCompile Include="yaTilePalatte.cpp">
       <Filter>Contents\Tile</Filter>
     </ClCompile>
+    <ClCompile Include="yaSound.cpp" />
+    <ClCompile Include="yaSoundManager.cpp" />
   </ItemGroup>
 </Project>

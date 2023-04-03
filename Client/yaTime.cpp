@@ -44,7 +44,8 @@ namespace ya
 			swprintf_s(szFloat, 50, L"FPS : %d", (UINT)FPS);
 			//int iLen = wcsnlen_s(szFloat, 50);
 			SetWindowText(hWnd, szFloat);
-
+			
+			//TextOut(hdc, 0, 0, szFloat, 20);
 			mSecond = 0.0f;
 		}
 	}
