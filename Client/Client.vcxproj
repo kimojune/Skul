@@ -164,6 +164,8 @@
     <ClInclude Include="yaScene.h" />
     <ClInclude Include="yaSceneManager.h" />
     <ClInclude Include="yaSkulShadow.h" />
+    <ClInclude Include="yaSound.h" />
+    <ClInclude Include="yaSoundManager.h" />
     <ClInclude Include="yaTile.h" />
     <ClInclude Include="yaTilePalatte.h" />
     <ClInclude Include="yaTime.h" />
@@ -202,6 +204,8 @@
     <ClCompile Include="yaScene.cpp" />
     <ClCompile Include="yaSceneManager.cpp" />
     <ClCompile Include="yaSkulShadow.cpp" />
+    <ClCompile Include="yaSound.cpp" />
+    <ClCompile Include="yaSoundManager.cpp" />
     <ClCompile Include="yaTile.cpp" />
     <ClCompile Include="yaTilePalatte.cpp" />
     <ClCompile Include="yaTime.cpp" />

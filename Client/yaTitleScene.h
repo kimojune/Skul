@@ -3,6 +3,7 @@
 
 namespace ya
 {
+	class Sound;
 
 	class TitleScene : public Scene
 	{
@@ -18,6 +19,6 @@ namespace ya
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
 	private:
-
+		Sound* mainTheme;
 	};
 }

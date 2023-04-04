@@ -9,10 +9,13 @@
 #include "yaTransform.h"
 #include "yaCamera.h"
 #include "yaObject.h"
+#include "yaSound.h"
+#include "yaResources.h"
 
 namespace ya
 {
 	TitleScene::TitleScene()
+		:mainTheme(nullptr)
 	{
 
 	}
@@ -21,8 +24,14 @@ namespace ya
 	}
 	void TitleScene::Initialize()
 	{
+		mainTheme = Resources::Load<Sound>(L"MainTheme", L"..\\Resources\\Sound\\TitleTheme.wav");
+		mainTheme->Play(true);
+
 
 		Scene::Initialize();
+
+	
+	
 
 		object::Instantiate<TitleBG>(eLayerType::BG);
 		//BG* mBG = new BG;
@@ -49,9 +58,11 @@ namespace ya
 	}
 	void TitleScene::OnEnter()
 	{
+		mainTheme->Play(true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 	}
 	void TitleScene::OnExit()
 	{
+		mainTheme->Stop(true);
 	}
 }

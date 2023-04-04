@@ -5,6 +5,7 @@
 #include "yaCollisionManager.h"
 #include "yaCamera.h"
 #include "Resource.h"
+#include "yaSoundManager.h"
 
 namespace ya
 {
@@ -49,8 +50,10 @@ namespace ya
 
 		Time::Initiailize();
 		Input::Initialize();
+		SoundManager::Initialize();
 		SceneManager::Initialize();
 		Camera::Initialize();
+
 		SetMenuBar(false);
 	}
 
