@@ -18,11 +18,11 @@ ya::Application application;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance, LPCWSTR name, WNDPROC proc);
+
 BOOL                InitInstance(HINSTANCE, int);
 
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 LRESULT CALLBACK    AtlasWndProc(HWND, UINT, WPARAM, LPARAM);
-
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 
@@ -138,8 +138,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
 
-   //HWND hWnd2 = CreateWindowW(L"AtlasWindow", szTitle, WS_OVERLAPPEDWINDOW,
-   //    CW_USEDEFAULT, 0, 500, 500, nullptr, nullptr, hInstance, nullptr);
+   HWND hWnd2 = CreateWindowW(L"AtlasWindow", szTitle, WS_OVERLAPPEDWINDOW,
+       CW_USEDEFAULT, 0, 500, 500, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -149,8 +149,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
-   //ShowWindow(hWnd2, nCmdShow);
-   //UpdateWindow(hWnd2);
+   ShowWindow(hWnd2, nCmdShow);
+   UpdateWindow(hWnd2);
 
    application.Initialize(hWnd);
    //ShowWindow(hWnd2, nCmdShow);
