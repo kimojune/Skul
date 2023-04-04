@@ -5,6 +5,7 @@
 #include "yaTile.h"
 #include "yaObject.h"
 #include "yaInput.h"
+#include "yaTilePalatte.h"
 
 
 extern ya::Application application;
@@ -21,9 +22,7 @@ namespace ya
     {
         Scene::Initialize();
 
-        ya::Image* tile = ya::Resources::Find<ya::Image>(L"TileAtlas");
-        Tile* test = object::Instantiate<Tile>(eLayerType::Tile);
-        test->InitializeTile(tile, 0);
+        TilePalatte::Intialize();
 
     }
     void ToolScene::Update()
@@ -31,7 +30,19 @@ namespace ya
         Scene::Update();
 
         Vector2  temp = Input::GetMousePos();
+
+
+        if (Input::GetKey(eKeyCode::LBUTTON))
+        {
+            Vector2 pos = Input::GetMousePos();
+            pos = TilePalatte::GetTilePos(pos);
+
+            UINT tileIndex = TilePalatte::GetIndex();
+            TilePalatte::CreateTile(tileIndex, pos);
+        }
+
     }
+
     void ToolScene::Render(HDC hdc)
     {
         HPEN redPen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));
@@ -70,22 +81,38 @@ LRESULT CALLBACK AtlasWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 {
     switch (message)
     {
-        //case WM_KEYDOWN:
-        //{
 
-        //}
 
     case WM_CREATE:
     {
         ya::Image* tile = ya::Resources::Load<ya::Image>(L"TileAtlas", L"..\\Resources\\SkulAtlas.bmp");
         RECT rect = { 0, 0, tile->GetWidth(), tile->GetHeight() };
         AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+
         SetWindowPos(hWnd
             , nullptr, 1600, 0
             , rect.right - rect.left
             , rect.bottom - rect.top
             , 0);
         ShowWindow(hWnd, true);
+    }
+
+    case WM_LBUTTONDOWN:
+    {
+
+        if (GetFocus())
+        {
+            ::POINT mousePos = {};
+            ::GetCursorPos(&mousePos);
+            ::ScreenToClient(application.GetToolHwnd(), &mousePos);
+
+            int x = mousePos.x / TILE_SIZE_X;
+            int y = mousePos.y / TILE_SIZE_Y;
+
+            int index = (y * 14) + (x % 14);
+
+            ya::TilePalatte::SetIndex(index);
+        }
     }
 
     case WM_COMMAND:

@@ -16,20 +16,26 @@ namespace ya
 		void Render();
 
 		HWND GetHwnd() { return mHwnd; }
+		HWND GetToolHwnd() { return mToolHwnd; }
 		HDC GetHdc() { return mHdc; }
 		UINT GetWidth() { return mWidth; }
 		UINT GetHeight() { return mHeight; }
 
+		void SetToolHwnd(HWND hwnd) { mToolHwnd = hwnd;}
 		void SetMenuBar(bool power);
 
 	private:
 		void clear();
 
 	private:
+		//main
 		HWND mHwnd;
 		HDC mHdc;
 		
 		HMENU mMenubar;
+
+		//tool
+		HWND mToolHwnd;
 
 		//¹é¹öÆÛ
 		HBITMAP mBackBuffer;

@@ -39,7 +39,7 @@ namespace ya
 		int maxRow = mAtlas->GetHeight() / TILE_SIZE_Y;
 
 		mY = index / maxCol;
-		mX = index % maxCol;
+		mX = index % maxRow;
 	}
 	void Tile::Update()
 	{
