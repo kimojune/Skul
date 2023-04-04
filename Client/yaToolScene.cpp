@@ -51,6 +51,12 @@ namespace ya
         {
             TilePalatte::Load();
         }
+
+		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		{
+			SceneManager::LoadScene(eSceneType::Title);
+		}
+
     }
 
     void ToolScene::Render(HDC hdc)

@@ -31,7 +31,7 @@ namespace ya
 
 		Chapter1 = Resources::Load<Sound>(L"Chapter1", L"..\\Resources\\Sound\\Chapter1.wav");
 		//Chapter1->Play(true);
-		File* mTile = TilePalatte::Load();
+		//File* mTile = TilePalatte::Load();
 
 		object::Instantiate<PlayBG>(eLayerType::BG);
 		mSkul = object::Instantiate<Skul>(Vector2(400.0f, 0.0f), eLayerType::Player);
@@ -49,7 +49,7 @@ namespace ya
 	{
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
-			SceneManager::LoadScene(eSceneType::Title);
+			SceneManager::LoadScene(eSceneType::Tool);
 		}
 
 		Scene::Update();
