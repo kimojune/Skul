@@ -20,6 +20,8 @@ namespace ya
 		UINT GetWidth() { return mWidth; }
 		UINT GetHeight() { return mHeight; }
 
+		void SetMenuBar(bool power);
+
 	private:
 		void clear();
 
@@ -27,6 +29,8 @@ namespace ya
 		HWND mHwnd;
 		HDC mHdc;
 		
+		HMENU mMenubar;
+
 		//¹é¹öÆÛ
 		HBITMAP mBackBuffer;
 		HDC mBackHDC;

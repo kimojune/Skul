@@ -17,3 +17,7 @@
 #include <filesystem>
 
 #pragma comment(lib, "Msimg32.lib")
+
+
+#define TILE_SIZE_X 36 
+#define TILE_SIZE_Y 36

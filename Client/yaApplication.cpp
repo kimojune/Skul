@@ -4,6 +4,7 @@
 #include "yaInput.h"
 #include "yaCollisionManager.h"
 #include "yaCamera.h"
+#include "Resource.h"
 
 namespace ya
 {
@@ -32,7 +33,7 @@ namespace ya
 
 		// 윈도우 크기 변경및 출력 설정
 		SetWindowPos(mHwnd
-			, nullptr, 100, 50
+			, nullptr, 0, 0
 			, rect.right - rect.left
 			, rect.bottom - rect.top
 			, 0);
@@ -40,7 +41,8 @@ namespace ya
 
 		mBackBuffer = CreateCompatibleBitmap(mHdc, mWidth, mHeight);
 		mBackHDC = CreateCompatibleDC(mHdc);
-		
+		mMenubar = LoadMenu(nullptr, MAKEINTRESOURCE(IDI_CLIENT));
+
 		HBITMAP defaultBitmap	
 			= (HBITMAP)SelectObject(mBackHDC, mBackBuffer);
 		DeleteObject(defaultBitmap);
@@ -49,6 +51,7 @@ namespace ya
 		Input::Initialize();
 		SceneManager::Initialize();
 		Camera::Initialize();
+		SetMenuBar(false);
 	}
 
 	void Application::Run()
@@ -86,5 +89,20 @@ namespace ya
 		Rectangle(mBackHDC, -1, -1, 1602, 902);
 		SelectObject(mBackHDC, oldBrush);
 		DeleteObject(grayBrush);
+	}
+	void Application::SetMenuBar(bool power)
+	{
+		SetMenu(mHwnd, mMenubar);
+
+		RECT rect = { 0, 0, mWidth , mHeight };
+		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, power);
+
+		// 윈도우 크기 변경및 출력 설정
+		SetWindowPos(mHwnd
+			, nullptr, 0, 0
+			, rect.right - rect.left
+			, rect.bottom - rect.top
+			, 0);
+		ShowWindow(mHwnd, true);
 	}
 }

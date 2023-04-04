@@ -1,5 +1,13 @@
 #include "yaToolScene.h"
+#include "yaApplication.h"
+#include "yaImage.h"
+#include "yaResources.h"
+#include "yaTile.h"
+#include "yaObject.h"
+#include "yaInput.h"
 
+
+extern ya::Application application;
 
 namespace ya
 {
@@ -12,13 +20,38 @@ namespace ya
     void ToolScene::Initialize()
     {
         Scene::Initialize();
+
+        ya::Image* tile = ya::Resources::Find<ya::Image>(L"TileAtlas");
+        Tile* test = object::Instantiate<Tile>(eLayerType::Tile);
+        test->InitializeTile(tile, 0);
+
     }
     void ToolScene::Update()
     {
         Scene::Update();
+
+        Vector2  temp = Input::GetMousePos();
     }
     void ToolScene::Render(HDC hdc)
     {
+        HPEN redPen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));
+        HPEN oldPen = (HPEN)SelectObject(hdc, redPen);
+
+        int maxRow = application.GetHeight() / TILE_SIZE_Y + 1;
+        for (size_t y = 0; y < maxRow; y++)
+        {
+            MoveToEx(hdc, 0, TILE_SIZE_Y * y, NULL);
+            LineTo(hdc, application.GetWidth(), TILE_SIZE_Y * y);
+        }
+        int maxColumn = application.GetWidth() / TILE_SIZE_X + 1;
+        for (size_t x = 0; x < maxColumn; x++)
+        {
+            MoveToEx(hdc, TILE_SIZE_X * x, 0, NULL);
+            LineTo(hdc, TILE_SIZE_X * x, application.GetHeight());
+        }
+        (HPEN)SelectObject(hdc, oldPen);
+        DeleteObject(redPen);
+
         Scene::Render(hdc);
     }
     void ToolScene::Release()
@@ -42,6 +75,19 @@ LRESULT CALLBACK AtlasWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 
         //}
 
+    case WM_CREATE:
+    {
+        ya::Image* tile = ya::Resources::Load<ya::Image>(L"TileAtlas", L"..\\Resources\\SkulAtlas.bmp");
+        RECT rect = { 0, 0, tile->GetWidth(), tile->GetHeight() };
+        AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+        SetWindowPos(hWnd
+            , nullptr, 1600, 0
+            , rect.right - rect.left
+            , rect.bottom - rect.top
+            , 0);
+        ShowWindow(hWnd, true);
+    }
+
     case WM_COMMAND:
     {
         int wmId = LOWORD(wParam);
@@ -64,7 +110,8 @@ LRESULT CALLBACK AtlasWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
 
-
+        ya::Image* tile = ya::Resources::Find<ya::Image>(L"TileAtlas");
+        BitBlt(hdc, 0, 0, tile->GetWidth(), tile->GetHeight(), tile->GetHdc(), 0, 0, SRCCOPY);
         //Ellipse(hdc, 500, 500, 600, 700);
         //RoundRect(hdc, 200, 200, 300, 300, 500, 500);
 
@@ -75,6 +122,8 @@ LRESULT CALLBACK AtlasWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+
+
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
