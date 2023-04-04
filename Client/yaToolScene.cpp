@@ -6,7 +6,7 @@
 #include "yaObject.h"
 #include "yaInput.h"
 #include "yaTilePalatte.h"
-
+#include "yaCamera.h"
 
 extern ya::Application application;
 
@@ -35,12 +35,22 @@ namespace ya
         if (Input::GetKey(eKeyCode::LBUTTON))
         {
             Vector2 pos = Input::GetMousePos();
+            pos -= Camera::CaluatePos(Vector2::Zero);
+
             pos = TilePalatte::GetTilePos(pos);
 
             UINT tileIndex = TilePalatte::GetIndex();
             TilePalatte::CreateTile(tileIndex, pos);
         }
 
+        if (Input::GetKeyDown(eKeyCode::S))
+        {
+            TilePalatte::Save();
+        }
+        if (Input::GetKeyDown(eKeyCode::L))
+        {
+            TilePalatte::Load();
+        }
     }
 
     void ToolScene::Render(HDC hdc)
@@ -48,17 +58,20 @@ namespace ya
         HPEN redPen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));
         HPEN oldPen = (HPEN)SelectObject(hdc, redPen);
 
+        Vector2 startPos(0, 0);
+        startPos = Camera::CaluatePos(startPos);
+
         int maxRow = application.GetHeight() / TILE_SIZE_Y + 1;
-        for (size_t y = 0; y < maxRow; y++)
+        for (size_t y = 0; y < maxRow * 3; y++)
         {
-            MoveToEx(hdc, 0, TILE_SIZE_Y * y, NULL);
-            LineTo(hdc, application.GetWidth(), TILE_SIZE_Y * y);
+            MoveToEx(hdc, startPos.x, TILE_SIZE_Y * y + startPos.y, NULL);
+            LineTo(hdc, application.GetWidth(), TILE_SIZE_Y * y + startPos.y);
         }
         int maxColumn = application.GetWidth() / TILE_SIZE_X + 1;
-        for (size_t x = 0; x < maxColumn; x++)
+        for (size_t x = 0; x < maxColumn * 3; x++)
         {
-            MoveToEx(hdc, TILE_SIZE_X * x, 0, NULL);
-            LineTo(hdc, TILE_SIZE_X * x, application.GetHeight());
+            MoveToEx(hdc, TILE_SIZE_X * x + startPos.x , startPos.y, NULL);
+            LineTo(hdc, TILE_SIZE_X * x + startPos.x, application.GetHeight());
         }
         (HPEN)SelectObject(hdc, oldPen);
         DeleteObject(redPen);
