@@ -6,6 +6,7 @@ enum class eSceneType
 	Title,
 	Play,
 	Ending,
+	Tool,
 	End,
 };
 

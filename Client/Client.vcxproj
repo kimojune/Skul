@@ -44,7 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableUnitySupport>true</EnableUnitySupport>
+    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -168,6 +168,7 @@
     <ClInclude Include="yaTitleBG.h" />
     <ClInclude Include="yaTitleLogo.h" />
     <ClInclude Include="yaTitleScene.h" />
+    <ClInclude Include="yaToolScene.h" />
     <ClInclude Include="yaTransform.h" />
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +204,7 @@
     <ClCompile Include="yaTitleBG.cpp" />
     <ClCompile Include="yaTitleLogo.cpp" />
     <ClCompile Include="yaTitleScene.cpp" />
+    <ClCompile Include="yaToolScene.cpp" />
     <ClCompile Include="yaTransform.cpp" />
   </ItemGroup>
   <ItemGroup>

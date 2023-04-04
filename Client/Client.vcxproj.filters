@@ -74,6 +74,15 @@
     <Filter Include="Engine\Component\RigidBody">
       <UniqueIdentifier>{0196d41a-bd17-40d3-af5a-2d96f1df79dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Object">
+      <UniqueIdentifier>{74ff8176-8695-41c0-a22f-0ffba2830b14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Animation">
+      <UniqueIdentifier>{bc38f07f-9be1-4d54-a28b-ca6d88a573b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Transform">
+      <UniqueIdentifier>{83646e12-1c25-4558-ae90-c126cee0b97d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -145,15 +154,6 @@
     <ClInclude Include="yaTitleScene.h">
       <Filter>Contents\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="yaTransform.h">
-      <Filter>Engine\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="yaAnimation.h">
-      <Filter>Engine\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="yaAnimator.h">
-      <Filter>Engine\Component</Filter>
-    </ClInclude>
     <ClInclude Include="yaSkulHead.h">
       <Filter>Contents\Bullet</Filter>
     </ClInclude>
@@ -184,12 +184,30 @@
     <ClInclude Include="yaRigidbody.h">
       <Filter>Engine\Component\RigidBody</Filter>
     </ClInclude>
-    <ClInclude Include="yaGround.h">
-      <Filter>Engine\Component\RigidBody</Filter>
+    <ClInclude Include="yaBasicSkul.h">
+      <Filter>Contents\Player</Filter>
     </ClInclude>
-    <ClInclude Include="yaBasicSkul.h" />
-    <ClInclude Include="yaPlayer.h" />
-    <ClInclude Include="yaSkulShadow.h" />
+    <ClInclude Include="yaPlayer.h">
+      <Filter>Contents\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="yaSkulShadow.h">
+      <Filter>Contents\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGround.h">
+      <Filter>Contents\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="yaAnimation.h">
+      <Filter>Engine\Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="yaAnimator.h">
+      <Filter>Engine\Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTransform.h">
+      <Filter>Engine\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="yaToolScene.h">
+      <Filter>Contents\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -256,15 +274,6 @@
     <ClCompile Include="yaTitleScene.cpp">
       <Filter>Contents\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="yaTransform.cpp">
-      <Filter>Engine\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="yaAnimation.cpp">
-      <Filter>Engine\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="yaAnimator.cpp">
-      <Filter>Engine\Component</Filter>
-    </ClCompile>
     <ClCompile Include="yaSkulHead.cpp">
       <Filter>Contents\Bullet</Filter>
     </ClCompile>
@@ -292,11 +301,29 @@
     <ClCompile Include="yaRigidbody.cpp">
       <Filter>Engine\Component\RigidBody</Filter>
     </ClCompile>
-    <ClCompile Include="yaGround.cpp">
-      <Filter>Engine\Component\RigidBody</Filter>
+    <ClCompile Include="yaBasicSkul.cpp">
+      <Filter>Contents\Player</Filter>
     </ClCompile>
-    <ClCompile Include="yaBasicSkul.cpp" />
-    <ClCompile Include="yaPlayer.cpp" />
-    <ClCompile Include="yaSkulShadow.cpp" />
+    <ClCompile Include="yaPlayer.cpp">
+      <Filter>Contents\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSkulShadow.cpp">
+      <Filter>Contents\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGround.cpp">
+      <Filter>Contents\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="yaAnimation.cpp">
+      <Filter>Engine\Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="yaAnimator.cpp">
+      <Filter>Engine\Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTransform.cpp">
+      <Filter>Engine\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="yaToolScene.cpp">
+      <Filter>Contents\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
