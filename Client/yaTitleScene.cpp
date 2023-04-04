@@ -25,7 +25,7 @@ namespace ya
 	void TitleScene::Initialize()
 	{
 		mainTheme = Resources::Load<Sound>(L"MainTheme", L"..\\Resources\\Sound\\TitleTheme.wav");
-		mainTheme->Play(true);
+		//mainTheme->Play(true);
 
 
 		Scene::Initialize();

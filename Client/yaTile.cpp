@@ -29,6 +29,7 @@ namespace ya
 		if (atlas == nullptr || index < 0)
 			return;
 
+
 		mAtlas = atlas;
 		SetIndex(index);
 	}

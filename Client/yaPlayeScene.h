@@ -4,6 +4,7 @@
 namespace ya
 {
 	class Skul;
+	class Sound;
 	class TitleBG;
 	class PlayeScene : public Scene
 	{
@@ -21,7 +22,7 @@ namespace ya
 		Skul* GetSkul() { return mSkul; }
 
 	private:
-	
+		Sound* Chapter1;
 		Skul* mSkul;
 	};
 }
