@@ -19,6 +19,9 @@ namespace ya
 		, mY(-1)
 	{
 		GetComponent<Transform>()->SetPos(pos);
+		Collider* collider = AddComponent<Collider>();
+		collider->SetSize(Vector2(45.0f, 45.0f));
+		collider->SetCenter(Vector2(0.0f, -50.0f));
 	}
 	Tile::~Tile()
 	{
@@ -29,6 +32,8 @@ namespace ya
 		if (atlas == nullptr || index < 0)
 			return;
 
+
+		
 
 		mAtlas = atlas;
 		SetIndex(index);

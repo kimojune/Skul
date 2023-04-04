@@ -20,6 +20,7 @@ namespace ya
     }
     void ToolScene::Initialize()
     {
+
         Scene::Initialize();
 
         TilePalatte::Intialize();

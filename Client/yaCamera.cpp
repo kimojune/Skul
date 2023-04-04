@@ -45,6 +45,17 @@ namespace ya
 
 		}
 
+		if (Input::GetKey(eKeyCode::E))
+		{
+			mLookPosition.y -= 200.0f * Time::DeltaTime();
+		}
+
+		if (Input::GetKey(eKeyCode::R))
+		{
+			mLookPosition.y += 200.0f * Time::DeltaTime();
+
+		}
+
 		if (mTarget != nullptr)
 		{
 			mLookPosition
