@@ -23,6 +23,7 @@ public:
 	static void Render(HDC hdc);
 
 	static void CreateTile(int index, Vector2 pos);
+	static void DeleateTile (Vector2 pos);
 	static void CreateTiles(int index, UINT width, UINT height);
 	static void Save();
 	static void Load();

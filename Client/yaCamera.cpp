@@ -23,36 +23,42 @@ namespace ya
 
 	void Camera::Initialize()
 	{
+		//Entity* entity = new Entity();
+		//entity->SetName(L"Camera");
+
 		mResolution.x = application.GetWidth();
 		mResolution.y = application.GetHeight();
 		mLookPosition = (mResolution / 2.0f);
-
 		mType = eCameraEffectType::None;
 		mCutton = Image::Create(L"Cutton", mResolution.x, mResolution.y, RGB(0, 0, 0));
 	}
 
 	void Camera::Update()
 	{
-
-		if (Input::GetKey(eKeyCode::Q))
+		if (mTarget == nullptr)
 		{
-			mLookPosition.x -= 200.0f * Time::DeltaTime();
-		}
 
-		if (Input::GetKey(eKeyCode::W))
-		{
-			mLookPosition.x += 200.0f * Time::DeltaTime();
+			if (Input::GetKey(eKeyCode::LEFT))
+			{
+				mLookPosition.x -= 200.0f * Time::DeltaTime();
+			}
 
-		}
+			if (Input::GetKey(eKeyCode::RIGHT))
+			{
+				mLookPosition.x += 200.0f * Time::DeltaTime();
 
-		if (Input::GetKey(eKeyCode::E))
-		{
-			mLookPosition.y -= 200.0f * Time::DeltaTime();
-		}
+			}
 
-		if (Input::GetKey(eKeyCode::R))
-		{
-			mLookPosition.y += 200.0f * Time::DeltaTime();
+			if (Input::GetKey(eKeyCode::UP))
+			{
+				mLookPosition.y -= 200.0f * Time::DeltaTime();
+			}
+
+			if (Input::GetKey(eKeyCode::DOWN))
+			{
+				mLookPosition.y += 200.0f * Time::DeltaTime();
+
+			}
 
 		}
 
@@ -60,6 +66,25 @@ namespace ya
 		{
 			mLookPosition
 				= mTarget->GetComponent<Transform>()->GetPos();
+
+
+			if (mLookPosition.x - (mResolution.x / 2) < 0)
+			{
+				mLookPosition.x = mResolution.x / 2;
+			}
+
+			mLookPosition.y -= (mResolution.y / 4);
+			//if (mLookPosition.y > (mResolution.y / 2))
+			//{
+			//	mLookPosition.y -= mResolution.y/4;
+			//}
+
+			//if (skul.y > (mResolution.y))
+			//{
+			//	mLookPosition.y = skul.y;
+			//}
+			mDistance = mLookPosition - (mResolution / 2.0f);
+
 		}
 
 		if (mAlphaTime < mEndTime)

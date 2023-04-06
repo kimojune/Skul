@@ -243,6 +243,7 @@ namespace ya
 		Vector2 pos = tr->GetPos();
 
 
+
 		//if (Input::GetKeyDown(eKeyCode::LEFT))
 		//{
 		//	mDirect = eDirection::Left;
@@ -845,6 +846,8 @@ namespace ya
 			if (Input::GetKey(eKeyCode::LEFT))
 			{
 				mDirect = eDirection::Left;
+
+				if(pos.x>=0)
 				pos.x -= 200.0f * Time::DeltaTime();
 
 				if (!(mAnimationName == L"LeftRun" || mAnimationName == L"NoheadLeftRun"))
@@ -865,6 +868,9 @@ namespace ya
 			{
 				mDirect = eDirection::Right;
 				pos.x += 200.0f * Time::DeltaTime();
+
+				//if (pos.x >= 0)
+				//	pos.x -= 200.0f * Time::DeltaTime();
 				//mRigidbody->AddForce(Vector2(200.0f, 0.0f));
 
 				if (!(mAnimationName == L"RightRun" || mAnimationName == L"NoheadRightRun"))
@@ -1448,13 +1454,13 @@ namespace ya
 
 		if (mDirect == eDirection::Left)
 		{
-			velocity.x = -7000;
+			velocity.x = -4000;
 			velocity.y = 0;
 		}
 
 		else if (mDirect == eDirection::Right)
 		{
-			velocity.x = 7000;
+			velocity.x = 4000;
 			velocity.y = 0;
 		}
 		mRigidbody->Setfriction(30000.0f);

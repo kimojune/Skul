@@ -33,7 +33,7 @@ namespace ya
         Vector2  temp = Input::GetMousePos();
 
 
-        if (Input::GetKey(eKeyCode::LBUTTON))
+        if (Input::GetKeyDown(eKeyCode::LBUTTON))
         {
             Vector2 pos = Input::GetMousePos();
             pos -= Camera::CaluatePos(Vector2::Zero);
@@ -42,6 +42,17 @@ namespace ya
 
             UINT tileIndex = TilePalatte::GetIndex();
             TilePalatte::CreateTile(tileIndex, pos);
+        }
+
+        if (Input::GetKeyDown(eKeyCode::RBUTTON))
+        {
+            Vector2 pos = Input::GetMousePos();
+            pos -= Camera::CaluatePos(Vector2::Zero);
+
+            pos = TilePalatte::GetTilePos(pos);
+
+            TilePalatte::DeleateTile(pos);
+
         }
 
         if (Input::GetKeyDown(eKeyCode::S))

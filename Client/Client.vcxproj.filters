@@ -83,6 +83,9 @@
     <Filter Include="Engine\Component\Transform">
       <UniqueIdentifier>{83646e12-1c25-4558-ae90-c126cee0b97d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Object\Tile">
+      <UniqueIdentifier>{f0632e1e-b317-4694-aea1-18d43752888b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -208,6 +211,18 @@
     <ClInclude Include="yaToolScene.h">
       <Filter>Contents\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="yaSound.h">
+      <Filter>Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="yaSoundManager.h">
+      <Filter>Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTile.h">
+      <Filter>Contents\Object\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTilePalatte.h">
+      <Filter>Contents\Object\Tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -324,6 +339,18 @@
     </ClCompile>
     <ClCompile Include="yaToolScene.cpp">
       <Filter>Contents\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSound.cpp">
+      <Filter>Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSoundManager.cpp">
+      <Filter>Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTile.cpp">
+      <Filter>Contents\Object\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTilePalatte.cpp">
+      <Filter>Contents\Object\Tile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

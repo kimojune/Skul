@@ -21,6 +21,10 @@ namespace ya
 		UINT X() { return mX; }
 		UINT Index() { return mIndex; }
 
+		virtual void OnCollisionEnter(class Collider* other);
+		virtual void OnCollisionStay(class Collider* other);
+		virtual void OnCollisionExit(class Collider* other);
+
 	private:
 		Image* mAtlas;
 		UINT mIndex;

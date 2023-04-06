@@ -31,13 +31,13 @@ namespace ya
 
 		Chapter1 = Resources::Load<Sound>(L"Chapter1", L"..\\Resources\\Sound\\Chapter1.wav");
 		//Chapter1->Play(true);
-		//File* mTile = TilePalatte::Load();
-
+		
 		object::Instantiate<PlayBG>(eLayerType::BG);
 		mSkul = object::Instantiate<Skul>(Vector2(400.0f, 0.0f), eLayerType::Player);
 		object::Instantiate<Monster>(Vector2(500.0f, 800.0f), eLayerType::Monster);
 		object::Instantiate<Monster>(Vector2(400.0f, 800.0f), eLayerType::Monster);
 		object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
+
 
 		//Monster* monster = new Monster();
 		//AddGameObeject(monster, eLayerType::Monster);
@@ -67,8 +67,12 @@ namespace ya
 	}
 	void PlayeScene::OnEnter()
 	{
+		TilePalatte::Load();
+
 		Camera::SetTarget(mSkul);
 		Chapter1->Play(true);
+
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet, true);
 		CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Monster, true);
