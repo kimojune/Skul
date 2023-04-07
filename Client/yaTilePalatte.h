@@ -27,6 +27,7 @@ public:
 	static void CreateTiles(int index, UINT width, UINT height);
 	static void Save();
 	static void Load();
+	static void Load(const std::wstring& path);
 
 	static Vector2 GetTilePos(Vector2 mousePos);
 	static void SetIndex(UINT index) { mIndex = index; }

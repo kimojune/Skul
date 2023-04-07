@@ -67,7 +67,8 @@ namespace ya
 	}
 	void PlayeScene::OnEnter()
 	{
-		TilePalatte::Load();
+		const std::wstring& path = { L"..\\Tile\\test13" };
+		TilePalatte::Load(path);
 
 		Camera::SetTarget(mSkul);
 		Chapter1->Play(true);

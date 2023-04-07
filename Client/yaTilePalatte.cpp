@@ -161,6 +161,42 @@ namespace ya
 
 		fclose(file);
 	}
+
+	void TilePalatte::Load(const std::wstring& path)
+	{
+
+		// LPWSTR 변수 선언 및 초기화
+		LPWSTR lpwstr = new WCHAR[path.size() + 1];
+
+		// std::wstring 내용을 LPWSTR로 복사
+		wcscpy_s(lpwstr, path.size() + 1, path.c_str());
+
+		FILE* file = nullptr;
+		_wfopen_s(&file, lpwstr, L"rb");
+
+		if (file == nullptr)
+			return;
+
+		while (true)
+		{
+			int index = -1;
+			TileID id;
+
+			if (fread(&index, sizeof(int), 1, file) == NULL)
+				break;
+
+			if (fread(&id.id, sizeof(TileID), 1, file) == NULL)
+				break;
+			
+			CreateTile(index, Vector2(id.x, id.y));
+		}
+
+		fclose(file);
+
+		delete[] lpwstr;
+	}
+
+
 	Vector2 TilePalatte::GetTilePos(Vector2 mousePos)
 	{
 		int indexY = mousePos.y / TILE_SIZE_Y;
