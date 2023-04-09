@@ -7,6 +7,7 @@
 #include "yaResources.h"
 #include "yaSkul.h"
 #include "yaPlayeScene.h"
+#include "yaAnimator.h"
 
 namespace ya
 {
@@ -65,6 +66,9 @@ namespace ya
 		if (mTime > 4.0f)
 		{
 			mSkul->SetHead(true);
+	
+			mSkul->GetComponent<Animator>()->Play(L"LeftIdle",true);
+			
 			object::Destory(this);
 		
 		}

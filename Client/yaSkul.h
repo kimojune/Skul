@@ -69,7 +69,7 @@ namespace ya
 		void CompleteSkillS();
 		void EndSkillS();
 
-	private:
+	protected:
 		void	Idle();
 		void	Move();
 		void	Dash();

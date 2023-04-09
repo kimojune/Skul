@@ -23,6 +23,8 @@ namespace ya
 		virtual void Render(HDC hdc);
 		virtual void Release();
 
+		void a();
+
 	private:
 		std::vector<Skul*> mSkul;
 		Skul* mActiveSkul;
