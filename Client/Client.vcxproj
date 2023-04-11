@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClInclude Include="yaBasicSkul.h" />
     <ClInclude Include="yaGround.h" />
+    <ClInclude Include="yaNoheadSkul.h" />
     <ClInclude Include="yaObject.h" />
     <ClInclude Include="yaPlayBG.h" />
     <ClInclude Include="Client.h" />
@@ -139,7 +140,6 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="yaAnimation.h" />
     <ClInclude Include="yaAnimator.h" />
-    <ClInclude Include="yaPlayer.h" />
     <ClInclude Include="yaRigidbody.h" />
     <ClInclude Include="yaSkulHead.h" />
     <ClInclude Include="yaCamera.h" />
@@ -178,11 +178,11 @@
   <ItemGroup>
     <ClCompile Include="yaBasicSkul.cpp" />
     <ClCompile Include="yaGround.cpp" />
+    <ClCompile Include="yaNoheadSkul.cpp" />
     <ClCompile Include="yaPlayBG.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="yaAnimation.cpp" />
     <ClCompile Include="yaAnimator.cpp" />
-    <ClCompile Include="yaPlayer.cpp" />
     <ClCompile Include="yaRigidbody.cpp" />
     <ClCompile Include="yaSkulHead.cpp" />
     <ClCompile Include="yaCamera.cpp" />

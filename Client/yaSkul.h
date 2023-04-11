@@ -25,7 +25,6 @@ namespace ya
 
 		};
 
-
 		Skul();
 		~Skul();
 
@@ -40,6 +39,8 @@ namespace ya
 
 		void SetHead(bool head) { mHead = head; }
 		bool GetHead() { return mHead ;}
+
+		eDirection GetDirect() { return mDirect;}
 
 		void StartDash();
 		void CompleteDash();
@@ -61,13 +62,13 @@ namespace ya
 		void CompleteFall();
 		void EndFall();
 
-		void StartShoot();
-		void CompleteShoot();
-		void EndShoot();
+		virtual void StartSkillA();
+		virtual void CompleteSkillA();
+		virtual void EndSkillA();
 
-		void StartSkillS();
-		void CompleteSkillS();
-		void EndSkillS();
+		virtual void StartSkillS();
+		virtual void CompleteSkillS();
+		virtual void EndSkillS();
 
 	protected:
 		void	Idle();
@@ -77,13 +78,14 @@ namespace ya
 		void	Fall();
 		void	Attack();
 
-		void	SkillA();
-		void	SkillS();
+		virtual void	SkillA();
+		virtual void	SkillS();
 		void	Jumpattack();
 
-	private:
-		eSkulState mState;
 		eDirection mDirect;
+		eSkulState mState;
+
+	private:
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 

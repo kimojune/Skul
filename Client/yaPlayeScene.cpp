@@ -12,7 +12,9 @@
 #include "yaSound.h"
 #include "yaResources.h"
 #include "yaTilePalatte.h"
-#include "yaPlayer.h"
+#include "yaBasicSkul.h"
+#include "yaNoheadSkul.h"
+
 
 namespace ya
 {
@@ -34,7 +36,8 @@ namespace ya
 		//Chapter1->Play(true);
 		
 		object::Instantiate<PlayBG>(eLayerType::BG);
-		mPlayer = object::Instantiate<Player>(Vector2(400.0f, 0.0f), eLayerType::Player);
+		mSkul = object::Instantiate<Basic>(Vector2(400.0f, 0.0f), eLayerType::Player);
+		mSkul = object::Instantiate<Nohead>(Vector2(400.0f, 0.0f), eLayerType::Player);
 		object::Instantiate<Monster>(Vector2(500.0f, 800.0f), eLayerType::Monster);
 		object::Instantiate<Monster>(Vector2(400.0f, 800.0f), eLayerType::Monster);
 		object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
@@ -71,7 +74,7 @@ namespace ya
 		const std::wstring& path = { L"..\\Tile\\test13" };
 		TilePalatte::Load(path);
 
-		Camera::SetTarget(mPlayer);
+		Camera::SetTarget(mSkul);
 		Chapter1->Play(true);
 
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, true);

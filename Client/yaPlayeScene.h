@@ -3,7 +3,7 @@
 
 namespace ya
 {
-	class Player;
+	class Skul;
 	class Sound;
 	class TitleBG;
 	class PlayeScene : public Scene
@@ -19,10 +19,11 @@ namespace ya
 
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
-		Player* GetPlayer() { return mPlayer; }
+		Skul* GetPlayer() { return mSkul; }
 
 	private:
 		Sound* Chapter1;
-		Player* mPlayer;
+		Skul* mSkul;
+		std::vector<Skul*> mSkuls;
 	};
 }

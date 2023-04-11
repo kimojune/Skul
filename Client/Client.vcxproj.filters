@@ -190,9 +190,6 @@
     <ClInclude Include="yaBasicSkul.h">
       <Filter>Contents\Player</Filter>
     </ClInclude>
-    <ClInclude Include="yaPlayer.h">
-      <Filter>Contents\Player</Filter>
-    </ClInclude>
     <ClInclude Include="yaSkulShadow.h">
       <Filter>Contents\Player</Filter>
     </ClInclude>
@@ -222,6 +219,9 @@
     </ClInclude>
     <ClInclude Include="yaTilePalatte.h">
       <Filter>Contents\Object\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="yaNoheadSkul.h">
+      <Filter>Contents\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -319,9 +319,6 @@
     <ClCompile Include="yaBasicSkul.cpp">
       <Filter>Contents\Player</Filter>
     </ClCompile>
-    <ClCompile Include="yaPlayer.cpp">
-      <Filter>Contents\Player</Filter>
-    </ClCompile>
     <ClCompile Include="yaSkulShadow.cpp">
       <Filter>Contents\Player</Filter>
     </ClCompile>
@@ -351,6 +348,9 @@
     </ClCompile>
     <ClCompile Include="yaTilePalatte.cpp">
       <Filter>Contents\Object\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="yaNoheadSkul.cpp">
+      <Filter>Contents\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

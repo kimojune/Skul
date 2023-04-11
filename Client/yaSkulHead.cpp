@@ -15,6 +15,7 @@ namespace ya
 		:mTime(0.0f)
 		, mDirect(eDirection::Left)
 	{
+		SetName(L"SkulHead");
 		mSkul = skul;
 		mLeftImage = Resources::Load<Image>(L"LeftSkulHead", L"..\\Resources\\LeftSkulHead.bmp");
 		mRightImage = Resources::Load<Image>(L"RightSkulHead", L"..\\Resources\\SkulHead.bmp");
@@ -35,10 +36,10 @@ namespace ya
 	void SkulHead::Update()
 	{
 
-		if (mSkul->GetHead())
-		{
-			object::Destory(this);
-		}
+		//if (mSkul->GetHead())
+		//{
+		//	object::Destory(this);
+		//}
 		
 		Transform* tr = GetComponent<Transform>();
 		Vector2 dir = Vector2(500.0f, 500.0f);
