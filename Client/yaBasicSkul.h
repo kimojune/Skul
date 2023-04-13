@@ -4,6 +4,7 @@
 namespace ya
 {
 
+
 class Basic : public Skul
 {
 public:
@@ -32,6 +33,8 @@ private:
 	Animator* mAnimator;
 	SkulHead* mSkulHead;
 	bool One;
+
+
 };
 
 }

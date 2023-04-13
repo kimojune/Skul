@@ -5,10 +5,13 @@
 #include "yaBasicSkul.h"
 #include "yaSkulHead.h"
 
+
+
 namespace ya
 {
 	void Nohead::Initialize()
 	{
+		SetName(L"NoheadSkul");
 		Image* LeftHeadlessImage = Resources::Load<Image>(L"LeftHeadless", L"..\\Resources\\LeftHeadless.bmp");
 		Image* RightHeadlessImage = Resources::Load<Image>(L"RightHeadless", L"..\\Resources\\RightHeadless.bmp");
 
@@ -55,6 +58,11 @@ namespace ya
 	}
 	void Nohead::SkillS()
 	{
+		Transform* tr = GetComponent<Transform>();
+
 		GameObject::SetState(eState::Pause);
+
+
+
 	}
 }

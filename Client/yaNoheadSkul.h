@@ -4,6 +4,7 @@
 
 namespace ya
 {
+	extern  Skul* mSkuls[(UINT)Skul::eSkulType::End];
 
 	class Nohead : public Skul
 	{

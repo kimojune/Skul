@@ -14,10 +14,14 @@
 #include "yaTilePalatte.h"
 #include "yaBasicSkul.h"
 #include "yaNoheadSkul.h"
+#include "yaGameObject.h"
 
 
 namespace ya
 {
+	static Skul* mSkuls[(UINT)Skul::eSkulType::End] = {};
+
+
 	PlayeScene::PlayeScene()
 			
 	{
@@ -32,20 +36,23 @@ namespace ya
 	{
 		Scene::Initialize();
 
+		
 		Chapter1 = Resources::Load<Sound>(L"Chapter1", L"..\\Resources\\Sound\\Chapter1.wav");
 		//Chapter1->Play(true);
 		
 		object::Instantiate<PlayBG>(eLayerType::BG);
-		mSkul = object::Instantiate<Basic>(Vector2(400.0f, 0.0f), eLayerType::Player);
-		mSkul = object::Instantiate<Nohead>(Vector2(400.0f, 0.0f), eLayerType::Player);
+		mSkuls[(UINT)Skul::eSkulType::Basic] = object::Instantiate<Basic>(Vector2(400.0f, 0.0f), eLayerType::Player);
+		mSkuls[(UINT)Skul::eSkulType::Nohead] = object::Instantiate<Nohead>(Vector2(400.0f, 0.0f), eLayerType::Player);
+
+
+
 		object::Instantiate<Monster>(Vector2(500.0f, 800.0f), eLayerType::Monster);
 		object::Instantiate<Monster>(Vector2(400.0f, 800.0f), eLayerType::Monster);
 		object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 
 
-		//Monster* monster = new Monster();
-		//AddGameObeject(monster, eLayerType::Monster);
-
+		mActiveSkul = mSkuls[(UINT)Skul::eSkulType::Basic];
+		
 
 	}
 
@@ -74,8 +81,8 @@ namespace ya
 		const std::wstring& path = { L"..\\Tile\\test13" };
 		TilePalatte::Load(path);
 
-		Camera::SetTarget(mSkul);
-		Chapter1->Play(true);
+		Camera::SetTarget(mActiveSkul);
+		//Chapter1->Play(true);
 
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
@@ -90,5 +97,9 @@ namespace ya
 		Chapter1->Stop(true);
 		Camera::SetTarget(nullptr);
 		//mCuphead->SetPos(Vector2{ 0.0f, 0.0f });
+	}
+	void PlayeScene::SetSkul(Skul::eSkulType type)
+	{
+		mActiveSkul = mSkuls[(UINT)type];
 	}
 }

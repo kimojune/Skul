@@ -66,9 +66,9 @@ namespace ya
 
 		if (mTime > 4.0f)
 		{
-			mSkul->SetHead(true);
+			//mSkul->SetHead(true);
 	
-			mSkul->GetComponent<Animator>()->Play(L"LeftIdle",true);
+			//mSkul->GetComponent<Animator>()->Play(L"LeftIdle",true);
 			
 			object::Destory(this);
 		
@@ -121,15 +121,10 @@ namespace ya
 
 	void SkulHead::OnCollisionEnter(Collider* other)
 	{
-		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
 
-
-		if (skul == nullptr)
-			return;
 
 		if (mTime > 0.2f)
 		{
-			mSkul->SetHead(true);
 			object::Destory(this);
 		}
 	}

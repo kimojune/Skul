@@ -10,10 +10,13 @@
 #include "yaScene.h"
 #include "yaObject.h"
 #include "yaRigidbody.h"
+#include "yaPlayeScene.h"
 
 
 namespace ya
 {
+
+
 	Skul::Skul()
 		: mState(eSkulState::Idle)
 		, mHead(true)
@@ -165,6 +168,11 @@ namespace ya
 	{
 		GameObject::Release();
 
+	}
+
+	void Skul::SwitchSkul(eSkulType type)
+	{
+		
 	}
 
 	void Skul::OnCollisionEnter(Collider* other)

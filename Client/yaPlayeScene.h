@@ -3,6 +3,8 @@
 
 namespace ya
 {
+	extern Skul* mSkuls[(UINT)Skul::eSkulType::End];
+
 	class Skul;
 	class Sound;
 	class TitleBG;
@@ -19,11 +21,17 @@ namespace ya
 
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
-		Skul* GetPlayer() { return mSkul; }
+		
+		
+		virtual void SetSkul(Skul::eSkulType type);
+		Skul* GetSkul() { return mActiveSkul;}
+		
+		
+		
 
 	private:
 		Sound* Chapter1;
-		Skul* mSkul;
-		std::vector<Skul*> mSkuls;
+		Skul* mActiveSkul;
+
 	};
 }

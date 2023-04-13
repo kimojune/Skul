@@ -9,6 +9,13 @@ namespace ya
 	class Skul : public GameObject
 	{
 	public:
+		enum class eSkulType
+		{
+			Basic,
+			Nohead,
+			End,
+		};
+
 		enum class eSkulState
 		{
 			Idle,
@@ -33,12 +40,12 @@ namespace ya
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
 
+		void SwitchSkul(eSkulType type);
+
 		virtual void OnCollisionEnter(class Collider* other) override;
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 
-		void SetHead(bool head) { mHead = head; }
-		bool GetHead() { return mHead ;}
 
 		eDirection GetDirect() { return mDirect;}
 
@@ -70,6 +77,9 @@ namespace ya
 		virtual void CompleteSkillS();
 		virtual void EndSkillS();
 
+		
+		
+
 	protected:
 		void	Idle();
 		void	Move();
@@ -95,7 +105,7 @@ namespace ya
 		UINT AttackCount;
 		UINT MoveCount;
 
-		SkulHead* mSkulHead;
+
 
 	};
 

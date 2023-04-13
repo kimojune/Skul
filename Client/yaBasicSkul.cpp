@@ -3,9 +3,12 @@
 #include "yaAnimator.h"
 #include "yaTransform.h"
 #include "yaSceneManager.h"
+#include "yaPlayeScene.h"
 
 namespace ya
 {
+
+
 	Basic::Basic()
 		:One(false)
 	{
@@ -15,9 +18,10 @@ namespace ya
 	}
 	void Basic::Initialize()
 	{
+		SetName(L"BasicSkul");
+
 		Image* LeftImage = Resources::Load<Image>(L"LeftSkul", L"..\\Resources\\SkulLeft.bmp");
 		Image* RightImage = Resources::Load<Image>(L"RightSkul", L"..\\Resources\\SkulRight.bmp");
-
 
 		mAnimator = AddComponent<Animator>();
 
@@ -102,39 +106,50 @@ namespace ya
 	}
 	void Basic::SkillS()
 	{
-		
+		Skul::mState = eSkulState::Idle;
 	}
 	void Basic::StartSkillA()
 	{
-		Transform* tr = Skul:: GetComponent<Transform>();
-		Scene* curScene = SceneManager::GetActiveScene();
+		Transform* tr = Skul::GetComponent<Transform>();
+		Scene* ActiveScene = SceneManager::GetActiveScene();
 		SkulHead* head = new SkulHead(this);
 		mSkulHead = head;
 		mSkulHead->GetComponent<Transform>()->SetPos(tr->GetPos());
+		ActiveScene->AddGameObeject(mSkulHead, eLayerType::Bullet);
 
 		if (mDirect == eDirection::Left)
 			mSkulHead->SetDirect(eDirection::Left);
 
- 		else if (mDirect == eDirection::Right)
+		else if (mDirect == eDirection::Right)
 			mSkulHead->SetDirect(eDirection::Right);
-	
-		curScene->AddGameObeject(mSkulHead, eLayerType::Bullet);
-		
+
 	}
 
 	void Basic::CompleteSkillA()
 	{
+		Scene* ActiveScene = SceneManager::GetActiveScene();
+		Transform* tr = GetComponent<Transform>();
+		
+		GameObject::SetState(eState::Pause);
+
+		Skul* nohead = mSkuls[(UINT)eSkulType::Nohead];
+		nohead->GetComponent<Transform>()->SetPos(tr->GetPos());
+
+
+		
 		mState = eSkulState::Idle;
 		
-		switch (mDirect)
-		{
-		case eDirection::Left:
-			mAnimator->Play(L"LeftIdle", true);
-			break;
-		case eDirection::Right:
-			mAnimator->Play(L"RightIdle", true);
-			break;
-		}
+		//switch (mDirect)
+		//{
+		//case eDirection::Left:
+		//	mAnimator->Play(L"LeftIdle", true);
+		//	break;
+		//case eDirection::Right:
+		//	mAnimator->Play(L"RightIdle", true);
+		//	break;
+		//}
+
+
 	}
 
 	void Basic::EndSkillA()
