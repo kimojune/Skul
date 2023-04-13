@@ -35,7 +35,7 @@ namespace ya
 		mAnimator->CreateAnimation(L"LeftAttackB", LeftImage, Vector2(2976.0f, 124.0f * 7), -1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"LeftJumpAttack", LeftImage, Vector2(2976.0f, 124.0f * 8), -1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"LeftSkillA", LeftImage, Vector2(2976.0f, (124.0f * 9)), -1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"LeftSkillB", LeftImage, Vector2(2976.0f, (124.0f * 12)), -1, 25, 20, 9, Vector2(-85.0f, -50.0f), 0.05);
+		mAnimator->CreateAnimation(L"LeftSkillS", LeftImage, Vector2(2976.0f, (124.0f * 12)), -1, 25, 20, 9, Vector2(-85.0f, -50.0f), 0.05);
 
 		mAnimator->CreateAnimation(L"RightIdle", RightImage, Vector2(0.0f, 0.0f), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"RightRun", RightImage, Vector2(0.0f, 124.0f), 1, 25, 20, 8, Vector2(-85.0f, -50.0f), 0.08);
@@ -47,7 +47,7 @@ namespace ya
 		mAnimator->CreateAnimation(L"RightAttackB", RightImage, Vector2(0.0f, 124.0f * 7), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"RightJumpAttack", RightImage, Vector2(0.0f, 124.0f * 8), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimation(L"RightSkillA", RightImage, Vector2(0.0f, (124.0f * 9)), 1, 25, 20, 4, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"RightSkillB", RightImage, Vector2(0.0f, (124.0f * 12)), 1, 25, 20, 9, Vector2(-85.0f, -50.0f), 0.05);
+		mAnimator->CreateAnimation(L"RightSkillS", RightImage, Vector2(0.0f, (124.0f * 12)), 1, 25, 20, 9, Vector2(-85.0f, -50.0f), 0.05);
 
 
 		mAnimator->GetStartEvent(L"LeftSkillA") = std::bind(&Skul::StartSkillA, this);
@@ -59,13 +59,13 @@ namespace ya
 		mAnimator->GetEndEvent(L"RightSkillA") = std::bind(&Skul::EndSkillA, this);
 
 
-		mAnimator->GetStartEvent(L"LeftSkillB") = std::bind(&Skul::StartSkillS, this);
-		mAnimator->GetCompleteEvent(L"LeftSkillB") = std::bind(&Skul::CompleteSkillS, this);
-		mAnimator->GetEndEvent(L"LeftSkillB") = std::bind(&Skul::EndSkillS, this);
+		mAnimator->GetStartEvent(L"LeftSkillS") = std::bind(&Skul::StartSkillS, this);
+		mAnimator->GetCompleteEvent(L"LeftSkillS") = std::bind(&Skul::CompleteSkillS, this);
+		mAnimator->GetEndEvent(L"LeftSkillS") = std::bind(&Skul::EndSkillS, this);
 
-		mAnimator->GetStartEvent(L"RightSkillB") = std::bind(&Skul::StartSkillS, this);
-		mAnimator->GetCompleteEvent(L"RightSkillB") = std::bind(&Skul::CompleteSkillS, this);
-		mAnimator->GetEndEvent(L"RightSkillB") = std::bind(&Skul::EndSkillS, this);
+		mAnimator->GetStartEvent(L"RightSkillS") = std::bind(&Skul::StartSkillS, this);
+		mAnimator->GetCompleteEvent(L"RightSkillS") = std::bind(&Skul::CompleteSkillS, this);
+		mAnimator->GetEndEvent(L"RightSkillS") = std::bind(&Skul::EndSkillS, this);
 
 		Skul::Initialize();
 
@@ -135,7 +135,18 @@ namespace ya
 		Skul* nohead = mSkuls[(UINT)eSkulType::Nohead];
 		nohead->GetComponent<Transform>()->SetPos(tr->GetPos());
 
+		nohead->SetState(eState::Active);
+		nohead->SetDirect(mDirect);
 
+		switch (mDirect)
+		{
+		case eDirection::Left:
+			nohead->GetComponent<Animator>()->Play(L"LeftIdle", true);
+			break;
+		case eDirection::Right:
+			nohead->GetComponent<Animator>()->Play(L"RightIdle", true);
+			break;
+		}
 		
 		mState = eSkulState::Idle;
 		
@@ -161,6 +172,14 @@ namespace ya
 	}
 	void Basic::CompleteSkillS()
 	{
+		mState = eSkulState::Idle;
+		
+		if (mDirect == eDirection::Left)
+			mAnimator->Play(L"LeftIdle", true);
+
+		else
+			mAnimator->Play(L"RightIdle", true);
+		
 	}
 	void Basic::EndSkillS()
 	{

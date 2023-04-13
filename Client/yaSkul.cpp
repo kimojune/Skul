@@ -175,6 +175,11 @@ namespace ya
 		
 	}
 
+	void Skul::SetDirect(eDirection direct)
+	{
+		mDirect = direct;
+	}
+
 	void Skul::OnCollisionEnter(Collider* other)
 	{
 	}

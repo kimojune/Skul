@@ -46,6 +46,7 @@ namespace ya
 
 
 
+
 		object::Instantiate<Monster>(Vector2(500.0f, 800.0f), eLayerType::Monster);
 		object::Instantiate<Monster>(Vector2(400.0f, 800.0f), eLayerType::Monster);
 		object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);

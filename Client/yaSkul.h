@@ -40,13 +40,14 @@ namespace ya
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
 
-		void SwitchSkul(eSkulType type);
-
+		
 		virtual void OnCollisionEnter(class Collider* other) override;
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 
 
+		void SwitchSkul(eSkulType type);
+		void SetDirect(eDirection direct);
 		eDirection GetDirect() { return mDirect;}
 
 		void StartDash();
@@ -105,7 +106,7 @@ namespace ya
 		UINT AttackCount;
 		UINT MoveCount;
 
-
+	
 
 	};
 
