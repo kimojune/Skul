@@ -9,7 +9,7 @@ namespace ya
 	class SkulHead : public GameObject
 	{
 	public:
-		SkulHead(Skul* skul);
+		SkulHead();
 		~SkulHead();
 
 		virtual void Initialize() override;
@@ -26,7 +26,7 @@ namespace ya
 		virtual void SetDirect(eDirection direct) { mDirect = direct; }
 
 	private:
-		Skul* mSkul;
+
 		float mTime;
 		Image* mLeftImage;
 		Image* mRightImage;

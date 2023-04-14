@@ -60,10 +60,15 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 
-
 		Basic* basic = dynamic_cast<Basic*>(mSkuls[(UINT)eSkulType::Basic]);
 		basic->SetState(eState::Active);
+
+		SkulHead* head = basic->GetSkulHead();
+
+		Transform* headPos = head->GetComponent<Transform>();
 		
+
+		basic->GetComponent<Transform>()->SetPos(headPos->GetPos());
 		
 		switch (mDirect)
 		{
@@ -75,7 +80,6 @@ namespace ya
 
 			break;
 		}
-		basic->GetComponent<Transform>()->SetPos(tr->GetPos());
 
 		mState = eSkulState::Idle;
 		GameObject::SetState(eState::Pause);

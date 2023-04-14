@@ -9,29 +9,28 @@
 #include "yaPlayeScene.h"
 #include "yaAnimator.h"
 
+
 namespace ya
 {
-	SkulHead::SkulHead(Skul* skul)
+	SkulHead::SkulHead()
 		:mTime(0.0f)
 		, mDirect(eDirection::Left)
 	{
 		SetName(L"SkulHead");
-		mSkul = skul;
-		mLeftImage = Resources::Load<Image>(L"LeftSkulHead", L"..\\Resources\\LeftSkulHead.bmp");
-		mRightImage = Resources::Load<Image>(L"RightSkulHead", L"..\\Resources\\SkulHead.bmp");
-		Collider* collider = AddComponent<Collider>();
-		collider->SetSize(Vector2(45.0f, 45.0f));
-		collider->SetCenter(Vector2(0.0f, -50.0f));
+
 	}
 	SkulHead::~SkulHead()
 	{
 	}
 	void SkulHead::Initialize()
 	{
+		mLeftImage = Resources::Load<Image>(L"LeftSkulHead", L"..\\Resources\\LeftSkulHead.bmp");
+		mRightImage = Resources::Load<Image>(L"RightSkulHead", L"..\\Resources\\SkulHead.bmp");
+		Collider* collider = AddComponent<Collider>();
+		collider->SetSize(Vector2(45.0f, 45.0f));
+		collider->SetCenter(Vector2(0.0f, -50.0f));
+
 		GameObject::Initialize();
-
-
-
 	}
 	void SkulHead::Update()
 	{
@@ -70,8 +69,9 @@ namespace ya
 	
 			//mSkul->GetComponent<Animator>()->Play(L"LeftIdle",true);
 			
-			object::Destory(this);
-		
+			SetState(eState::Pause);
+			
+
 		}
 
 		
@@ -125,7 +125,8 @@ namespace ya
 
 		if (mTime > 0.2f)
 		{
-			object::Destory(this);
+			SetState(eState::Pause);
+
 		}
 	}
 

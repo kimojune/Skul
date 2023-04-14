@@ -4,6 +4,7 @@
 #include "yaTransform.h"
 #include "yaSceneManager.h"
 #include "yaPlayeScene.h"
+#include "yaSkulHead.h"
 
 namespace ya
 {
@@ -112,11 +113,13 @@ namespace ya
 	{
 		Transform* tr = Skul::GetComponent<Transform>();
 		Scene* ActiveScene = SceneManager::GetActiveScene();
-		SkulHead* head = new SkulHead(this);
-		mSkulHead = head;
-		mSkulHead->GetComponent<Transform>()->SetPos(tr->GetPos());
-		ActiveScene->AddGameObeject(mSkulHead, eLayerType::Bullet);
+		//SkulHead* head = new SkulHead(mSkuls[(UINT)eSkulType::Nohead]);
+		//mSkulHead = head;
+		SkulHead* mSkulHead=dynamic_cast<SkulHead*>(ActiveScene->GetGameObjects(eLayerType::Bullet)[0]);
 
+		mSkulHead->GetComponent<Transform>()->SetPos(tr->GetPos());
+		mSkulHead->SetState(eState::Active);
+		
 		if (mDirect == eDirection::Left)
 			mSkulHead->SetDirect(eDirection::Left);
 
@@ -128,38 +131,10 @@ namespace ya
 	void Basic::CompleteSkillA()
 	{
 		Scene* ActiveScene = SceneManager::GetActiveScene();
-		Transform* tr = GetComponent<Transform>();
+
+		SwitchSkul(eSkulType::Nohead);
 		
-		GameObject::SetState(eState::Pause);
-
-		Skul* nohead = mSkuls[(UINT)eSkulType::Nohead];
-		nohead->GetComponent<Transform>()->SetPos(tr->GetPos());
-
-		nohead->SetState(eState::Active);
-		nohead->SetDirect(mDirect);
-
-		switch (mDirect)
-		{
-		case eDirection::Left:
-			nohead->GetComponent<Animator>()->Play(L"LeftIdle", true);
-			break;
-		case eDirection::Right:
-			nohead->GetComponent<Animator>()->Play(L"RightIdle", true);
-			break;
-		}
 		
-		mState = eSkulState::Idle;
-		
-		//switch (mDirect)
-		//{
-		//case eDirection::Left:
-		//	mAnimator->Play(L"LeftIdle", true);
-		//	break;
-		//case eDirection::Right:
-		//	mAnimator->Play(L"RightIdle", true);
-		//	break;
-		//}
-
 
 	}
 

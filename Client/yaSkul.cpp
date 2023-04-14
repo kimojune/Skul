@@ -172,7 +172,24 @@ namespace ya
 
 	void Skul::SwitchSkul(eSkulType type)
 	{
-		
+		Transform* tr = GetComponent<Transform>();
+		Skul* skul = mSkuls[(UINT)type];
+		skul->GetComponent<Transform>()->SetPos(tr->GetPos());
+
+		skul->SetState(eState::Active);
+		skul->SetDirect(mDirect);
+
+		switch (mDirect)
+		{
+		case eDirection::Left:
+			skul->GetComponent<Animator>()->Play(L"LeftIdle", true);
+			break;
+		case eDirection::Right:
+			skul->GetComponent<Animator>()->Play(L"RightIdle", true);
+			break;
+		}
+
+		SetState(eState::Pause);
 	}
 
 	void Skul::SetDirect(eDirection direct)

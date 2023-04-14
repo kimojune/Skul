@@ -31,8 +31,8 @@ public:
 
 private:
 	Animator* mAnimator;
-	SkulHead* mSkulHead;
 	bool One;
+	SkulHead* mSkulHead;
 
 
 };

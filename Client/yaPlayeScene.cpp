@@ -43,9 +43,9 @@ namespace ya
 		object::Instantiate<PlayBG>(eLayerType::BG);
 		mSkuls[(UINT)Skul::eSkulType::Basic] = object::Instantiate<Basic>(Vector2(400.0f, 0.0f), eLayerType::Player);
 		mSkuls[(UINT)Skul::eSkulType::Nohead] = object::Instantiate<Nohead>(Vector2(400.0f, 0.0f), eLayerType::Player);
-
-
-
+		
+		
+		object::Instantiate<SkulHead>(Vector2(500.0f, 600.0f), eLayerType::Bullet);
 
 		object::Instantiate<Monster>(Vector2(500.0f, 800.0f), eLayerType::Monster);
 		object::Instantiate<Monster>(Vector2(400.0f, 800.0f), eLayerType::Monster);
