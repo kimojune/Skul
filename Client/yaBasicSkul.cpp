@@ -115,7 +115,7 @@ namespace ya
 		Scene* ActiveScene = SceneManager::GetActiveScene();
 		//SkulHead* head = new SkulHead(mSkuls[(UINT)eSkulType::Nohead]);
 		//mSkulHead = head;
-		SkulHead* mSkulHead=dynamic_cast<SkulHead*>(ActiveScene->GetGameObjects(eLayerType::Bullet)[0]);
+		mSkulHead=dynamic_cast<SkulHead*>(ActiveScene->GetGameObjects(eLayerType::Bullet)[0]);
 
 		mSkulHead->GetComponent<Transform>()->SetPos(tr->GetPos());
 		mSkulHead->SetState(eState::Active);

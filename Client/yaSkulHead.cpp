@@ -61,18 +61,18 @@ namespace ya
 		mPos = pos;
 		tr->SetPos(mPos);
 
-		mTime += Time::DeltaTime();
+		//mTime += Time::DeltaTime();
 
-		if (mTime > 4.0f)
-		{
-			//mSkul->SetHead(true);
+		//if (mTime > 4.0f)
+		//{
+		//	//mSkul->SetHead(true);
 	
-			//mSkul->GetComponent<Animator>()->Play(L"LeftIdle",true);
-			
-			SetState(eState::Pause);
-			
+		//	//mSkul->GetComponent<Animator>()->Play(L"LeftIdle",true);
+		//	
+		//	SetState(eState::Pause);
+		//	
 
-		}
+		//}
 
 		
 
@@ -121,13 +121,12 @@ namespace ya
 
 	void SkulHead::OnCollisionEnter(Collider* other)
 	{
+		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
+		
+		if (skul == nullptr)
+			return;
+		SetState(eState::Pause);
 
-
-		if (mTime > 0.2f)
-		{
-			SetState(eState::Pause);
-
-		}
 	}
 
 	void SkulHead::OnCollisionStay(Collider* other)

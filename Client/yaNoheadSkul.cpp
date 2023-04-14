@@ -64,12 +64,12 @@ namespace ya
 		basic->SetState(eState::Active);
 
 		SkulHead* head = basic->GetSkulHead();
-
 		Transform* headPos = head->GetComponent<Transform>();
-		
 
 		basic->GetComponent<Transform>()->SetPos(headPos->GetPos());
-		
+		head->SetState(eState::Pause);
+
+
 		switch (mDirect)
 		{
 		case eDirection::Left:

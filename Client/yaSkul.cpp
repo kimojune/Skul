@@ -735,13 +735,14 @@ namespace ya
 
 		if (Input::GetKeyDown(eKeyCode::A))
 		{
-
+			mState = eSkulState::SkillA;
 		}
 
 		if (Input::GetKeyDown(eKeyCode::S))
 		{
-
+			mState = eSkulState::SkillS;
 		}
+
 		//¿Ãµø ∫Œ
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
