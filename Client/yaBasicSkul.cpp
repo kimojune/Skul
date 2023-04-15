@@ -113,8 +113,7 @@ namespace ya
 	{
 		Transform* tr = Skul::GetComponent<Transform>();
 		Scene* ActiveScene = SceneManager::GetActiveScene();
-		//SkulHead* head = new SkulHead(mSkuls[(UINT)eSkulType::Nohead]);
-		//mSkulHead = head;
+
 		mSkulHead=dynamic_cast<SkulHead*>(ActiveScene->GetGameObjects(eLayerType::Bullet)[0]);
 
 		mSkulHead->GetComponent<Transform>()->SetPos(tr->GetPos());
@@ -125,6 +124,7 @@ namespace ya
 
 		else if (mDirect == eDirection::Right)
 			mSkulHead->SetDirect(eDirection::Right);
+
 
 	}
 

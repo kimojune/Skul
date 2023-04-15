@@ -12,8 +12,8 @@ namespace ya
 	}
 	void TitleLogo::Initialize()
 	{
+		//mImage = Resources::Load<Image>(L"PlayBG", L"..\\Resources\\BG\\Title\\Logo.bmp");
 
-	
 	}
 	void TitleLogo::Update()
 	{

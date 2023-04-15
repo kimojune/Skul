@@ -30,25 +30,15 @@ namespace ya
 		collider->SetSize(Vector2(45.0f, 45.0f));
 		collider->SetCenter(Vector2(0.0f, -50.0f));
 
+		
 		GameObject::Initialize();
 	}
 	void SkulHead::Update()
 	{
-
-		//if (mSkul->GetHead())
-		//{
-		//	object::Destory(this);
-		//}
 		
 		Transform* tr = GetComponent<Transform>();
 		Vector2 dir = Vector2(500.0f, 500.0f);
 		dir.Normalize();
-		/*float x = cosf(-PI / 4.0f);
-		float y = sinf(-PI / 4.0f);*/
-		//float x = dir.x * cosf(PI / 5.0f) - dir.y * sinf(PI / 5.0f);
-		//float y = dir.x * sinf(PI / 5.0f) + dir.y * cosf(PI / 5.0f);
-
-		
 
 		Vector2 pos = tr->GetPos();
 
@@ -59,26 +49,11 @@ namespace ya
 			pos.x += 1500.0f * dir.x * Time::DeltaTime();
 
 		mPos = pos;
-		tr->SetPos(mPos);
-
-		//mTime += Time::DeltaTime();
-
-		//if (mTime > 4.0f)
-		//{
-		//	//mSkul->SetHead(true);
-	
-		//	//mSkul->GetComponent<Animator>()->Play(L"LeftIdle",true);
-		//	
-		//	SetState(eState::Pause);
-		//	
-
-		//}
-
-		
+		tr->SetPos(mPos);		
 
 		GameObject::Update();
-
 	}
+
 	void SkulHead::Render(HDC hdc)
 	{
 		Transform* tr = GetComponent<Transform>();
