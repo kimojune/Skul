@@ -1,3 +1,5 @@
+#pragma once
+
 #include "yaSkul.h"
 #include "yaTime.h"
 #include "yaSceneManager.h"
@@ -11,6 +13,7 @@
 #include "yaObject.h"
 #include "yaRigidbody.h"
 #include "yaPlayeScene.h"
+#include "yaCamera.h"
 
 
 namespace ya
@@ -19,7 +22,6 @@ namespace ya
 
 	Skul::Skul()
 		: mState(eSkulState::Idle)
-		, mHead(true)
 		, AttackCount(0)
 	{
 	}
@@ -116,7 +118,8 @@ namespace ya
 		Vector2 pos = tr->GetPos();
 
 
-
+		mState;
+		int a = 0;
 		//if (Input::GetKeyDown(eKeyCode::LEFT))
 		//{
 		//	mDirect = eDirection::Left;
@@ -170,13 +173,17 @@ namespace ya
 
 	}
 
-	void Skul::SwitchSkul(eSkulType type)
+	Skul* Skul::SwitchSkul(eSkulType type)
 	{
 		Transform* tr = GetComponent<Transform>();
 		Skul* skul = mSkuls[(UINT)type];
+		Scene* ActiveScene = SceneManager::GetActiveScene();
+
 		skul->GetComponent<Transform>()->SetPos(tr->GetPos());
 
-		skul->SetState(eState::Active);
+		Camera::SetTarget(skul);
+		PlayeScene* scene = dynamic_cast<PlayeScene*> (ActiveScene);
+		scene->SetSkul(type);
 		skul->SetDirect(mDirect);
 
 		switch (mDirect)
@@ -190,11 +197,23 @@ namespace ya
 		}
 
 		SetState(eState::Pause);
+
+		return skul;
 	}
 
 	void Skul::SetDirect(eDirection direct)
 	{
 		mDirect = direct;
+	}
+
+	bool Skul::CheckAnimation(const std::wstring& name)
+	{
+		Animation* animation = mAnimator->FindAnimation(name);
+
+		if (animation == nullptr)
+			return false;
+
+		return true;
 	}
 
 	void Skul::OnCollisionEnter(Collider* other)
@@ -284,153 +303,6 @@ namespace ya
 				mState = eSkulState::Dash;
 
 
-				if (mHead)
-				{
-					switch (mDirect)
-					{
-					case eDirection::Left:
-					{
-						mAnimator->Play(L"LeftDash", false);
-						break;
-					}
-					case eDirection::Right:
-					{
-						mAnimator->Play(L"RightDash", false);
-						break;
-					}
-					}
-				}
-
-			}
-
-
-
-			if (Input::GetKeyDown(eKeyCode::X))
-			{
-				mState = eSkulState::Attack;
-				SecondAttack = true;
-
-				if (mHead)
-				{
-					switch (mDirect)
-					{
-					case eDirection::Left:
-						mAnimator->Play(L"LeftAttackA", false);
-						break;
-
-					case eDirection::Right:
-						mAnimator->Play(L"RightAttackA", false);
-						break;
-
-					default:
-						break;
-					}
-				}
-
-			}
-
-
-
-			if (Input::GetKeyDown(eKeyCode::C))
-			{
-				mState = eSkulState::Jump;
-
-				if (mHead)
-				{
-					switch (mDirect)
-					{
-					case eDirection::Left:
-						mAnimator->Play(L"LeftJump", true);
-						break;
-
-					case eDirection::Right:
-						mAnimator->Play(L"RightJump", true);
-						break;
-
-					default:
-						break;
-					}
-				}
-
-
-			}
-
-
-			if (Input::GetKeyDown(eKeyCode::A))
-			{
-				mState = eSkulState::SkillA;
-			}
-
-
-
-			if (Input::GetKeyDown(eKeyCode::S))
-			{
-				mState = eSkulState::SkillS;
-
-			}
-		}
-	}
-	void Skul::Move()
-	{
-
-		if (Input::GetKeyNone(eKeyCode::LEFT)
-			&& Input::GetKeyNone(eKeyCode::RIGHT))
-		{
-			mState = eSkulState::Idle;
-
-			if (mHead)
-			{
-				switch (mDirect)
-				{
-				case eDirection::Left:
-				{
-					mAnimator->Play(L"LeftIdle", true);
-					break;
-				}
-				case eDirection::Right:
-				{
-					mAnimator->Play(L"RightIdle", true);
-					break;
-				}
-				}
-			}
-
-		}
-
-
-
-		if (Input::GetKey(eKeyCode::LEFT)
-			&& Input::GetKey(eKeyCode::RIGHT))
-		{
-			mState = eSkulState::Idle;
-
-			if (mHead)
-			{
-				switch (mDirect)
-				{
-				case eDirection::Left:
-				{
-					mAnimator->Play(L"LeftIdle", true);
-					break;
-				}
-				case eDirection::Right:
-				{
-					mAnimator->Play(L"RightIdle", true);
-					break;
-				}
-				}
-			}
-
-		}
-
-
-		if (Input::GetKeyDown(eKeyCode::Z))
-		{
-			mState = eSkulState::Dash;
-
-
-			if (mHead)
-			{
 				switch (mDirect)
 				{
 				case eDirection::Left:
@@ -444,19 +316,16 @@ namespace ya
 					break;
 				}
 				}
+
 			}
 
-		}
 
 
-
-		if (Input::GetKeyDown(eKeyCode::X))
-		{
-			mState = eSkulState::Attack;
-			SecondAttack = true;
-
-			if (mHead)
+			if (Input::GetKeyDown(eKeyCode::X))
 			{
+				mState = eSkulState::Attack;
+				SecondAttack = true;
+
 				switch (mDirect)
 				{
 				case eDirection::Left:
@@ -470,7 +339,139 @@ namespace ya
 				default:
 					break;
 				}
+
 			}
+
+
+
+			if (Input::GetKeyDown(eKeyCode::C))
+			{
+				mState = eSkulState::Jump;
+
+				switch (mDirect)
+				{
+				case eDirection::Left:
+					mAnimator->Play(L"LeftJump", true);
+					break;
+
+				case eDirection::Right:
+					mAnimator->Play(L"RightJump", true);
+					break;
+
+				default:
+					break;
+				}
+			}
+
+
+			if (Input::GetKeyDown(eKeyCode::A))
+			{
+				mState = eSkulState::SkillA;
+			}
+
+
+
+			if (Input::GetKeyDown(eKeyCode::S))
+			{
+				mState = eSkulState::SkillS;
+			}
+
+		}
+	}
+	void Skul::Move()
+	{
+
+		if (Input::GetKeyNone(eKeyCode::LEFT)
+			&& Input::GetKeyNone(eKeyCode::RIGHT))
+		{
+			mState = eSkulState::Idle;
+
+
+			switch (mDirect)
+			{
+			case eDirection::Left:
+			{
+				mAnimator->Play(L"LeftIdle", true);
+				break;
+			}
+			case eDirection::Right:
+			{
+				mAnimator->Play(L"RightIdle", true);
+				break;
+			}
+			}
+
+		}
+
+
+
+		if (Input::GetKey(eKeyCode::LEFT)
+			&& Input::GetKey(eKeyCode::RIGHT))
+		{
+			mState = eSkulState::Idle;
+
+
+			switch (mDirect)
+			{
+			case eDirection::Left:
+			{
+				mAnimator->Play(L"LeftIdle", true);
+				break;
+			}
+			case eDirection::Right:
+			{
+				mAnimator->Play(L"RightIdle", true);
+				break;
+			}
+			}
+
+
+		}
+
+
+		if (Input::GetKeyDown(eKeyCode::Z))
+		{
+			mState = eSkulState::Dash;
+
+
+			switch (mDirect)
+			{
+			case eDirection::Left:
+			{
+				mAnimator->Play(L"LeftDash", false);
+				break;
+			}
+			case eDirection::Right:
+			{
+				mAnimator->Play(L"RightDash", false);
+				break;
+			}
+			}
+		}
+
+
+
+
+
+		if (Input::GetKeyDown(eKeyCode::X))
+		{
+			mState = eSkulState::Attack;
+			SecondAttack = true;
+
+			switch (mDirect)
+			{
+			case eDirection::Left:
+				mAnimator->Play(L"LeftAttackA", false);
+				break;
+
+			case eDirection::Right:
+				mAnimator->Play(L"RightAttackA", false);
+				break;
+
+			default:
+				break;
+			}
+
 
 		}
 
@@ -504,10 +505,12 @@ namespace ya
 		}
 
 
+
 		if (Input::GetKeyDown(eKeyCode::S))
 		{
 			mState = eSkulState::SkillS;
 		}
+
 
 		//이동 부
 		if (mState == eSkulState::Move)
@@ -645,6 +648,20 @@ namespace ya
 
 		}
 
+		if (Input::GetKeyDown(eKeyCode::A))
+		{
+			mState = eSkulState::SkillA;
+		}
+
+
+
+		if (Input::GetKeyDown(eKeyCode::S))
+		{
+			mState = eSkulState::SkillS;
+		}
+
+
+
 		//이동 부
 
 		Transform* tr = GetComponent<Transform>();
@@ -732,16 +749,18 @@ namespace ya
 			}
 		}
 
-
 		if (Input::GetKeyDown(eKeyCode::A))
 		{
 			mState = eSkulState::SkillA;
 		}
 
+
+
 		if (Input::GetKeyDown(eKeyCode::S))
 		{
 			mState = eSkulState::SkillS;
 		}
+
 
 		//이동 부
 		Transform* tr = GetComponent<Transform>();
@@ -1037,19 +1056,6 @@ namespace ya
 
 	void Skul::CompleteSkillS()
 	{
-		mState = eSkulState::Idle;
-
-		switch (mDirect)
-		{
-		case eDirection::Left:
-			mAnimator->Play(L"LeftIdle", true);
-			break;
-		case eDirection::Right:
-			mAnimator->Play(L"RightIdle", true);
-			break;
-		default:
-			break;
-		}
 	}
 
 	void Skul::EndSkillS()

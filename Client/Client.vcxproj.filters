@@ -319,9 +319,6 @@
     <ClCompile Include="yaBasicSkul.cpp">
       <Filter>Contents\Player</Filter>
     </ClCompile>
-    <ClCompile Include="yaSkulShadow.cpp">
-      <Filter>Contents\Player</Filter>
-    </ClCompile>
     <ClCompile Include="yaGround.cpp">
       <Filter>Contents\Object</Filter>
     </ClCompile>
@@ -350,6 +347,9 @@
       <Filter>Contents\Object\Tile</Filter>
     </ClCompile>
     <ClCompile Include="yaNoheadSkul.cpp">
+      <Filter>Contents\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSkulShadow.cpp">
       <Filter>Contents\Player</Filter>
     </ClCompile>
   </ItemGroup>

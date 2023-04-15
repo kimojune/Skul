@@ -1,3 +1,6 @@
+#pragma once
+
+
 #include "yaBasicSkul.h"
 #include "yaResources.h"
 #include "yaAnimator.h"
@@ -11,7 +14,7 @@ namespace ya
 
 
 	Basic::Basic()
-		:One(false)
+		:mbPlay(false)
 	{
 	}
 	Basic::~Basic()
@@ -87,37 +90,37 @@ namespace ya
 	}
 	void Basic::SkillA()
 	{
-		if (!One)
+		if (!(mbPlay))
 		{
-			switch (mDirect)
-			{
-			case eDirection::Left:
-				mAnimator->Play(L"LeftSkillA",false);
-				break;
-			case eDirection::Right:
+			mbPlay = true;
+
+			if (mDirect == eDirection::Left)
+				mAnimator->Play(L"LeftSkillA", false);
+			else
 				mAnimator->Play(L"RightSkillA", false);
-				break;
-			}
-			
-			One = true;
+
 		}
-
-
-		Skul::mState = eSkulState::Idle;
 	}
 	void Basic::SkillS()
 	{
-		Skul::mState = eSkulState::Idle;
+		if (!(mbPlay))
+		{
+			mbPlay = true;
+
+			if (mDirect == eDirection::Left)
+				mAnimator->Play(L"LeftSkillS", false);
+			else
+				mAnimator->Play(L"RightSkillS", false);
+		}
 	}
 	void Basic::StartSkillA()
 	{
 		Transform* tr = Skul::GetComponent<Transform>();
 		Scene* ActiveScene = SceneManager::GetActiveScene();
 
-		mSkulHead=dynamic_cast<SkulHead*>(ActiveScene->GetGameObjects(eLayerType::Bullet)[0]);
-
-		mSkulHead->GetComponent<Transform>()->SetPos(tr->GetPos());
+		mSkulHead = dynamic_cast<SkulHead*>(ActiveScene->GetGameObjects(eLayerType::Bullet)[0]);
 		mSkulHead->SetState(eState::Active);
+		mSkulHead->GetComponent<Transform>()->SetPos(tr->GetPos());
 		
 		if (mDirect == eDirection::Left)
 			mSkulHead->SetDirect(eDirection::Left);
@@ -130,17 +133,15 @@ namespace ya
 
 	void Basic::CompleteSkillA()
 	{
-		Scene* ActiveScene = SceneManager::GetActiveScene();
-
-		SwitchSkul(eSkulType::Nohead);
+		Skul* skul = SwitchSkul(eSkulType::Nohead);
 		
+		skul->SetSkulState(eSkulState::Idle);
 		
-
+		mbPlay = false;
 	}
 
 	void Basic::EndSkillA()
 	{
-		One = false;
 	}
 	void Basic::StartSkillS()
 	{
@@ -155,6 +156,7 @@ namespace ya
 		else
 			mAnimator->Play(L"RightIdle", true);
 		
+		mbPlay = false;
 	}
 	void Basic::EndSkillS()
 	{

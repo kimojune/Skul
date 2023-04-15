@@ -1,10 +1,13 @@
+#pragma once
+
+
 #include "yaNoheadSkul.h"
 #include "yaResources.h"
 #include "yaAnimator.h"
 #include "yaTransform.h"
 #include "yaBasicSkul.h"
 #include "yaSkulHead.h"
-
+#include "yaCamera.h"
 
 
 namespace ya
@@ -38,6 +41,9 @@ namespace ya
 		mAnimator->CreateAnimation(L"RightJumpAttack", RightHeadlessImage, Vector2(0.0f, 124.0f * 8), 1, 10, 10, 4, Vector2(-85.0f, -50.0f), 0.1);
 
 
+
+
+
 		Skul::Initialize();
 	}
 	void Nohead::Update()
@@ -61,28 +67,20 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 
 		Basic* basic = dynamic_cast<Basic*>(mSkuls[(UINT)eSkulType::Basic]);
-		basic->SetState(eState::Active);
-
-		SkulHead* head = basic->GetSkulHead();
-		Transform* headPos = head->GetComponent<Transform>();
+		SkulHead* mSkulHead = basic->GetSkulHead();
+		Transform* headPos = mSkulHead->GetComponent<Transform>();
 
 		basic->GetComponent<Transform>()->SetPos(headPos->GetPos());
-		head->SetState(eState::Pause);
+
+		basic->SetState(eState::Active);
+		mSkulHead->SetState(eState::Pause);
+		
+		Camera::SetTarget(basic);
 
 
-		switch (mDirect)
-		{
-		case eDirection::Left:
-			basic->GetComponent<Animator>()->Play(L"LeftSkillS",false);
-			break;
-		case eDirection::Right:
-			basic->GetComponent<Animator>()->Play(L"RightSkillS", false);
+		basic->SetSkulState(eSkulState::SkillS);
 
-			break;
-		}
-
-		mState = eSkulState::Idle;
-		GameObject::SetState(eState::Pause);
+		SetState(eState::Pause);
 
 
 	}

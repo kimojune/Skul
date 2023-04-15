@@ -48,8 +48,29 @@ namespace ya
 		else if (mDirect== eDirection::Right)
 			pos.x += 1500.0f * dir.x * Time::DeltaTime();
 
+		if (pos.x < 0.0f)
+		{
+			pos.x = 0.0f;
+		}
+
 		mPos = pos;
 		tr->SetPos(mPos);		
+
+		mTime += Time::DeltaTime();
+
+		if (mTime > 8.0f)
+		{
+			mTime = 0.0f;
+			
+			SetState(eState::Pause);
+			Skul* skul = mSkuls[(UINT)Skul::eSkulType::Nohead];
+			if (skul->GetState() == eState::Pause)
+				return;
+			
+			Skul* basic = skul->SwitchSkul(Skul::eSkulType::Basic);
+			basic->SetSkulState(Skul::eSkulState::SkillS);
+			
+		}
 
 		GameObject::Update();
 	}
@@ -96,12 +117,7 @@ namespace ya
 
 	void SkulHead::OnCollisionEnter(Collider* other)
 	{
-		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
 		
-		if (skul == nullptr)
-			return;
-		SetState(eState::Pause);
-
 	}
 
 	void SkulHead::OnCollisionStay(Collider* other)

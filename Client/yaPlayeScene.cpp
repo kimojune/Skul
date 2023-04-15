@@ -1,3 +1,5 @@
+#pragma once
+
 #include "yaPlayeScene.h"
 #include "yaSkul.h"
 #include "yaInput.h"
@@ -51,10 +53,16 @@ namespace ya
 		object::Instantiate<Monster>(Vector2(400.0f, 800.0f), eLayerType::Monster);
 		object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 
+		for (Skul* skul : mSkuls)
+		{
+			if (skul == nullptr)
+				continue;
 
-		mActiveSkul = mSkuls[(UINT)Skul::eSkulType::Basic];
+			skul->SetState(ya::GameObject::eState::Pause);
+		}
 		
-
+		mActiveSkul = mSkuls[(UINT)Skul::eSkulType::Basic];
+		mActiveSkul->SetState(ya::GameObject::eState::Active);
 	}
 
 	void PlayeScene::Update()
@@ -103,5 +111,7 @@ namespace ya
 	void PlayeScene::SetSkul(Skul::eSkulType type)
 	{
 		mActiveSkul = mSkuls[(UINT)type];
+		mActiveSkul->SetState(ya::GameObject::eState::Active);
+		Camera::SetTarget(mActiveSkul);
 	}
 }

@@ -46,9 +46,11 @@ namespace ya
 		virtual void OnCollisionExit(class Collider* other) override;
 
 
-		void SwitchSkul(eSkulType type);
+		Skul* SwitchSkul(eSkulType type);
 		void SetDirect(eDirection direct);
+		bool CheckAnimation(const std::wstring& name);
 		eDirection GetDirect() { return mDirect;}
+		void SetSkulState(eSkulState state) { mState = state; }
 
 		void StartDash();
 		void CompleteDash();
@@ -100,7 +102,6 @@ namespace ya
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 
-		bool mHead;
 		bool SecondAttack;
 
 		UINT AttackCount;
