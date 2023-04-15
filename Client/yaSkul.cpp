@@ -181,11 +181,11 @@ namespace ya
 
 		skul->GetComponent<Transform>()->SetPos(tr->GetPos());
 
-		Camera::SetTarget(skul);
-		PlayeScene* scene = dynamic_cast<PlayeScene*> (ActiveScene);
-		scene->SetSkul(type);
+		PlayeScene* playscene = dynamic_cast<PlayeScene*> (ActiveScene);
+		playscene->SetSkul(type);
 		skul->SetDirect(mDirect);
-
+		
+		
 		switch (mDirect)
 		{
 		case eDirection::Left:

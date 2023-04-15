@@ -17,6 +17,7 @@
 #include "yaBasicSkul.h"
 #include "yaNoheadSkul.h"
 #include "yaGameObject.h"
+#include "yaSkulAttack.h"
 
 
 namespace ya
@@ -46,11 +47,12 @@ namespace ya
 		mSkuls[(UINT)Skul::eSkulType::Basic] = object::Instantiate<Basic>(Vector2(400.0f, 0.0f), eLayerType::Player);
 		mSkuls[(UINT)Skul::eSkulType::Nohead] = object::Instantiate<Nohead>(Vector2(400.0f, 0.0f), eLayerType::Player);
 		
-		
 		object::Instantiate<SkulHead>(Vector2(500.0f, 600.0f), eLayerType::Bullet);
+		
+		object::Instantiate<SkulAttack>(Vector2(500.0f, 600.0f), eLayerType::Effect);
 
-		object::Instantiate<Monster>(Vector2(500.0f, 800.0f), eLayerType::Monster);
-		object::Instantiate<Monster>(Vector2(400.0f, 800.0f), eLayerType::Monster);
+		object::Instantiate<Monster>(Vector2(500.0f, 600.0f), eLayerType::Monster);
+		object::Instantiate<Monster>(Vector2(400.0f, 700.0f), eLayerType::Monster);
 		object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 
 		for (Skul* skul : mSkuls)
@@ -96,6 +98,7 @@ namespace ya
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet, true);
+		CollisionManager::SetLayer(eLayerType::Effect, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
 		//CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Tile, true);

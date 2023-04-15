@@ -29,7 +29,7 @@ namespace ya
 		Collider* collider = AddComponent<Collider>();
 		collider->SetSize(Vector2(45.0f, 45.0f));
 		collider->SetCenter(Vector2(0.0f, -50.0f));
-
+		SetState(eState::Pause);
 		
 		GameObject::Initialize();
 	}

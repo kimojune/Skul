@@ -8,7 +8,8 @@
 #include "yaBasicSkul.h"
 #include "yaSkulHead.h"
 #include "yaCamera.h"
-
+#include "yaPlayeScene.h"
+#include "yaSceneManager.h"
 
 namespace ya
 {
@@ -69,13 +70,15 @@ namespace ya
 		Basic* basic = dynamic_cast<Basic*>(mSkuls[(UINT)eSkulType::Basic]);
 		SkulHead* mSkulHead = basic->GetSkulHead();
 		Transform* headPos = mSkulHead->GetComponent<Transform>();
+		Scene* ActiveScene = SceneManager::GetActiveScene();
 
 		basic->GetComponent<Transform>()->SetPos(headPos->GetPos());
 
 		basic->SetState(eState::Active);
 		mSkulHead->SetState(eState::Pause);
 		
-		Camera::SetTarget(basic);
+		PlayeScene* playscene = dynamic_cast<PlayeScene*> (ActiveScene);
+		playscene->SetSkul(eSkulType::Basic);
 
 
 		basic->SetSkulState(eSkulState::SkillS);
