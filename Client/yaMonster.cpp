@@ -29,10 +29,13 @@ namespace ya
 		tr->SetScale(Vector2(2.0f, 2.0f));
 
 		mAnimator = AddComponent<Animator>();
-		//mAnimator->CreateAnimations(L"..\\Resources\\Goopy Le Grande\\Phase 1\\Jump", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\Monster\\Ent\\Idle", Vector2(-14.0f,-8.0f), 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\Monster\\Ent\\Move", Vector2(-14.0f,-8.0f), 0.1f);
-		mAnimator->Play(L"EntIdle", true);
+
+		mAnimator->CreateAnimations(L"..\\Resources\\Monster\\Ent\\LeftIdle", Vector2(-14.0f,-8.0f), 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\Monster\\Ent\\RightIdle", Vector2(-14.0f,-8.0f), 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\Monster\\Ent\\LeftMove", Vector2(-14.0f,-8.0f), 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\Monster\\Ent\\RightMove", Vector2(-14.0f,-8.0f), 0.1f);
+
+		mAnimator->Play(L"EntRightMove", true);
 
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-40.0f, -45.0f));
@@ -42,7 +45,9 @@ namespace ya
 
 		//mAnimator->GetStartEvent(L"LeftAttackA") = std::bind(&Monster::StartAttack, this);
 		//mAnimator->GetCompleteEvent(L"LeftAttackA") = std::bind(&Skul::CompleteAttack, this);
-		mAnimator->GetEndEvent(L"EntIdle") = std::bind(&Monster::EndIdle, this);
+
+		//mAnimator->GetEndEvent(L"EntLeftIdle") = std::bind(&Monster::EndIdle, this);
+		//mAnimator->GetEndEvent(L"EntRightIdle") = std::bind(&Monster::EndIdle, this);
 	
 		GameObject::Initialize();
 
@@ -52,19 +57,37 @@ namespace ya
 	{
 		mTime += Time::DeltaTime();
 
-		if (mTime > 8)
+		if (mTime > 3)
 		{
 			mTime = 0;
 
-			UINT a = rand();
-			a %= 2;
-			mState = (eMonsterState)a;
+			UINT rstate = rand();
+			UINT rDir= rand();
+			rstate %= 2;
+			rDir %= 2;
+			
+			mDirection = (eDirection)rDir;
+
+
+			mState = (eMonsterState)rstate;
 			
 			if (mState == eMonsterState::Idle)
-				mAnimator->Play(L"EntIdle", true);
-			else if(mState==eMonsterState::Move)
-				mAnimator->Play(L"EntMove", true);
+			{
+				if(mDirection == eDirection::Left)
+				mAnimator->Play(L"EntLeftIdle", true);
+				else
+				mAnimator->Play(L"EntRightIdle", true);
+			}
 
+			else if (mState == eMonsterState::Move)
+			{
+				if (mDirection == eDirection::Left)
+					mAnimator->Play(L"EntLeftMove", true);
+				else
+					mAnimator->Play(L"EntRightMove", true);
+			}
+
+			
 		}
 
 
@@ -110,7 +133,6 @@ namespace ya
 	void Monster::Move()
 	{
 		
-
 		//¿Ãµø∫Œ
 
 		Transform* tr = GetComponent<Transform>();
@@ -119,6 +141,8 @@ namespace ya
 		if (mDirection == eDirection::Left)
 		{
 			pos.x -= 100.0f * Time::DeltaTime();
+			if (pos.x < 0)
+				pos.x = 0;
 		}
 
 		else if (mDirection == eDirection::Right)
