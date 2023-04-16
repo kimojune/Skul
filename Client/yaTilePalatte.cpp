@@ -31,6 +31,8 @@ namespace ya
 		tile->InitializeTile(mImage, index);
 
 		Vector2 tilePos(pos.x * TILE_SIZE_X, pos.y * TILE_SIZE_Y);
+		//Image::Create(L"TilePixel", TILE_SIZE_X, TILE_SIZE_Y, RGB(255, 0, 255));
+
 		tile->GetComponent<Transform>()->SetPos(tilePos);
 
 		TileID id;

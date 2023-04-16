@@ -32,8 +32,8 @@ namespace ya
 		if (atlas == nullptr || index < 0)
 			return;
 
- 		Collider* collider = AddComponent<Collider>();
-		collider->SetSize(Vector2(36.0f, 36.0f));
+ 	//	Collider* collider = AddComponent<Collider>();
+		//collider->SetSize(Vector2(36.0f, 36.0f));
 
 		mAtlas = atlas;
 		SetIndex(index);

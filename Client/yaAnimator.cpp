@@ -125,7 +125,7 @@ namespace ya
 
 		HBRUSH magentaBrush = CreateSolidBrush(RGB(255, 0, 255));
 		HBRUSH oldBrush = (HBRUSH)SelectObject(mSpriteSheet->GetHdc(), magentaBrush);
-		Rectangle(mSpriteSheet->GetHdc(), -1, -2, width * fileCount+2, height);
+		Rectangle(mSpriteSheet->GetHdc(), -1, -2, width * fileCount + 2, height + 1);
 		DeleteObject(magentaBrush);
 
 		int index = 0;
