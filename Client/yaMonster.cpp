@@ -8,6 +8,7 @@
 #include "yaCollider.h"
 #include "yaSkulHead.h"
 #include "yaScene.h"
+#include "yaRigidbody.h"
 
 
 namespace ya
@@ -25,7 +26,7 @@ namespace ya
 	{
 		//Goopy Le Grande\Phase 1\Jump
 		Transform* tr = GetComponent<Transform>();
-	
+
 		tr->SetScale(Vector2(2.0f, 2.0f));
 
 		mAnimator = AddComponent<Animator>();
@@ -42,6 +43,10 @@ namespace ya
 
 		mState = eMonsterState::Idle;
 
+		mRigidbody = AddComponent<Rigidbody>();
+
+		mRigidbody->SetMass(1.0f);
+		mRigidbody->SetGround(false);
 
 		//mAnimator->GetStartEvent(L"LeftAttackA") = std::bind(&Monster::StartAttack, this);
 		//mAnimator->GetCompleteEvent(L"LeftAttackA") = std::bind(&Skul::CompleteAttack, this);
