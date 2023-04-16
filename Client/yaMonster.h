@@ -11,6 +11,25 @@ namespace ya
 		Monster();
 		~Monster();
 
+		enum class eMonsterState
+		{
+			Idle,
+			Move,
+			Attack,
+			LangeAttack,
+			Hit,
+			Dead,
+
+		};
+
+		virtual void Idle();
+		virtual void Move();
+		virtual void Attack();
+		virtual void LangeAttack();
+		virtual void Hit();
+		virtual void Dead();
+
+
 		virtual void Initialize() override;
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
@@ -18,5 +37,6 @@ namespace ya
 
 	private:
 		Animator* mAnimator;
+		eMonsterState mState;
 	};
 }
