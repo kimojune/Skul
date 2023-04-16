@@ -21,6 +21,18 @@ namespace ya
 			Dead,
 
 		};
+		
+		virtual void Initialize() override;
+		virtual void Update() override;
+		virtual void Render(HDC hdc) override;
+		virtual void Release() override;
+
+		//virtual void OnCollisionEnter(class Collider* other) override;
+		//virtual void OnCollisionStay(class Collider* other) override;
+		//virtual void OnCollisionExit(class Collider* other) override;
+
+
+	protected:
 
 		virtual void Idle();
 		virtual void Move();
@@ -29,14 +41,14 @@ namespace ya
 		virtual void Hit();
 		virtual void Dead();
 
-
-		virtual void Initialize() override;
-		virtual void Update() override;
-		virtual void Render(HDC hdc) override;
-		virtual void Release() override;
+		void CompleteIdle();
+		void EndIdle();
 
 	private:
 		Animator* mAnimator;
 		eMonsterState mState;
+		eDirection mDirection;
+		float mTime;
+		bool mbPlay;
 	};
 }
