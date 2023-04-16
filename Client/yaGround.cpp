@@ -40,16 +40,13 @@ namespace ya
 	void Ground::OnCollisionEnter(Collider* other)
 	{
 
-
 		GameObject* obj = other->GetOwner();
 
 		Rigidbody* rb = obj->GetComponent<Rigidbody>();
 
 		if (rb == nullptr)
 		{
-			int a = 0;
 			return;
-			
 		}
 	
 		rb->SetGround(true);
@@ -63,7 +60,6 @@ namespace ya
 
 		float fLen = fabs(objPos.y - groundPos.y);
 
-		int a = 0;
 
 		float fSize = (objCol->GetSize().y / 2.0f) + (groundCol->GetSize().y / 2.0f);
 

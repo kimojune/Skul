@@ -102,6 +102,7 @@ namespace ya
 		CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Ground, true);
+		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, true);
 		//CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Tile, true);
 
 	}

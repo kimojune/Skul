@@ -75,37 +75,39 @@ namespace ya
 
 	void Tile::OnCollisionEnter(Collider* other)
 	{
-		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
+		GameObject* obj = other->GetOwner();
 
-		if (skul == nullptr)
+		Rigidbody* rb = obj->GetComponent<Rigidbody>();
+
+		if (rb == nullptr)
+		{
 			return;
+		}
 
-		Rigidbody* rb = skul->GetComponent<Rigidbody>();
 		rb->SetGround(true);
 
 
-		Collider* skulCol = skul->GetComponent<Collider>();
-		Vector2 skulPos = skulCol->GetPos();
+		Collider* objCol = obj->GetComponent<Collider>();
+		Vector2 objPos = objCol->GetPos();
 
 		Collider* groundCol = this->GetComponent<Collider>();
 		Vector2 groundPos = groundCol->GetPos();
 
-		float fLen = fabs(skulPos.y - groundPos.y);
+		float fLen = fabs(objPos.y - groundPos.y);
 
-		int a = 0;
 
-		float fSize = (skulCol->GetSize().y / 2.0f) + (groundCol->GetSize().y / 2.0f);
+		float fSize = (objCol->GetSize().y / 2.0f) + (groundCol->GetSize().y / 2.0f);
 
 		if (fLen < fSize)
 		{
-			Transform* skulTr = skul->GetComponent<Transform>();
+			Transform* objTr = obj->GetComponent<Transform>();
 			Transform* grTr = this->GetComponent<Transform>();
 
-			Vector2 skulPos = skulTr->GetPos();
+			Vector2 objPos = objTr->GetPos();
 			Vector2 grPos = grTr->GetPos();
 
-			skulPos.y -= (fSize - fLen) - 1.0f;
-			skulTr->SetPos(skulPos);
+			objPos.y -= (fSize - fLen) - 1.0f;
+			objTr->SetPos(objPos);
 		}
 	}
 
@@ -115,12 +117,12 @@ namespace ya
 
 	void Tile::OnCollisionExit(Collider* other)
 	{
-		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
+		GameObject* obj = other->GetOwner();
 
-		if (skul == nullptr)
+		Rigidbody* rb = obj->GetComponent<Rigidbody>();
+		if (rb == nullptr)
 			return;
 
-		Rigidbody* rb = skul->GetComponent<Rigidbody>();
 		rb->SetGround(false);
 	}
 
