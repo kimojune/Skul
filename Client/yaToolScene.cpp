@@ -54,7 +54,7 @@ namespace ya
             TilePalatte::DeleateTile(pos);
 
         }
-
+        
         if (Input::GetKeyDown(eKeyCode::S))
         {
             TilePalatte::Save();

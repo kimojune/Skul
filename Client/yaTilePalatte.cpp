@@ -58,17 +58,8 @@ namespace ya
 		
 		std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.find(id.id);
 
-		if (iter == mTiles.end())
-		{
-			return;
-		}
 
-		Tile* tile = iter->second;
-
-		object::Destory(tile);
-		
-
-		
+		mTiles.erase(id.id);
 
 	}
 
@@ -110,6 +101,12 @@ namespace ya
 		for (; iter != mTiles.end(); iter++)
 		{
 			int index = iter->second->Index();
+		
+			if (mIndex == -1)
+			{
+				continue;
+			}
+			
 			fwrite(&index, sizeof(int), 1, file);
 
 			TileID id;
