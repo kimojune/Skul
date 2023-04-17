@@ -26,12 +26,13 @@ namespace ya
 		virtual void SetSkul(Skul::eSkulType type);
 		Skul* GetSkul() { return mActiveSkul;}
 		
-		
+		//Image* GetPixMap() { return mPixelMap; }
 		
 
 	private:
 		Sound* Chapter1;
 		Skul* mActiveSkul;
+		
 
 	};
 }

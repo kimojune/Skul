@@ -31,6 +31,8 @@ namespace ya
 
 	void Skul::Initialize()
 	{
+		GameObject::Initialize();
+
 		Transform* tr = GetComponent<Transform>();
 		tr->SetScale(Vector2(2.5f, 2.5f));
 
@@ -107,12 +109,14 @@ namespace ya
 
 
 
-		GameObject::Initialize();
 	}
 
 
 	void Skul::Update()
 	{
+
+		GameObject::Update();
+
 		Transform* tr = GetComponent<Transform>();
 
 		Vector2 pos = tr->GetPos();
@@ -160,7 +164,6 @@ namespace ya
 		default:
 			break;
 		}
-		GameObject::Update();
 	}
 
 	void Skul::Render(HDC hdc)

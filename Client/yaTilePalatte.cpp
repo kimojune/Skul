@@ -40,6 +40,7 @@ namespace ya
 		id.y = (UINT32)pos.y;
 
 		mTiles.insert(std::make_pair(id.id, tile));
+		
 	}
 
 
@@ -188,6 +189,9 @@ namespace ya
 				break;
 			
 			CreateTile(index, Vector2(id.x, id.y));
+			
+			//mPixel = Image::Create(L"Pixels", id.x, id.y,RGB(255,0,255));
+
 		}
 
 		fclose(file);

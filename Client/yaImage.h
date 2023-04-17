@@ -18,6 +18,9 @@ namespace ya
 		UINT GetWidth() { return mWidth; }
 		UINT GetHeight() { return mHeight; }
 
+		COLORREF GetPixel(int x, int y);
+		void SetPixel(int x, int y, COLORREF color);
+
 	private:
 		HBITMAP mBitmap;
 		HDC mHdc;

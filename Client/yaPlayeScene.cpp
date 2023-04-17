@@ -39,6 +39,7 @@ namespace ya
 	{
 		Scene::Initialize();
 
+		//mPixelMap = TilePalatte::GetTilePixel();
 		
 		Chapter1 = Resources::Load<Sound>(L"Chapter1", L"..\\Resources\\Sound\\Chapter1.wav");
 		//Chapter1->Play(true);
@@ -53,7 +54,7 @@ namespace ya
 
 		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Monster);
 		object::Instantiate<Monster>(Vector2(400.0f, 500.0f), eLayerType::Monster);
-		object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
+		object::Instantiate<Ground>(Vector2(-100.0f, 600.0f), eLayerType::Ground);
 
 		for (Skul* skul : mSkuls)
 		{
@@ -62,9 +63,12 @@ namespace ya
 
 			skul->SetState(ya::GameObject::eState::Pause);
 		}
-		
+
+
 		mActiveSkul = mSkuls[(UINT)Skul::eSkulType::Basic];
 		mActiveSkul->SetState(ya::GameObject::eState::Active);
+
+		
 	}
 
 	void PlayeScene::Update()
@@ -89,7 +93,7 @@ namespace ya
 	}
 	void PlayeScene::OnEnter()
 	{
-		const std::wstring& path = { L"..\\Tile\\test13" };
+		const std::wstring& path = { L"..\\Tile\\FlatGreen" };
 		TilePalatte::Load(path);
 
 		Camera::SetTarget(mActiveSkul);
@@ -108,11 +112,11 @@ namespace ya
 	}
 	void PlayeScene::OnExit()
 	{
-
 		Chapter1->Stop(true);
 		Camera::SetTarget(nullptr);
 		//mCuphead->SetPos(Vector2{ 0.0f, 0.0f });
 	}
+
 	void PlayeScene::SetSkul(Skul::eSkulType type)
 	{
 		mActiveSkul = mSkuls[(UINT)type];

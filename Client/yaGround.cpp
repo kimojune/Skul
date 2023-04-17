@@ -3,6 +3,11 @@
 #include "yaSkul.h"
 #include "yaRigidbody.h"
 #include "yaTransform.h"
+#include "yaResources.h"
+#include "yaImage.h"
+#include "yaPlayeScene.h"
+#include "yaSceneManager.h"
+#include "yaCamera.h"
 
 namespace ya
 {
@@ -16,20 +21,60 @@ namespace ya
 
 	void Ground::Initialize()
 	{
-		mCollider = AddComponent<Collider>();
-		mCollider->SetSize(Vector2(3200.0f, 50.0f));            
+		
 
+		mCollider = AddComponent<Collider>();
+		mCollider->SetSize(Vector2(3200.0f, 500.0f));   
+		mCollider->SetCenter(Vector2(0.0f, 0.0f));   
+		//
+		//Scene* scene = SceneManager::GetActiveScene();
+		//PlayeScene* playscene = dynamic_cast<PlayeScene*>(scene);
+
+		//mImage = playscene->GetPixMap();
+		
 		GameObject::Initialize();
 	}
 
 	void Ground::Update()
 	{
 		GameObject::Update();
+
+	/*	Transform* playerTr = mPlayer->GetComponent<Transform>();
+
+		COLORREF color = mImage->GetPixel(playerTr->GetPos().x, playerTr->GetPos().y);
+
+		Rigidbody* rb = mPlayer->GetComponent<Rigidbody>();
+		if (color == RGB(255, 0, 255))
+		{
+			rb->SetGround(true);
+
+			Vector2 pos = playerTr->GetPos();
+			pos.y -= 1;
+			playerTr->SetPos(pos);
+		}
+		else
+		{
+			rb->SetGround(false);
+		}*/
 	}
 
 	void Ground::Render(HDC hdc)
 	{
+		Transform* tr = GetComponent<Transform>();
+		
+		Vector2 renderPos = Camera::CaluatePos(tr->GetPos());
+		tr->SetPos(renderPos);
+
 		GameObject::Render(hdc);
+
+
+		//TransparentBlt(hdc, tr->GetPos().x, tr->GetPos().y
+		//	, mImage->GetWidth(), mImage->GetHeight()
+		//	, mImage->GetHdc()
+		//	, 0, 0
+		//	, mImage->GetWidth(), mImage->GetHeight()
+		//	, RGB(255, 255, 255));
+
 	}
 
 	void Ground::Release()
@@ -66,13 +111,11 @@ namespace ya
 		if (fLen < fSize)
 		{
 			Transform* objTr = obj->GetComponent<Transform>();
-			Transform* grTr = this->GetComponent<Transform>();
 
-			Vector2 objPos = objTr->GetPos();
-			Vector2 grPos = grTr->GetPos();
+			Vector2 objtrPos = objTr->GetPos();
 
-			objPos.y -= (fSize - fLen) - 1.0f;
-			objTr->SetPos(objPos);
+			objtrPos.y -= (fSize - fLen) - 1.0f;
+			objTr->SetPos(objtrPos);
 		}
 	}
 	void Ground::OnCollisionStay(Collider* other)

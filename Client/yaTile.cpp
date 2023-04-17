@@ -52,6 +52,8 @@ namespace ya
 	void Tile::Update()
 	{
 		GameObject::Update();
+
+		
 	}
 	void Tile::Render(HDC hdc)
 	{
