@@ -18,6 +18,7 @@ namespace ya
 	Monster::Monster()
 		:mTime(0)
 		, mDirection(eDirection::Right)
+	
 		
 	{
 	}
@@ -66,6 +67,7 @@ namespace ya
 	void Monster::Update()
 	{
 		mTime += Time::DeltaTime();
+		
 
 		if (mTime > 3)
 		{
@@ -174,6 +176,8 @@ namespace ya
 	}
 	void Monster::Hit()
 	{
+		//mHP -= 1;
+
 		Transform* tr= GetComponent<Transform>();
 
 		PlayeScene* playscene = dynamic_cast<PlayeScene*> (SceneManager::GetActiveScene());
@@ -220,6 +224,7 @@ namespace ya
 			mAnimator->Play(L"EntLeftMove", true);
 		else
 			mAnimator->Play(L"EntRightMove", true);
+
 
 	}
 

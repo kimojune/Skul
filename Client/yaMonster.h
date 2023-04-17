@@ -58,6 +58,6 @@ namespace ya
 		float mTime;
 		bool mbPlay;
 
-		int mHP;
+		//int mHP;
 	};
 }
