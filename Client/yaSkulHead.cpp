@@ -8,6 +8,7 @@
 #include "yaSkul.h"
 #include "yaPlayeScene.h"
 #include "yaAnimator.h"
+#include "yaMonster.h"
 
 
 namespace ya
@@ -117,7 +118,14 @@ namespace ya
 
 	void SkulHead::OnCollisionEnter(Collider* other)
 	{
-		
+		Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+
+		if (monster == nullptr)
+			return;
+
+			monster->SetMonsterState(Monster::eMonsterState::Hit);
+			Animator* monAnimator = monster->GetComponent<Animator>();
+	
 	}
 
 	void SkulHead::OnCollisionStay(Collider* other)

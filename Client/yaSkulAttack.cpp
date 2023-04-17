@@ -4,6 +4,9 @@
 #include "yaPlayeScene.h"
 #include "yaSceneManager.h"
 #include "yaSkul.h"
+#include "yaMonster.h"
+#include "yaAnimator.h"
+
 namespace ya
 {
 	SkulAttack::SkulAttack()
@@ -29,11 +32,11 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		PlayeScene* playscene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
-		Skul* mActiveSkul = playscene->GetSkul();
+		mSkul = playscene->GetSkul();
 		
-		Vector2 skulPos = mActiveSkul->GetComponent<Transform>()->GetPos();
+		Vector2 skulPos = mSkul->GetComponent<Transform>()->GetPos();
 
-		mDirect = mActiveSkul->GetDirect();
+		mDirect = mSkul->GetDirect();
 
 		if (mDirect == eDirection::Left)
 			skulPos.x -= 20.0f;
@@ -54,10 +57,23 @@ namespace ya
 	}
 	void SkulAttack::OnCollisionEnter(Collider* other)
 	{
-		
+		//Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
 	}
 	void SkulAttack::OnCollisionStay(Collider* other)
 	{
+		Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
+		
+		if (monster == nullptr)
+			return;
+
+		Skul::eSkulState skulstate = mSkul->GetSkulState();
+		if (Skul::eSkulState::Attack == skulstate
+			|| Skul::eSkulState::JumpAttack == skulstate)
+		{
+			monster->SetMonsterState(Monster::eMonsterState::Hit);
+			Animator* monAnimator = monster->GetComponent<Animator>();
+		}
+
 	}
 	void SkulAttack::OnCollisionExit(Collider* other)
 	{

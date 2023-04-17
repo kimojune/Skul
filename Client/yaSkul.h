@@ -50,7 +50,9 @@ namespace ya
 		void SetDirect(eDirection direct);
 		bool CheckAnimation(const std::wstring& name);
 		eDirection GetDirect() { return mDirect;}
+	
 		void SetSkulState(eSkulState state) { mState = state; }
+		eSkulState GetSkulState() {return mState; }
 
 		void StartDash();
 		void CompleteDash();
@@ -103,11 +105,13 @@ namespace ya
 		Rigidbody* mRigidbody;
 
 		bool SecondAttack;
+		bool SecondDash;
+		bool SecondJump;
+
 
 		UINT AttackCount;
-		UINT MoveCount;
 
-	
+		
 
 	};
 

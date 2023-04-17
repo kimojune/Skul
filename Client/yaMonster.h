@@ -28,6 +28,9 @@ namespace ya
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
 
+		eMonsterState GetMonsterState() { return mState; }
+		void SetMonsterState(eMonsterState state) { mState = state; }
+
 		//virtual void OnCollisionEnter(class Collider* other) override;
 		//virtual void OnCollisionStay(class Collider* other) override;
 		//virtual void OnCollisionExit(class Collider* other) override;
@@ -43,6 +46,7 @@ namespace ya
 		virtual void Dead();
 
 		void CompleteIdle();
+		void CompleteHit();
 		void EndIdle();
 
 	private:
@@ -53,5 +57,7 @@ namespace ya
 
 		float mTime;
 		bool mbPlay;
+
+		int mHP;
 	};
 }

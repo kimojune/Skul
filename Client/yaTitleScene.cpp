@@ -58,7 +58,7 @@ namespace ya
 	}
 	void TitleScene::OnEnter()
 	{
-		mainTheme->Play(true);
+		//mainTheme->Play(true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 	}
 	void TitleScene::OnExit()

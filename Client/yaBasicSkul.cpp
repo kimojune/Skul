@@ -99,6 +99,19 @@ namespace ya
 			else
 				mAnimator->Play(L"RightSkillA", false);
 
+			Transform* tr = Skul::GetComponent<Transform>();
+			Scene* ActiveScene = SceneManager::GetActiveScene();
+
+			mSkulHead = dynamic_cast<SkulHead*>(ActiveScene->GetGameObjects(eLayerType::Bullet)[0]);
+			mSkulHead->SetState(eState::Active);
+			mSkulHead->GetComponent<Transform>()->SetPos(tr->GetPos());
+
+			if (mDirect == eDirection::Left)
+				mSkulHead->SetDirect(eDirection::Left);
+
+			else if (mDirect == eDirection::Right)
+				mSkulHead->SetDirect(eDirection::Right);
+
 		}
 	}
 	void Basic::SkillS()
@@ -115,18 +128,7 @@ namespace ya
 	}
 	void Basic::StartSkillA()
 	{
-		Transform* tr = Skul::GetComponent<Transform>();
-		Scene* ActiveScene = SceneManager::GetActiveScene();
 
-		mSkulHead = dynamic_cast<SkulHead*>(ActiveScene->GetGameObjects(eLayerType::Bullet)[0]);
-		mSkulHead->SetState(eState::Active);
-		mSkulHead->GetComponent<Transform>()->SetPos(tr->GetPos());
-		
-		if (mDirect == eDirection::Left)
-			mSkulHead->SetDirect(eDirection::Left);
-
-		else if (mDirect == eDirection::Right)
-			mSkulHead->SetDirect(eDirection::Right);
 
 
 	}
@@ -136,7 +138,7 @@ namespace ya
 		Skul* skul = SwitchSkul(eSkulType::Nohead);
 		
 		skul->SetSkulState(eSkulState::Idle);
-		
+
 		mbPlay = false;
 	}
 

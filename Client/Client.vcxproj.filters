@@ -223,7 +223,9 @@
     <ClInclude Include="yaNoheadSkul.h">
       <Filter>Contents\Player</Filter>
     </ClInclude>
-    <ClInclude Include="yaSkulAttack.h" />
+    <ClInclude Include="yaSkulAttack.h">
+      <Filter>Contents\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -353,6 +355,8 @@
     <ClCompile Include="yaSkulShadow.cpp">
       <Filter>Contents\Player</Filter>
     </ClCompile>
-    <ClCompile Include="yaSkulAttack.cpp" />
+    <ClCompile Include="yaSkulAttack.cpp">
+      <Filter>Contents\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

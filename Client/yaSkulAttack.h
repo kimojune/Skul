@@ -23,6 +23,8 @@ namespace ya
 	private:
 		Animator* mAnimator;
 		eDirection mDirect;
+		Skul* mSkul;
+		int HP;
 	};
 
 }

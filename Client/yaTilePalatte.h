@@ -32,14 +32,16 @@ public:
 	static Vector2 GetTilePos(Vector2 mousePos);
 	static void SetIndex(UINT index) { mIndex = index; }
 	static UINT GetIndex() { return mIndex; }
-	//static Image* GetTilePixel() { return mPixel; }
+	//static Image* GetTilePixels() { return mPixels; }
 
 
 private:
 	static std::unordered_map<UINT64, Tile*>mTiles;
 	static Image* mImage;
 	static UINT mIndex;
-	//static Image* mPixel;
+	UINT mMaxX;
+	UINT mMaxY;
+	//static Image* mPixels;
 	
 };
 

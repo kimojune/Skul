@@ -16,6 +16,7 @@ namespace ya
 	void Nohead::Initialize()
 	{
 		SetName(L"NoheadSkul");
+
 		Image* LeftHeadlessImage = Resources::Load<Image>(L"LeftHeadless", L"..\\Resources\\LeftHeadless.bmp");
 		Image* RightHeadlessImage = Resources::Load<Image>(L"RightHeadless", L"..\\Resources\\RightHeadless.bmp");
 
@@ -74,7 +75,6 @@ namespace ya
 
 		basic->GetComponent<Transform>()->SetPos(headPos->GetPos());
 
-		basic->SetState(eState::Active);
 		mSkulHead->SetState(eState::Pause);
 		
 		PlayeScene* playscene = dynamic_cast<PlayeScene*> (ActiveScene);
@@ -82,6 +82,7 @@ namespace ya
 
 
 		basic->SetSkulState(eSkulState::SkillS);
+		basic->SetState(eState::Active);
 
 		SetState(eState::Pause);
 

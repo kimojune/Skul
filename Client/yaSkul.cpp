@@ -23,6 +23,8 @@ namespace ya
 	Skul::Skul()
 		: mState(eSkulState::Idle)
 		, AttackCount(0)
+		, SecondDash(true)
+		, SecondJump(true)
 	{
 	}
 	Skul::~Skul()
@@ -115,23 +117,11 @@ namespace ya
 	void Skul::Update()
 	{
 
-		GameObject::Update();
 
 		Transform* tr = GetComponent<Transform>();
 
 		Vector2 pos = tr->GetPos();
 
-
-		mState;
-		int a = 0;
-		//if (Input::GetKeyDown(eKeyCode::LEFT))
-		//{
-		//	mDirect = eDirection::Left;
-		//}
-		//else if (Input::GetKeyDown(eKeyCode::RIGHT))
-		//{
-		//	mDirect = eDirection::Right;
-		//}
 
 		switch (mState)
 		{
@@ -164,6 +154,9 @@ namespace ya
 		default:
 			break;
 		}
+
+		GameObject::Update();
+
 	}
 
 	void Skul::Render(HDC hdc)
@@ -692,7 +685,8 @@ namespace ya
 		if (rd->GetGround())
 		{
 			mState = eSkulState::Idle;
-
+			SecondDash = true;
+			SecondJump = true;
 
 			switch (mDirect)
 			{
@@ -911,6 +905,7 @@ namespace ya
 	// Event
 	void Skul::StartDash()
 	{
+		
 		Vector2 velocity = mRigidbody->GetVelocity();
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
