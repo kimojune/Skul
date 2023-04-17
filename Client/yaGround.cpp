@@ -25,7 +25,7 @@ namespace ya
 
 		mCollider = AddComponent<Collider>();
 		mCollider->SetSize(Vector2(3200.0f, 500.0f));   
-		mCollider->SetCenter(Vector2(0.0f, 0.0f));   
+		//mCollider->SetCenter(Vector2(0.0f, 250.0f));   
 		//
 		//Scene* scene = SceneManager::GetActiveScene();
 		//PlayeScene* playscene = dynamic_cast<PlayeScene*>(scene);
@@ -63,7 +63,7 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		
 		Vector2 renderPos = Camera::CaluatePos(tr->GetPos());
-		tr->SetPos(renderPos);
+
 
 		GameObject::Render(hdc);
 
@@ -106,7 +106,7 @@ namespace ya
 		float fLen = fabs(objPos.y - groundPos.y);
 
 
-		float fSize = (objCol->GetSize().y / 2.0f) + (groundCol->GetSize().y / 2.0f);
+		float fSize = (objCol->GetSize().y / 2.0f); /*(groundCol->GetSize().y / 2.0f);*/
 
 		if (fLen < fSize)
 		{
