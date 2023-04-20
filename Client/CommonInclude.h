@@ -27,5 +27,7 @@
 #pragma comment(lib, "dsound.lib")
 
 
-#define TILE_SIZE_X 36 
-#define TILE_SIZE_Y 36
+#define TILE_SIZE_X 72 
+#define TILE_SIZE_Y 72
+
+#define GROUN_SIZE_X 6400

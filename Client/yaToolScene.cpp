@@ -33,7 +33,7 @@ namespace ya
         Vector2  temp = Input::GetMousePos();
 
 
-        if (Input::GetKeyDown(eKeyCode::LBUTTON))
+        if (Input::GetKey(eKeyCode::LBUTTON))
         {
             Vector2 pos = Input::GetMousePos();
             pos -= Camera::CaluatePos(Vector2::Zero);
@@ -116,7 +116,7 @@ LRESULT CALLBACK AtlasWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 
     case WM_CREATE:
     {
-        ya::Image* tile = ya::Resources::Load<ya::Image>(L"TileAtlas", L"..\\Resources\\SkulAtlas.bmp");
+        ya::Image* tile = ya::Resources::Load<ya::Image>(L"TileAtlas", L"..\\Resources\\SkulAtlas2x2.bmp");
         RECT rect = { 0, 0, tile->GetWidth(), tile->GetHeight() };
         AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
 

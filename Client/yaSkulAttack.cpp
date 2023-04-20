@@ -32,6 +32,10 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		PlayeScene* playscene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
+		
+		if (playscene == nullptr)
+			return;
+
 		mSkul = playscene->GetSkul();
 		
 		Vector2 skulPos = mSkul->GetComponent<Transform>()->GetPos();
@@ -70,6 +74,8 @@ namespace ya
 		if (Skul::eSkulState::Attack == skulstate
 			|| Skul::eSkulState::JumpAttack == skulstate)
 		{
+			if (monster->GetMonsterState() == Monster::eMonsterState::Hit)
+				return;
 			monster->SetMonsterState(Monster::eMonsterState::Hit);
 			Animator* monAnimator = monster->GetComponent<Animator>();
 		}
@@ -77,5 +83,6 @@ namespace ya
 	}
 	void SkulAttack::OnCollisionExit(Collider* other)
 	{
+
 	}
 }

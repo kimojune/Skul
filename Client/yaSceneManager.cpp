@@ -18,6 +18,7 @@ namespace ya
 
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 		mScenes[(UINT)eSceneType::Play] = new PlayeScene();
+		mScenes[(UINT)eSceneType::Play2] = new PlayeScene();
 		mScenes[(UINT)eSceneType::Tool] = new ToolScene();
 
 

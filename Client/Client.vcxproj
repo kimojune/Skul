@@ -129,6 +129,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="yaBackCastle.h" />
+    <ClInclude Include="yaBossGate.h" />
+    <ClInclude Include="yaCastle.h" />
+    <ClInclude Include="yaGate.h" />
+    <ClInclude Include="yaItemGate.h" />
+    <ClInclude Include="yaSkulGate.h" />
+    <ClInclude Include="yaStruct.h" />
     <ClInclude Include="yaBasicSkul.h" />
     <ClInclude Include="yaGround.h" />
     <ClInclude Include="yaNoheadSkul.h" />
@@ -177,6 +184,13 @@
     <ClInclude Include="yaTransform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="yaBackCastle.cpp" />
+    <ClCompile Include="yaBossGate.cpp" />
+    <ClCompile Include="yaCastle.cpp" />
+    <ClCompile Include="yaGate.cpp" />
+    <ClCompile Include="yaItemGate.cpp" />
+    <ClCompile Include="yaSkulGate.cpp" />
+    <ClCompile Include="yaStruct.cpp" />
     <ClCompile Include="yaBasicSkul.cpp" />
     <ClCompile Include="yaGround.cpp" />
     <ClCompile Include="yaNoheadSkul.cpp" />

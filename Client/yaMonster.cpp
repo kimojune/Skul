@@ -18,6 +18,7 @@ namespace ya
 	Monster::Monster()
 		:mTime(0)
 		, mDirection(eDirection::Right)
+		,mbPlay(false)
 	
 		
 	{
@@ -41,25 +42,25 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\Monster\\Ent\\LeftHit", Vector2(-14.0f,-8.0f), 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\Monster\\Ent\\RightHit", Vector2(-14.0f,-8.0f), 0.1f);
 
-		mAnimator->Play(L"EntRightIdle", true);
 
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-40.0f, -45.0f));
-
-		mState = eMonsterState::Idle;
-
 		mRigidbody = AddComponent<Rigidbody>();
 
 		mRigidbody->SetMass(1.0f);
 		mRigidbody->SetGround(false);
 
 		//mAnimator->GetStartEvent(L"LeftAttackA") = std::bind(&Monster::StartAttack, this);
-		mAnimator->GetCompleteEvent(L"EntLeftHit") = std::bind(&Monster::CompleteHit, this);
-		mAnimator->GetCompleteEvent(L"EntRightHit") = std::bind(&Monster::CompleteHit, this);
+		mAnimator->GetCompleteEvent(L"LeftHit") = std::bind(&Monster::CompleteHit, this);
+		mAnimator->GetCompleteEvent(L"RightHit") = std::bind(&Monster::CompleteHit, this);
 
 		//mAnimator->GetEndEvent(L"EntLeftIdle") = std::bind(&Monster::EndIdle, this);
 		//mAnimator->GetEndEvent(L"EntRightIdle") = std::bind(&Monster::EndIdle, this);
 	
+
+		mAnimator->Play(L"RightIdle", true);
+		mState = eMonsterState::Idle;
+
 		GameObject::Initialize();
 
 
@@ -68,7 +69,9 @@ namespace ya
 	{
 		mTime += Time::DeltaTime();
 		
+		mState;
 
+		int a = 0;
 		if (mTime > 3)
 		{
 			mTime = 0;
@@ -86,17 +89,17 @@ namespace ya
 			if (mState == eMonsterState::Idle)
 			{
 				if(mDirection == eDirection::Left)
-				mAnimator->Play(L"EntLeftIdle", true);
+				mAnimator->Play(L"LeftIdle", true);
 				else
-				mAnimator->Play(L"EntRightIdle", true);
+				mAnimator->Play(L"RightIdle", true);
 			}
 
 			else if (mState == eMonsterState::Move)
 			{
 				if (mDirection == eDirection::Left)
-					mAnimator->Play(L"EntLeftMove", true);
+					mAnimator->Play(L"LeftMove", true);
 				else
-					mAnimator->Play(L"EntRightMove", true);
+					mAnimator->Play(L"RightMove", true);
 			}
 
 			
@@ -187,26 +190,36 @@ namespace ya
 		Vector2 pos = tr->GetPos();
 		Vector2 skulpos = skultr->GetPos();
 
+		mDelay += Time::DeltaTime();
+
+		if (!(mbPlay))
+		{
+			
 		if (pos.x > skulpos.x)
 		{
 			mDirection = eDirection::Left;
-			pos.x += 10.0f ;
-			mAnimator->Play(L"EntLeftHit", false);
+			pos.x += 100.0f * Time::DeltaTime();;
+			mAnimator->Play(L"LeftHit", false);
 		}
 
 		else
 		{
 			mDirection = eDirection::Right;
-			pos.x -= 10.0f* Time::DeltaTime();
-			mAnimator->Play(L"EntRightHit", false);
-
+			pos.x -= 100.0f * Time::DeltaTime();
+			mAnimator->Play(L"RightHit", false);
 		}
 
+		}
 		
-
+		if (mDelay > 0.5)
+		{
+			mDelay = 0;
+			mState = eMonsterState::Move;
+		}
+		
 		tr->SetPos(pos);
 
-		mState = eMonsterState::Idle;
+
 	}
 	void Monster::Dead()
 	{
@@ -219,12 +232,13 @@ namespace ya
 
 	void Monster::CompleteHit()
 	{
-		mState == eMonsterState::Move;
-		if (mDirection == eDirection::Left)
-			mAnimator->Play(L"EntLeftMove", true);
-		else
-			mAnimator->Play(L"EntRightMove", true);
 
+		mState = eMonsterState::Move;
+
+		if (mDirection == eDirection::Left)
+			mAnimator->Play(L"LeftMove", true);
+		else
+			mAnimator->Play(L"RightMove", true);
 
 	}
 

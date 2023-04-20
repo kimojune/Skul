@@ -10,7 +10,8 @@ namespace ya
 	std::unordered_map<UINT64, Tile*> TilePalatte::mTiles = {};
 	UINT TilePalatte::mIndex = -1;
 
-	//Image* TilePalatte::mPixels;
+	UINT32 mMaxX;
+	UINT32 mMaxY;
 
 	void TilePalatte::Intialize()
 	{
@@ -30,38 +31,26 @@ namespace ya
 		if (mousPos.y >= 900.0f || mousPos.y <= 0.0f)
 			return;
 
-		Tile* tile = object::Instantiate<Tile>(eLayerType::Tile);
-		tile->InitializeTile(mImage, index);
-
-		
-		Vector2 tilePos(pos.x * TILE_SIZE_X, pos.y * TILE_SIZE_Y);
-
-		//mPixels = Image::Create(L"mPixels", TILE_SIZE_X, TILE_SIZE_Y, RGB(255, 255, 255));
-
-		//int a = 0;
-		//if (index >= 0)
-		//{
-		//	Image* mPixel = Image::Create(L"MagentaPixel", TILE_SIZE_X, TILE_SIZE_Y, RGB(255, 0, 255));
-		//
-		//	StretchBlt(mPixels->GetHdc(), tilePos.x, tilePos.y
-		//	, tilePos.x + TILE_SIZE_X
-		//	, tilePos.y + TILE_SIZE_Y
-		//	, mPixel->GetHdc(), 0, 0
-		//	, TILE_SIZE_X, TILE_SIZE_Y, SRCCOPY);
-		//
-		//}
-		
-		
-
-		tile->GetComponent<Transform>()->SetPos(tilePos);
-		
-	
 		TileID id;
 		id.x = (UINT32)pos.x;
 		id.y = (UINT32)pos.y;
 
-		mTiles.insert(std::make_pair(id.id, tile));
-		
+
+		std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.find(id.id);
+
+		//if (iter == mTiles.end())
+		//{
+			Tile* tile = object::Instantiate<Tile>(eLayerType::Tile);
+			tile->InitializeTile(mImage, index);
+
+			Vector2 tilePos(pos.x * TILE_SIZE_X, pos.y * TILE_SIZE_Y);
+			tile->GetComponent<Transform>()->SetPos(tilePos);
+
+			mTiles.insert(std::make_pair(id.id, tile));
+		//}
+		//else
+		//	return;
+
 	}
 
 
@@ -79,14 +68,20 @@ namespace ya
 		id.y = (UINT32)pos.y;
 		
 		std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.find(id.id);
+		
+		if (iter == mTiles.end())
+			return;
 
+		Tile* tile = iter->second;
 
+		tile->SetState(GameObject::eState::Death);
 		mTiles.erase(id.id);
 
 	}
 
 	void TilePalatte::CreateTiles(int index, UINT width, UINT height)
 	{
+		
 	}
 	void TilePalatte::Save()
 	{
@@ -191,6 +186,8 @@ namespace ya
 
 		// std::wstring 내용을 LPWSTR로 복사
 		wcscpy_s(lpwstr, path.size() + 1, path.c_str());
+
+		
 
 		FILE* file = nullptr;
 		_wfopen_s(&file, lpwstr, L"rb");

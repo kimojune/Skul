@@ -18,7 +18,11 @@
 #include "yaNoheadSkul.h"
 #include "yaGameObject.h"
 #include "yaSkulAttack.h"
-
+#include "yaStruct.h"
+#include "yaCastle.h"
+#include "yaBackCastle.h"
+#include "yaBossGate.h"
+#include "yaItemGate.h"
 
 namespace ya
 {
@@ -44,17 +48,29 @@ namespace ya
 		Chapter1 = Resources::Load<Sound>(L"Chapter1", L"..\\Resources\\Sound\\Chapter1.wav");
 		//Chapter1->Play(true);
 		
-		object::Instantiate<PlayBG>(eLayerType::BG);
-		mSkuls[(UINT)Skul::eSkulType::Basic] = object::Instantiate<Basic>(Vector2(400.0f, 0.0f), eLayerType::Player);
-		mSkuls[(UINT)Skul::eSkulType::Nohead] = object::Instantiate<Nohead>(Vector2(400.0f, 0.0f), eLayerType::Player);
+		object::Instantiate<PlayBG>(Vector2(0.0f,0.0f),eLayerType::BG);
+
+		object::Instantiate<BackCastle>(Vector2(500.0f,0.0f),eLayerType::Struct);
+		object::Instantiate<Castle>(Vector2(0.0f,0.0f),eLayerType::Struct);
+
+
+		object::Instantiate<ItemGate>(Vector2(2200.0f, 1578.0f), eLayerType::Struct);
+		object::Instantiate<BossGate>(Vector2(1600.0f, 1578.0f), eLayerType::Struct);
+
+
+
+		mSkuls[(UINT)Skul::eSkulType::Basic] = object::Instantiate<Basic>(Vector2(0.0f, 450.0f), eLayerType::Player);
+		mSkuls[(UINT)Skul::eSkulType::Nohead] = object::Instantiate<Nohead>(Vector2(0.0f, 0.0f), eLayerType::Player);
 		
-		object::Instantiate<SkulHead>(Vector2(500.0f, 600.0f), eLayerType::Bullet);
+		object::Instantiate<SkulHead>(Vector2(0.0f, 0.0f), eLayerType::Bullet);
 		
 		object::Instantiate<SkulAttack>(Vector2(500.0f, 600.0f), eLayerType::Effect);
 
 		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Monster);
 		object::Instantiate<Monster>(Vector2(400.0f, 500.0f), eLayerType::Monster);
-		object::Instantiate<Ground>(Vector2(-100.0f, 600.0f), eLayerType::Ground);
+
+
+		object::Instantiate<Ground>(Vector2(0.0f, 1728.0f), eLayerType::Ground);
 
 		for (Skul* skul : mSkuls)
 		{
@@ -93,7 +109,7 @@ namespace ya
 	}
 	void PlayeScene::OnEnter()
 	{
-		const std::wstring& path = { L"..\\Tile\\FlatGreen" };
+		const std::wstring& path = { L"..\\Tile\\stage1" };
 		TilePalatte::Load(path);
 
 		Camera::SetTarget(mActiveSkul);
@@ -102,6 +118,7 @@ namespace ya
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Struct, true);
 		CollisionManager::SetLayer(eLayerType::Effect, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);

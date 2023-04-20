@@ -19,7 +19,8 @@ namespace ya
 		virtual void Release() override;
 
 	private:
-		Image* mImage;
+		Image* mImage[4];
+		int Count;
 	};
 
 }

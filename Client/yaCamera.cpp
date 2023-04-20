@@ -40,23 +40,23 @@ namespace ya
 
 			if (Input::GetKey(eKeyCode::LEFT))
 			{
-				mLookPosition.x -= 200.0f * Time::DeltaTime();
+				mLookPosition.x -= 400.0f * Time::DeltaTime();
 			}
 
 			if (Input::GetKey(eKeyCode::RIGHT))
 			{
-				mLookPosition.x += 200.0f * Time::DeltaTime();
+				mLookPosition.x += 400.0f * Time::DeltaTime();
 
 			}
 
 			if (Input::GetKey(eKeyCode::UP))
 			{
-				mLookPosition.y -= 200.0f * Time::DeltaTime();
+				mLookPosition.y -= 400.0f * Time::DeltaTime();
 			}
 
 			if (Input::GetKey(eKeyCode::DOWN))
 			{
-				mLookPosition.y += 200.0f * Time::DeltaTime();
+				mLookPosition.y += 400.0f * Time::DeltaTime();
 
 			}
 
@@ -69,20 +69,20 @@ namespace ya
 
 
 			if (mLookPosition.x - (mResolution.x / 2) < 0)
-			{
 				mLookPosition.x = mResolution.x / 2;
+		
+			else if (mLookPosition.x + (mResolution.x / 2) > GROUN_SIZE_X)
+				mLookPosition.x = GROUN_SIZE_X - mResolution.x / 2;
+
+
+			if ((mLookPosition.y - mResolution.y / 2)<0)
+			{
+				mLookPosition.y = mResolution.y / 2;
 			}
+			else
+				mLookPosition.y -= (mResolution.y / 4);
+		
 
-			mLookPosition.y -= (mResolution.y / 4);
-			//if (mLookPosition.y > (mResolution.y / 2))
-			//{
-			//	mLookPosition.y -= mResolution.y/4;
-			//}
-
-			//if (skul.y > (mResolution.y))
-			//{
-			//	mLookPosition.y = skul.y;
-			//}
 			mDistance = mLookPosition - (mResolution / 2.0f);
 
 		}

@@ -86,6 +86,12 @@
     <Filter Include="Contents\Object\Tile">
       <UniqueIdentifier>{f0632e1e-b317-4694-aea1-18d43752888b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Object\Struct">
+      <UniqueIdentifier>{c4115090-dd08-4b88-9d25-e692b6cb5f7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Object\Struct\Gate">
+      <UniqueIdentifier>{d84a529c-12e1-4545-a2c8-7ea7f5a57ca9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -226,6 +232,27 @@
     <ClInclude Include="yaSkulAttack.h">
       <Filter>Contents\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="yaStruct.h">
+      <Filter>Contents\Object\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCastle.h">
+      <Filter>Contents\Object\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBackCastle.h">
+      <Filter>Contents\Object\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGate.h">
+      <Filter>Contents\Object\Struct\Gate</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBossGate.h">
+      <Filter>Contents\Object\Struct\Gate</Filter>
+    </ClInclude>
+    <ClInclude Include="yaSkulGate.h">
+      <Filter>Contents\Object\Struct\Gate</Filter>
+    </ClInclude>
+    <ClInclude Include="yaItemGate.h">
+      <Filter>Contents\Object\Struct\Gate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -357,6 +384,27 @@
     </ClCompile>
     <ClCompile Include="yaSkulAttack.cpp">
       <Filter>Contents\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="yaStruct.cpp">
+      <Filter>Contents\Object\Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCastle.cpp">
+      <Filter>Contents\Object\Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBackCastle.cpp">
+      <Filter>Contents\Object\Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGate.cpp">
+      <Filter>Contents\Object\Struct\Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBossGate.cpp">
+      <Filter>Contents\Object\Struct\Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="yaItemGate.cpp">
+      <Filter>Contents\Object\Struct\Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSkulGate.cpp">
+      <Filter>Contents\Object\Struct\Gate</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

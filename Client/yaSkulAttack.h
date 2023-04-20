@@ -25,6 +25,7 @@ namespace ya
 		eDirection mDirect;
 		Skul* mSkul;
 		int HP;
+		bool mOne;
 	};
 
 }

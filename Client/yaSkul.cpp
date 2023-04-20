@@ -533,6 +533,7 @@ namespace ya
 			if (Input::GetKey(eKeyCode::RIGHT))
 			{
 				mDirect = eDirection::Right;
+				if (pos.x <= GROUN_SIZE_X)
 				pos.x += 200.0f * Time::DeltaTime();
 
 				//if (pos.x >= 0)
@@ -665,12 +666,14 @@ namespace ya
 
 		if (Input::GetKey(eKeyCode::LEFT))
 		{
+			if (pos.x >= 0)
 			pos.x -= 200.0f * Time::DeltaTime();
 			//mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
 		}
 
 		if (Input::GetKey(eKeyCode::RIGHT))
 		{
+			if(pos.x<= GROUN_SIZE_X)
 			pos.x += 200.0f * Time::DeltaTime();
 			//mRigidbody->AddForce(Vector2(200.0f, 0.0f));
 
@@ -765,12 +768,14 @@ namespace ya
 
 		if (Input::GetKey(eKeyCode::LEFT))
 		{
+			if(pos.x >= 0)
 			pos.x -= 100.0f * Time::DeltaTime();
 			/*		mRigidbody->AddForce(Vector2(-200.0f, 0.0f));*/
 		}
 
 		if (Input::GetKey(eKeyCode::RIGHT))
 		{
+			if(pos.x <= GROUN_SIZE_X)
 			pos.x += 100.0f * Time::DeltaTime();
 			/*		mRigidbody->AddForce(Vector2(200.0f, 0.0f));*/
 

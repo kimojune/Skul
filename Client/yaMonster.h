@@ -56,8 +56,9 @@ namespace ya
 		eDirection mDirection;
 
 		float mTime;
+		float mDelay;
 		bool mbPlay;
-
+		bool mbFind;
 		//int mHP;
 	};
 }
