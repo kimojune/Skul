@@ -15,18 +15,20 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\Object\\Gate\\ItemGate\\DeActivate", Vector2(-14.0f, -8.0f), 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\Object\\Gate\\ItemGate\\Activate", Vector2(-14.0f, -8.0f), 0.1f);
 
-		Gate::Initialize();
+		mAnimator->Play(L"ItemDeActivate", false);
+
+		GameObject::Initialize();
 	}
 	void ItemGate::Update()
 	{
-		Gate::Update();
+		GameObject::Update();
 	}
 	void ItemGate::Render(HDC hdc)
 	{
-		Gate::Render(hdc);
+		GameObject::Render(hdc);
 	}
 	void ItemGate::Release()
 	{
-		Gate::Release();
+		GameObject::Release();
 	}
 }

@@ -54,7 +54,7 @@ namespace ya
 		object::Instantiate<Castle>(Vector2(0.0f,0.0f),eLayerType::Struct);
 
 
-		object::Instantiate<ItemGate>(Vector2(2200.0f, 1578.0f), eLayerType::Struct);
+		//object::Instantiate<ItemGate>(Vector2(2200.0f, 1578.0f), eLayerType::Struct);
 		object::Instantiate<BossGate>(Vector2(1600.0f, 1578.0f), eLayerType::Struct);
 
 

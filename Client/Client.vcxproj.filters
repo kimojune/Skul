@@ -241,9 +241,6 @@
     <ClInclude Include="yaBackCastle.h">
       <Filter>Contents\Object\Struct</Filter>
     </ClInclude>
-    <ClInclude Include="yaGate.h">
-      <Filter>Contents\Object\Struct\Gate</Filter>
-    </ClInclude>
     <ClInclude Include="yaBossGate.h">
       <Filter>Contents\Object\Struct\Gate</Filter>
     </ClInclude>
@@ -393,9 +390,6 @@
     </ClCompile>
     <ClCompile Include="yaBackCastle.cpp">
       <Filter>Contents\Object\Struct</Filter>
-    </ClCompile>
-    <ClCompile Include="yaGate.cpp">
-      <Filter>Contents\Object\Struct\Gate</Filter>
     </ClCompile>
     <ClCompile Include="yaBossGate.cpp">
       <Filter>Contents\Object\Struct\Gate</Filter>

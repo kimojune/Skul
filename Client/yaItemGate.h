@@ -1,10 +1,11 @@
 #pragma once
-#include "yaGate.h"
+#include "yaGameObject.h"
 
 namespace ya
 {
+	class Animator;
 
-	class ItemGate : public Gate
+	class ItemGate : public GameObject
 	{
 	public:
 		ItemGate();

@@ -15,19 +15,20 @@ namespace ya
 
 		mAnimator->CreateAnimations(L"..\\Resources\\Object\\Gate\\SkulGate\\DeActivate", Vector2(-14.0f, -8.0f), 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\Object\\Gate\\SkulGate\\Activate", Vector2(-14.0f, -8.0f), 0.1f);
+		mAnimator->Play(L"SkulDeActivate", false);
 
-		Gate::Initialize();
+		GameObject::Initialize();
 	}
 	void SkulGate::Update()
 	{
-		Gate::Update();
+		GameObject::Update();
 	}
 	void SkulGate::Render(HDC hdc)
 	{
-		Gate::Render(hdc);
+		GameObject::Render(hdc);
 	}
 	void SkulGate::Release()
 	{
-		Gate::Release();
+		GameObject::Release();
 	}
 }

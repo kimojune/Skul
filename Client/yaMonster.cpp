@@ -51,14 +51,14 @@ namespace ya
 		mRigidbody->SetGround(false);
 
 		//mAnimator->GetStartEvent(L"LeftAttackA") = std::bind(&Monster::StartAttack, this);
-		mAnimator->GetCompleteEvent(L"LeftHit") = std::bind(&Monster::CompleteHit, this);
-		mAnimator->GetCompleteEvent(L"RightHit") = std::bind(&Monster::CompleteHit, this);
+		mAnimator->GetCompleteEvent(L"EntLeftHit") = std::bind(&Monster::CompleteHit, this);
+		mAnimator->GetCompleteEvent(L"EntRightHit") = std::bind(&Monster::CompleteHit, this);
 
 		//mAnimator->GetEndEvent(L"EntLeftIdle") = std::bind(&Monster::EndIdle, this);
 		//mAnimator->GetEndEvent(L"EntRightIdle") = std::bind(&Monster::EndIdle, this);
 	
 
-		mAnimator->Play(L"RightIdle", true);
+		mAnimator->Play(L"EntRightIdle", true);
 		mState = eMonsterState::Idle;
 
 		GameObject::Initialize();
@@ -89,17 +89,17 @@ namespace ya
 			if (mState == eMonsterState::Idle)
 			{
 				if(mDirection == eDirection::Left)
-				mAnimator->Play(L"LeftIdle", true);
+				mAnimator->Play(L"EntLeftIdle", true);
 				else
-				mAnimator->Play(L"RightIdle", true);
+				mAnimator->Play(L"EntRightIdle", true);
 			}
 
 			else if (mState == eMonsterState::Move)
 			{
 				if (mDirection == eDirection::Left)
-					mAnimator->Play(L"LeftMove", true);
+					mAnimator->Play(L"EntLeftMove", true);
 				else
-					mAnimator->Play(L"RightMove", true);
+					mAnimator->Play(L"EntRightMove", true);
 			}
 
 			
@@ -199,14 +199,14 @@ namespace ya
 		{
 			mDirection = eDirection::Left;
 			pos.x += 100.0f * Time::DeltaTime();;
-			mAnimator->Play(L"LeftHit", false);
+			mAnimator->Play(L"EntLeftHit", false);
 		}
 
 		else
 		{
 			mDirection = eDirection::Right;
 			pos.x -= 100.0f * Time::DeltaTime();
-			mAnimator->Play(L"RightHit", false);
+			mAnimator->Play(L"EntRightHit", false);
 		}
 
 		}
@@ -236,9 +236,9 @@ namespace ya
 		mState = eMonsterState::Move;
 
 		if (mDirection == eDirection::Left)
-			mAnimator->Play(L"LeftMove", true);
+			mAnimator->Play(L"EntLeftMove", true);
 		else
-			mAnimator->Play(L"RightMove", true);
+			mAnimator->Play(L"EntRightMove", true);
 
 	}
 

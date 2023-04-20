@@ -132,7 +132,6 @@
     <ClInclude Include="yaBackCastle.h" />
     <ClInclude Include="yaBossGate.h" />
     <ClInclude Include="yaCastle.h" />
-    <ClInclude Include="yaGate.h" />
     <ClInclude Include="yaItemGate.h" />
     <ClInclude Include="yaSkulGate.h" />
     <ClInclude Include="yaStruct.h" />
@@ -187,7 +186,6 @@
     <ClCompile Include="yaBackCastle.cpp" />
     <ClCompile Include="yaBossGate.cpp" />
     <ClCompile Include="yaCastle.cpp" />
-    <ClCompile Include="yaGate.cpp" />
     <ClCompile Include="yaItemGate.cpp" />
     <ClCompile Include="yaSkulGate.cpp" />
     <ClCompile Include="yaStruct.cpp" />
