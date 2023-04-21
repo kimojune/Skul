@@ -8,6 +8,8 @@
 #include "yaSceneManager.h"
 #include "yaPlayeScene.h"
 #include "yaSkulHead.h"
+#include "yaObject.h"
+
 
 namespace ya
 {
@@ -71,12 +73,14 @@ namespace ya
 		mAnimator->GetCompleteEvent(L"RightSkillS") = std::bind(&Skul::CompleteSkillS, this);
 		mAnimator->GetEndEvent(L"RightSkillS") = std::bind(&Skul::EndSkillS, this);
 
+		
+
+
 		Skul::Initialize();
 
 	}
 	void Basic::Update()
 	{
-		
 		Skul::Update();
 	}
 	void Basic::Render(HDC hdc)
@@ -100,9 +104,8 @@ namespace ya
 				mAnimator->Play(L"RightSkillA", false);
 
 			Transform* tr = Skul::GetComponent<Transform>();
-			Scene* ActiveScene = SceneManager::GetActiveScene();
-
-			mSkulHead = dynamic_cast<SkulHead*>(ActiveScene->GetGameObjects(eLayerType::Bullet)[0]);
+			
+			mSkulHead = dynamic_cast <SkulHead*>(SceneManager::GetActiveScene()->GetGameObjects(eLayerType::Bullet)[0]);
 			mSkulHead->SetState(eState::Active);
 			mSkulHead->GetComponent<Transform>()->SetPos(tr->GetPos());
 

@@ -46,53 +46,28 @@ namespace ya
 		//mPixelMap = TilePalatte::GetTilePixel();
 		
 		Chapter1 = Resources::Load<Sound>(L"Chapter1", L"..\\Resources\\Sound\\Chapter1.wav");
-		//Chapter1->Play(true);
+		Chapter1->Play(true);
+		
 		
 		object::Instantiate<PlayBG>(Vector2(0.0f,0.0f),eLayerType::BG);
-
-		object::Instantiate<BackCastle>(Vector2(500.0f,0.0f),eLayerType::Struct);
-		object::Instantiate<Castle>(Vector2(0.0f,0.0f),eLayerType::Struct);
-
-
-		//object::Instantiate<ItemGate>(Vector2(2200.0f, 1578.0f), eLayerType::Struct);
-		object::Instantiate<BossGate>(Vector2(1600.0f, 1578.0f), eLayerType::Struct);
-
-
-
-		mSkuls[(UINT)Skul::eSkulType::Basic] = object::Instantiate<Basic>(Vector2(0.0f, 450.0f), eLayerType::Player);
-		mSkuls[(UINT)Skul::eSkulType::Nohead] = object::Instantiate<Nohead>(Vector2(0.0f, 0.0f), eLayerType::Player);
-		
 		object::Instantiate<SkulHead>(Vector2(0.0f, 0.0f), eLayerType::Bullet);
 		
 		object::Instantiate<SkulAttack>(Vector2(500.0f, 600.0f), eLayerType::Effect);
 
-		object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Monster);
-		object::Instantiate<Monster>(Vector2(400.0f, 500.0f), eLayerType::Monster);
+		object::Instantiate<SkulHead>(Vector2(0.0f, 0.0f), eLayerType::Bullet);
 
 
-		object::Instantiate<Ground>(Vector2(0.0f, 1728.0f), eLayerType::Ground);
 
-		for (Skul* skul : mSkuls)
-		{
-			if (skul == nullptr)
-				continue;
-
-			skul->SetState(ya::GameObject::eState::Pause);
-		}
-
-
-		mActiveSkul = mSkuls[(UINT)Skul::eSkulType::Basic];
-		mActiveSkul->SetState(ya::GameObject::eState::Active);
 
 		
 	}
 
 	void PlayeScene::Update()
 	{
-		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
-		{
-			SceneManager::LoadScene(eSceneType::Tool);
-		}
+		//if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		//{
+		//	SceneManager::LoadScene(eSceneType::Stage2);
+		//}
 
 		Scene::Update();
 	}
@@ -109,8 +84,6 @@ namespace ya
 	}
 	void PlayeScene::OnEnter()
 	{
-		const std::wstring& path = { L"..\\Tile\\stage1" };
-		TilePalatte::Load(path);
 
 		Camera::SetTarget(mActiveSkul);
 		//Chapter1->Play(true);

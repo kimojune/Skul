@@ -80,9 +80,7 @@ namespace ya
 		PlayeScene* playscene = dynamic_cast<PlayeScene*> (ActiveScene);
 		playscene->SetSkul(eSkulType::Basic);
 
-
 		basic->SetSkulState(eSkulState::SkillS);
-		basic->SetState(eState::Active);
 
 		SetState(eState::Pause);
 

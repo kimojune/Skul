@@ -19,7 +19,6 @@ namespace ya
 	void SkulAttack::Initialize()
 	{
 		Transform* tr = GetComponent<Transform>();
-		PlayeScene* playscene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
 		
 		Collider* collider = AddComponent<Collider>();
 		collider->SetSize(Vector2(150.0f, 145.0f));
@@ -31,13 +30,10 @@ namespace ya
 	void SkulAttack::Update()
 	{
 		Transform* tr = GetComponent<Transform>();
-		PlayeScene* playscene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
-		
-		if (playscene == nullptr)
-			return;
 
+		PlayeScene* playscene =dynamic_cast<PlayeScene*> (SceneManager::GetActiveScene());
 		mSkul = playscene->GetSkul();
-		
+
 		Vector2 skulPos = mSkul->GetComponent<Transform>()->GetPos();
 
 		mDirect = mSkul->GetDirect();

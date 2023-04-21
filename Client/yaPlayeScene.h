@@ -3,11 +3,13 @@
 
 namespace ya
 {
-	extern Skul* mSkuls[(UINT)Skul::eSkulType::End];
 
 	class Skul;
 	class Sound;
 	class TitleBG;
+
+	extern Skul* mSkuls[(UINT)Skul::eSkulType::End];
+
 	class PlayeScene : public Scene
 	{
 	public:
@@ -27,12 +29,12 @@ namespace ya
 		Skul* GetSkul() { return mActiveSkul;}
 		
 		//Image* GetPixMap() { return mPixelMap; }
-		
+	protected:
 
+		Skul* mActiveSkul;
 	private:
 		Sound* Chapter1;
-		Skul* mActiveSkul;
-		
+
 
 	};
 }

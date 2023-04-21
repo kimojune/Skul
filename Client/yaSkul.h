@@ -6,6 +6,7 @@ namespace ya
 {
 	class Animator;
 	class Rigidbody;
+	class SkulAttack;
 	class Skul : public GameObject
 	{
 	public:
@@ -103,6 +104,7 @@ namespace ya
 	private:
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
+		SkulAttack* mAttack;
 
 		bool SecondAttack;
 		bool SecondDash;

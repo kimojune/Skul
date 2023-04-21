@@ -5,6 +5,9 @@
 #include "yaInput.h"
 #include "yaSceneManager.h"
 #include "yaSkul.h"
+#include "yaResources.h"
+#include "yaCamera.h"
+
 namespace ya
 {
 	BossGate::BossGate()
@@ -24,6 +27,7 @@ namespace ya
 		collider->SetCenter(Vector2(0, -75));
 
 		mAnimator = AddComponent<Animator>();
+		mImage = Resources::Load<Image>(L"BossGate", L"..\\Resources\\Object\\Gate\\BossGate\\DeActivate\\BossGate.bmp");
 
 		mAnimator->CreateAnimations(L"..\\Resources\\Object\\Gate\\BossGate\\DeActivate", Vector2(-14.0f, -8.0f), 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\Object\\Gate\\BossGate\\Activate", Vector2(-14.0f, -8.0f), 0.1f);
@@ -35,13 +39,14 @@ namespace ya
 	void BossGate::Update()
 	{
 
-
-
 		GameObject::Update();
 
 	}
 	void BossGate::Render(HDC hdc)
 	{
+
+
+
 		GameObject::Render(hdc);
 
 	}
@@ -52,6 +57,12 @@ namespace ya
 	}
 	void BossGate::OnCollisionEnter(Collider* other)
 	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 gatepos = tr->GetPos();
+
+		gatepos.x -= 20.0f;
+		tr->SetPos(gatepos);
+
 		mbActivate = true;
 		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
 		if(skul==nullptr)
@@ -69,7 +80,7 @@ namespace ya
 		{
 			if (Input::GetKeyState(eKeyCode::F) == eKeyState::Down)
 			{
-				SceneManager::LoadScene(eSceneType::Play2);
+				SceneManager::LoadScene(eSceneType::Stage2);
 			}
 		}
 		
@@ -79,5 +90,11 @@ namespace ya
 		mbActivate == false;
 
 		mAnimator->Play(L"BossGateDeActivate", false);
+
+		Transform* tr = GetComponent<Transform>();
+		Vector2 gatepos = tr->GetPos();
+
+		gatepos.x += 20.0f;
+		tr->SetPos(gatepos);
 	}
 }

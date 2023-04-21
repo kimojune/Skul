@@ -14,6 +14,7 @@
 #include "yaRigidbody.h"
 #include "yaPlayeScene.h"
 #include "yaCamera.h"
+#include "yaSkulAttack.h"
 
 
 namespace ya
@@ -109,8 +110,8 @@ namespace ya
 		mState = eSkulState::Fall;
 		mAnimator->Play(L"RightFall", false);
 
-
-
+		//mAttack=object::Instantiate<SkulAttack>(eLayerType::Effect);
+		//mAttack->setSkull(this);
 	}
 
 

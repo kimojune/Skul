@@ -20,6 +20,7 @@ namespace ya
 		virtual void OnCollisionStay(class Collider* other);
 		virtual void OnCollisionExit(class Collider* other);
 
+		//void setSkull(Skul* skul) { mSkul = skul; }
 	private:
 		Animator* mAnimator;
 		eDirection mDirect;

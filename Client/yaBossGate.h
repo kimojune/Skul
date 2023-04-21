@@ -19,6 +19,7 @@ namespace ya
 		virtual void OnCollisionExit(class Collider* other)override;
 	private:
 		Animator* mAnimator;
+		Image* mImage;
 		bool mbActivate;
 		
 	};

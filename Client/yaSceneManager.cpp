@@ -1,9 +1,12 @@
 #include "yaSceneManager.h"
 #include "yaPlayeScene.h"
 #include "yaTitleScene.h"
+#include "yaStage2.h"
 #include "yaToolScene.h"
 #include "yaCollisionManager.h"
 #include "yaCamera.h"
+#include "yaStage1.h"
+#include "yaBossStage.h"
 
 namespace ya
 {	
@@ -17,8 +20,8 @@ namespace ya
 		mScenes.resize((UINT)eSceneType::End);
 
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
-		mScenes[(UINT)eSceneType::Play] = new PlayeScene();
-		mScenes[(UINT)eSceneType::Play2] = new PlayeScene();
+		mScenes[(UINT)eSceneType::Stage1] = new Stage1();
+		mScenes[(UINT)eSceneType::Stage2] = new Stage2();
 		mScenes[(UINT)eSceneType::Tool] = new ToolScene();
 
 

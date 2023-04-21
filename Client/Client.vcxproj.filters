@@ -250,6 +250,15 @@
     <ClInclude Include="yaItemGate.h">
       <Filter>Contents\Object\Struct\Gate</Filter>
     </ClInclude>
+    <ClInclude Include="yaBossStage.h">
+      <Filter>Contents\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="yaStage1.h">
+      <Filter>Contents\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="yaStage2.h">
+      <Filter>Contents\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -399,6 +408,15 @@
     </ClCompile>
     <ClCompile Include="yaSkulGate.cpp">
       <Filter>Contents\Object\Struct\Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBossStage.cpp">
+      <Filter>Contents\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="yaStage1.cpp">
+      <Filter>Contents\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="yaStage2.cpp">
+      <Filter>Contents\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -4,8 +4,10 @@
 enum class eSceneType
 {
 	Title,
-	Play,
-	Play2,
+	Stage1,
+	Stage2,
+	Stage3,
+	Boss,
 	Ending,
 	Tool,
 	End,
