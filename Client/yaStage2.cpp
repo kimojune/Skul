@@ -28,6 +28,11 @@ namespace ya
 	}
 	Stage2::~Stage2()
 	{
+		Scene* scene = SceneManager::GetActiveScene();
+		scene->GetGameObjects(eLayerType::Player)[0] = nullptr;
+		scene->GetGameObjects(eLayerType::Player)[1] = nullptr;
+
+
 	}
 	void Stage2::Initialize()
 	{
