@@ -36,6 +36,7 @@ namespace ya
 
 		mSkuls[(UINT)Skul::eSkulType::Basic] = object::Instantiate<Basic>(Vector2(0.0f, 450.0f), eLayerType::Player);
 		mSkuls[(UINT)Skul::eSkulType::Nohead] = object::Instantiate<Nohead>(Vector2(0.0f, 0.0f), eLayerType::Player);
+		object::Instantiate<PlayBG>(Vector2(0.0f, 0.0f), eLayerType::BG);
 
 
 		object::Instantiate<BackCastle>(Vector2(500.0f, 0.0f), eLayerType::Struct);
@@ -53,8 +54,11 @@ namespace ya
 	}
 	void Stage1::Update()
 	{
+		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		{
+			SceneManager::LoadScene(eSceneType::Stage2);
+		}
 		PlayeScene::Update();
-
 	}
 	void Stage1::Render(HDC hdc)
 	{

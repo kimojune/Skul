@@ -259,6 +259,12 @@
     <ClInclude Include="yaStage2.h">
       <Filter>Contents\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="yaPlatform.h">
+      <Filter>Contents\Object\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBossBG.h">
+      <Filter>Contents\BG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -417,6 +423,12 @@
     </ClCompile>
     <ClCompile Include="yaStage2.cpp">
       <Filter>Contents\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlatform.cpp">
+      <Filter>Contents\Object\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBossBG.cpp">
+      <Filter>Contents\BG</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

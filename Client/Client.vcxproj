@@ -130,10 +130,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="yaBackCastle.h" />
+    <ClInclude Include="yaBossBG.h" />
     <ClInclude Include="yaBossGate.h" />
     <ClInclude Include="yaBossStage.h" />
     <ClInclude Include="yaCastle.h" />
     <ClInclude Include="yaItemGate.h" />
+    <ClInclude Include="yaPlatform.h" />
     <ClInclude Include="yaSkulGate.h" />
     <ClInclude Include="yaStage1.h" />
     <ClInclude Include="yaStage2.h" />
@@ -187,10 +189,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaBackCastle.cpp" />
+    <ClCompile Include="yaBossBG.cpp" />
     <ClCompile Include="yaBossGate.cpp" />
     <ClCompile Include="yaBossStage.cpp" />
     <ClCompile Include="yaCastle.cpp" />
     <ClCompile Include="yaItemGate.cpp" />
+    <ClCompile Include="yaPlatform.cpp" />
     <ClCompile Include="yaSkulGate.cpp" />
     <ClCompile Include="yaStage1.cpp" />
     <ClCompile Include="yaStage2.cpp" />

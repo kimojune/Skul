@@ -2,6 +2,7 @@
 #include "yaGameObject.h"
 #include "yaImage.h"
 
+
 namespace ya
 {
 	class TitleLogo : public GameObject
@@ -17,5 +18,6 @@ namespace ya
 
 	private:
 		Image* mImage;
+		float mTime;
 	};
 }

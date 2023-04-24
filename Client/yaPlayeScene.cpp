@@ -37,6 +37,7 @@ namespace ya
 
 	PlayeScene::~PlayeScene()
 	{
+
 	}
 
 	void PlayeScene::Initialize()
@@ -49,7 +50,6 @@ namespace ya
 		Chapter1->Play(true);
 		
 		
-		object::Instantiate<PlayBG>(Vector2(0.0f,0.0f),eLayerType::BG);
 		object::Instantiate<SkulHead>(Vector2(0.0f, 0.0f), eLayerType::Bullet);
 		
 		object::Instantiate<SkulAttack>(Vector2(500.0f, 600.0f), eLayerType::Effect);

@@ -21,6 +21,8 @@
 #include "yaBackCastle.h"
 #include "yaBossGate.h"
 #include "yaItemGate.h"
+#include "yaPlatform.h"
+
 namespace ya
 {
 	Stage2::Stage2()
@@ -28,7 +30,8 @@ namespace ya
 	}
 	Stage2::~Stage2()
 	{
-		Scene* scene = SceneManager::GetActiveScene();
+		Scene* scene = dynamic_cast<Scene*>(this);
+
 		scene->GetGameObjects(eLayerType::Player)[0] = nullptr;
 		scene->GetGameObjects(eLayerType::Player)[1] = nullptr;
 
@@ -38,17 +41,30 @@ namespace ya
 	{
 		PlayeScene::Initialize();
 
-
+		object::Instantiate<PlayBG>(Vector2(0.0f, 0.0f), eLayerType::BG);
 
 		AddGameObeject(mSkuls[(UINT)Skul::eSkulType::Basic], eLayerType::Player);
 		AddGameObeject(mSkuls[(UINT)Skul::eSkulType::Nohead], eLayerType::Player);
+
+
+		object::Instantiate<Platform>(Vector2(800.0f, 1380.0f), eLayerType::Ground);
+		object::Instantiate<Platform>(Vector2(1020.0f, 1380.0f), eLayerType::Ground);
+
+		object::Instantiate<Platform>(Vector2(1300.0f, 1510.0f), eLayerType::Ground);
+		object::Instantiate<Platform>(Vector2(1520.0f, 1510.0f), eLayerType::Ground);
+
 		object::Instantiate<Ground>(Vector2(0.0f, 1728.0f), eLayerType::Ground);
-		object::Instantiate<ItemGate>(Vector2(2000.0f, 1578.0f), eLayerType::Struct);
+		object::Instantiate<ItemGate>(Vector2(2500.0f, 1578.0f), eLayerType::Struct);
 
 
 	}
 	void Stage2::Update()
 	{
+		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		{
+			SceneManager::LoadScene(eSceneType::Boss);
+		}
+
 		PlayeScene::Update();
 
 	}
@@ -59,8 +75,8 @@ namespace ya
 	}
 	void Stage2::Release()
 	{
-		//GetGameObjects(eLayerType::Player)[0] = nullptr;
-		//GetGameObjects(eLayerType::Player)[1] = nullptr;
+		GetGameObjects(eLayerType::Player)[0] = nullptr;
+		GetGameObjects(eLayerType::Player)[1] = nullptr;
 		PlayeScene::Release();
 
 	}

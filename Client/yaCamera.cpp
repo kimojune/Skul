@@ -71,8 +71,8 @@ namespace ya
 			if (mLookPosition.x - (mResolution.x / 2) < 0)
 				mLookPosition.x = mResolution.x / 2;
 		
-			else if (mLookPosition.x + (mResolution.x / 2) > GROUN_SIZE_X)
-				mLookPosition.x = GROUN_SIZE_X - mResolution.x / 2;
+			else if (mLookPosition.x + (mResolution.x / 2) > 3350)
+				mLookPosition.x = 3350- mResolution.x / 2;
 
 
 			if ((mLookPosition.y - mResolution.y / 2)<0)
@@ -84,7 +84,7 @@ namespace ya
 		
 
 			mDistance = mLookPosition - (mResolution / 2.0f);
-
+			
 		}
 
 		if (mAlphaTime < mEndTime)

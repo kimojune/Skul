@@ -24,7 +24,7 @@ namespace ya
 	{
 
 		mCollider = AddComponent<Collider>();
-		mCollider->SetSize(Vector2(3200.0f, 500.0f));   
+		mCollider->SetSize(Vector2(3400.0f, 500.0f));   
 
 		
 		GameObject::Initialize();

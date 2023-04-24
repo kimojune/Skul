@@ -31,10 +31,7 @@ namespace ya
 		mIndex = index;
 		if (atlas == nullptr || index < 0)
 			return;
-
-		//Collider* collider = AddComponent<Collider>();
-		//collider->SetSize(Vector2(TILE_SIZE_X, TILE_SIZE_Y));
-		//
+		
 
 		mAtlas = atlas;
 		SetIndex(index);
@@ -120,13 +117,13 @@ namespace ya
 
 	void Tile::OnCollisionExit(Collider* other)
 	{
-		GameObject* obj = other->GetOwner();
+		//GameObject* obj = other->GetOwner();
 
-		Rigidbody* rb = obj->GetComponent<Rigidbody>();
-		if (rb == nullptr)
-			return;
+		//Rigidbody* rb = obj->GetComponent<Rigidbody>();
+		//if (rb == nullptr)
+		//	return;
 
-		rb->SetGround(false);
+		//rb->SetGround(false);
 	}
 
 

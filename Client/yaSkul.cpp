@@ -646,6 +646,26 @@ namespace ya
 
 		}
 
+		if (Input::GetKeyDown(eKeyCode::C))
+		{
+			mState = eSkulState::Jump;
+
+			switch (mDirect)
+			{
+			case eDirection::Left:
+				mAnimator->Play(L"LeftJump", true);
+				break;
+
+			case eDirection::Right:
+				mAnimator->Play(L"RightJump", true);
+				break;
+
+			default:
+				break;
+			}
+
+		}
+
 		if (Input::GetKeyDown(eKeyCode::A))
 		{
 			mState = eSkulState::SkillA;
@@ -748,6 +768,26 @@ namespace ya
 			default:
 				break;
 			}
+		}
+
+		if (Input::GetKeyDown(eKeyCode::C))
+		{
+			mState = eSkulState::Jump;
+
+			switch (mDirect)
+			{
+			case eDirection::Left:
+				mAnimator->Play(L"LeftJump", true);
+				break;
+
+			case eDirection::Right:
+				mAnimator->Play(L"RightJump", true);
+				break;
+
+			default:
+				break;
+			}
+
 		}
 
 		if (Input::GetKeyDown(eKeyCode::A))
@@ -1008,7 +1048,12 @@ namespace ya
 	void Skul::StartJump()
 	{
 		Vector2 velocity = mRigidbody->GetVelocity();
-		velocity.y -= 500.0f;
+		velocity.y -= 600.0f;
+		int a = 0;
+		if (velocity.y > 600)
+		{
+			velocity.y = 800;
+		}
 
 		mRigidbody->SetVelocity(velocity);
 		mRigidbody->SetGround(false);

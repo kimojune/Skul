@@ -23,3 +23,5 @@ Skul Idle Right
 
 
 GIF convert  sprite
+
+BG 3200 x 1600

@@ -30,10 +30,13 @@ namespace ya
 
 		Scene::Initialize();
 
-	
+		AddGameObeject(mSkuls[(UINT)Skul::eSkulType::Basic], eLayerType::Player);
+		AddGameObeject(mSkuls[(UINT)Skul::eSkulType::Nohead], eLayerType::Player);
+
 	
 
 		object::Instantiate<TitleBG>(eLayerType::BG);
+		object::Instantiate<TitleLogo>(Vector2(480.0f,550.0f),(eLayerType::Effect));
 		//BG* mBG = new BG;
 		//mBG->Initialize();
 		//AddGameObeject(mBG, eLayerType::BG);
@@ -59,6 +62,7 @@ namespace ya
 	void TitleScene::OnEnter()
 	{
 		//mainTheme->Play(true);
+		
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 	}
 	void TitleScene::OnExit()

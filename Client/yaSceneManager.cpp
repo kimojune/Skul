@@ -22,6 +22,7 @@ namespace ya
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 		mScenes[(UINT)eSceneType::Stage1] = new Stage1();
 		mScenes[(UINT)eSceneType::Stage2] = new Stage2();
+		mScenes[(UINT)eSceneType::Boss] = new BossStage();
 		mScenes[(UINT)eSceneType::Tool] = new ToolScene();
 
 
