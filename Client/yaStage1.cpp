@@ -48,7 +48,7 @@ namespace ya
 		object::Instantiate<Monster>(Vector2(500.0f, 1700.0f), eLayerType::Monster);
 		object::Instantiate<Monster>(Vector2(400.0f, 1700.0f), eLayerType::Monster);
 
-		object::Instantiate<Ground>(Vector2(0.0f, 1728.0f), eLayerType::Ground);
+		object::Instantiate<Ground>(Vector2(0.0f, 1750.0f), eLayerType::Ground);
 
 		mActiveSkul = mSkuls[(UINT)Skul::eSkulType::Basic];
 	}

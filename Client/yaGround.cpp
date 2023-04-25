@@ -84,18 +84,24 @@ namespace ya
 
 		float fLen = fabs(objPos.y - groundPos.y);
 
+		Transform* objTr = obj->GetComponent<Transform>();
+		Vector2 objtrPos = objTr->GetPos();
+		objtrPos.y = groundPos.y - (objCol->GetSize().y / 2.0f);
 
-		float fSize = (objCol->GetSize().y / 2.0f); /*(groundCol->GetSize().y / 2.0f);*/
+		objTr->SetPos(objtrPos);
 
-		if (fLen < fSize)
-		{
-			Transform* objTr = obj->GetComponent<Transform>();
 
-			Vector2 objtrPos = objTr->GetPos();
+		//float fSize = (objCol->GetSize().y / 2.0f); /*(groundCol->GetSize().y / 2.0f);*/
 
-			objtrPos.y -= (fSize - fLen) - 1.0f;
-			objTr->SetPos(objtrPos);
-		}
+		//if (fLen < fSize)
+		//{
+		//	Transform* objTr = obj->GetComponent<Transform>();
+
+		//	Vector2 objtrPos = objTr->GetPos();
+
+		//	objtrPos.y -= (fSize - fLen) - 1.0f;
+		//	objTr->SetPos(objtrPos);
+		//}
 	}
 	void Ground::OnCollisionStay(Collider* other)
 	{
@@ -106,11 +112,11 @@ namespace ya
 		//Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
 
 
-		Rigidbody* rb = other->GetOwner()->GetComponent<Rigidbody>();
-		//Rigidbody* rb = skul->GetComponent<Rigidbody>();
-		if (rb == nullptr)
-			return;
-		rb->SetGround(false);
+		//Rigidbody* rb = other->GetOwner()->GetComponent<Rigidbody>();
+		////Rigidbody* rb = skul->GetComponent<Rigidbody>();
+		//if (rb == nullptr)
+		//	return;
+		//rb->SetGround(false);
 
 	}
 }

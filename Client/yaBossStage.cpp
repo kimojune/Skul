@@ -47,7 +47,7 @@ namespace ya
 		AddGameObeject(mSkuls[(UINT)Skul::eSkulType::Nohead], eLayerType::Player);
 
 
-		object::Instantiate<Ground>(Vector2(0.0f, 1728.0f), eLayerType::Ground);
+		object::Instantiate<Ground>(Vector2(0.0f, 1750.0f), eLayerType::Ground);
 
 		object::Instantiate<PlayBG>(Vector2(0.0f, 0.0f), eLayerType::BG);
 

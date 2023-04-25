@@ -1,5 +1,4 @@
 #include "yaPlatform.h"
-
 #include "yaCollider.h"
 #include "yaSkul.h"
 #include "yaRigidbody.h"
@@ -65,39 +64,36 @@ namespace ya
 
 	void Platform::OnCollisionEnter(Collider* other)
 	{
+		//Skul* obj = dynamic_cast<Skul*>(other->GetOwner());
 
-		GameObject* obj = other->GetOwner();
+		//if (obj == nullptr)
+		//{
+		//	return;
+		//}
 
-		Rigidbody* rb = obj->GetComponent<Rigidbody>();
+		//Rigidbody* rb = obj->GetComponent<Rigidbody>();
 
-		if (rb == nullptr)
-		{
-			return;
-		}
 
-		rb->SetGround(true);
 
+		//Transform* objtr = obj->GetComponent<Transform>();
+		//Vector2 objpos = objtr->GetPos();
 
 		//Collider* objCol = obj->GetComponent<Collider>();
-		//Vector2 objPos = objCol->GetPos();
+		//objpos.y -= (objCol->GetSize().y / 2);
 
-		//Collider* groundCol = this->GetComponent<Collider>();
-		//Vector2 groundPos = groundCol->GetPos();
+		//Transform* pftr = GetComponent<Transform>();
+		//Vector2 pfpos= pftr->GetPos();
 
-		//float fLen = fabs(objPos.y - groundPos.y);
-
-
-		//float fSize = (objCol->GetSize().y / 2.0f); /*(groundCol->GetSize().y / 2.0f);*/
-
-		//if (fLen < fSize)
+		//if (pfpos.y > objpos.y)
 		//{
-		//	Transform* objTr = obj->GetComponent<Transform>();
-
-		//	Vector2 objtrPos = objTr->GetPos();
-
-		//	objtrPos.y -= (fSize - fLen) - 1.0f;
-		//	objTr->SetPos(objtrPos);
+		//	rb->SetGround(true);
+		//	objpos.y = pfpos.y - (objCol->GetSize().y / 2); +1;
+		//	objtr->SetPos(objpos);
 		//}
+
+
+
+
 	}
 	void Platform::OnCollisionStay(Collider* other)
 	{
@@ -132,14 +128,14 @@ namespace ya
 	}
 	void Platform::OnCollisionExit(Collider* other)
 	{
-		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
+		//Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
 
 
-		Rigidbody* rb = other->GetOwner()->GetComponent<Rigidbody>();
-		//Rigidbody* rb = skul->GetComponent<Rigidbody>();
-		if (rb == nullptr)
-			return;
-		rb->SetGround(false);
+		//Rigidbody* rb = other->GetOwner()->GetComponent<Rigidbody>();
+		////Rigidbody* rb = skul->GetComponent<Rigidbody>();
+		//if (rb == nullptr)
+		//	return;
+		//rb->SetGround(false);
 
 	}
 }

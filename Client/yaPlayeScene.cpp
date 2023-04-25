@@ -23,6 +23,7 @@
 #include "yaBackCastle.h"
 #include "yaBossGate.h"
 #include "yaItemGate.h"
+#include "yaRigidbody.h"
 
 namespace ya
 {
@@ -86,6 +87,9 @@ namespace ya
 	{
 
 		Camera::SetTarget(mActiveSkul);
+		Rigidbody* rd = mActiveSkul->GetComponent<Rigidbody>();
+		
+		rd->SetGround(false);
 		//Chapter1->Play(true);
 
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, true);

@@ -53,7 +53,7 @@ namespace ya
 		object::Instantiate<Platform>(Vector2(1300.0f, 1510.0f), eLayerType::Ground);
 		object::Instantiate<Platform>(Vector2(1520.0f, 1510.0f), eLayerType::Ground);
 
-		object::Instantiate<Ground>(Vector2(0.0f, 1728.0f), eLayerType::Ground);
+		object::Instantiate<Ground>(Vector2(0.0f, 1750.0f), eLayerType::Ground);
 		object::Instantiate<ItemGate>(Vector2(2500.0f, 1578.0f), eLayerType::Struct);
 
 
