@@ -50,12 +50,8 @@ namespace ya
 		Chapter1 = Resources::Load<Sound>(L"Chapter1", L"..\\Resources\\Sound\\Chapter1.wav");
 		Chapter1->Play(true);
 		
-		
 		object::Instantiate<SkulHead>(Vector2(0.0f, 0.0f), eLayerType::Bullet);
-		
 		object::Instantiate<SkulAttack>(Vector2(500.0f, 600.0f), eLayerType::Effect);
-
-		object::Instantiate<SkulHead>(Vector2(0.0f, 0.0f), eLayerType::Bullet);
 
 
 

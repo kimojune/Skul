@@ -4,6 +4,7 @@
 #include "yaSceneManager.h"
 #include "yaMonster.h"
 #include "yaCollisionManager.h"
+#include "yaBossBG.h"
 #include "yaPlayBG.h"
 #include "yaTransform.h"
 #include "yaCamera.h"
@@ -48,8 +49,8 @@ namespace ya
 
 
 		object::Instantiate<Ground>(Vector2(0.0f, 1750.0f), eLayerType::Ground);
-
 		object::Instantiate<PlayBG>(Vector2(0.0f, 0.0f), eLayerType::BG);
+		object::Instantiate<BossBG>(Vector2(0.0f, 0.0f), eLayerType::Struct);
 
 		/*object::Instantiate<Platform>(Vector2(800.0f, 1380.0f), eLayerType::Ground);
 		object::Instantiate<Platform>(Vector2(1020.0f, 1380.0f), eLayerType::Ground);

@@ -86,7 +86,7 @@ namespace ya
 
 		Transform* objTr = obj->GetComponent<Transform>();
 		Vector2 objtrPos = objTr->GetPos();
-		objtrPos.y = groundPos.y - (objCol->GetSize().y / 2.0f);
+		objtrPos.y = groundPos.y - (objCol->GetSize().y / 2.0f) + 1;
 
 		objTr->SetPos(objtrPos);
 

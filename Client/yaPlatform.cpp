@@ -106,36 +106,43 @@ namespace ya
 			return;
 		}
 
+		Vector2 velo = rb->GetVelocity();
 		
+		Transform* objtr = skul->GetComponent<Transform>();
+		Vector2 objpos = objtr->GetPos();
+		
+		Collider* objCol = skul->GetComponent<Collider>();
+		objpos.y -= (objCol->GetSize().y / 2);
 
-		Collider* skulCol = skul->GetComponent<Collider>();
-		Vector2 skulPos = skulCol->GetPos();
-
-		Collider* groundCol = this->GetComponent<Collider>();
-		Vector2 groundPos = groundCol->GetPos();
-
-		//if (skulPos.y < groundPos.y)
-		//{
-		//	rb->SetGround(true);
-		//}
-
-		if (Input::GetKeyState(eKeyCode::DOWN) == eKeyState::Down)
+		Transform* pftr = GetComponent<Transform>();
+		Vector2 pfpos= pftr->GetPos();
+		
+		if (Input::GetKeyState(eKeyCode::DOWN) == eKeyState::Pressed)
 		{
+			objpos.y += 30.0f;
+			objtr->SetPos(objpos);
 			rb->SetGround(false);
+			
 		}
 
+		if (velo.y > 0&& objpos.y + (objCol->GetSize().y / 2) < pfpos.y )
+		{
+			rb->SetGround(true);
+			objpos.y = pfpos.y - (objCol->GetSize().y / 2) + 1;
+			objtr->SetPos(objpos);
+		}
 
 	}
 	void Platform::OnCollisionExit(Collider* other)
 	{
-		//Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
+		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
 
 
-		//Rigidbody* rb = other->GetOwner()->GetComponent<Rigidbody>();
-		////Rigidbody* rb = skul->GetComponent<Rigidbody>();
-		//if (rb == nullptr)
-		//	return;
-		//rb->SetGround(false);
+		Rigidbody* rb = other->GetOwner()->GetComponent<Rigidbody>();
+		//Rigidbody* rb = skul->GetComponent<Rigidbody>();
+		if (rb == nullptr)
+			return;
+		rb->SetGround(false);
 
 	}
 }
