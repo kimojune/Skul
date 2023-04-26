@@ -1,26 +1,14 @@
 #pragma once
-
 #include "yaGameObject.h"
 
 namespace ya
 {
 	class Animator;
-	class Image;
-	class Boss_Hand : public GameObject
+	class Boss_Chin: public GameObject
 	{
 	public:
-		Boss_Hand();
-		Boss_Hand(bool isRight);
-		~Boss_Hand();
-
-		enum class eHandState
-		{
-			Idle,
-			HandsUp,
-			Attack1,
-			Attack2,
-			Attack3,
-		};
+		Boss_Chin();
+		~Boss_Chin();
 
 		virtual void Initialize()override;
 		virtual void Update()override;
@@ -30,7 +18,7 @@ namespace ya
 	private:
 		Animator* mAnimator;
 		Image* mImage[3];
-		eDirection mDirection;
+		float mTime;
 	};
 
 }

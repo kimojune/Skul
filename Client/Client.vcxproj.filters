@@ -283,6 +283,9 @@
     <ClInclude Include="yaBossBullet.h">
       <Filter>Contents\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="yaBoss_Chin.h">
+      <Filter>Contents\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -462,6 +465,9 @@
     </ClCompile>
     <ClCompile Include="yaBossBullet.cpp">
       <Filter>Contents\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBoss_Chin.cpp">
+      <Filter>Contents\Boss</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

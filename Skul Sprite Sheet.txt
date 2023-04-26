@@ -25,3 +25,6 @@ Skul Idle Right
 GIF convert  sprite
 
 BG 3200 x 1600
+
+Boss head 
+840 x 152

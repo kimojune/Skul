@@ -6,6 +6,7 @@ namespace ya
 	class Boss_Body;
 	class Boss_Head;
 	class Boss_Hand;
+	class BossBullet;
 
 class Chapter1_Boss: public GameObject
 {
@@ -22,6 +23,7 @@ private:
 	Boss_Body* mBody;
 	Boss_Hand* mHand[2];
 	Boss_Head* mHead;
+	BossBullet mBullet[8];
 };
 
 }
