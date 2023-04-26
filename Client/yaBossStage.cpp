@@ -23,6 +23,7 @@
 #include "yaBossGate.h"
 #include "yaItemGate.h"
 #include "yaPlatform.h"
+#include "yaChapter1_Boss.h"
 
 namespace ya
 {
@@ -51,12 +52,8 @@ namespace ya
 		object::Instantiate<Ground>(Vector2(0.0f, 1750.0f), eLayerType::Ground);
 		object::Instantiate<PlayBG>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		object::Instantiate<BossBG>(Vector2(0.0f, 0.0f), eLayerType::Struct);
-
-		/*object::Instantiate<Platform>(Vector2(800.0f, 1380.0f), eLayerType::Ground);
-		object::Instantiate<Platform>(Vector2(1020.0f, 1380.0f), eLayerType::Ground);
-
-		object::Instantiate<Platform>(Vector2(1300.0f, 1510.0f), eLayerType::Ground);
-		object::Instantiate<Platform>(Vector2(1520.0f, 1510.0f), eLayerType::Ground);*/
+		object::Instantiate<Chapter1_Boss>(Vector2(1400.0f,1300.0f), eLayerType::Monster);
+		
 
 	}
 	void BossStage::Update()

@@ -92,6 +92,9 @@
     <Filter Include="Contents\Object\Struct\Gate">
       <UniqueIdentifier>{d84a529c-12e1-4545-a2c8-7ea7f5a57ca9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\Boss">
+      <UniqueIdentifier>{59cd8a1c-faa4-4aca-a370-f826c85501aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -265,6 +268,21 @@
     <ClInclude Include="yaBossBG.h">
       <Filter>Contents\BG</Filter>
     </ClInclude>
+    <ClInclude Include="yaChapter1_Boss.h">
+      <Filter>Contents\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBoss_Body.h">
+      <Filter>Contents\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBoss_Hand.h">
+      <Filter>Contents\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBoss_Head.h">
+      <Filter>Contents\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBossBullet.h">
+      <Filter>Contents\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -429,6 +447,21 @@
     </ClCompile>
     <ClCompile Include="yaBossBG.cpp">
       <Filter>Contents\BG</Filter>
+    </ClCompile>
+    <ClCompile Include="yaChapter1_Boss.cpp">
+      <Filter>Contents\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBoss_Body.cpp">
+      <Filter>Contents\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBoss_Hand.cpp">
+      <Filter>Contents\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBoss_Head.cpp">
+      <Filter>Contents\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBossBullet.cpp">
+      <Filter>Contents\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
