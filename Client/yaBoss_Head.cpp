@@ -3,7 +3,7 @@
 #include "yaTransform.h"
 #include "yaResources.h"
 #include "yaCollider.h"
-
+#include "yaTime.h"
 
 namespace ya
 {
@@ -43,6 +43,18 @@ namespace ya
 	}
 	void Boss_Head::Update()
 	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 chinPos = tr->GetPos();
+
+		mTime += Time::DeltaTime();
+
+		if (mTime >= 0.2)
+		{
+			chinPos.y += std::sin(chinPos.y) * 5;
+			tr->SetPos(chinPos);
+			mTime = 0;
+		}
+
 		GameObject::Update();
 
 	}

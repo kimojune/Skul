@@ -2,6 +2,10 @@
 #include "yaAnimator.h"
 #include "yaTransform.h"
 #include "yaResources.h"
+#include "yaSceneManager.h"
+#include "yaPlayeScene.h"
+#include "yaSkul.h"
+#include "yaTime.h"
 
 namespace ya
 {
@@ -52,6 +56,25 @@ namespace ya
 	}
 	void Boss_Hand::Update()
 	{
+
+		switch (mHandState)
+		{
+		case ya::Boss_Hand::eHandState::Idle:
+			Idle();
+			break;
+		case ya::Boss_Hand::eHandState::Down:
+			Down();
+			break;
+		case ya::Boss_Hand::eHandState::Punch:
+			Punch();
+			break;
+		case ya::Boss_Hand::eHandState::Smash:
+			Smash();
+			break;
+		default:
+			break;
+		}
+
 		GameObject::Update();
 
 	}
@@ -64,5 +87,28 @@ namespace ya
 	{
 		GameObject::Release();
 
+	}
+	void Boss_Hand::Idle()
+	{
+	}
+	void Boss_Hand::Down()
+	{
+	}
+	void Boss_Hand::Punch()
+	{
+		PlayeScene* playscene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
+		Skul* skul = playscene->GetSkul();
+		Transform* skultr = skul->GetComponent<Transform>();
+		Transform* tr = GetComponent<Transform>();
+
+		
+		Vector2 skulpos = skultr->GetPos();
+		Vector2 handpos = tr->GetPos();
+		
+		handpos += (skulpos - handpos).Normalize() * 100 * Time::DeltaTime();
+		tr->SetPos(handpos);
+	}
+	void Boss_Hand::Smash()
+	{
 	}
 }

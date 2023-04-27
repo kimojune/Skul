@@ -16,10 +16,9 @@ namespace ya
 		enum class eHandState
 		{
 			Idle,
-			HandsUp,
-			Attack1,
-			Attack2,
-			Attack3,
+			Down,
+			Punch,
+			Smash,
 		};
 
 		virtual void Initialize()override;
@@ -27,10 +26,21 @@ namespace ya
 		virtual void Render(HDC hdc)override;
 		virtual void Release()override;
 
+		void SetState(eHandState state) { mHandState = state; }
+
+	protected:
+
+		void Idle();
+		void Down();
+		void Punch();
+		void Smash();
+
 	private:
 		Animator* mAnimator;
 		Image* mImage[3];
 		eDirection mDirection;
+		eHandState mHandState;
+		Vector2 mTargetPos;
 	};
 
 }

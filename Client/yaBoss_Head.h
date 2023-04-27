@@ -19,6 +19,7 @@ public:
 private:
 	Animator* mAnimator;
 	Image* mImage[3];
+	float mTime;
 };
 
 }

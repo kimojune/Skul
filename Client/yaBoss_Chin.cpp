@@ -20,7 +20,7 @@ namespace ya
 		Vector2 chinPos = tr->GetPos();
 
 		chinPos.x += 250.0f;
-		chinPos.y += 250.0f;
+		chinPos.y += 200.0f;
 		tr->SetPos(chinPos);
 
 		
@@ -64,5 +64,14 @@ namespace ya
 	void Boss_Chin::Release()
 	{
 
+	}
+	void Boss_Chin::Idle()
+	{
+	}
+	void Boss_Chin::Open()
+	{
+	}
+	void Boss_Chin::Close()
+	{
 	}
 }

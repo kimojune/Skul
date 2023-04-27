@@ -24,7 +24,7 @@ namespace ya
 
 		Transform* tr = GetComponent<Transform>();
 		Vector2 bosspos = tr->GetPos();
-
+		
 		mBody = object::Instantiate<Boss_Body>(bosspos,eLayerType::Struct);
 		mHead = object::Instantiate<Boss_Head>(bosspos,eLayerType::Monster);
 		mHand[0] = object::Instantiate<Boss_Hand>(bosspos, eLayerType::Monster);
@@ -36,6 +36,27 @@ namespace ya
 	}
 	void Chapter1_Boss::Update()
 	{
+		switch (mState)
+		{
+		case ya::Chapter1_Boss::eBossState::Idle:
+			Idle();
+			break;
+		case ya::Chapter1_Boss::eBossState::Punch:
+			Punch();
+			break;
+		case ya::Chapter1_Boss::eBossState::Smash:
+			Smash();
+			break;
+		case ya::Chapter1_Boss::eBossState::RangeAttack:
+			RangeAttack();
+			break;
+		case ya::Chapter1_Boss::eBossState::Dead:
+			Dead();
+			break;
+		default:
+			break;
+		}
+
 		GameObject::Update();
 	}
 	void Chapter1_Boss::Render(HDC hdc)
@@ -46,5 +67,22 @@ namespace ya
 	{
 		GameObject::Release();
 
+	}
+
+
+	void Chapter1_Boss::Idle()
+	{
+	}
+	void Chapter1_Boss::Punch()
+	{
+	}
+	void Chapter1_Boss::Smash()
+	{
+	}
+	void Chapter1_Boss::RangeAttack()
+	{
+	}
+	void Chapter1_Boss::Dead()
+	{
 	}
 }
