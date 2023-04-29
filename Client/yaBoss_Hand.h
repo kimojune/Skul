@@ -27,6 +27,11 @@ namespace ya
 		virtual void Release()override;
 
 		void SetState(eHandState state) { mHandState = state; }
+		void SetTargetPos(Vector2 pos) { mTargetPos = pos; }
+		Animator* GetAnimator() { return mAnimator; }
+		
+
+
 
 	protected:
 
@@ -35,12 +40,26 @@ namespace ya
 		void Punch();
 		void Smash();
 
+		void StartDown() ;
+		//void CompleteDown() ;
+		//void EndDown() ;
+		
+		void StartPunch() ;
+		void CompletePunch() ;
+		void EndPunch() ;
+
+		void StartSmash() ;
+		void CompleteSmash() ;
+		void EndSmash() ;
+
 	private:
 		Animator* mAnimator;
-		Image* mImage[3];
+		Image* mLeftImage[4];
+		Image* mRightImage[4];
 		eDirection mDirection;
 		eHandState mHandState;
 		Vector2 mTargetPos;
+		Vector2 mPrevPos;
 	};
 
 }
