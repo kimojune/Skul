@@ -10,6 +10,7 @@
 #include "yaBoss_Head.h"
 #include "yaBossBullet.h"
 #include "yaBoss_Chin.h"
+#include "yaTime.h"
 
 namespace ya
 {
@@ -27,15 +28,19 @@ namespace ya
 		
 		mBody = object::Instantiate<Boss_Body>(bosspos,eLayerType::Struct);
 		mHead = object::Instantiate<Boss_Head>(bosspos,eLayerType::Monster);
-		mHand[0] = object::Instantiate<Boss_Hand>(bosspos, eLayerType::Monster);
-		mHand[1] = object::Instantiate<Boss_Hand>(bosspos,eLayerType::Monster);
+		mLeftHand = object::Instantiate<Boss_Hand>(bosspos, eLayerType::Monster);
+		mRightHand = object::Instantiate<Boss_RightHand>(bosspos,eLayerType::Monster);
 		object::Instantiate<Boss_Chin>(bosspos,eLayerType::Monster);
 		//object::Instantiate<BossBullet>(bosspos, eLayerType::Monster);
+
+		//mHand[1]->SetHandDirection(eDirection::Right);
+		mTime = 0;
 
 		GameObject::Initialize();
 	}
 	void Chapter1_Boss::Update()
 	{
+
 		switch (mState)
 		{
 		case ya::Chapter1_Boss::eBossState::Idle:
@@ -72,9 +77,11 @@ namespace ya
 
 	void Chapter1_Boss::Idle()
 	{
+		
 	}
 	void Chapter1_Boss::Punch()
 	{
+		
 	}
 	void Chapter1_Boss::Smash()
 	{

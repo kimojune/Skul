@@ -286,6 +286,9 @@
     <ClInclude Include="yaChapter1_Boss.h">
       <Filter>Contents\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="yaBoss_RightHand.h">
+      <Filter>Contents\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -467,6 +470,9 @@
       <Filter>Contents\Boss</Filter>
     </ClCompile>
     <ClCompile Include="yaChapter1_Boss.cpp">
+      <Filter>Contents\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBoss_RightHand.cpp">
       <Filter>Contents\Boss</Filter>
     </ClCompile>
   </ItemGroup>

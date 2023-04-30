@@ -7,6 +7,7 @@
 #include "yaSkul.h"
 #include "yaTime.h"
 #include "yaCollider.h"
+#include "yaChapter1_Boss.h"
 
 namespace ya
 {
@@ -56,7 +57,7 @@ namespace ya
 		mAnimator->CreateAnimation(L"Boss_LeftHand", mLeftImage[0], Vector2(0, 0), 1, 5, 1, 5, Vector2(-84.0f,-76.0f), 0.3);
 		mAnimator->CreateAnimation(L"Boss_LeftPunch", mLeftImage[1], Vector2(0, 0), 1, 1, 1, 1, Vector2(-84.0f,-76.0f), 0.3);
 		mAnimator->CreateAnimation(L"Boss_LeftPutOn", mLeftImage[2], Vector2(0, 0), 1, 1, 1, 1, Vector2(-84.0f,-76.0f), 0.3);
-		mAnimator->CreateAnimation(L"Boss_LeftSmesh", mLeftImage[3], Vector2(0, 0), 1, 1, 1, 1, Vector2(-84.0f,-76.0f), 0.3);
+		mAnimator->CreateAnimation(L"Boss_LeftSmash", mLeftImage[3], Vector2(0, 0), 1, 1, 1, 1, Vector2(-84.0f,-76.0f), 0.3);
 
 		mAnimator->GetStartEvent(L"Boss_LeftPutOn") = std::bind(&Boss_Hand::StartDown, this);
 		//mAnimator->GetCompleteEvent(L"LeftSkillA") = std::bind(&Skul::CompleteSkillA, this);
@@ -71,7 +72,7 @@ namespace ya
 
 		mAnimator->CreateAnimation(L"Boss_RightHand", mRightImage[0], Vector2(672.0f, 0.0f), -1, 5, 1, 5, Vector2(-84.0f, -76.0f), 0.3);
 		mAnimator->CreateAnimation(L"Boss_RightPutOn", mRightImage[1], Vector2(0, 0), 1, 1, 1, 1, Vector2(-84.0f, -76.0f), 0.3);
-		mAnimator->CreateAnimation(L"Boss_RightSmesh", mRightImage[2], Vector2(0, 0), 1, 1, 1, 1, Vector2(-84.0f, -76.0f), 0.3);
+		mAnimator->CreateAnimation(L"Boss_RightSmash", mRightImage[2], Vector2(0, 0), 1, 1, 1, 1, Vector2(-84.0f, -76.0f), 0.3);
 		mAnimator->CreateAnimation(L"Boss_RightPunch", mRightImage[3], Vector2(0, 0), 1, 1, 1, 1, Vector2(-84.0f, -76.0f), 0.3);
 
 
@@ -88,12 +89,17 @@ namespace ya
 		collider->SetCenter(Vector2(-50.0f, -125.0f));
 
 		mHandState = eHandState::Down;
+		mAnimator->Play(L"Boss_LeftPutOn", true);
+
+		Scene* scene = SceneManager::GetActiveScene();
+		mBoss =dynamic_cast<Chapter1_Boss*>(scene->GetGameObjects(eLayerType::Monster)[0]);
 
 		GameObject::Initialize();
 		
 	}
 	void Boss_Hand::Update()
 	{
+		
 
 		switch (mHandState)
 		{
@@ -129,12 +135,39 @@ namespace ya
 
 	void Boss_Hand::Idle()
 	{
+		Chapter1_Boss::eBossState bossstate = mBoss->GetBossState();
+		
+		switch (bossstate)
+		{
+		case ya::Chapter1_Boss::eBossState::Idle:
+			break;
+		case ya::Chapter1_Boss::eBossState::Punch:
+			mHandState = eHandState::Punch;
+			mAnimator->Play(L"Boss_LeftPunch", true);
+			break;
+		case ya::Chapter1_Boss::eBossState::Smash:
+			mHandState = eHandState::Smash;
+			mAnimator->Play(L"Boss_LeftSmash", true);
+
+			break;
+		case ya::Chapter1_Boss::eBossState::RangeAttack:
+			mHandState = eHandState::Down;
+			mAnimator->Play(L"Boss_LeftPutOn", true);
+			break;
+		case ya::Chapter1_Boss::eBossState::Dead:
+			mHandState = eHandState::Down;
+			mAnimator->Play(L"Boss_LeftPutOn", true);
+			break;
+		case ya::Chapter1_Boss::eBossState::End:
+			break;
+		default:
+			break;
+		}
 	}
 	void Boss_Hand::Down()
 	{
-
-
 	}
+
 	void Boss_Hand::Punch()
 	{
 		Transform* tr = GetComponent<Transform>();
@@ -151,6 +184,10 @@ namespace ya
 	}
 	void Boss_Hand::Smash()
 	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 handpos = tr->GetPos();
+		handpos.x = 0.0f;
+		
 	}
 
 	void Boss_Hand::StartDown()

@@ -6,6 +6,7 @@ namespace ya
 	class Boss_Body;
 	class Boss_Head;
 	class Boss_Hand;
+	class Boss_RightHand;
 	class BossBullet;
 
 class Chapter1_Boss: public GameObject
@@ -28,6 +29,7 @@ public:
 	virtual void Update()override;
 	virtual void Render(HDC hdc)override;
 	virtual void Release()override;
+	eBossState GetBossState() { return mState; }
 
 private:
 
@@ -39,10 +41,12 @@ private:
 
 private:
 	Boss_Body* mBody;
-	Boss_Hand* mHand[2];
+	Boss_Hand* mLeftHand;
+	Boss_RightHand* mRightHand;
 	Boss_Head* mHead;
 	BossBullet mBullet[8];
 	eBossState mState;
+	float mTime;
 };
 
 }

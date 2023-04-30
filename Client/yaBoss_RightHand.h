@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include "yaGameObject.h"
 
 namespace ya
@@ -7,12 +8,11 @@ namespace ya
 	class Animator;
 	class Image;
 	class Chapter1_Boss;
-	class Boss_Hand : public GameObject
+	class Boss_RightHand : public GameObject
 	{
 	public:
-		Boss_Hand();
-		Boss_Hand(bool isRight);
-		~Boss_Hand();
+		Boss_RightHand();
+		~Boss_RightHand();
 
 		enum class eHandState
 		{
@@ -31,7 +31,7 @@ namespace ya
 		void SetTargetPos(Vector2 pos) { mTargetPos = pos; }
 		void SetHandDirection(eDirection direct) { mDirection = direct; }
 		Animator* GetAnimator() { return mAnimator; }
-		
+
 
 	protected:
 
@@ -40,17 +40,17 @@ namespace ya
 		void Punch();
 		void Smash();
 
-		void StartDown() ;
+		void StartDown();
 		//void CompleteDown() ;
 		//void EndDown() ;
-		
-		void StartPunch() ;
-		void CompletePunch() ;
-		void EndPunch() ;
 
-		void StartSmash() ;
-		void CompleteSmash() ;
-		void EndSmash() ;
+		void StartPunch();
+		void CompletePunch();
+		void EndPunch();
+
+		void StartSmash();
+		void CompleteSmash();
+		void EndSmash();
 
 	private:
 		Animator* mAnimator;
@@ -61,7 +61,7 @@ namespace ya
 		Vector2 mTargetPos;
 		Vector2 mPrevPos;
 		Chapter1_Boss* mBoss;
-		
+
 	};
 
 }
