@@ -156,21 +156,24 @@ namespace ya
 
 	void Boss_Hand::Punch()
 	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 handpos = tr->GetPos();
+
 		if (mPlayed == false)
 		{
 			mPlayed = true;
 			mAnimator->Play(L"Boss_LeftPunch", false);
 		}
+		
 
-		Transform* tr = GetComponent<Transform>();
-		Vector2 handpos = tr->GetPos();
-		handpos += (mTargetPos - handpos).Normalize() * 1000 * Time::DeltaTime();
+		handpos += (mTargetPos - handpos).Normalize() * 300 * Time::DeltaTime();
 		tr->SetPos(handpos);
 
 		if (handpos == mTargetPos)
 		{
 			mHandState = eHandState::Idle;
 			mAnimator->Play(L"Boss_LeftHand", true);
+			mComplete = true;
 		}
 	}
 	void Boss_Hand::Smash()
@@ -222,7 +225,7 @@ namespace ya
 
 	}
 	void Boss_Hand::StartPunch()
-	{
+	{/*
 		mHandState = eHandState::Punch;
 		PlayeScene* playscene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
 		Skul* skul = playscene->GetSkul();
@@ -230,8 +233,7 @@ namespace ya
 			return;
 		Transform* skultr = skul->GetComponent<Transform>();
 
-		mTargetPos = skultr->GetPos();
-
+		mTargetPos = skultr->GetPos();*/
 	}
 	void Boss_Hand::CompletePunch()
 	{
@@ -240,7 +242,6 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		tr->SetPos(mPrevPos);
-		mComplete = true;
 	}
 
 	void Boss_Hand::StartSmash()

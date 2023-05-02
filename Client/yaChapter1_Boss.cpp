@@ -11,6 +11,8 @@
 #include "yaBossBullet.h"
 #include "yaBoss_Chin.h"
 #include "yaTime.h"
+#include "yaPlayeScene.h"
+#include "yaSkul.h"
 
 namespace ya
 {
@@ -45,6 +47,13 @@ namespace ya
 
 		if (!(mprevState == mState))
 		{
+			PlayeScene* playscene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
+			Skul* skul = playscene->GetSkul();
+			if (skul == nullptr)
+				return;
+			Transform* skultr = skul->GetComponent<Transform>();
+			mLeftHand->SetTargetPos(skultr->GetPos());
+
 			mLeftHand->SetPlayed(false);
 		}
 
@@ -102,7 +111,7 @@ namespace ya
 	void Chapter1_Boss::Punch()
 	{
 		mLeftHand->SetHandState(Boss_Hand::eHandState::Punch);
-
+		
 		if (mLeftHand->GetHandComplete())
 			mState = eBossState::Idle;
 	}
