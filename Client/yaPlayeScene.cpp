@@ -53,10 +53,6 @@ namespace ya
 		object::Instantiate<SkulHead>(Vector2(0.0f, 0.0f), eLayerType::Bullet);
 		object::Instantiate<SkulAttack>(Vector2(500.0f, 600.0f), eLayerType::Effect);
 
-
-
-
-		
 	}
 
 	void PlayeScene::Update()

@@ -29,6 +29,7 @@ public:
 	virtual void Update()override;
 	virtual void Render(HDC hdc)override;
 	virtual void Release()override;
+
 	eBossState GetBossState() { return mState; }
 
 private:
@@ -46,6 +47,7 @@ private:
 	Boss_Head* mHead;
 	BossBullet mBullet[8];
 	eBossState mState;
+	eBossState mprevState;
 	float mTime;
 };
 

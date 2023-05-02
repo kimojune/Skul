@@ -34,12 +34,21 @@ namespace ya
 		//object::Instantiate<BossBullet>(bosspos, eLayerType::Monster);
 
 		//mHand[1]->SetHandDirection(eDirection::Right);
+		mState = eBossState::Idle;
+
 		mTime = 0;
 
 		GameObject::Initialize();
 	}
 	void Chapter1_Boss::Update()
 	{
+
+		if (!(mprevState == mState))
+		{
+			mLeftHand->SetPlayed(false);
+		}
+
+		mprevState = mState;
 
 		switch (mState)
 		{
@@ -77,19 +86,42 @@ namespace ya
 
 	void Chapter1_Boss::Idle()
 	{
-		
+		mTime += Time::DeltaTime();
+
+		if (mTime >= 3)
+		{
+			UINT state = rand();
+			state %= 3;
+			
+			mState = (eBossState)(state + 1);
+			mTime = 0;
+		}
+
+
 	}
 	void Chapter1_Boss::Punch()
 	{
-		
+		mLeftHand->SetHandState(Boss_Hand::eHandState::Punch);
+
+		if (mLeftHand->GetHandComplete())
+			mState = eBossState::Idle;
 	}
 	void Chapter1_Boss::Smash()
 	{
+		mLeftHand->SetHandState(Boss_Hand::eHandState::Smash);
+		if (mLeftHand->GetHandComplete())
+			mState = eBossState::Idle;
 	}
 	void Chapter1_Boss::RangeAttack()
 	{
+		mLeftHand->SetHandState(Boss_Hand::eHandState::Down);
+
+		if (mLeftHand->GetHandComplete())
+			mState = eBossState::Idle;
 	}
 	void Chapter1_Boss::Dead()
 	{
+		mLeftHand->SetHandState(Boss_Hand::eHandState::Down);
+
 	}
 }
