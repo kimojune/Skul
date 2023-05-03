@@ -87,7 +87,7 @@ namespace ya
 
 		Transform* tr = mActiveSkul->GetComponent<Transform>();
 		
-		tr->SetPos(Vector2(0, 1500));
+		tr->SetPos(Vector2(1200, 1500));
 
 		PlayeScene::OnEnter();
 	}

@@ -10,6 +10,7 @@
 #include "yaCamera.h"
 #include "yaPlayeScene.h"
 #include "yaSceneManager.h"
+#include "yaRigidbody.h"
 
 namespace ya
 {
@@ -74,6 +75,8 @@ namespace ya
 		Scene* ActiveScene = SceneManager::GetActiveScene();
 
 		basic->GetComponent<Transform>()->SetPos(headPos->GetPos());
+		bool ground = this->GetComponent<Rigidbody>()->GetGround();
+		basic->GetComponent<Rigidbody>()->SetGround(ground);
 
 		mSkulHead->SetState(eState::Pause);
 		

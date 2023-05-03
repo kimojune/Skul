@@ -29,7 +29,7 @@ namespace ya
 		virtual void Release() override;
 
 		eMonsterState GetMonsterState() { return mState; }
-		void SetMonsterState(eMonsterState state) { mState = state; }
+		void SetMonsterState(eMonsterState state);
 
 		//virtual void OnCollisionEnter(class Collider* other) override;
 		//virtual void OnCollisionStay(class Collider* other) override;
@@ -48,6 +48,7 @@ namespace ya
 		void CompleteIdle();
 		void CompleteHit();
 		void EndIdle();
+		void EndHit();
 
 	private:
 		Animator* mAnimator;
@@ -55,6 +56,7 @@ namespace ya
 		Rigidbody* mRigidbody;
 		eDirection mDirection;
 
+		int mHP;
 		float mTime;
 		float mDelay;
 		bool mbPlay;

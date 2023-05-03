@@ -16,7 +16,7 @@ namespace ya
 	void ItemGate::Initialize()
 	{
 		Transform* tr = GetComponent<Transform>();
-		tr->SetScale(Vector2(2.0f, 2.0f));
+		tr->SetScale(Vector2(2.5f, 2.5f));
 
 		Collider* collider = AddComponent<Collider>();
 		collider->SetSize(Vector2(250, 300));
@@ -28,11 +28,26 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\Object\\Gate\\ItemGate\\Activate", Vector2(-14.0f, -8.0f), 0.1f);
 
 		mAnimator->Play(L"ItemGateDeActivate", false);
+		mbActivate = false;
 
 		GameObject::Initialize();
 	}
 	void ItemGate::Update()
 	{
+		Scene* scene = SceneManager::GetActiveScene();
+		std::vector vector = scene->GetGameObjects(eLayerType::Monster);
+
+		for (GameObject* obj : vector)
+		{
+			if (obj->GetState() == eState::Active)
+				return;
+		}
+		if (mbActivate == false)
+		{
+			mAnimator->Play(L"ItemGateActivate", true);
+			mbActivate = true;
+
+		}
 		GameObject::Update();
 	}
 	void ItemGate::Render(HDC hdc)
@@ -45,18 +60,18 @@ namespace ya
 	}
 	void ItemGate::OnCollisionEnter(Collider* other)
 	{
-		Transform* tr = GetComponent<Transform>();
-		Vector2 gatepos = tr->GetPos();
+		//Transform* tr = GetComponent<Transform>();
+		//Vector2 gatepos = tr->GetPos();
 
-		gatepos.x -= 20.0f;
-		tr->SetPos(gatepos);
+		//gatepos.x -= 20.0f;
+		//tr->SetPos(gatepos);
 
-		mbActivate = true;
-		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
-		if (skul == nullptr)
-			return;
-		if (mbActivate == true)
-			mAnimator->Play(L"ItemGateActivate", true);
+		//mbActivate = true;
+		//Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
+		//if (skul == nullptr)
+		//	return;
+		//if (mbActivate == true)
+		//	mAnimator->Play(L"ItemGateActivate", true);
 	}
 	void ItemGate::OnCollisionStay(Collider* other)
 	{
@@ -74,14 +89,14 @@ namespace ya
 	}
 	void ItemGate::OnCollisionExit(Collider* other)
 	{
-		mbActivate == false;
+		//mbActivate == false;
 
-		mAnimator->Play(L"ItemGateDeActivate", false);
+		//mAnimator->Play(L"ItemGateDeActivate", false);
 
-		Transform* tr = GetComponent<Transform>();
-		Vector2 gatepos = tr->GetPos();
+		//Transform* tr = GetComponent<Transform>();
+		//Vector2 gatepos = tr->GetPos();
 
-		gatepos.x += 20.0f;
-		tr->SetPos(gatepos);
+		//gatepos.x += 20.0f;
+		//tr->SetPos(gatepos);
 	}
 }

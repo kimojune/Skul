@@ -87,12 +87,15 @@ namespace ya
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::EnemyBullet, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Struct, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Gate, true);
 		CollisionManager::SetLayer(eLayerType::Effect, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Ground, true);
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Tile, true);
+		
 		//CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Tile, true);
 
 	}

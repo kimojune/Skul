@@ -164,15 +164,18 @@ namespace ya
 			mPlayed = true;
 			mComplete = false;
 			mAnimator->Play(L"Boss_LeftPunch", false);
+			handpos.y -= 200.0f;
+
+			tr->SetPos(handpos);
 		}
 
 		mTime += Time::DeltaTime();
 
-		if (mTime > 2.0f)
+		if (mTime > 1.0f)
 		{
 			if ((mTargetPos - handpos).Length() > 50.0f)
 			{
-				handpos += (mTargetPos - handpos).Normalize() * 3000 * Time::DeltaTime();
+				handpos += (mTargetPos - handpos).Normalize() * 2000 * Time::DeltaTime();
 				tr->SetPos(handpos);
 			}
 			else
@@ -193,7 +196,7 @@ namespace ya
 
 		mTime += Time::DeltaTime();
 		
-		if (mTime > 3)
+		if (mTime > 1)
 		{
 			if (handpos.x < 3300)
 			{

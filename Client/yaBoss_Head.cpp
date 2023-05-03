@@ -159,7 +159,7 @@ namespace ya
 
 		mTime += Time::DeltaTime();
 
-		if (mTime > 3.0)
+		if (mTime > 1.0)
 		{
 			if (bodypos.x >= mRightPos.x)
 			{
@@ -167,7 +167,7 @@ namespace ya
 				mTime = 0;
 			}
 			else
-				bodypos.x += 1000 * Time::DeltaTime();
+				bodypos.x += 1200 * Time::DeltaTime();
 		
 			tr->SetPos(bodypos);
 		}
@@ -188,7 +188,7 @@ namespace ya
 
 		mTime += Time::DeltaTime();
 
-		if (mTime > 3.0)
+		if (mTime > 1.0)
 		{
 			if (bodypos.x <= mLeftPos.x)
 			{
@@ -196,10 +196,15 @@ namespace ya
 				mTime = 0;
 			}
 			else
-				bodypos.x -= 2000 * Time::DeltaTime();
+				bodypos.x -= 1200 * Time::DeltaTime();
 			
 			tr->SetPos(bodypos);
 		}
+
+	}
+
+	void Boss_Head::Hit()
+	{
 
 	}
 

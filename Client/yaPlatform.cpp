@@ -98,6 +98,8 @@ namespace ya
 	void Platform::OnCollisionStay(Collider* other)
 	{
 		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
+		if (skul == nullptr)
+			return;
 
 		Rigidbody* rb = skul->GetComponent<Rigidbody>();
 

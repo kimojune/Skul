@@ -26,7 +26,7 @@ namespace ya
 		tr->SetPos(chinPos);
 
 		Scene* scene = SceneManager::GetActiveScene();
-		mHead = scene->GetGameObjects(eLayerType::Boss)[1];
+		mHead = scene->GetGameObjects(eLayerType::Monster)[1];
 		mImage[0] = Resources::Load<Image>(L"Boss_Chin_1", L"..\\Resources\\Boss\\Chin\\Chin_1.bmp");
 		mImage[1] = Resources::Load<Image>(L"Boss_Chin_2", L"..\\Resources\\Boss\\Chin\\Chin_2.bmp");
 		mImage[2] = Resources::Load<Image>(L"Boss_Chin_3", L"..\\Resources\\Boss\\Chin\\Chin_3.bmp");

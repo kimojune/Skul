@@ -50,12 +50,14 @@ namespace ya
 		mRigidbody->SetMass(1.0f);
 		mRigidbody->SetGround(false);
 
+		mHP = 5;
+
 		//mAnimator->GetStartEvent(L"LeftAttackA") = std::bind(&Monster::StartAttack, this);
 		mAnimator->GetCompleteEvent(L"EntLeftHit") = std::bind(&Monster::CompleteHit, this);
 		mAnimator->GetCompleteEvent(L"EntRightHit") = std::bind(&Monster::CompleteHit, this);
 
-		//mAnimator->GetEndEvent(L"EntLeftIdle") = std::bind(&Monster::EndIdle, this);
-		//mAnimator->GetEndEvent(L"EntRightIdle") = std::bind(&Monster::EndIdle, this);
+		mAnimator->GetEndEvent(L"EntLeftHit") = std::bind(&Monster::EndHit, this);
+		mAnimator->GetEndEvent(L"EntRightHit") = std::bind(&Monster::EndHit, this);
 	
 
 		mAnimator->Play(L"EntRightIdle", true);
@@ -105,7 +107,8 @@ namespace ya
 			
 		}
 
-		
+		if (mHP <= 0)
+			mState = eMonsterState::Dead;
 
 		switch (mState)
 		{
@@ -141,6 +144,16 @@ namespace ya
 	{
 		GameObject::Release();
 	}
+
+	void Monster::SetMonsterState(eMonsterState state)
+	{
+		if (mState != state)
+		{
+			mState = state;
+		}
+	}
+
+
 
 	void Monster::Idle()
 	{
@@ -192,29 +205,46 @@ namespace ya
 
 		mDelay += Time::DeltaTime();
 
-		if (!(mbPlay))
-		{
+	
 			
 		if (pos.x > skulpos.x)
 		{
 			mDirection = eDirection::Left;
-			pos.x += 100.0f * Time::DeltaTime();;
-			mAnimator->Play(L"EntLeftHit", false);
+			pos.x += 20.0f * Time::DeltaTime();;
+			if (!(mbPlay))
+			{
+				mAnimator->Play(L"EntLeftHit", false);
+				mbPlay = true;
+			}
 		}
 
 		else
 		{
 			mDirection = eDirection::Right;
-			pos.x -= 100.0f * Time::DeltaTime();
-			mAnimator->Play(L"EntRightHit", false);
-		}
+			pos.x -= 20.0f * Time::DeltaTime();
+			if (!(mbPlay))
+			{
+				mAnimator->Play(L"EntRightHit", false);
+				mbPlay = true;
+			}
 
 		}
-		
-		if (mDelay > 0.5)
+
+
+		if (mDelay > 0.3)
 		{
 			mDelay = 0;
 			mState = eMonsterState::Move;
+					//mState = eMonsterState::Move;
+			mHP--;
+			if (mDirection == eDirection::Left)
+				mAnimator->Play(L"EntLeftMove", true);
+			else
+				mAnimator->Play(L"EntRightMove", true);
+			if (mDelay > 1)
+		
+			mbPlay = false;
+
 		}
 		
 		tr->SetPos(pos);
@@ -233,16 +263,14 @@ namespace ya
 	void Monster::CompleteHit()
 	{
 
-		mState = eMonsterState::Move;
 
-		if (mDirection == eDirection::Left)
-			mAnimator->Play(L"EntLeftMove", true);
-		else
-			mAnimator->Play(L"EntRightMove", true);
 
 	}
 
 	void Monster::EndIdle()
+	{
+	}
+	void Monster::EndHit()
 	{
 	}
 }

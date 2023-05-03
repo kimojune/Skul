@@ -13,6 +13,7 @@
 #include "yaTime.h"
 #include "yaPlayeScene.h"
 #include "yaSkul.h"
+#include "yaPlatform.h"
 
 namespace ya
 {
@@ -24,24 +25,28 @@ namespace ya
 	}
 	void Chapter1_Boss::Initialize()
 	{
-
+		
 		Transform* tr = GetComponent<Transform>();
 		Vector2 bosspos = tr->GetPos();
 		
 		mBody = object::Instantiate<Boss_Body>(bosspos,eLayerType::Boss);
-		mHead = object::Instantiate<Boss_Head>(bosspos,eLayerType::Boss);
+		mHead = object::Instantiate<Boss_Head>(bosspos,eLayerType::Monster);
 		mChin = object::Instantiate<Boss_Chin>(bosspos,eLayerType::Boss);
 		mLeftHand = object::Instantiate<Boss_Hand>(bosspos, eLayerType::Monster);
 		mRightHand = object::Instantiate<Boss_RightHand>(bosspos,eLayerType::Monster);
+
+		mPlatform[0] = object::Instantiate<Platform>(Vector2(bosspos.x - 50.0f,bosspos.y+180.0f), eLayerType::Ground);
+		mPlatform[1] = object::Instantiate<Platform>(Vector2(bosspos.x + 350.0f, bosspos.y + 100.0f), eLayerType::Ground);
 		
 		for (size_t i = 0; i < 8; i++)
 		{
 			mBullet[i] = object::Instantiate<BossBullet>(bosspos, eLayerType::Bullet);
 			mBullet[i]->SetDirect((eDirection)i);
+			mBullet[i]->SetState(eState::Pause);
 		}
 
 		
-		
+		mHP = 50;
 
 		mLeftPos = Vector2(bosspos.x - 450, bosspos.y);
 		mRightPos = Vector2(bosspos.x + 450, bosspos.y);
@@ -71,6 +76,20 @@ namespace ya
 			mBody->SetPlayed(false);
 			mHead->SetPlayed(false);
 			mChin->SetOpen(false);
+			//mPlatform[0]->SetState(eState::Active);
+			//mPlatform[1]->SetState(eState::Active);
+
+			if (mState == eBossState::RangeAttack)
+			{
+				for (size_t i = 0; i < 8; i++)
+				{
+					mBullet[i]->SetPrevPos();
+					mBullet[i]->SetmPlay(false);
+					mBullet[i]->SetState(eState::Active);
+					
+				}
+			}
+			
 		}
 
 		mprevState = mState;
@@ -130,12 +149,14 @@ namespace ya
 
 		mLeftHand->SetHandState(Boss_Hand::eHandState::Punch);
 		
-		
+		//mPlatform[0]->SetState(eState::Pause);
+		//mPlatform[1]->SetState(eState::Pause);
+
 		if (mLeftHand->GetHandComplete())
 		{
 			mTime += Time::DeltaTime();
 
-			if (mTime > 3)
+			if (mTime > 2)
 			{
 				mState = eBossState::Idle;
 				mLeftHand->SetHandState(Boss_Hand::eHandState::Idle);
@@ -148,12 +169,14 @@ namespace ya
 		mLeftHand->SetHandState(Boss_Hand::eHandState::Smash);
 		mHead->SetHeadState(Boss_Head::eHeadState::Left);
 		mBody->SetBodyState(Boss_Body::eBodyState::Left);
+		//mPlatform[0]->SetState(eState::Pause);
+		//mPlatform[1]->SetState(eState::Pause);
 
 		if (mLeftHand->GetHandComplete())
 		{
 			mTime += Time::DeltaTime();
 			
-			if (mTime > 1)
+			if (mTime > 2)
 			{
 				mState = eBossState::Idle;
 				mLeftHand->SetHandState(Boss_Hand::eHandState::Idle);
@@ -168,14 +191,19 @@ namespace ya
 	{
 		mLeftHand->SetHandState(Boss_Hand::eHandState::Down);
 		mChin->SetOpen(true);
+		
+
+
 
 		mTime += Time::DeltaTime();
 
-		if (mTime > 3)
+		if (mTime > 6)
 		{
 			mState = eBossState::Idle;
 			mLeftHand->SetHandState(Boss_Hand::eHandState::Idle);
 			mTime = 0;
+
+
 		}
 		//if (mLeftHand->GetHandComplete())
 		//{
@@ -192,6 +220,11 @@ namespace ya
 	void Chapter1_Boss::Dead()
 	{
 		mLeftHand->SetHandState(Boss_Hand::eHandState::Down);
+		mBody->SetBodyState(Boss_Body::eBodyState::Down);
+		mHead->SetHeadState(Boss_Head::eHeadState::Down);
+		//mPlatform[0]->SetState(eState::Pause);
+		//mPlatform[1]->SetState(eState::Pause);
+
 
 	}
 }

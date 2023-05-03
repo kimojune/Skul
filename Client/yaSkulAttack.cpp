@@ -45,6 +45,8 @@ namespace ya
 		
 		tr->SetPos(skulPos);
 
+
+
 		GameObject::Update();
 	}
 	void SkulAttack::Render(HDC hdc)
@@ -65,13 +67,12 @@ namespace ya
 		
 		if (monster == nullptr)
 			return;
-
+		
 		Skul::eSkulState skulstate = mSkul->GetSkulState();
+	
 		if (Skul::eSkulState::Attack == skulstate
 			|| Skul::eSkulState::JumpAttack == skulstate)
 		{
-			if (monster->GetMonsterState() == Monster::eMonsterState::Hit)
-				return;
 			monster->SetMonsterState(Monster::eMonsterState::Hit);
 			Animator* monAnimator = monster->GetComponent<Animator>();
 		}

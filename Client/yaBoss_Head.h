@@ -34,6 +34,7 @@ protected:
 	void Down();
 	void Left();
 	void Right();
+	void Hit();
 
 private:
 	Animator* mAnimator;

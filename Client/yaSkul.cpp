@@ -173,10 +173,14 @@ namespace ya
 	Skul* Skul::SwitchSkul(eSkulType type)
 	{
 		Transform* tr = GetComponent<Transform>();
+		
 		Skul* skul = mSkuls[(UINT)type];
 		Scene* ActiveScene = SceneManager::GetActiveScene();
 
 		skul->GetComponent<Transform>()->SetPos(tr->GetPos());
+		bool ground = this->GetComponent<Rigidbody>()->GetGround();;
+
+		skul->GetComponent<Rigidbody>()->SetGround(ground);
 
 		PlayeScene* playscene = dynamic_cast<PlayeScene*> (ActiveScene);
 		playscene->SetSkul(type);

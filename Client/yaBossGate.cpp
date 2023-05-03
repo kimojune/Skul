@@ -33,19 +33,31 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\Object\\Gate\\BossGate\\Activate", Vector2(-14.0f, -8.0f), 0.1f);
 		
 		mAnimator->Play(L"BossGateDeActivate", false);
+		mbActivate = false;
 		GameObject::Initialize();
 
 	}
 	void BossGate::Update()
 	{
+		Scene* scene = SceneManager::GetActiveScene();
+		std::vector vector = scene->GetGameObjects(eLayerType::Monster);
+
+		for (GameObject* obj : vector)
+		{
+			if (obj->GetState() == eState::Active)
+				return;
+		}
+		if (mbActivate == false)
+		{
+		mbActivate = true;
+		mAnimator->Play(L"BossGateActivate", true);
+		}
 
 		GameObject::Update();
 
 	}
 	void BossGate::Render(HDC hdc)
 	{
-
-
 
 		GameObject::Render(hdc);
 
@@ -57,18 +69,7 @@ namespace ya
 	}
 	void BossGate::OnCollisionEnter(Collider* other)
 	{
-		Transform* tr = GetComponent<Transform>();
-		Vector2 gatepos = tr->GetPos();
 
-		gatepos.x -= 20.0f;
-		tr->SetPos(gatepos);
-
-		mbActivate = true;
-		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
-		if(skul==nullptr)
-			return;
-		if (mbActivate == true)
-			mAnimator->Play(L"BossGateActivate", true);
 	}
 	void BossGate::OnCollisionStay(Collider* other)
 	{
@@ -80,21 +81,13 @@ namespace ya
 		{
 			if (Input::GetKeyState(eKeyCode::F) == eKeyState::Down)
 			{
-				SceneManager::LoadScene(eSceneType::Stage2);
+				SceneManager::LoadScene(eSceneType::Boss);
 			}
 		}
 		
 	}
 	void BossGate::OnCollisionExit(Collider* other)
 	{
-		mbActivate == false;
 
-		mAnimator->Play(L"BossGateDeActivate", false);
-
-		Transform* tr = GetComponent<Transform>();
-		Vector2 gatepos = tr->GetPos();
-
-		gatepos.x += 20.0f;
-		tr->SetPos(gatepos);
 	}
 }

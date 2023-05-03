@@ -36,21 +36,26 @@ namespace ya
 
 		mSkuls[(UINT)Skul::eSkulType::Basic] = object::Instantiate<Basic>(Vector2(0.0f, 450.0f), eLayerType::Player);
 		mSkuls[(UINT)Skul::eSkulType::Nohead] = object::Instantiate<Nohead>(Vector2(0.0f, 0.0f), eLayerType::Player);
+		
 		object::Instantiate<PlayBG>(Vector2(0.0f, 0.0f), eLayerType::BG);
+
+		for (Skul* skul : mSkuls)
+			skul->SetState(GameObject::eState::Pause);
+
 
 
 		object::Instantiate<BackCastle>(Vector2(500.0f, 0.0f), eLayerType::Struct);
 		object::Instantiate<Castle>(Vector2(0.0f, 0.0f), eLayerType::Struct);
-		object::Instantiate<BossGate>(Vector2(1600.0f, 1678.0f), eLayerType::Struct);
+		object::Instantiate<ItemGate>(Vector2(1700.0f, 1578.0f), eLayerType::Gate);
+		//object::Instantiate<BossGate>(Vector2(2500.0f, 1598.0f), eLayerType::Gate);
 
 
 
-		object::Instantiate<Monster>(Vector2(500.0f, 1700.0f), eLayerType::Monster);
-		object::Instantiate<Monster>(Vector2(400.0f, 1700.0f), eLayerType::Monster);
 
 		object::Instantiate<Ground>(Vector2(0.0f, 1750.0f), eLayerType::Ground);
-
+		
 		mActiveSkul = mSkuls[(UINT)Skul::eSkulType::Basic];
+		mActiveSkul->SetState(GameObject::eState::Active);
 	}
 	void Stage1::Update()
 	{
