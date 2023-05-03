@@ -63,6 +63,7 @@ private:
 	
 	
 	bool mplayed;
+	bool IsRight;
 
 	int mHP;
 };

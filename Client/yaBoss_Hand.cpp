@@ -213,7 +213,7 @@ namespace ya
 	{
 		mComplete = false;
 	}
-
+	
 	void Boss_Hand::CompleteIdle()
 	{
 

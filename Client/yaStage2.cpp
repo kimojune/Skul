@@ -46,12 +46,13 @@ namespace ya
 		AddGameObeject(mSkuls[(UINT)Skul::eSkulType::Basic], eLayerType::Player);
 		AddGameObeject(mSkuls[(UINT)Skul::eSkulType::Nohead], eLayerType::Player);
 
-		object::Instantiate<Monster>(Vector2(500.0f, 1700.0f), eLayerType::Monster);
+		object::Instantiate<Monster>(Vector2(900.0f, 1700.0f), eLayerType::Monster);
 		object::Instantiate<Monster>(Vector2(400.0f, 1700.0f), eLayerType::Monster);
+		object::Instantiate<Monster>(Vector2(2800.0f, 1700.0f), eLayerType::Monster);
 
 		object::Instantiate<Platform>(Vector2(800.0f, 1380.0f), eLayerType::Ground);
 		object::Instantiate<Platform>(Vector2(1020.0f, 1380.0f), eLayerType::Ground);
-
+		
 		object::Instantiate<Platform>(Vector2(1300.0f, 1510.0f), eLayerType::Ground);
 		object::Instantiate<Platform>(Vector2(1520.0f, 1510.0f), eLayerType::Ground);
 

@@ -27,9 +27,11 @@ namespace ya
 		virtual void Render(HDC hdc)override;
 		virtual void Release()override;
 
+		void SetPlayed(bool mPlay) { mPlayed = mPlay; }
 		void SetHandState(eHandState state) { mHandState = state; }
 		void SetTargetPos(Vector2 pos) { mTargetPos = pos; }
 		void SetHandDirection(eDirection direct) { mDirection = direct; }
+		bool GetHandComplete() { return mComplete; }
 		Animator* GetAnimator() { return mAnimator; }
 
 
@@ -40,9 +42,13 @@ namespace ya
 		void Punch();
 		void Smash();
 
+		void StartIdle();
+		void CompleteIdle();
+		void EndIdle();
+
 		void StartDown();
-		//void CompleteDown() ;
-		//void EndDown() ;
+		void CompleteDown();
+		void EndDown();
 
 		void StartPunch();
 		void CompletePunch();
@@ -61,6 +67,9 @@ namespace ya
 		Vector2 mTargetPos;
 		Vector2 mPrevPos;
 		Chapter1_Boss* mBoss;
+		bool mPlayed;
+		bool mComplete;
+		float mTime;
 
 	};
 

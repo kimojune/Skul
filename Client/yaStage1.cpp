@@ -85,7 +85,7 @@ namespace ya
 	}
 	void Stage1::OnExit()
 	{
-		PlayeScene::OnExit();
 
+		PlayeScene::OnExit();
 	}
 }

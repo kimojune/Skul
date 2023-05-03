@@ -18,6 +18,7 @@ public:
 
 	virtual void SkillA() override;
 	virtual void SkillS() override;
+	virtual void ChangeSkill() override;
 
 	virtual void StartSkillA() override;
 	virtual void CompleteSkillA() override;
@@ -26,6 +27,11 @@ public:
 	virtual void StartSkillS() override;
 	virtual void CompleteSkillS() override;
 	virtual void EndSkillS() override;
+
+	virtual void StartChangeSkill() override;
+	virtual void CompleteChangeSkill() override;
+	virtual void EndChangeSkill() override;
+
 
 	SkulHead* GetSkulHead() { return mSkulHead; }
 

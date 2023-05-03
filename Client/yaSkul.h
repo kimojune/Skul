@@ -29,6 +29,7 @@ namespace ya
 			JumpAttack,
 			SkillA,
 			SkillS,
+			ChangeSkill,
 			Fall_Dead,
 
 		};
@@ -83,6 +84,10 @@ namespace ya
 		virtual void CompleteSkillS();
 		virtual void EndSkillS();
 
+		virtual void StartChangeSkill();
+		virtual void CompleteChangeSkill();
+		virtual void EndChangeSkill();
+
 		
 		
 
@@ -96,6 +101,7 @@ namespace ya
 
 		virtual void	SkillA();
 		virtual void	SkillS();
+		virtual void	ChangeSkill();
 		void	Jumpattack();
 
 		eDirection mDirect;
@@ -110,6 +116,7 @@ namespace ya
 		bool SecondDash;
 		bool SecondJump;
 
+		
 
 		UINT AttackCount;
 

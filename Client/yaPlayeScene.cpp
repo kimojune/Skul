@@ -48,7 +48,7 @@ namespace ya
 		//mPixelMap = TilePalatte::GetTilePixel();
 		
 		Chapter1 = Resources::Load<Sound>(L"Chapter1", L"..\\Resources\\Sound\\Chapter1.wav");
-		Chapter1->Play(true);
+		//Chapter1->Play(true);
 		
 		object::Instantiate<SkulHead>(Vector2(0.0f, 0.0f), eLayerType::Bullet);
 		object::Instantiate<SkulAttack>(Vector2(500.0f, 600.0f), eLayerType::Effect);
@@ -82,15 +82,17 @@ namespace ya
 		Rigidbody* rd = mActiveSkul->GetComponent<Rigidbody>();
 		
 		rd->SetGround(false);
-		//Chapter1->Play(true);
+		Chapter1->Play(true);
 
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Bullet, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::EnemyBullet, true);
+		CollisionManager::SetLayer(eLayerType::Ground, eLayerType::EnemyBullet, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Struct, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Gate, true);
 		CollisionManager::SetLayer(eLayerType::Effect, eLayerType::Monster, true);
+		CollisionManager::SetLayer(eLayerType::Effect, eLayerType::Boss, true);
 		CollisionManager::SetLayer(eLayerType::Bullet, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::Ground, true);

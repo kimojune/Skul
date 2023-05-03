@@ -156,29 +156,32 @@ namespace ya
 	}
 	void Boss_Body::Right()
 	{
-		//Transform* tr = GetComponent<Transform>();
-		//Vector2 bodypos = tr->GetPos();
+		Transform* tr = GetComponent<Transform>();
+		Vector2 bodypos = tr->GetPos();
 
-		//if ((!mPlayed))
-		//{
-		//	bodypos = mRightPos;
-		//	mPlayed = true;
-		//}
+		if ((!mPlayed))
+		{
+			bodypos = mRightPos;
+			mPlayed = true;
 
-		//mTime += Time::DeltaTime();
+			tr->SetPos(bodypos);
 
-		//if (mTime > 2.8)
-		//{
-		//	if (bodypos.x <= mLeftPos.x)
-		//	{
-		//		bodypos = mLeftPos;
-		//		mTime = 0;
-		//	}
-		//	else
-		//		bodypos.x -= 2000 * Time::DeltaTime();
-		//}
+		}
 
-		//tr->SetPos(bodypos);
+		mTime += Time::DeltaTime();
+
+		if (mTime > 1.0)
+		{
+			if (bodypos.x <= mLeftPos.x)
+			{
+				bodypos = mLeftPos;
+				mTime = 0;
+			}
+			else
+				bodypos.x -= 1000 * Time::DeltaTime();
+
+			tr->SetPos(bodypos);
+		}
 	}
 
 }

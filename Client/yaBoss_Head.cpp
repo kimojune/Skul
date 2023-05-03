@@ -167,7 +167,7 @@ namespace ya
 				mTime = 0;
 			}
 			else
-				bodypos.x += 1200 * Time::DeltaTime();
+				bodypos.x += 1000 * Time::DeltaTime();
 		
 			tr->SetPos(bodypos);
 		}
@@ -196,11 +196,10 @@ namespace ya
 				mTime = 0;
 			}
 			else
-				bodypos.x -= 1200 * Time::DeltaTime();
-			
+				bodypos.x -= 1000 * Time::DeltaTime();
+
 			tr->SetPos(bodypos);
 		}
-
 	}
 
 	void Boss_Head::Hit()

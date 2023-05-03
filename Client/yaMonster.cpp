@@ -231,7 +231,7 @@ namespace ya
 		}
 
 
-		if (mDelay > 0.3)
+		if (mDelay > 1.0)
 		{
 			mDelay = 0;
 			mState = eMonsterState::Move;
@@ -241,14 +241,11 @@ namespace ya
 				mAnimator->Play(L"EntLeftMove", true);
 			else
 				mAnimator->Play(L"EntRightMove", true);
-			if (mDelay > 1)
-		
 			mbPlay = false;
 
 		}
-		
-		tr->SetPos(pos);
 
+		tr->SetPos(pos);
 
 	}
 	void Monster::Dead()

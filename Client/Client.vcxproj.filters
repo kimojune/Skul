@@ -14,9 +14,6 @@
     <Filter Include="Contents">
       <UniqueIdentifier>{c92deeba-6787-4f6f-a0eb-2f0105df259c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Common">
-      <UniqueIdentifier>{d42a1fa5-9531-4c3c-a86f-c83344ca355f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\GameObject">
       <UniqueIdentifier>{b4433c56-d2e6-4d0d-9259-c37686553fe5}</UniqueIdentifier>
     </Filter>
@@ -95,6 +92,9 @@
     <Filter Include="Contents\Boss">
       <UniqueIdentifier>{59cd8a1c-faa4-4aca-a370-f826c85501aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Component\Common">
+      <UniqueIdentifier>{d42a1fa5-9531-4c3c-a86f-c83344ca355f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -110,22 +110,22 @@
       <Filter>main</Filter>
     </ClInclude>
     <ClInclude Include="CommonInclude.h">
-      <Filter>Engine\Common</Filter>
+      <Filter>Engine\Component\Common</Filter>
     </ClInclude>
     <ClInclude Include="yaEnums.h">
-      <Filter>Engine\Common</Filter>
+      <Filter>Engine\Component\Common</Filter>
     </ClInclude>
     <ClInclude Include="yaMath.h">
-      <Filter>Engine\Common</Filter>
+      <Filter>Engine\Component\Common</Filter>
     </ClInclude>
     <ClInclude Include="YamYamEngine.h">
-      <Filter>Engine\Common</Filter>
+      <Filter>Engine\Component\Common</Filter>
     </ClInclude>
     <ClInclude Include="yaGameObject.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="yaEntity.h">
-      <Filter>Engine\Common</Filter>
+      <Filter>Engine\Component\Common</Filter>
     </ClInclude>
     <ClInclude Include="yaApplication.h">
       <Filter>Engine\High Level Interface</Filter>
@@ -308,13 +308,13 @@
       <Filter>main</Filter>
     </ClCompile>
     <ClCompile Include="yaMath.cpp">
-      <Filter>Engine\Common</Filter>
+      <Filter>Engine\Component\Common</Filter>
     </ClCompile>
     <ClCompile Include="yaGameObject.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="yaEntity.cpp">
-      <Filter>Engine\Common</Filter>
+      <Filter>Engine\Component\Common</Filter>
     </ClCompile>
     <ClCompile Include="yaApplication.cpp">
       <Filter>Engine\High Level Interface</Filter>

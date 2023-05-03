@@ -152,6 +152,9 @@ namespace ya
 		case ya::Skul::eSkulState::SkillS:
 			SkillS();
 			break;
+		case ya::Skul::eSkulState::ChangeSkill:
+			ChangeSkill();
+			break;
 		default:
 			break;
 		}
@@ -375,6 +378,11 @@ namespace ya
 			if (Input::GetKeyDown(eKeyCode::S))
 			{
 				mState = eSkulState::SkillS;
+			}
+	
+			if (Input::GetKeyDown(eKeyCode::D))
+			{
+				mState = eSkulState::ChangeSkill;
 			}
 
 		}
@@ -921,6 +929,10 @@ namespace ya
 	{
 	}
 
+	void Skul::ChangeSkill()
+	{
+	}
+
 	void Skul::Jumpattack()
 	{
 		Rigidbody* rd = GetComponent<Rigidbody>();
@@ -1112,6 +1124,16 @@ namespace ya
 	}
 
 	void Skul::EndSkillS()
+	{
+	}
+	void Skul::StartChangeSkill()
+	{
+	}
+	void Skul::CompleteChangeSkill()
+	{
+		
+	}
+	void Skul::EndChangeSkill()
 	{
 	}
 }
