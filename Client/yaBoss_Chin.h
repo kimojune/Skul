@@ -10,28 +10,23 @@ namespace ya
 		Boss_Chin();
 		~Boss_Chin();
 
-		enum class eChinState
-		{
-			Idle,
-			Open,
-			Close,
-		};
+
 
 		virtual void Initialize()override;
 		virtual void Update()override;
 		virtual void Render(HDC hdc)override;
 		virtual void Release()override;
-		
-	private:
 
-		void Idle();
-		void Open();
-		void Close();
-		
+		void SetOpen(bool open) { mOpened = open; }
+
 	private:
 		Animator* mAnimator;
 		Image* mImage[3];
 		float mTime;
+		bool mOpened;
+		GameObject* mHead;
+		
+		
 	};
 
 }

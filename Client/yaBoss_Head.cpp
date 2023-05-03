@@ -17,10 +17,17 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		Vector2 headPos = tr->GetPos();
-		
-		headPos.x += 100.0f;
-		tr->SetPos(headPos);
 
+		headPos.x += 100.0f;
+		
+		mTime = 0;
+		mPrevPos = headPos;
+		mUpPos = Vector2(headPos.x, headPos.y);
+		mDownPos = Vector2(headPos.x, headPos.y + 1000);
+		mLeftPos = Vector2(headPos.x - 600, headPos.y);
+		mRightPos = Vector2(headPos.x + 600, headPos.y);
+
+		tr->SetPos(mDownPos);
 		tr->SetScale(Vector2(2.5f, 2.5f));
 
 		mAnimator = AddComponent<Animator>();
@@ -39,20 +46,33 @@ namespace ya
 		collider->SetSize(Vector2(300.0f, 300.0f));
 		collider->SetCenter(Vector2(-25.0f, -100.0f));
 
+		tr->SetPos(mDownPos);
+		mHeadState = eHeadState::UP;
+		mPlayed = false;
+
 		GameObject::Initialize();
 	}
 	void Boss_Head::Update()
 	{
-		Transform* tr = GetComponent<Transform>();
-		Vector2 chinPos = tr->GetPos();
-
-		mTime += Time::DeltaTime();
-
-		if (mTime >= 0.2)
+		switch (mHeadState)
 		{
-			chinPos.y += std::sin(chinPos.y) * 5;
-			tr->SetPos(chinPos);
-			mTime = 0;
+		case ya::Boss_Head::eHeadState::Idle:
+			Idle();
+			break;
+		case ya::Boss_Head::eHeadState::UP:
+			UP();
+			break;
+		case ya::Boss_Head::eHeadState::Down:
+			Down();
+			break;
+		case ya::Boss_Head::eHeadState::Left:
+			Left();
+			break;
+		case ya::Boss_Head::eHeadState::Right:
+			Right();
+			break;
+		default:
+			break;
 		}
 
 		GameObject::Update();
@@ -66,4 +86,121 @@ namespace ya
 	void Boss_Head::Release()
 	{
 	}
+	void Boss_Head::Idle()
+	{
+		Transform* tr = GetComponent<Transform>();
+		if (!(mPlayed))
+		{
+			tr->SetPos(mPrevPos);
+			mPlayed = true;
+			mTime = 0;
+
+		}
+
+		Vector2 chinPos = tr->GetPos();
+
+		mTime += Time::DeltaTime();
+
+		chinPos.y += std::sin(chinPos.y) * 5;
+
+		if (mTime >= 0.3)
+		{
+			tr->SetPos(chinPos);
+			mTime = 0;
+		}
+	}
+	void Boss_Head::UP()
+	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 headpos = tr->GetPos();
+
+		if (headpos.y <= mPrevPos.y)
+		{
+			headpos = mPrevPos;
+			mHeadState = eHeadState::Idle;
+		}
+		else
+		{
+			headpos.y -= 500 * Time::DeltaTime();
+		}
+
+		tr->SetPos(headpos);
+
+	}
+	void Boss_Head::Down()
+	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 bodypos = tr->GetPos();
+
+		if (bodypos.y >= mDownPos.y)
+		{
+			bodypos = mPrevPos;
+			mHeadState = eHeadState::Idle;
+		}
+		else
+		{
+			bodypos.y += 300 * Time::DeltaTime();
+		}
+
+		tr->SetPos(bodypos);
+	}
+	void Boss_Head::Left()
+	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 bodypos = tr->GetPos();
+
+		if ((!mPlayed))
+		{
+			bodypos = mLeftPos;
+			mPlayed = true;
+			tr->SetPos(bodypos);
+
+		}
+
+		mTime += Time::DeltaTime();
+
+		if (mTime > 3.0)
+		{
+			if (bodypos.x >= mRightPos.x)
+			{
+				bodypos = mRightPos;
+				mTime = 0;
+			}
+			else
+				bodypos.x += 1000 * Time::DeltaTime();
+		
+			tr->SetPos(bodypos);
+		}
+
+	}
+	void Boss_Head::Right()
+	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 bodypos = tr->GetPos();
+
+		if ((!mPlayed))
+		{
+			bodypos = mRightPos;
+			mPlayed = true;
+			tr->SetPos(bodypos);
+
+		}
+
+		mTime += Time::DeltaTime();
+
+		if (mTime > 3.0)
+		{
+			if (bodypos.x <= mLeftPos.x)
+			{
+				bodypos = mLeftPos;
+				mTime = 0;
+			}
+			else
+				bodypos.x -= 2000 * Time::DeltaTime();
+			
+			tr->SetPos(bodypos);
+		}
+
+	}
+
 }

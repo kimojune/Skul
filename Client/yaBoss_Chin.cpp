@@ -3,6 +3,9 @@
 #include "yaResources.h"
 #include "yaTransform.h"
 #include "yaTime.h"
+#include "yaSceneManager.h"
+#include "yaScene.h"
+#include "yaGameObject.h"
 
 namespace ya
 {
@@ -19,11 +22,11 @@ namespace ya
 		tr->SetScale(Vector2(2.5f, 2.5f));
 		Vector2 chinPos = tr->GetPos();
 
-		chinPos.x += 250.0f;
-		chinPos.y += 300.0f;
+
 		tr->SetPos(chinPos);
 
-		
+		Scene* scene = SceneManager::GetActiveScene();
+		mHead = scene->GetGameObjects(eLayerType::Boss)[1];
 		mImage[0] = Resources::Load<Image>(L"Boss_Chin_1", L"..\\Resources\\Boss\\Chin\\Chin_1.bmp");
 		mImage[1] = Resources::Load<Image>(L"Boss_Chin_2", L"..\\Resources\\Boss\\Chin\\Chin_2.bmp");
 		mImage[2] = Resources::Load<Image>(L"Boss_Chin_3", L"..\\Resources\\Boss\\Chin\\Chin_3.bmp");
@@ -36,22 +39,32 @@ namespace ya
 
 		mAnimator->Play(L"BossChin_1", false);
 
+		mOpened = false;
 
 		GameObject::Initialize();
 	}
 	void Boss_Chin::Update()
 	{
 		Transform* tr = GetComponent<Transform>();
-		Vector2 chinPos = tr->GetPos();
-
-		mTime += Time::DeltaTime();
-
-		if (mTime >= 0.2)
+		Transform* headtr = mHead->GetComponent<Transform>();
+		Vector2 headPos = headtr->GetPos();
+		
+		headPos.x += 150;
+		
+		if (mOpened)
 		{
-			chinPos.y+= std::sin(chinPos.y) * 10;
-			tr->SetPos(chinPos);
-			mTime = 0;
+			headPos.y += 350;
 		}
+		else
+		{
+			headPos.y += 250;
+		}
+
+		//mTime += Time::DeltaTime();
+
+		headPos.y+= std::sin(headPos.y) * 10;
+		tr->SetPos(headPos);
+
 		
 		GameObject::Update();
 
@@ -65,13 +78,5 @@ namespace ya
 	{
 
 	}
-	void Boss_Chin::Idle()
-	{
-	}
-	void Boss_Chin::Open()
-	{
-	}
-	void Boss_Chin::Close()
-	{
-	}
+
 }

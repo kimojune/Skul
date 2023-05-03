@@ -17,6 +17,7 @@ enum class eLayerType
 {
 	BG,
 	Struct,
+	Boss,
 	Tile,
 	Monster,
 	Player,

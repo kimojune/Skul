@@ -25,6 +25,7 @@ namespace ya
 		virtual void Release()override;
 
 		void SetBodyState(eBodyState state) { mBodyState = state; }
+		void SetPlayed(bool play) { mPlayed = false; }
 
 	protected:
 		void Idle();
@@ -44,6 +45,8 @@ namespace ya
 		Vector2 mUpPos;
 		Vector2 mDownPos;
 		
+		float mTime;
+		bool mPlayed;
 	};
 
 }

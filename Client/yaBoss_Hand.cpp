@@ -168,7 +168,7 @@ namespace ya
 
 		mTime += Time::DeltaTime();
 
-		if (mTime > 1.0f)
+		if (mTime > 2.0f)
 		{
 			if ((mTargetPos - handpos).Length() > 50.0f)
 			{
@@ -199,6 +199,7 @@ namespace ya
 			{
 				handpos.x += 3000 * Time::DeltaTime();
 				handtr->SetPos(handpos);
+
 			}
 			else
 				mComplete = true;

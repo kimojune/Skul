@@ -7,6 +7,7 @@ namespace ya
 	class Boss_Head;
 	class Boss_Hand;
 	class Boss_RightHand;
+	class Boss_Chin;
 	class BossBullet;
 
 class Chapter1_Boss: public GameObject
@@ -45,9 +46,18 @@ private:
 	Boss_Hand* mLeftHand;
 	Boss_RightHand* mRightHand;
 	Boss_Head* mHead;
-	BossBullet mBullet[8];
+	Boss_Chin* mChin;
+	BossBullet* mBullet[8];
 	eBossState mState;
 	eBossState mprevState;
+
+
+	Vector2 mLeftPos;
+	Vector2 mRightPos;
+
+	Transform* mbodytr;
+	Transform* mheadtr;
+	Transform* mchintr;
 	float mTime;
 };
 

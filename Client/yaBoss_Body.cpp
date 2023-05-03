@@ -16,21 +16,21 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		tr->SetScale(Vector2(2.5f, 2.5f));
-		
+
 		mPrevPos = tr->GetPos();
 		Vector2 bosspos = mPrevPos;
-		
-		
 
-		mUpPos = Vector2(bosspos.x,bosspos.y);
+		mTime = 0;
+
+		mUpPos = Vector2(bosspos.x, bosspos.y);
 		mDownPos = Vector2(bosspos.x, bosspos.y + 1000);
-		mLeftPos = Vector2(bosspos.x - 300, bosspos.y);
-		mRightPos = Vector2(bosspos.x + 300, bosspos.y);
+		mLeftPos = Vector2(bosspos.x - 450, bosspos.y);
+		mRightPos = Vector2(bosspos.x + 450, bosspos.y);
 
 		mImage[0] = Resources::Load<Image>(L"Boss_Body_1", L"..\\Resources\\Boss\\Body\\Boss_Body_1.bmp");
 		mImage[1] = Resources::Load<Image>(L"Boss_Body_2", L"..\\Resources\\Boss\\Body\\Boss_Body_2.bmp");
 		mImage[2] = Resources::Load<Image>(L"Boss_Body_3", L"..\\Resources\\Boss\\Body\\Boss_Body_3.bmp");
-		
+
 		mAnimator = AddComponent<Animator>();
 
 		mAnimator->CreateAnimation(L"BossBody_1", mImage[0], Vector2(0, 0), 0, 1, 1, 1, Vector2(-85.0f, -50.0f), 0.1);
@@ -41,7 +41,8 @@ namespace ya
 
 		tr->SetPos(mDownPos);
 		mBodyState = eBodyState::UP;
-		
+		mPlayed = false;
+
 		GameObject::Initialize();
 
 	}
@@ -80,7 +81,12 @@ namespace ya
 	}
 	void Boss_Body::Idle()
 	{
-		
+		if (!(mPlayed))
+		{
+			Transform* tr = GetComponent<Transform>();
+			tr->SetPos(mPrevPos);
+			mTime = 0;
+		}
 	}
 	void Boss_Body::UP()
 	{
@@ -96,7 +102,7 @@ namespace ya
 		{
 			bodypos.y -= 500 * Time::DeltaTime();
 		}
-		
+
 		tr->SetPos(bodypos);
 
 	}
@@ -123,31 +129,56 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		Vector2 bodypos = tr->GetPos();
 
-		if (bodypos.x <= mLeftPos.x)
+		if ((!mPlayed))
 		{
 			bodypos = mLeftPos;
-		}
-		else
-		{
-			bodypos.x -= 800 * Time::DeltaTime();
+			mPlayed = true;
+
+			tr->SetPos(bodypos);
+
 		}
 
-		tr->SetPos(bodypos);
+		mTime += Time::DeltaTime();
+
+		if (mTime > 3.0)
+		{
+			if (bodypos.x >= mRightPos.x)
+			{
+				bodypos = mRightPos;
+				mTime = 0;
+			}
+			else
+				bodypos.x += 1000 * Time::DeltaTime();
+
+			tr->SetPos(bodypos);
+		}
+
 	}
 	void Boss_Body::Right()
 	{
-		Transform* tr = GetComponent<Transform>();
-		Vector2 bodypos = tr->GetPos();
+		//Transform* tr = GetComponent<Transform>();
+		//Vector2 bodypos = tr->GetPos();
 
-		if (bodypos.x >= mRightPos.x)
-		{
-			bodypos = mPrevPos;
-		}
-		else
-		{
-			bodypos.x += 800 * Time::DeltaTime();
-		}
+		//if ((!mPlayed))
+		//{
+		//	bodypos = mRightPos;
+		//	mPlayed = true;
+		//}
 
-		tr->SetPos(bodypos);
+		//mTime += Time::DeltaTime();
+
+		//if (mTime > 2.8)
+		//{
+		//	if (bodypos.x <= mLeftPos.x)
+		//	{
+		//		bodypos = mLeftPos;
+		//		mTime = 0;
+		//	}
+		//	else
+		//		bodypos.x -= 2000 * Time::DeltaTime();
+		//}
+
+		//tr->SetPos(bodypos);
 	}
+
 }
