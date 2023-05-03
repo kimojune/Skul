@@ -29,7 +29,7 @@ namespace ya
 	
 		Vector2 handpos = tr->GetPos();
 
-		handpos.y += 200.0f;
+		handpos.y += 100.0f;
 		
 		if(mDirection==eDirection::Left)
 			handpos.x -= 250.0f;
@@ -92,10 +92,10 @@ namespace ya
 		collider->SetSize(Vector2(250.0f, 250.0f));
 		collider->SetCenter(Vector2(-50.0f, -125.0f));
 
-		mHandState = eHandState::Idle;
-		mAnimator->Play(L"Boss_LeftHand", true);
+		mHandState = eHandState::Down;
+		mAnimator->Play(L"Boss_LeftPutOn", false);
 		mPlayed = true;
-
+		mTime = 0;
 
 		Scene* scene = SceneManager::GetActiveScene();
 		mBoss =dynamic_cast<Chapter1_Boss*>(scene->GetGameObjects(eLayerType::Monster)[0]);
@@ -162,37 +162,52 @@ namespace ya
 		if (mPlayed == false)
 		{
 			mPlayed = true;
+			mComplete = false;
 			mAnimator->Play(L"Boss_LeftPunch", false);
 		}
-		
 
-		handpos += (mTargetPos - handpos).Normalize() * 300 * Time::DeltaTime();
-		tr->SetPos(handpos);
+		mTime += Time::DeltaTime();
 
-		if (handpos == mTargetPos)
+		if (mTime > 1.0f)
 		{
-			mHandState = eHandState::Idle;
-			mAnimator->Play(L"Boss_LeftHand", true);
-			mComplete = true;
+			if ((mTargetPos - handpos).Length() > 50.0f)
+			{
+				handpos += (mTargetPos - handpos).Normalize() * 3000 * Time::DeltaTime();
+				tr->SetPos(handpos);
+			}
+			else
+				mComplete = true;
 		}
+
 	}
 	void Boss_Hand::Smash()
 	{
 		if (mPlayed == false)
 		{
 			mPlayed = true;
-			mAnimator->Play(L"Boss_LeftPutOn", false);
+			mAnimator->Play(L"Boss_LeftSmash", false);
 		}
-		Transform* tr = GetComponent<Transform>();
-		Vector2 handpos = tr->GetPos();
-		handpos.x = 0.0f;
+
+		Transform* handtr = GetComponent<Transform>();
+		Vector2 handpos = handtr->GetPos();
+
+		mTime += Time::DeltaTime();
 		
+		if (mTime > 3)
+		{
+			if (handpos.x < 3300)
+			{
+				handpos.x += 3000 * Time::DeltaTime();
+				handtr->SetPos(handpos);
+			}
+			else
+				mComplete = true;
+		}
 	}
 
 	void Boss_Hand::StartIdle()
 	{
 		mComplete = false;
-
 	}
 
 	void Boss_Hand::CompleteIdle()
@@ -203,14 +218,13 @@ namespace ya
 	void Boss_Hand::EndIdle()
 	{
 
-		mComplete = true;
 	}
 
 	void Boss_Hand::StartDown()
 	{
 		Transform* handtr = GetComponent<Transform>();
 		Vector2 handpos = handtr->GetPos();
-		handpos.y += 200.0f;
+		handpos.y += 220.0f;
 		handtr->SetPos(handpos);
 	}
 	void Boss_Hand::CompleteDown()
@@ -225,15 +239,8 @@ namespace ya
 
 	}
 	void Boss_Hand::StartPunch()
-	{/*
-		mHandState = eHandState::Punch;
-		PlayeScene* playscene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
-		Skul* skul = playscene->GetSkul();
-		if (skul == nullptr)
-			return;
-		Transform* skultr = skul->GetComponent<Transform>();
+	{
 
-		mTargetPos = skultr->GetPos();*/
 	}
 	void Boss_Hand::CompletePunch()
 	{
@@ -242,10 +249,13 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		tr->SetPos(mPrevPos);
+		mTime = 0;
 	}
 
 	void Boss_Hand::StartSmash()
 	{
+		Transform* handtr = GetComponent<Transform>();
+		handtr->SetPos(Vector2(500, 1700));
 	}
 
 	void Boss_Hand::CompleteSmash()
@@ -254,6 +264,8 @@ namespace ya
 
 	void Boss_Hand::EndSmash()
 	{
-		mComplete = true;
+		Transform* tr = GetComponent<Transform>();
+		tr->SetPos(mPrevPos);
+		mTime = 0;
 	}
 }

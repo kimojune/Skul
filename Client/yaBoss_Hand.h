@@ -69,6 +69,7 @@ namespace ya
 		Chapter1_Boss* mBoss;
 		bool mPlayed;
 		bool mComplete;
+		float mTime;
 	};
 
 }

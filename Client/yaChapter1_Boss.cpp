@@ -53,7 +53,6 @@ namespace ya
 				return;
 			Transform* skultr = skul->GetComponent<Transform>();
 			mLeftHand->SetTargetPos(skultr->GetPos());
-
 			mLeftHand->SetPlayed(false);
 		}
 
@@ -97,12 +96,13 @@ namespace ya
 	{
 		mTime += Time::DeltaTime();
 
-		if (mTime >= 3)
+		if (mTime >= 5)
 		{
 			UINT state = rand();
 			state %= 3;
 			
 			mState = (eBossState)(state + 1);
+			
 			mTime = 0;
 		}
 
@@ -110,23 +110,64 @@ namespace ya
 	}
 	void Chapter1_Boss::Punch()
 	{
+
 		mLeftHand->SetHandState(Boss_Hand::eHandState::Punch);
 		
 		if (mLeftHand->GetHandComplete())
-			mState = eBossState::Idle;
+		{
+			mTime += Time::DeltaTime();
+
+			if (mTime > 3)
+			{
+				mState = eBossState::Idle;
+				mLeftHand->SetHandState(Boss_Hand::eHandState::Idle);
+				mTime = 0;
+			}
+		}
 	}
 	void Chapter1_Boss::Smash()
 	{
 		mLeftHand->SetHandState(Boss_Hand::eHandState::Smash);
+		mBody->SetBodyState(Boss_Body::eBodyState::Left);
+
 		if (mLeftHand->GetHandComplete())
-			mState = eBossState::Idle;
+		{
+			mTime += Time::DeltaTime();
+			mBody->SetBodyState(Boss_Body::eBodyState::Right);
+
+			if (mTime > 3)
+			{
+				mState = eBossState::Idle;
+				mLeftHand->SetHandState(Boss_Hand::eHandState::Idle);
+				mBody->SetBodyState(Boss_Body::eBodyState::Idle);
+
+				mTime = 0;
+			}
+		}
 	}
 	void Chapter1_Boss::RangeAttack()
 	{
 		mLeftHand->SetHandState(Boss_Hand::eHandState::Down);
 
-		if (mLeftHand->GetHandComplete())
+		mTime += Time::DeltaTime();
+
+		if (mTime > 3)
+		{
 			mState = eBossState::Idle;
+			mLeftHand->SetHandState(Boss_Hand::eHandState::Idle);
+			mTime = 0;
+		}
+		//if (mLeftHand->GetHandComplete())
+		//{
+		//	mTime += Time::DeltaTime();
+
+		//	if (mTime > 3)
+		//	{
+		//		mState = eBossState::Idle;
+		//		mLeftHand->SetHandState(Boss_Hand::eHandState::Idle);
+		//		mTime = 0;
+		//	}
+		//}
 	}
 	void Chapter1_Boss::Dead()
 	{

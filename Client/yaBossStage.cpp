@@ -52,7 +52,7 @@ namespace ya
 		object::Instantiate<Ground>(Vector2(0.0f, 1750.0f), eLayerType::Ground);
 		object::Instantiate<PlayBG>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		object::Instantiate<BossBG>(Vector2(0.0f, 0.0f), eLayerType::Struct);
-		object::Instantiate<Chapter1_Boss>(Vector2(1400.0f,1300.0f), eLayerType::Monster);
+		object::Instantiate<Chapter1_Boss>(Vector2(1400.0f,1400.0f), eLayerType::Monster);
 		
 
 	}

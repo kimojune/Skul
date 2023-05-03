@@ -20,7 +20,7 @@ namespace ya
 		Vector2 chinPos = tr->GetPos();
 
 		chinPos.x += 250.0f;
-		chinPos.y += 200.0f;
+		chinPos.y += 300.0f;
 		tr->SetPos(chinPos);
 
 		
