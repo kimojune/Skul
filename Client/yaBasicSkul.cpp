@@ -9,6 +9,7 @@
 #include "yaPlayeScene.h"
 #include "yaSkulHead.h"
 #include "yaObject.h"
+#include "yaTime.h"
 
 
 namespace ya
@@ -146,9 +147,30 @@ namespace ya
 			mbPlay = true;
 
 			if (mDirect == eDirection::Left)
-				mAnimator->Play(L"LeftChangeSkill", false);
+				mAnimator->Play(L"LeftChangeSkill", true);
 			else
-				mAnimator->Play(L"RightChangeSkill", false);
+				mAnimator->Play(L"RightChangeSkill", true);
+		}
+		Transform* tr = GetComponent<Transform>();
+		Vector2 skulpos = tr->GetPos();
+		
+		if (mDirect == eDirection::Left)
+			skulpos.x -= 100 * Time::DeltaTime();
+		else
+			skulpos.x += 100 * Time::DeltaTime();
+
+		mTime += Time::DeltaTime();
+		
+		tr->SetPos(skulpos);
+
+		if (mTime > 2)
+		{
+			mState = eSkulState::Idle;
+			if (mDirect == eDirection::Left)
+				mAnimator->Play(L"LeftIdle", true);
+			else
+				mAnimator->Play(L"RightIdle", true);
+			mTime = 0;
 		}
 	}
 	void Basic::StartSkillA()
@@ -185,6 +207,10 @@ namespace ya
 	{
 		mbPlay = false;
 		mState = eSkulState::Idle;
+		if (mDirect == eDirection::Left)
+			mAnimator->Play(L"LeftIdle", true);
+		else
+			mAnimator->Play(L"RightIdle", true);
 
 	}
 	

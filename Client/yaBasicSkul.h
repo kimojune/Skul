@@ -40,6 +40,8 @@ private:
 	SkulHead* mSkulHead;
 
 	bool mbPlay;
+	float mTime;
+	bool mComplete;
 };
 
 }

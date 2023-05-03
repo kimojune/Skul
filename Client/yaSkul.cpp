@@ -179,7 +179,7 @@ namespace ya
 		
 		Skul* skul = mSkuls[(UINT)type];
 		Scene* ActiveScene = SceneManager::GetActiveScene();
-
+		//mSecondSkul = this;
 		skul->GetComponent<Transform>()->SetPos(tr->GetPos());
 		bool ground = this->GetComponent<Rigidbody>()->GetGround();;
 
@@ -382,7 +382,12 @@ namespace ya
 	
 			if (Input::GetKeyDown(eKeyCode::D))
 			{
-				mState = eSkulState::ChangeSkill;
+				//Skul* skul = SwitchSkul(mSecondSkul);
+				mState = eSkulState::Idle;
+				if (mDirect == eDirection::Left)
+					mAnimator->Play(L"LeftIdle", true);
+				else
+					mAnimator->Play(L"RightIdle", true);
 			}
 
 		}
@@ -931,6 +936,11 @@ namespace ya
 
 	void Skul::ChangeSkill()
 	{
+		mState = eSkulState::Idle;
+		if (mDirect == eDirection::Left)
+			mAnimator->Play(L"LeftIdle", true);
+		else
+			mAnimator->Play(L"RightIdle", true);
 	}
 
 	void Skul::Jumpattack()

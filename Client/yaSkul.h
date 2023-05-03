@@ -116,7 +116,7 @@ namespace ya
 		bool SecondDash;
 		bool SecondJump;
 
-		
+		//Skul* mSecondSkul;
 
 		UINT AttackCount;
 
