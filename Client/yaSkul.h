@@ -53,6 +53,9 @@ namespace ya
 		void SetDirect(eDirection direct);
 		bool CheckAnimation(const std::wstring& name);
 		eDirection GetDirect() { return mDirect;}
+		bool GetIsAttack() { return IsAttack; }
+		void SetIsAttack(bool mtrue) { IsAttack = mtrue; }
+
 	
 		void SetSkulState(eSkulState state) { mState = state; }
 		eSkulState GetSkulState() {return mState; }
@@ -116,7 +119,8 @@ namespace ya
 		bool SecondAttack;
 		bool SecondDash;
 		bool SecondJump;
-
+		bool IsAttack;
+		
 		//Skul* mSecondSkul;
 
 		UINT AttackCount;

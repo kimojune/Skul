@@ -23,7 +23,7 @@ namespace ya
 		mTime = 0;
 		mPrevPos = headPos;
 		mUpPos = Vector2(headPos.x, headPos.y);
-		mDownPos = Vector2(headPos.x, headPos.y + 1000);
+		mDownPos = Vector2(headPos.x, headPos.y + 300);
 		mLeftPos = Vector2(headPos.x - 600, headPos.y);
 		mRightPos = Vector2(headPos.x + 600, headPos.y);
 
@@ -49,7 +49,7 @@ namespace ya
 		tr->SetPos(mDownPos);
 		mHeadState = eHeadState::UP;
 		mPlayed = false;
-
+		mHP = 10;
 		GameObject::Initialize();
 	}
 	void Boss_Head::Update()
@@ -134,8 +134,7 @@ namespace ya
 
 		if (bodypos.y >= mDownPos.y)
 		{
-			bodypos = mPrevPos;
-			mHeadState = eHeadState::Idle;
+			bodypos = mDownPos;
 		}
 		else
 		{
@@ -204,7 +203,7 @@ namespace ya
 
 	void Boss_Head::Hit()
 	{
-
+		mHP -=1;
 	}
 
 }

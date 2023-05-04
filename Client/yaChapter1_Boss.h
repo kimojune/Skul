@@ -59,6 +59,7 @@ private:
 	Transform* mbodytr;
 	Transform* mheadtr;
 	Transform* mchintr;
+
 	float mTime;
 		
 	bool mplayed;

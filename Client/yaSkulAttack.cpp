@@ -6,6 +6,7 @@
 #include "yaSkul.h"
 #include "yaMonster.h"
 #include "yaAnimator.h"
+#include "yaBoss_Head.h"
 
 namespace ya
 {
@@ -63,20 +64,37 @@ namespace ya
 	}
 	void SkulAttack::OnCollisionStay(Collider* other)
 	{
-		Monster* monster = dynamic_cast<Monster*>(other->GetOwner());
-		
-		if (monster == nullptr)
-			return;
-		
-		Skul::eSkulState skulstate = mSkul->GetSkulState();
-	
-		if (Skul::eSkulState::Attack == skulstate
-			|| Skul::eSkulState::JumpAttack == skulstate)
+		if (Monster* monster = dynamic_cast<Monster*>(other->GetOwner()))
 		{
-			monster->SetMonsterState(Monster::eMonsterState::Hit);
-			Animator* monAnimator = monster->GetComponent<Animator>();
+			if (monster == nullptr)
+				return;
+		
+			Skul::eSkulState skulstate = mSkul->GetSkulState();
+			if (Skul::eSkulState::Attack == skulstate
+				|| Skul::eSkulState::JumpAttack == skulstate)
+			{
+				if (mSkul->GetIsAttack())
+				{
+				monster->SetMonsterState(Monster::eMonsterState::Hit);
+				}
+			}
 		}
 
+		if (Boss_Head* boss = dynamic_cast<Boss_Head*>(other->GetOwner()))
+		{
+			if (boss == nullptr)
+				return;
+
+			Skul::eSkulState skulstate = mSkul->GetSkulState();
+			if (Skul::eSkulState::Attack == skulstate
+				|| Skul::eSkulState::JumpAttack == skulstate)
+			{
+				if (mSkul->GetIsAttack())
+				{
+					boss->Hit();
+				}
+			}
+		}
 	}
 	void SkulAttack::OnCollisionExit(Collider* other)
 	{

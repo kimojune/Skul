@@ -92,7 +92,7 @@ namespace ya
 		{
 			if (!(mSound))
 			{
-				ElderEnt_EnergyBomb_Fire->Play(true);
+				ElderEnt_EnergyBomb_Fire->Play(false);
 				mSound = true;
 			}
 			Transform* tr = GetComponent<Transform>();
@@ -105,7 +105,7 @@ namespace ya
 		{
 			SetState(eState::Pause);
 			mTime = 0;
-			ElderEnt_EnergyBomb_Fire->Stop(true);
+			//ElderEnt_EnergyBomb_Fire->Stop(true);
 			mSound = true;
 		}
 

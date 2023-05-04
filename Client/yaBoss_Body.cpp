@@ -23,7 +23,7 @@ namespace ya
 		mTime = 0;
 
 		mUpPos = Vector2(bosspos.x, bosspos.y);
-		mDownPos = Vector2(bosspos.x, bosspos.y + 1000);
+		mDownPos = Vector2(bosspos.x, bosspos.y + 300);
 		mLeftPos = Vector2(bosspos.x - 450, bosspos.y);
 		mRightPos = Vector2(bosspos.x + 450, bosspos.y);
 
@@ -113,8 +113,7 @@ namespace ya
 
 		if (bodypos.y >= mDownPos.y)
 		{
-			bodypos = mPrevPos;
-			mBodyState = eBodyState::Idle;
+			bodypos = mDownPos;
 
 		}
 		else

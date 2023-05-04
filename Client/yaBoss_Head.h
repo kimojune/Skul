@@ -27,6 +27,8 @@ public:
 
 	void SetPlayed(bool play) { mPlayed = play; }
 	void SetHeadState(eHeadState state) { mHeadState = state; }
+	int GetHeadHP() { return mHP; }
+	void Hit();
 
 protected:
 	void Idle();
@@ -34,7 +36,6 @@ protected:
 	void Down();
 	void Left();
 	void Right();
-	void Hit();
 
 private:
 	Animator* mAnimator;
@@ -49,7 +50,7 @@ private:
 
 	eHeadState mHeadState;
 
-
+	int mHP;
 	bool mPlayed;
 };
 

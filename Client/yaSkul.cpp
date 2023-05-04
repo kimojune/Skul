@@ -116,6 +116,8 @@ namespace ya
 		mRigidbody->SetMass(1.0f);
 		mRigidbody->SetGround(false);
 
+		IsAttack = true;
+
 		mState = eSkulState::Fall;
 		mAnimator->Play(L"RightFall", false);
 
@@ -1052,6 +1054,7 @@ namespace ya
 
 	void Skul::CompleteAttack()
 	{
+		IsAttack = true;
 	}
 
 	void Skul::EndAttack()
@@ -1079,6 +1082,7 @@ namespace ya
 			break;
 		}
 
+		IsAttack = true;
 	}
 
 	void Skul::EndJumpAttack()

@@ -39,6 +39,8 @@ namespace ya
 		mPlatform[0] = object::Instantiate<Platform>(Vector2(bosspos.x - 50.0f,bosspos.y + 200.0f), eLayerType::Ground);
 		mPlatform[1] = object::Instantiate<Platform>(Vector2(bosspos.x + 350.0f, bosspos.y + 120.0f), eLayerType::Ground);
 		
+		mHP = mHead->GetHeadHP();
+		
 		for (size_t i = 0; i < 8; i++)
 		{
 			mBullet[i] = object::Instantiate<BossBullet>(bosspos, eLayerType::EnemyBullet);
@@ -47,7 +49,7 @@ namespace ya
 		}
 
 		
-		mHP = 50;
+		
 
 		ElderEnt_FistSlam = Resources::Load<Sound>(L"ElderEnt_FistSlam", L"..\\Resources\\Sound\\Boss\\ElderEnt_FistSlam.wav");
 		ElderEnt_FistSlam_Recovery = Resources::Load<Sound>(L"ElderEnt_FistSlam_Recovery", L"..\\Resources\\Sound\\Boss\\ElderEnt_FistSlam_Recovery.wav");
@@ -101,9 +103,15 @@ namespace ya
 			}
 			
 		}
-
+		
 		mprevState = mState;
 
+		mHP = mHead->GetHeadHP();
+
+		if (mHP <= 0)
+		{
+			mState = eBossState::Dead;
+		}
 		switch (mState)
 		{
 		case ya::Chapter1_Boss::eBossState::Idle:
@@ -248,6 +256,7 @@ namespace ya
 	}
 	void Chapter1_Boss::Dead()
 	{
+		
 		mLeftHand->SetHandState(Boss_Hand::eHandState::Down);
 		mRightHand->SetHandState(Boss_RightHand::eHandState::Down);
 
