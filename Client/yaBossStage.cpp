@@ -44,6 +44,7 @@ namespace ya
 	{
 		PlayeScene::Initialize();
 
+		
 
 		AddGameObeject(mSkuls[(UINT)Skul::eSkulType::Basic], eLayerType::Player);
 		AddGameObeject(mSkuls[(UINT)Skul::eSkulType::Nohead], eLayerType::Player);
@@ -53,7 +54,8 @@ namespace ya
 		object::Instantiate<PlayBG>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		object::Instantiate<BossBG>(Vector2(0.0f, 0.0f), eLayerType::Struct);
 		object::Instantiate<Chapter1_Boss>(Vector2(1400.0f,1400.0f), eLayerType::Monster);
-		
+		ElderEnt_Roar = Resources::Load<Sound>(L"ElderEnt_Roar", L"..\\Resources\\Sound\\Boss\\ElderEnt_Roar.wav");
+
 
 	}
 	void BossStage::Update()
@@ -72,7 +74,9 @@ namespace ya
 	void BossStage::OnEnter()
 	{
 		const std::wstring& path = { L"..\\Tile\\stage1" };
-
+		Chapter1->Stop(true);
+		//Chapter1_BossBG->Play(true);
+		ElderEnt_Roar->Play(false);
 		TilePalatte::Load(path);
 
 		for (Skul* skul : mSkuls)
@@ -95,5 +99,6 @@ namespace ya
 	}
 	void BossStage::OnExit()
 	{
+		//Chapter1_BossBG->Stop(true);
 	}
 }

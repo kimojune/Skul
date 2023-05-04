@@ -4,7 +4,7 @@
 namespace ya
 {
 
-
+	class Sound;
 class Basic : public Skul
 {
 public:
@@ -38,7 +38,8 @@ public:
 private:
 	Animator* mAnimator;
 	SkulHead* mSkulHead;
-
+	Sound* Skul_SkullThrowing;
+	Sound* Skul_Reborn_Rise;
 	bool mbPlay;
 	float mTime;
 	bool mComplete;

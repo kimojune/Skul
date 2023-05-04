@@ -79,6 +79,7 @@ namespace ya
 	{
 		const std::wstring& path = { L"..\\Tile\\stage1" };
 		TilePalatte::Load(path);
+		Chapter1->Play(true);
 
 		PlayeScene::OnEnter();
 

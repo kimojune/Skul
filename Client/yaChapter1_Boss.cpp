@@ -15,7 +15,7 @@
 #include "yaPlayeScene.h"
 #include "yaSkul.h"
 #include "yaPlatform.h"
-
+#include "yaSound.h"
 namespace ya
 {
 	Chapter1_Boss::Chapter1_Boss()
@@ -49,6 +49,11 @@ namespace ya
 		
 		mHP = 50;
 
+		ElderEnt_FistSlam = Resources::Load<Sound>(L"ElderEnt_FistSlam", L"..\\Resources\\Sound\\Boss\\ElderEnt_FistSlam.wav");
+		ElderEnt_FistSlam_Recovery = Resources::Load<Sound>(L"ElderEnt_FistSlam_Recovery", L"..\\Resources\\Sound\\Boss\\ElderEnt_FistSlam_Recovery.wav");
+		ElderEnt_Sweeping_Ready = Resources::Load<Sound>(L"ElderEnt_Sweeping_Ready", L"..\\Resources\\Sound\\Boss\\ElderEnt_Sweeping_Ready.wav");
+
+
 		mLeftPos = Vector2(bosspos.x - 450, bosspos.y);
 		mRightPos = Vector2(bosspos.x + 450, bosspos.y);
 
@@ -79,6 +84,7 @@ namespace ya
 			mBody->SetPlayed(false);
 			mHead->SetPlayed(false);
 			mChin->SetOpen(false);
+			mplayed = false;
 			int a = rand();
 			IsRight = (UINT)a % 2;
 			//mPlatform[0]->SetState(eState::Active);
@@ -160,6 +166,7 @@ namespace ya
 
 		if (mLeftHand->GetHandComplete()||mRightHand->GetHandComplete())
 		{
+			
 			mTime += Time::DeltaTime();
 
 			if (mTime > 2)
@@ -173,7 +180,7 @@ namespace ya
 	}
 	void Chapter1_Boss::Smash()
 	{
-
+		
 		if (IsRight)
 		{
 			mLeftHand->SetHandState(Boss_Hand::eHandState::Down);
@@ -193,10 +200,12 @@ namespace ya
 
 		if (mLeftHand->GetHandComplete()||mRightHand->GetHandComplete())
 		{
+	
 			mTime += Time::DeltaTime();
 			
-			if (mTime > 2)
+			if (mTime > 1)
 			{
+
 				mState = eBossState::Idle;
 				mLeftHand->SetHandState(Boss_Hand::eHandState::Idle);
 				mRightHand->SetHandState(Boss_RightHand::eHandState::Idle);
@@ -224,8 +233,6 @@ namespace ya
 			mRightHand->SetHandState(Boss_RightHand::eHandState::Idle);
 
 			mTime = 0;
-
-
 		}
 		//if (mLeftHand->GetHandComplete())
 		//{

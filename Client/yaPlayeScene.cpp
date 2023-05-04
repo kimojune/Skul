@@ -48,6 +48,7 @@ namespace ya
 		//mPixelMap = TilePalatte::GetTilePixel();
 		
 		Chapter1 = Resources::Load<Sound>(L"Chapter1", L"..\\Resources\\Sound\\Chapter1.wav");
+		Chapter1_BossBG = Resources::Load<Sound>(L"Chapter1_Boss", L"..\\Resources\\Sound\\Chapter1_Boss.wav");
 		//Chapter1->Play(true);
 		
 		object::Instantiate<SkulHead>(Vector2(0.0f, 0.0f), eLayerType::Bullet);
@@ -82,7 +83,6 @@ namespace ya
 		Rigidbody* rd = mActiveSkul->GetComponent<Rigidbody>();
 		
 		rd->SetGround(false);
-		Chapter1->Play(true);
 
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Tile, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
@@ -103,7 +103,6 @@ namespace ya
 	}
 	void PlayeScene::OnExit()
 	{
-		Chapter1->Stop(true);
 		Camera::SetTarget(nullptr);
 		//mCuphead->SetPos(Vector2{ 0.0f, 0.0f });
 	}

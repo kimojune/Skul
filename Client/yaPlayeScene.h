@@ -31,9 +31,10 @@ namespace ya
 		//Image* GetPixMap() { return mPixelMap; }
 	protected:
 
+		Sound* Chapter1;
+		Sound* Chapter1_BossBG;
 		Skul* mActiveSkul;
 	private:
-		Sound* Chapter1;
 
 
 	};

@@ -7,6 +7,7 @@ namespace ya
 	class Animator;
 	class Rigidbody;
 	class SkulAttack;
+	class Sound;
 	class Skul : public GameObject
 	{
 	public:
@@ -120,6 +121,15 @@ namespace ya
 
 		UINT AttackCount;
 
+		Sound* Default_Dash;
+		Sound* Skul_Jump_Atk;
+		Sound* Skul_Atk1;
+		Sound* Skul_Atk2;
+		Sound* Skul_SkullThrowing;
+		Sound* Skul_Hit_1;
+		Sound* Default_Jump;
+
+		Sound* mDash;
 		
 
 	};

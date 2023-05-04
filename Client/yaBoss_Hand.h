@@ -7,6 +7,7 @@ namespace ya
 	class Animator;
 	class Image;
 	class Chapter1_Boss;
+	class Sound;
 	class Boss_Hand : public GameObject
 	{
 	public:
@@ -67,9 +68,17 @@ namespace ya
 		Vector2 mTargetPos;
 		Vector2 mPrevPos;
 		Chapter1_Boss* mBoss;
+
 		bool mPlayed;
 		bool mComplete;
+		bool mSound;
 		float mTime;
+
+		Sound* ElderEnt_FistSlam_Recovery;
+		Sound* ElderEnt_Sweeping_Ready;
+		Sound* ElderEnt_FistSlam;
+		Sound* ElderEnt_Sweeping;
+
 	};
 
 }

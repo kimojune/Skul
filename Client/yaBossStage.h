@@ -20,7 +20,7 @@ namespace ya
 		virtual void OnExit() override;
 
 	private:
-
+		Sound* ElderEnt_Roar;
 	};
 
 

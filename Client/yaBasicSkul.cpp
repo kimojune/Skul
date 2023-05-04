@@ -10,6 +10,7 @@
 #include "yaSkulHead.h"
 #include "yaObject.h"
 #include "yaTime.h"
+#include "yaSound.h"
 
 
 namespace ya
@@ -29,6 +30,10 @@ namespace ya
 
 		Image* LeftImage = Resources::Load<Image>(L"LeftSkul", L"..\\Resources\\SkulLeft.bmp");
 		Image* RightImage = Resources::Load<Image>(L"RightSkul", L"..\\Resources\\SkulRight.bmp");
+
+		Skul_SkullThrowing = Resources::Load<Sound>(L"Skul_SkullThrowing", L"..\\Resources\\Sound\\Skul\\Skul_SkullThrowing.wav");
+		Skul_Reborn_Rise = Resources::Load<Sound>(L"Skul_SkullThrowing", L"..\\Resources\\Sound\\Skul\\Skul_Reborn_Rise.wav");
+	
 
 		mAnimator = AddComponent<Animator>();
 
@@ -189,6 +194,7 @@ namespace ya
 
 	void Basic::CompleteSkillA()
 	{
+		Skul_SkullThrowing->Play(false);
 		Skul* skul = SwitchSkul(eSkulType::Nohead);
 		
 		skul->SetSkulState(eSkulState::Idle);
@@ -201,6 +207,7 @@ namespace ya
 	}
 	void Basic::StartSkillS()
 	{
+		Skul_Reborn_Rise->Play(false);
 	}
 
 	void Basic::CompleteSkillS()
@@ -219,6 +226,7 @@ namespace ya
 	}
 	void Basic::StartChangeSkill()
 	{
+
 	}
 	void Basic::CompleteChangeSkill()
 	{

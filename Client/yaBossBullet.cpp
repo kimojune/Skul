@@ -3,6 +3,8 @@
 #include "yaTransform.h"
 #include "yaCollider.h"
 #include "yaTime.h"
+#include "yaSound.h"
+#include "yaResources.h"
 
 namespace ya
 {
@@ -29,8 +31,12 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\Boss\\Effect\\Bullet\\Bullet\\Loop", Vector2(-14.0f, -8.0f), 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\Boss\\Effect\\Bullet\\Bullet\\Outro", Vector2(-14.0f, -8.0f), 0.1f);
 
+		ElderEnt_EnergyBomb_Ready = Resources::Load<Sound>(L"ElderEnt_EnergyBomb_Ready", L"..\\Resources\\Sound\\Boss\\ElderEnt_EnergyBomb_Ready.wav");
+		ElderEnt_EnergyBomb_Fire = Resources::Load<Sound>(L"ElderEnt_EnergyBomb_Fire", L"..\\Resources\\Sound\\Boss\\ElderEnt_EnergyBomb_Fire.wav");
+
 		mAnimator->Play(L"BulletLoop", true);
 		mPlayed = false;
+		mSound= false;
 		
 		Collider* collider = AddComponent<Collider>();
 		collider->SetSize(Vector2(125.0f, 125.0f));
@@ -43,7 +49,9 @@ namespace ya
 	{
 		if (mPlayed == false)
 		{
+			ElderEnt_EnergyBomb_Ready->Play(false);
 			mAnimator->Play(L"BulletLoop", true);
+			mSound = false;
 			mPlayed = true;
 			switch (mDirect)
 			{
@@ -82,6 +90,11 @@ namespace ya
 
 		if (mTime > 3)
 		{
+			if (!(mSound))
+			{
+				ElderEnt_EnergyBomb_Fire->Play(true);
+				mSound = true;
+			}
 			Transform* tr = GetComponent<Transform>();
 			Vector2 bulletpos = tr->GetPos();
 			bulletpos += direction * 500 * Time::DeltaTime();
@@ -92,6 +105,8 @@ namespace ya
 		{
 			SetState(eState::Pause);
 			mTime = 0;
+			ElderEnt_EnergyBomb_Fire->Stop(true);
+			mSound = true;
 		}
 
 		GameObject::Update();

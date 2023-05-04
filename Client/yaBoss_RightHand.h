@@ -69,7 +69,12 @@ namespace ya
 		Chapter1_Boss* mBoss;
 		bool mPlayed;
 		bool mComplete;
+		bool mSound;
 		float mTime;
+		Sound* ElderEnt_FistSlam_Recovery;
+		Sound* ElderEnt_Sweeping_Ready;
+		Sound* ElderEnt_FistSlam;
+		Sound* ElderEnt_Sweeping;
 
 	};
 

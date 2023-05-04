@@ -60,12 +60,18 @@ private:
 	Transform* mheadtr;
 	Transform* mchintr;
 	float mTime;
-	
-	
+		
 	bool mplayed;
 	bool IsRight;
+	bool mSound;
 
 	int mHP;
+
+	Sound* ElderEnt_FistSlam_Recovery;
+	Sound* ElderEnt_Sweeping_Ready;
+	Sound* ElderEnt_FistSlam;
+	Sound* ElderEnt_Sweeping;
+
 };
 
 }

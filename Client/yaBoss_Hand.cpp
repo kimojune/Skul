@@ -8,7 +8,7 @@
 #include "yaTime.h"
 #include "yaCollider.h"
 #include "yaChapter1_Boss.h"
-
+#include "yaSound.h"
 namespace ya
 {
 	Boss_Hand::Boss_Hand()
@@ -79,6 +79,7 @@ namespace ya
 		mAnimator->GetEndEvent(L"Boss_LeftSmash") = std::bind(&Boss_Hand::EndSmash, this);
 
 
+
 		mAnimator->CreateAnimation(L"Boss_RightHand", mRightImage[0], Vector2(672.0f, 0.0f), -1, 5, 1, 5, Vector2(-84.0f, -76.0f), 0.3);
 		mAnimator->CreateAnimation(L"Boss_RightPutOn", mRightImage[1], Vector2(0, 0), 1, 1, 1, 1, Vector2(-84.0f, -76.0f), 0.3);
 		mAnimator->CreateAnimation(L"Boss_RightSmesh", mRightImage[2], Vector2(0, 0), 1, 1, 1, 1, Vector2(-84.0f, -76.0f), 0.3);
@@ -87,6 +88,10 @@ namespace ya
 
 		mAnimator->GetStartEvent(L"Boss_RightPutOn") = std::bind(&Boss_Hand::StartDown, this);
 
+		ElderEnt_Sweeping = Resources::Load<Sound>(L"ElderEnt_Sweeping", L"..\\Resources\\Sound\\Boss\\ElderEnt_Sweeping.wav");
+		ElderEnt_FistSlam = Resources::Load<Sound>(L"ElderEnt_FistSlam", L"..\\Resources\\Sound\\Boss\\ElderEnt_FistSlam.wav");
+		ElderEnt_FistSlam_Recovery = Resources::Load<Sound>(L"ElderEnt_FistSlam_Recovery", L"..\\Resources\\Sound\\Boss\\ElderEnt_FistSlam_Recovery.wav");
+		ElderEnt_Sweeping_Ready = Resources::Load<Sound>(L"ElderEnt_Sweeping_Ready", L"..\\Resources\\Sound\\Boss\\ElderEnt_Sweeping_Ready.wav");
 
 		Collider* collider = AddComponent<Collider>();
 		collider->SetSize(Vector2(250.0f, 250.0f));
@@ -165,8 +170,8 @@ namespace ya
 			mComplete = false;
 			mAnimator->Play(L"Boss_LeftPunch", false);
 			handpos.y -= 200.0f;
-
 			tr->SetPos(handpos);
+			mSound = false;
 		}
 
 		mTime += Time::DeltaTime();
@@ -178,17 +183,29 @@ namespace ya
 				handpos += (mTargetPos - handpos).Normalize() * 2000 * Time::DeltaTime();
 				tr->SetPos(handpos);
 			}
-			else
-				mComplete = true;
-		}
 
+			else
+			{
+				mComplete = true;
+
+				if (!(mSound))
+				{
+					ElderEnt_FistSlam->Play(false);
+					mSound = true;
+				}
+			}
+
+		}
 	}
+
 	void Boss_Hand::Smash()
 	{
 		if (mPlayed == false)
 		{
+			ElderEnt_FistSlam->Play(false);
 			mPlayed = true;
 			mAnimator->Play(L"Boss_LeftSmash", false);
+			mSound = false;
 		}
 
 		Transform* handtr = GetComponent<Transform>();
@@ -202,10 +219,19 @@ namespace ya
 			{
 				handpos.x += 3000 * Time::DeltaTime();
 				handtr->SetPos(handpos);
+				if (!(mSound))
+				{
+					ElderEnt_Sweeping->Play(false);
+					mSound = true;
+				}
 
 			}
 			else
+			{
 				mComplete = true;
+
+
+			}
 		}
 	}
 
@@ -254,12 +280,14 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		tr->SetPos(mPrevPos);
 		mTime = 0;
+		ElderEnt_FistSlam_Recovery->Play(false);
 	}
 
 	void Boss_Hand::StartSmash()
 	{
 		Transform* handtr = GetComponent<Transform>();
 		handtr->SetPos(Vector2(500, 1700));
+
 	}
 
 	void Boss_Hand::CompleteSmash()
@@ -271,5 +299,7 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		tr->SetPos(mPrevPos);
 		mTime = 0;
+		ElderEnt_Sweeping_Ready->Play(false);
+
 	}
 }

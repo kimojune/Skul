@@ -6,6 +6,7 @@ namespace ya
 {
 	class Skul;
 	class Animator;
+	class Sound;
 	class BossBullet : public GameObject
 	{
 	public:
@@ -42,14 +43,17 @@ namespace ya
 	private:
 		Animator* mAnimator;
 		float mTime;
-
+		
 		eBulletState mBulletState;
 
+		Sound* ElderEnt_EnergyBomb_Ready;
+		Sound* ElderEnt_EnergyBomb_Fire;
 		Image* mLeftImage;
 		Image* mRightImage;
 		Vector2 mPrevPos;
 		eDirection mDirect;
 		Vector2 direction;
 		bool mPlayed;
+		bool mSound;
 	};
 }

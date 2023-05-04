@@ -15,6 +15,7 @@
 #include "yaPlayeScene.h"
 #include "yaCamera.h"
 #include "yaSkulAttack.h"
+#include "yaSound.h"
 
 
 namespace ya
@@ -43,6 +44,14 @@ namespace ya
 
 
 		mAnimator = GetComponent<Animator>();
+
+		Default_Dash = Resources::Load<Sound>(L"Default_Dash", L"..\\Resources\\Sound\\Skul\\Default_Dash.wav");
+		Skul_Jump_Atk = Resources::Load<Sound>(L"Skul_Jump_Atk", L"..\\Resources\\Sound\\Skul\\Skul_Jump_Atk.wav");
+		Skul_Atk1 = Resources::Load<Sound>(L"Skul_Atk1", L"..\\Resources\\Sound\\Skul\\Skul_Atk 1.wav");
+		Skul_Atk2 = Resources::Load<Sound>(L"Skul_Atk 2", L"..\\Resources\\Sound\\Skul\\Skul_Atk 2.wav");
+		Skul_SkullThrowing = Resources::Load<Sound>(L"Skul_SkullThrowing", L"..\\Resources\\Sound\\Skul\\Skul_SkullThrowing.wav");
+		Skul_Hit_1 = Resources::Load<Sound>(L"Skul_Hit_1", L"..\\Resources\\Sound\\Skul\\Skul_Hit 1 (Unused).wav");
+		Default_Jump = Resources::Load<Sound>(L"Default_Jump", L"..\\Resources\\Sound\\Skul\\Default_Jump.wav");
 
 
 		mAnimator->GetStartEvent(L"LeftDash") = std::bind(&Skul::StartDash, this);
@@ -977,7 +986,8 @@ namespace ya
 	// Event
 	void Skul::StartDash()
 	{
-		
+		Default_Dash->Play(false);
+
 		Vector2 velocity = mRigidbody->GetVelocity();
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
@@ -1000,6 +1010,7 @@ namespace ya
 
 	void Skul::CompleteDash()
 	{
+
 	}
 
 	void Skul::EndDash()
@@ -1033,7 +1044,10 @@ namespace ya
 
 	void Skul::StartAttack()
 	{
-
+		if (SecondAttack)
+			Skul_Atk1->Play(false);
+		else
+			Skul_Atk2->Play(false);
 	}
 
 	void Skul::CompleteAttack()
@@ -1046,6 +1060,7 @@ namespace ya
 
 	void Skul::StartJumpAttack()
 	{
+		Skul_Jump_Atk->Play(false);
 	}
 
 	void Skul::CompleteJumpAttack()
@@ -1073,6 +1088,8 @@ namespace ya
 
 	void Skul::StartJump()
 	{
+		Default_Jump->Play(false);
+
 		Vector2 velocity = mRigidbody->GetVelocity();
 		velocity.y -= 600.0f;
 		int a = 0;
