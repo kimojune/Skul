@@ -34,24 +34,24 @@ namespace ya
 	
 	void Collider::Render(HDC hdc)
 	{
-		HPEN pen = NULL;
-		if (mCollisionCount <= 0)
-			pen = CreatePen(BS_SOLID, 2, RGB(0, 255, 0));
-		else
-			pen = CreatePen(BS_SOLID, 2, RGB(255, 0, 0));
+		//HPEN pen = NULL;
+		//if (mCollisionCount <= 0)
+		//	pen = CreatePen(BS_SOLID, 2, RGB(0, 255, 0));
+		//else
+		//	pen = CreatePen(BS_SOLID, 2, RGB(255, 0, 0));
 
-		HPEN oldPen = (HPEN)SelectObject(hdc, pen);
-		HBRUSH brush = (HBRUSH)GetStockObject(NULL_BRUSH);
-		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
+		//HPEN oldPen = (HPEN)SelectObject(hdc, pen);
+		//HBRUSH brush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		//HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
 
-		Vector2 pos = Camera::CaluatePos(mPos);
-		Rectangle(hdc, pos.x, pos.y, pos.x + mSize.x, pos.y + mSize.y);
-		
-		(HPEN)SelectObject(hdc, oldPen);
-		(HBRUSH)SelectObject(hdc, oldBrush);
-		DeleteObject(pen);
+		//Vector2 pos = Camera::CaluatePos(mPos);
+		//Rectangle(hdc, pos.x, pos.y, pos.x + mSize.x, pos.y + mSize.y);
 
-		mCollisionCount = 0;
+		//(HPEN)SelectObject(hdc, oldPen);
+		//(HBRUSH)SelectObject(hdc, oldBrush);
+		//DeleteObject(pen);
+
+		//mCollisionCount = 0;
 	}
 	void Collider::Release()
 	{

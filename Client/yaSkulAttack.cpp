@@ -75,7 +75,8 @@ namespace ya
 			{
 				if (mSkul->GetIsAttack())
 				{
-				monster->SetMonsterState(Monster::eMonsterState::Hit);
+					monster->SetMonsterState(Monster::eMonsterState::Hit);
+					mSkul->SetIsAttack(false);
 				}
 			}
 		}
@@ -92,6 +93,8 @@ namespace ya
 				if (mSkul->GetIsAttack())
 				{
 					boss->Hit();
+					mSkul->SetIsAttack(false);
+					
 				}
 			}
 		}

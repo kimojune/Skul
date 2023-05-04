@@ -1050,11 +1050,13 @@ namespace ya
 			Skul_Atk1->Play(false);
 		else
 			Skul_Atk2->Play(false);
+
+		IsAttack = true;
 	}
 
 	void Skul::CompleteAttack()
 	{
-		IsAttack = true;
+		
 	}
 
 	void Skul::EndAttack()

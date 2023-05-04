@@ -49,7 +49,7 @@ namespace ya
 		tr->SetPos(mDownPos);
 		mHeadState = eHeadState::UP;
 		mPlayed = false;
-		mHP = 10;
+		mHP = 30;
 		GameObject::Initialize();
 	}
 	void Boss_Head::Update()

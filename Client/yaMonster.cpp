@@ -231,7 +231,7 @@ namespace ya
 		}
 
 
-		if (mDelay > 1.0)
+		if (mDelay > 0.3)
 		{
 			mDelay = 0;
 			mState = eMonsterState::Move;
