@@ -73,7 +73,7 @@ namespace ya
 		}
 
 		// 마찰력 조건 ( 적용된 힘이 없고, 속도가 0이 아님)
-		if (!(mVelocity == Vector2::Zero))
+		if (!(mVelocity.x == Vector2::Zero.x))
 		{
 			//속도에 반대방향으로 마찰력이 적용된다.
 			Vector2 friction = -mVelocity;
