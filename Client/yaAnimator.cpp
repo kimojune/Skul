@@ -93,6 +93,8 @@ namespace ya
 		, mActiveAnimation(nullptr)
 		, mSpriteSheet(nullptr)
 		, mbLoop(false)
+		, mbFlipX(false)
+		, mAlpha(255)
 	{
 
 	}

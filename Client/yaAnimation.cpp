@@ -63,13 +63,16 @@ namespace ya
         pos.x -= mSpriteSheet[mSpriteIndex].size.x / 2.0f;
         pos.y -= mSpriteSheet[mSpriteIndex].size.y;
 
-        // 좌표와 크기는 GDI 때와 같이 소수점 아래를 버린 정수 픽셀로 넘긴다
+        // 좌표와 크기는 GDI 때와 같이 소수점 아래를 버린 정수 픽셀로 넘긴다.
+        // 좌우 반전은 프레임 사각형 안에서만 뒤집고 위치(offset)는 그대로다
         const Sprite& sprite = mSpriteSheet[mSpriteIndex];
+        bool flipX = mAnimator->IsFlipX();
         Renderer::DrawImage(mSheetImage
             , (int)pos.x, (int)pos.y
             , (int)(sprite.size.x * scale.x), (int)(sprite.size.y * scale.y)
             , (int)sprite.leftTop.x, (int)sprite.leftTop.y
-            , (int)sprite.size.x, (int)sprite.size.y);
+            , (int)sprite.size.x, (int)sprite.size.y
+            , eImageBlend::ColorKey, mAnimator->GetAlpha(), flipX);
     }
 
     void Animation::Create(Image* sheet, Vector2 leftTop

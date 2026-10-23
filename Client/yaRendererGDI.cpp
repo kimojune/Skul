@@ -167,17 +167,25 @@ namespace ya
 			return;
 		}
 
-		// 반투명: 바닥을 복사한 임시 비트맵에 마젠타를 뺀 그림을 덮은 뒤, 그 결과를 바닥에 알파로 섞는다
+		// 반투명: 바닥을 복사한 임시 비트맵에 마젠타를 뺀 그림을 덮은 뒤, 그 결과를 바닥에 알파로 섞는다.
+		// 화면 밖으로 걸친 이미지는 백버퍼 안쪽 부분만 복사하고 섞는다 (백버퍼 밖 영역은 읽을 바닥이 없다)
+		int left = dst.x > 0 ? dst.x : 0;
+		int top = dst.y > 0 ? dst.y : 0;
+		int right = dst.x + dst.width < (int)mWidth ? dst.x + dst.width : (int)mWidth;
+		int bottom = dst.y + dst.height < (int)mHeight ? dst.y + dst.height : (int)mHeight;
+		if (left >= right || top >= bottom)
+			return;
+
 		HDC mixHdc = getScratch(mMix, dst.width, dst.height);
-		BitBlt(mixHdc, 0, 0, dst.width, dst.height, mBackHdc, dst.x, dst.y, SRCCOPY);
+		BitBlt(mixHdc, left - dst.x, top - dst.y, right - left, bottom - top, mBackHdc, left, top, SRCCOPY);
 		TransparentBlt(mixHdc, 0, 0, dst.width, dst.height
 			, srcHdc, srcX, srcY, src.width, src.height, RendererGDIColorKey);
 
 		BLENDFUNCTION func = {};
 		func.BlendOp = AC_SRC_OVER;
 		func.SourceConstantAlpha = alpha;
-		AlphaBlend(mBackHdc, dst.x, dst.y, dst.width, dst.height
-			, mixHdc, 0, 0, dst.width, dst.height, func);
+		AlphaBlend(mBackHdc, left, top, right - left, bottom - top
+			, mixHdc, left - dst.x, top - dst.y, right - left, bottom - top, func);
 		mStats.drawCalls += 3;
 	}
 
