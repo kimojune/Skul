@@ -65,7 +65,7 @@ namespace ya
 		// 그리기 백엔드와 GPU, 지난 프레임 전체(이 정보창 포함)에서 그린 양
 		swprintf_s(lines[3], L"Renderer %ls  %ls", Renderer::GetName(), Renderer::GetAdapterName().c_str());
 		const RenderStats& stats = Renderer::GetLastFrameStats();
-		swprintf_s(lines[4], L"Draw calls %u  (sprites %u, 2D %u)", stats.drawCalls, stats.sprites, stats.shapes);
+		swprintf_s(lines[4], L"Draw calls %u  (sprites %u, 2D %u, culled %u)", stats.drawCalls, stats.sprites, stats.shapes, stats.culled);
 
 		UIDraw::TextStyle style;
 		style.face = L"Consolas";

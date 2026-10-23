@@ -48,6 +48,7 @@ namespace ya
 		UINT drawCalls = 0;	// GPU에 보낸 그리기 명령 수 (GDI는 그리기 함수 호출 수)
 		UINT sprites = 0;	// 그린 이미지 수
 		UINT shapes = 0;	// 사각형·선·글자 수
+		UINT culled = 0;	// 화면 밖이라 그리지 않은 이미지 수
 	};
 
 	// 모든 그리기의 입구. Render(HDC) 함수들은 GDI 함수 대신 이 함수들을 부른다.
@@ -94,5 +95,7 @@ namespace ya
 		static RendererBackend* mBackend;
 		static eRendererType mType;
 		static RenderStats mLastStats;
+		static int mWidth;
+		static int mHeight;
 	};
 }

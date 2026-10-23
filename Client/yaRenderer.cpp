@@ -9,6 +9,8 @@ namespace ya
 	RendererBackend* Renderer::mBackend = nullptr;
 	eRendererType Renderer::mType = eRendererType::GDI;
 	RenderStats Renderer::mLastStats = {};
+	int Renderer::mWidth = 0;
+	int Renderer::mHeight = 0;
 
 	bool Renderer::Initialize(eRendererType type, HWND hWnd, UINT width, UINT height, bool forceWarp)
 	{
@@ -35,6 +37,8 @@ namespace ya
 
 		mBackend = backend;
 		mType = type;
+		mWidth = (int)width;
+		mHeight = (int)height;
 		return true;
 	}
 
@@ -112,6 +116,14 @@ namespace ya
 			return;
 		if (width <= 0 || height <= 0 || srcWidth <= 0 || srcHeight <= 0)
 			return;
+
+		// 화면 밖에 있는 이미지는 백엔드로 보내지 않는다. 그려도 바뀌는 픽셀이 없다
+		// (넓은 스테이지는 타일 대부분이 화면 밖이다)
+		if (x >= mWidth || y >= mHeight || x + width <= 0 || y + height <= 0)
+		{
+			mBackend->GetStats().culled++;
+			return;
+		}
 
 		mBackend->GetStats().sprites++;
 		mBackend->DrawImage(image, { x, y, width, height }, { srcX, srcY, srcWidth, srcHeight }, blend, alpha, flipX);
