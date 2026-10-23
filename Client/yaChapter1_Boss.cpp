@@ -18,6 +18,7 @@
 #include "yaResources.h"
 #include "yaScenario.h"
 #include "yaInput.h"
+#include "yaCollisionMap.h"
 
 namespace ya
 {
@@ -755,7 +756,8 @@ namespace ya
 				mRoar->Play(false);
 				Camera::Shake(12.0f, 1.6f);
 
-				// 뿌리 발판 제거. G1의 픽셀 충돌 맵으로 바뀌면 맵을 다시 그리는 연결이 필요하다
+				// 뿌리 발판 제거. 착지는 픽셀 충돌 맵(OneWay 노랑)으로 하므로 맵도 다시 만들게 표시한다.
+				// Rebuild는 Active인 Platform만 칠하므로 Death로 바꾼 뒤 표시하면 이번 프레임에 다시 만들어도 빠진다
 				for (Platform*& platform : mPlatform)
 				{
 					if (platform != nullptr)
@@ -764,6 +766,7 @@ namespace ya
 						platform = nullptr;
 					}
 				}
+				CollisionMap::MarkDirty(SceneManager::GetActiveScene());
 			}
 			if (mStepTime >= 0.6f)
 			{
