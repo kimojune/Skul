@@ -1,0 +1,11 @@
+# 통합 (G4 보스 → G2 사망 → 씬 전환): 보스방에서 가만히 서 있으면 보스 공격으로 HP가 줄어 죽고,
+# 약 2초 뒤 타이틀로 돌아가며 HP가 100으로 회복된다. 사람이 하는 "보스에게 지는" 흐름 전체를 한 번에 확인한다.
+scene Boss
+seed 1
+frames 3000
+
+expect 120 player.hp == 100            # 등장 연출 동안은 피해 없음
+expect 1200 player.hp < 100            # 보스 패턴에 맞기 시작
+expect 2999 scene == 0                 # 죽어서 타이틀로 돌아옴
+expect 2999 player.hp == 100           # 새 게임을 위해 HP 회복
+always objects <= 600                  # 누수 감시

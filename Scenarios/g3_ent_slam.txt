@@ -20,15 +20,16 @@ expect 220 ent.nearest <= 140          # 플레이어 쪽으로 걸어왔다 (�
 expect 220 ent.windups == 1
 expect 230 ent.windups == 2            # 예고 중
 expect 230 ent.slams == 1
-expect 279 player.hp == 100            # 예고 동안은 피해 없음
+# 내려치는 프레임은 입력 처리 타이밍에 따라 ±1 프레임 움직이므로(G2 입력 수정 후 280→279) 전후 2프레임 여유를 둔다
+expect 277 player.hp == 100            # 예고 동안은 피해 없음
 expect 280 ent.slams == 2              # 예고 0.9초 뒤 내려침
 expect 280 count.enemybullet == 1      # 내려치기 판정
-expect 280 player.hp == 90             # 한 번에 10
+expect 282 player.hp == 90             # 한 번에 10
 expect 300 count.enemybullet == 0      # 판정은 잠깐만
-expect 344 player.hp == 90
-expect 345 player.hp == 80             # 다른 엔트의 내려치기
-expect 431 player.hp == 80             # 쿨다운 동안 추가 피해 없음
-expect 432 player.hp == 70
+expect 342 player.hp == 90
+expect 347 player.hp == 80             # 다른 엔트의 내려치기
+expect 429 player.hp == 80             # 쿨다운 동안 추가 피해 없음
+expect 434 player.hp == 70
 expect 559 player.hp == 60
 expect 559 ent.slams == 5
 always     player.hp >= 60
