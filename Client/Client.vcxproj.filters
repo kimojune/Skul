@@ -181,6 +181,12 @@
     <ClInclude Include="yaMonster.h">
       <Filter>Contents\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="yaMonsterEffect.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="yaEntSlamHitbox.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
     <ClInclude Include="yaCollider.h">
       <Filter>Engine\Component\Collider</Filter>
     </ClInclude>
@@ -380,6 +386,12 @@
       <Filter>Contents\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="yaMonster.cpp">
+      <Filter>Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMonsterEffect.cpp">
+      <Filter>Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="yaEntSlamHitbox.cpp">
       <Filter>Contents\Monster</Filter>
     </ClCompile>
     <ClCompile Include="yaCollider.cpp">
