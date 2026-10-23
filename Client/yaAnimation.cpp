@@ -1,4 +1,4 @@
-#include "yaAnimation.h"
+ï»¿#include "yaAnimation.h"
 #include "yaTime.h"
 #include "yaImage.h"
 #include "yaAnimator.h"
@@ -54,8 +54,8 @@ namespace ya
             = mAnimator->GetOwner()->GetComponent<Transform>();
         Vector2 scale = tr->GetScale();
 
-        // ÀÌ¹ÌÁö°¡ ±×·ÁÁú ÁÂÇ¥´Â ¿ÀºêÁ§Æ® ÁÂÇ¥ÀÇ À§ÂÊ Áß°£¿¡ ±×·ÁÁø´Ù.
-        // Ä³¸¯ÅÍÀÇ ¹ßÀ» ±âÁØÀ¸·Î Æ÷Áö¼ÇÀ» °è»ê
+        // ì´ë¯¸ì§€ê°€ ê·¸ë ¤ì§ˆ ì¢Œí‘œëŠ” ì˜¤ë¸Œì íŠ¸ ì¢Œí‘œì˜ ìœ„ìª½ ì¤‘ê°„ì— ê·¸ë ¤ì§„ë‹¤.
+        // ìºë¦­í„°ì˜ ë°œì„ ê¸°ì¤€ìœ¼ë¡œ í¬ì§€ì…˜ì„ ê³„ì‚°
         Vector2 pos = tr->GetPos();
         pos = Camera::CaluatePos(pos);
         pos += mSpriteSheet[mSpriteIndex].offset;
@@ -70,12 +70,12 @@ namespace ya
             , mSpriteSheet[mSpriteIndex].size.x, mSpriteSheet[mSpriteIndex].size.y,
             RGB(255, 0, 255));
 
-        // ¿¬»ê·®ÀÌ ¸¹´Ù.
+        // ì—°ì‚°ëŸ‰ì´ ë§ë‹¤.
     //BLENDFUNCTION func = {};
     //func.BlendOp = AC_SRC_OVER;
     //func.BlendFlags = 0;
     //func.AlphaFormat = AC_SRC_ALPHA;
-    //func.SourceConstantAlpha = 255; // 0(Åõ¸í) ~ 255(ºÒÅõ¸í) ¾ËÆÄ°ª
+    //func.SourceConstantAlpha = 255; // 0(íˆ¬ëª…) ~ 255(ë¶ˆíˆ¬ëª…) ì•ŒíŒŒê°’
 
     //AlphaBlend(hdc, pos.x, pos.y
     //    , mSpriteSheet[mSpriteIndex].size.x * scale.x

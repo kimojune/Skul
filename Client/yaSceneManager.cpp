@@ -1,4 +1,4 @@
-#include "yaSceneManager.h"
+ï»¿#include "yaSceneManager.h"
 #include "yaPlayeScene.h"
 #include "yaTitleScene.h"
 #include "yaStage2.h"
@@ -68,10 +68,10 @@ namespace ya
 	void SceneManager::LoadScene(eSceneType type)
 	{
 		Camera::Clear();
-		// ÇöÀç¾À
+		// í˜„ìž¬ì”¬
 		mActiveScene->OnExit();
 		CollisionManager::Clear();
-		//´ÙÀ½¾À
+		//ë‹¤ìŒì”¬
 		mActiveScene = mScenes[(UINT)type];
 		mActiveScene->OnEnter();
 

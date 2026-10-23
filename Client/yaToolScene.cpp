@@ -1,4 +1,4 @@
-#include "yaToolScene.h"
+ï»¿#include "yaToolScene.h"
 #include "yaApplication.h"
 #include "yaImage.h"
 #include "yaResources.h"
@@ -149,7 +149,7 @@ LRESULT CALLBACK AtlasWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
     case WM_COMMAND:
     {
         int wmId = LOWORD(wParam);
-        // ¸Ş´º ¼±ÅÃÀ» ±¸¹® ºĞ¼®ÇÕ´Ï´Ù:
+        // ë©”ë‰´ ì„ íƒì„ êµ¬ë¬¸ ë¶„ì„í•©ë‹ˆë‹¤:
         switch (wmId)
         {
             //case IDM_ABOUT:
@@ -173,7 +173,7 @@ LRESULT CALLBACK AtlasWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
         //Ellipse(hdc, 500, 500, 600, 700);
         //RoundRect(hdc, 200, 200, 300, 300, 500, 500);
 
-        // TODO: ¿©±â¿¡ hdc¸¦ »ç¿ëÇÏ´Â ±×¸®±â ÄÚµå¸¦ Ãß°¡ÇÕ´Ï´Ù...
+        // TODO: ì—¬ê¸°ì— hdcë¥¼ ì‚¬ìš©í•˜ëŠ” ê·¸ë¦¬ê¸° ì½”ë“œë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤...
         EndPaint(hWnd, &ps);
     }
     break;

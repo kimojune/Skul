@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "yaResource.h"
 
 namespace ya
@@ -10,32 +10,32 @@ namespace ya
 		template <typename T>
 		static T* Find(const std::wstring& key)
 		{
-			//¸®¼Ò½º¸Ê¿¡¼­ µ¥ÀÌÅÍ¸¦ Å½»öÇÑ´Ù µ¥ÀÌÅÍ°¡ ÀÖ´Ù¸é ÇØ´çµ¥ÀÌÅÍ¸¦ ¹İÈ¯ÇÏ°í
-			//µ¥ÀÌÅÍ°¡ ¾ø´Ù¸é end¸¦ ¹İÈ¯ÇØÁØ´Ù.
+			//ë¦¬ì†ŒìŠ¤ë§µì—ì„œ ë°ì´í„°ë¥¼ íƒìƒ‰í•œë‹¤ ë°ì´í„°ê°€ ìˆë‹¤ë©´ í•´ë‹¹ë°ì´í„°ë¥¼ ë°˜í™˜í•˜ê³ 
+			//ë°ì´í„°ê°€ ì—†ë‹¤ë©´ endë¥¼ ë°˜í™˜í•´ì¤€ë‹¤.
 			std::map<std::wstring, Resource*>::iterator iter = mResources.find(key);
 
-			//Ã£°íÀÚ ÇÏ´Â µ¥ÀÌÅÍ°¡ Á¸ÀçÇÑ´Ù¸é
-			//ÇØ´çÅ¸ÀÔÀ¸·Î Çüº¯È¯ÇÏ¿© ¹İÈ¯
+			//ì°¾ê³ ì í•˜ëŠ” ë°ì´í„°ê°€ ì¡´ì¬í•œë‹¤ë©´
+			//í•´ë‹¹íƒ€ì…ìœ¼ë¡œ í˜•ë³€í™˜í•˜ì—¬ ë°˜í™˜
 			if (iter != mResources.end())
 			{
 				return dynamic_cast<T*>(iter->second);
 			}
 
-			//µ¥ÀÌÅÍ ¾ø´Ù¸é ³ÎÀ» ¹İÈ¯
+			//ë°ì´í„° ì—†ë‹¤ë©´ ë„ì„ ë°˜í™˜
 			return nullptr;
 		}
 
 		template <typename T>
 		static T* Load(const std::wstring& key, const std::wstring& path)
 		{
-			// Å°°ªÀ¸·Î Å½»ö
+			// í‚¤ê°’ìœ¼ë¡œ íƒìƒ‰
 			T* resource = Resources::Find<T>(key);
 			if (resource != nullptr)
 			{
 				return resource;
 			}
 
-			// ÇØ´ç ¸®¼Ò½º°¡ ¾ø´Ù¸é
+			// í•´ë‹¹ ë¦¬ì†ŒìŠ¤ê°€ ì—†ë‹¤ë©´
 			resource = new T();
 			if (FAILED(resource->Load(path)))
 			{

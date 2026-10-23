@@ -1,4 +1,4 @@
-#include "yaApplication.h"
+ï»¿#include "yaApplication.h"
 #include "yaSceneManager.h"
 #include "yaTime.h"
 #include "yaInput.h"
@@ -28,11 +28,11 @@ namespace ya
 		mWidth = 1600;
 		mHeight = 900;
 
-		//ºñÆ®¸Ê ÇØ»óµµ¸¦ ¼³Á¤ÇÏ±â À§ÇÑ ½ÇÁ¦ À©µµ¿ì Å©±â¸¦ °è»êÇØÁØ´Ù.
+		//ë¹„íŠ¸ë§µ í•´ìƒë„ë¥¼ ì„¤ì •í•˜ê¸° ìœ„í•œ ì‹¤ì œ ìœˆë„ìš° í¬ê¸°ë¥¼ ê³„ì‚°í•´ì¤€ë‹¤.
 		RECT rect = { 0, 0, mWidth , mHeight };
 		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
 
-		// À©µµ¿ì Å©±â º¯°æ¹× Ãâ·Â ¼³Á¤
+		// ìœˆë„ìš° í¬ê¸° ë³€ê²½ë° ì¶œë ¥ ì„¤ì •
 		SetWindowPos(mHwnd
 			, nullptr, 0, 0
 			, rect.right - rect.left
@@ -82,7 +82,7 @@ namespace ya
 		Input::Render(mBackHDC);
 		SceneManager::Render(mBackHDC);
 		Camera::Render(mBackHDC);
-		// ¹é¹öÆÛ¿¡ ÀÖ´Â ±×¸²À» ¿øº»¹öÆÛ¿¡ ±×·ÁÁà¾ßÇÑ´Ù.
+		// ë°±ë²„í¼ì— ìˆëŠ” ê·¸ë¦¼ì„ ì›ë³¸ë²„í¼ì— ê·¸ë ¤ì¤˜ì•¼í•œë‹¤.
 		BitBlt(mHdc, 0, 0, mWidth, mHeight, mBackHDC, 0, 0, SRCCOPY);
 	}
 	void Application::clear()
@@ -100,7 +100,7 @@ namespace ya
 		RECT rect = { 0, 0, mWidth , mHeight };
 		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, power);
 
-		// À©µµ¿ì Å©±â º¯°æ¹× Ãâ·Â ¼³Á¤
+		// ìœˆë„ìš° í¬ê¸° ë³€ê²½ë° ì¶œë ¥ ì„¤ì •
 		SetWindowPos(mHwnd
 			, nullptr, 0, 0
 			, rect.right - rect.left

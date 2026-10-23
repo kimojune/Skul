@@ -1,4 +1,4 @@
-#include "yaSoundManager.h"
+ï»¿#include "yaSoundManager.h"
 #include "yaApplication.h"
 
 extern ya::Application application;
@@ -11,15 +11,15 @@ namespace ya
 	{
 		if (FAILED(DirectSoundCreate8(NULL, &mSoundDevice, NULL)))
 		{
-			MessageBox(NULL, L"»ç¿îµåµğ¹ÙÀÌ½º»ı¼º½ÇÆĞ", L"SYSTEM ERROR", MB_OK);
+			MessageBox(NULL, L"ì‚¬ìš´ë“œë””ë°”ì´ìŠ¤ìƒì„±ì‹¤íŒ¨", L"SYSTEM ERROR", MB_OK);
 			return false;
 		}
 
-		// »ç¿îµå µğ¹ÙÀÌ½º ÇùÁ¶·¹º§ ¼³Á¤.
+		// ì‚¬ìš´ë“œ ë””ë°”ì´ìŠ¤ í˜‘ì¡°ë ˆë²¨ ì„¤ì •.
 		HWND hWnd = application.GetHwnd();
-		if (FAILED(mSoundDevice->SetCooperativeLevel(hWnd, DISCL_EXCLUSIVE))) // Flag°ª Á¤¸®
+		if (FAILED(mSoundDevice->SetCooperativeLevel(hWnd, DISCL_EXCLUSIVE))) // Flagê°’ ì •ë¦¬
 		{
-			MessageBox(NULL, L"»ç¿îµåµğ¹ÙÀÌ½º ÇùÁ¶·¹º§ ¼³Á¤", L"SYSTEM ERROR", MB_OK);
+			MessageBox(NULL, L"ì‚¬ìš´ë“œë””ë°”ì´ìŠ¤ í˜‘ì¡°ë ˆë²¨ ì„¤ì •", L"SYSTEM ERROR", MB_OK);
 			return false;
 		}
 

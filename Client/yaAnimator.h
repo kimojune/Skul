@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "yaComponent.h"
 #include "yaAnimation.h"
 #include "yaImage.h"
@@ -38,14 +38,14 @@ namespace ya
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
 
-		//¿Ï¼ºµÈ ½ºÇÁ¶óÀÌÆ® ½ÃÆ®¸¦ ÁöÁ¤ÇØ¼­ ¾Ö´Ï¸ŞÀÌ¼Ç Á¦ÀÛÇÏ´Â ÇÔ¼ö
+		//ì™„ì„±ëœ ìŠ¤í”„ë¼ì´íŠ¸ ì‹œíŠ¸ë¥¼ ì§€ì •í•´ì„œ ì• ë‹ˆë©”ì´ì…˜ ì œì‘í•˜ëŠ” í•¨ìˆ˜
 		void CreateAnimation(const std::wstring& name
 			, Image* sheet
 			, Vector2 leftTop ,int next
 			, UINT coulmn, UINT row, UINT spriteLength
 			, Vector2 offset, float duration);
 
-		// Æú´õ¿¡ µé¾îÀÖ´Â ½ºÇÁ¶óÀÌÆ®µéÀ» ÀÌ¿ëÇØ¼­ ¾Ö´Ï¸ŞÀÌ¼Ç Á¦ÀÛÇØÁÖ´Â ÇÔ¼ö
+		// í´ë”ì— ë“¤ì–´ìˆëŠ” ìŠ¤í”„ë¼ì´íŠ¸ë“¤ì„ ì´ìš©í•´ì„œ ì• ë‹ˆë©”ì´ì…˜ ì œì‘í•´ì£¼ëŠ” í•¨ìˆ˜
 		void CreateAnimations(const std::wstring& path, Vector2 offset, float duration);
 
 		Animation* FindAnimation(const std::wstring& name);

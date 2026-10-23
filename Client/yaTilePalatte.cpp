@@ -1,4 +1,4 @@
-#include "yaTilePalatte.h"
+ï»¿#include "yaTilePalatte.h"
 #include "yaResources.h"
 #include "yaInput.h"
 #include <commdlg.h>
@@ -105,10 +105,10 @@ namespace ya
 		if (false == GetSaveFileName(&ofn))
 			return;
 
-		// ÆÄÀÏ ÀÔÃâ·Â
+		// íŒŒì¼ ì…ì¶œë ¥
 		FILE* file = nullptr;
 
-		// ¾²±â ¸ğµå·Î ¿­±â
+		// ì“°ê¸° ëª¨ë“œë¡œ ì—´ê¸°
 		_wfopen_s(&file, szFilePath, L"wb");
 
 		if (nullptr == file)
@@ -181,10 +181,10 @@ namespace ya
 	void TilePalatte::Load(const std::wstring& path)
 	{
 
-		// LPWSTR º¯¼ö ¼±¾ğ ¹× ÃÊ±âÈ­
+		// LPWSTR ë³€ìˆ˜ ì„ ì–¸ ë° ì´ˆê¸°í™”
 		LPWSTR lpwstr = new WCHAR[path.size() + 1];
 
-		// std::wstring ³»¿ëÀ» LPWSTR·Î º¹»ç
+		// std::wstring ë‚´ìš©ì„ LPWSTRë¡œ ë³µì‚¬
 		wcscpy_s(lpwstr, path.size() + 1, path.c_str());
 
 		

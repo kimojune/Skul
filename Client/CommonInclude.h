@@ -1,7 +1,7 @@
-#pragma once
-// Windows Çì´õ ÆÄÀÏ
+ï»¿#pragma once
+// Windows í—¤ë” íŒŒì¼
 #include <windows.h>
-// C ·±Å¸ÀÓ Çì´õ ÆÄÀÏÀÔ´Ï´Ù.
+// C ëŸ°íƒ€ì„ í—¤ë” íŒŒì¼ì…ë‹ˆë‹¤.
 #include <stdlib.h>
 #include <malloc.h>
 #include <memory.h>

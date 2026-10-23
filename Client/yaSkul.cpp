@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "yaSkul.h"
 #include "yaTime.h"
@@ -248,14 +248,14 @@ namespace ya
 	/*key
 
 
-	Z ´ë½¬
-	X °ø°İ
-	C Á¡ÇÁ
-	A ½ºÅ³1
-	S ½ºÅ³1
-	D Á¤¼ö
-	F »óÈ£ÀÛ¿ë
-	SPACE ±³´ë
+	Z ëŒ€ì‰¬
+	X ê³µê²©
+	C ì í”„
+	A ìŠ¤í‚¬1
+	S ìŠ¤í‚¬1
+	D ì •ìˆ˜
+	F ìƒí˜¸ì‘ìš©
+	SPACE êµëŒ€
 
 
 
@@ -537,7 +537,7 @@ namespace ya
 		}
 
 
-		//ÀÌµ¿ ºÎ
+		//ì´ë™ ë¶€
 		if (mState == eSkulState::Move)
 		{
 			Transform* tr = GetComponent<Transform>();
@@ -708,7 +708,7 @@ namespace ya
 
 
 
-		//ÀÌµ¿ ºÎ
+		//ì´ë™ ë¶€
 
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
@@ -831,7 +831,7 @@ namespace ya
 		}
 
 
-		//ÀÌµ¿ ºÎ
+		//ì´ë™ ë¶€
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
 

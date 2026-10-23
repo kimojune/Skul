@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "YamYamEngine.h"
 
 
@@ -37,7 +37,7 @@ namespace ya
 		//tool
 		HWND mToolHwnd;
 
-		//πÈπˆ∆€
+		//Î∞±Î≤ÑÌçº
 		HBITMAP mBackBuffer;
 		HDC mBackHDC;
 

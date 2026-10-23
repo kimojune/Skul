@@ -1,4 +1,4 @@
-#include "yaTitleLogo.h"
+ï»¿#include "yaTitleLogo.h"
 #include "yaResources.h"
 #include "yaTime.h"
 #include "yaTransform.h"
@@ -39,7 +39,7 @@ namespace ya
 		func.BlendOp = AC_SRC_OVER;
 		func.BlendFlags = 0;
 		func.AlphaFormat = AC_SRC_ALPHA;
-		func.SourceConstantAlpha = 100 * mTime; // 0(Åõ¸í) ~ 255(ºÒÅõ¸í) ¾ËÆÄ°ª
+		func.SourceConstantAlpha = 100 * mTime; // 0(íˆ¬ëª…) ~ 255(ë¶ˆíˆ¬ëª…) ì•ŒíŒŒê°’
 
 		AlphaBlend(hdc,pos.x , pos.y, mImage->GetWidth(), mImage->GetHeight(), mImage->GetHdc(), 0, 0, mImage->GetWidth(), mImage->GetHeight(), func);
 

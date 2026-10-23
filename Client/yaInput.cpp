@@ -1,4 +1,4 @@
-#include "yaInput.h"
+ï»¿#include "yaInput.h"
 #include "yaApplication.h"
 
 extern ya::Application application;
@@ -39,7 +39,7 @@ namespace ya
 			{
 				if (GetAsyncKeyState(ASCII[i]) & 0x8000)
 				{
-					// ÀÌÀü ÇÁ·¹ÀÓ¿¡µµ ´­·Á ÀÖ¾ú´Ù
+					// ì´ì „ í”„ë ˆì„ì—ë„ ëˆŒë ¤ ìˆì—ˆë‹¤
 					if (mKeys[i].bPressed)
 						mKeys[i].state = eKeyState::Pressed;
 					else
@@ -47,9 +47,9 @@ namespace ya
 
 					mKeys[i].bPressed = true;
 				}
-				else // ÇöÀç ÇÁ·¹ÀÓ¿¡ Å°°¡ ´­·ÁÀÖÁö ¾Ê´Ù.
+				else // í˜„ì¬ í”„ë ˆì„ì— í‚¤ê°€ ëˆŒë ¤ìˆì§€ ì•Šë‹¤.
 				{
-					// ÀÌÀü ÇÁ·¹ÀÓ¿¡ ³»Å°°¡ ´­·ÁÀÖ¾ù´Ù.
+					// ì´ì „ í”„ë ˆì„ì— ë‚´í‚¤ê°€ ëˆŒë ¤ìˆì—‡ë‹¤.
 					if (mKeys[i].bPressed)
 						mKeys[i].state = eKeyState::Up;
 					else

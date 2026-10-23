@@ -1,4 +1,4 @@
-#include "yaCollisionManager.h"
+ï»¿#include "yaCollisionManager.h"
 #include "yaScene.h"
 #include "yaSceneManager.h"
 
@@ -66,7 +66,7 @@ namespace ya
 
 		if (Intersect(leftCol, rightCol))
 		{
-			// ÃÖÃÊ Ãæµ¹ ½ÃÀÛÇßÀ»¶§ enter
+			// ìµœì´ˆ ì¶©ëŒ ì‹œìž‘í–ˆì„ë•Œ enter
 			if (iter->second == false)
 			{
 				leftCol->OnCollisionEnter(rightCol);
@@ -74,7 +74,7 @@ namespace ya
 
 				iter->second = true;
 			}
-			else // Ãæµ¹ ÁßÀÎ»óÅÂ stay
+			else // ì¶©ëŒ ì¤‘ì¸ìƒíƒœ stay
 			{
 				leftCol->OnCollisionStay(rightCol);
 				rightCol->OnCollisionStay(leftCol);
@@ -83,8 +83,8 @@ namespace ya
 		else
 		{
 			// Exit
-			// ÀÌÀüÇÁ·¹ÀÓ Ãæµ¹ O
-			// ÇöÀç´Â Ãæµ¹ X 
+			// ì´ì „í”„ë ˆìž„ ì¶©ëŒ O
+			// í˜„ìž¬ëŠ” ì¶©ëŒ X 
 			if (iter->second == true)
 			{
 				leftCol->OnCollisionExit(rightCol);
@@ -101,8 +101,8 @@ namespace ya
 
 
 
-		// µÎ Ãæµ¹Ã¼ °£ÀÇ °Å¸®¿Í, °¢¸éÀûÀÇ Àý¹Ý³¢¸®ÀÇ ÇÕÀ» ºñ±³ÇØ¼­
-		// °Å¸®°¡ ´õ ±æ´Ù¸é Ãæµ¹ X, °Å¸®°¡ ´õ Âª´Ù¸é Ãæµ¹ O
+		// ë‘ ì¶©ëŒì²´ ê°„ì˜ ê±°ë¦¬ì™€, ê°ë©´ì ì˜ ì ˆë°˜ë¼ë¦¬ì˜ í•©ì„ ë¹„êµí•´ì„œ
+		// ê±°ë¦¬ê°€ ë” ê¸¸ë‹¤ë©´ ì¶©ëŒ X, ê±°ë¦¬ê°€ ë” ì§§ë‹¤ë©´ ì¶©ëŒ O
 		Vector2 leftSize = left->GetSize();
 		Vector2 rightSize = right->GetSize();
 

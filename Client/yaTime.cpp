@@ -1,4 +1,4 @@
-#include "yaTime.h"
+ï»¿#include "yaTime.h"
 #include "yaApplication.h"
 
 extern ya::Application application;
@@ -13,10 +13,10 @@ namespace ya
 
 	void Time::Initiailize()
 	{
-		// CPU °íÀ¯ Áøµ¿¼ö °¡Á®¿À±â
+		// CPU ê³ ìœ  ì§„ë™ìˆ˜ ê°€ì ¸ì˜¤ê¸°
 		QueryPerformanceFrequency(&mCpuFrequency);
 
-		// ÇÁ·Î±×·¥ÀÌ Ã³À½ ½ÃÀÛÇÒ¶§ Áøµ¿¼ö
+		// í”„ë¡œê·¸ë¨ì´ ì²˜ìŒ ì‹œì‘í• ë•Œ ì§„ë™ìˆ˜
 		QueryPerformanceCounter(&mPrevFrequency);
 	}
 

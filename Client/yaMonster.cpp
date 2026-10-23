@@ -1,4 +1,4 @@
-#include "yaMonster.h"
+ï»¿#include "yaMonster.h"
 #include "yaTime.h"
 #include "yaSceneManager.h"
 #include "yaInput.h"
@@ -162,7 +162,7 @@ namespace ya
 	void Monster::Move()
 	{
 		
-		//ÀÌµ¿ºÎ
+		//ì´ë™ë¶€
 
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();

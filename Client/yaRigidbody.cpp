@@ -1,4 +1,4 @@
-#include "yaRigidbody.h"
+ï»¿#include "yaRigidbody.h"
 #include "yaTime.h"
 #include "yaGameObject.h"
 #include "yaTransform.h"
@@ -35,7 +35,7 @@ namespace ya
 		// A = M / F
 		mAccelation = mForce / mMass;
 
-		// ¼Óµµ¿¡ °¡¼Óµµ¸¦ ´õÇØÁØ´Ù.
+		// ì†ë„ì— ê°€ì†ë„ë¥¼ ë”í•´ì¤€ë‹¤.
 		//mVelocity += mAccelation * Time::DeltaTime();
 
 		if (mbGround)
@@ -53,7 +53,7 @@ namespace ya
 			mVelocity += mGravity * Time::DeltaTime();
 		}
 
-		// Áß·Â°¡¼Óµµ ÃÖ´ë ¼Óµµ Á¦ÇÑ
+		// ì¤‘ë ¥ê°€ì†ë„ ìµœëŒ€ ì†ë„ ì œí•œ
 		Vector2 gravity = mGravity;
 		gravity.Normalize();
 		float dot = math::Dot(mVelocity, gravity);
@@ -72,14 +72,14 @@ namespace ya
 			sideVelocity *= mLimitedVelocity.x;
 		}
 
-		// ¸¶Âû·Â Á¶°Ç ( Àû¿ëµÈ ÈûÀÌ ¾ø°í, ¼Óµµ°¡ 0ÀÌ ¾Æ´Ô)
+		// ë§ˆì°°ë ¥ ì¡°ê±´ ( ì ìš©ëœ í˜ì´ ì—†ê³ , ì†ë„ê°€ 0ì´ ì•„ë‹˜)
 		if (!(mVelocity.x == Vector2::Zero.x))
 		{
-			//¼Óµµ¿¡ ¹İ´ë¹æÇâÀ¸·Î ¸¶Âû·ÂÀÌ Àû¿ëµÈ´Ù.
+			//ì†ë„ì— ë°˜ëŒ€ë°©í–¥ìœ¼ë¡œ ë§ˆì°°ë ¥ì´ ì ìš©ëœë‹¤.
 			Vector2 friction = -mVelocity;
 			friction = friction.Normalize() * mFriction * mMass * Time::DeltaTime();
 
-			//¸¶Âû·ÂÀ¸·Î ÀÎÇÑ ¼Óµµ °¨¼Ò´Â ÇöÀç ¼Óµµº¸´Ù Å« °æ¿ì
+			//ë§ˆì°°ë ¥ìœ¼ë¡œ ì¸í•œ ì†ë„ ê°ì†ŒëŠ” í˜„ì¬ ì†ë„ë³´ë‹¤ í° ê²½ìš°
 
 			if (mVelocity.Length() < friction.Length())
 			{
@@ -91,7 +91,7 @@ namespace ya
 			}
 		}
 
-		// ¼Óµµ¿¡ ¸Â°Ô²û ¹°Ã¼¸¦ ÀÌµ¿½ÃÅ²´Ù.
+		// ì†ë„ì— ë§ê²Œë” ë¬¼ì²´ë¥¼ ì´ë™ì‹œí‚¨ë‹¤.
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 
 		Vector2 pos = tr->GetPos();

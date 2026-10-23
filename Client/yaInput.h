@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "YamYamEngine.h"
 
 namespace ya
@@ -42,9 +42,9 @@ namespace ya
 			return mKeys[(UINT)keyCode].state;
 		};
 
-		//GetKey()		Å°¸¦ ´©¸£´Â ½Ã°£¸¸Å­ true¸¦ ¹İÈ¯
-		//GetKeyDown()	Å°¸¦ ´­·¶À» ¶§, µü ÇÑ¹ø true¸¦ ¹İÈ¯
-		//GetKeyUp()	Å°¸¦ ´©¸£´Ù ¶®À» ¶§, µü ÇÑ¹ø true¸¦ ¹İÈ¯
+		//GetKey()		í‚¤ë¥¼ ëˆ„ë¥´ëŠ” ì‹œê°„ë§Œí¼ trueë¥¼ ë°˜í™˜
+		//GetKeyDown()	í‚¤ë¥¼ ëˆŒë €ì„ ë•Œ, ë”± í•œë²ˆ trueë¥¼ ë°˜í™˜
+		//GetKeyUp()	í‚¤ë¥¼ ëˆ„ë¥´ë‹¤ ë• ì„ ë•Œ, ë”± í•œë²ˆ trueë¥¼ ë°˜í™˜
 
 		static __forceinline bool GetKey(eKeyCode keyCode)
 		{
