@@ -123,9 +123,13 @@ namespace ya
 	{
 		if (mActiveAnimation)
 		{
+			// 완료 이벤트는 끝나는 순간에 한 번만 부른다.
+			// 반복 재생이 아니면 끝난 뒤에도 IsComplete()가 계속 true라서 매 프레임 불리던 것을 막는다.
+			// 반복 재생은 아래에서 Reset 되므로 한 바퀴마다 한 번씩 불린다.
+			bool wasComplete = mActiveAnimation->IsComplete();
 			mActiveAnimation->Update();
 
-			if (mActiveAnimation->IsComplete())
+			if (!wasComplete && mActiveAnimation->IsComplete())
 			{
 				Animator::Events* events
 					= FindEvents(mActiveAnimation->GetAnimationName());
