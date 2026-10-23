@@ -78,6 +78,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -93,6 +94,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -108,6 +110,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -124,6 +127,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -204,6 +208,16 @@
     <ClInclude Include="yaTransform.h" />
     <ClInclude Include="yaUIDebugOverlay.h" />
     <ClInclude Include="yaUIDraw.h" />
+    <ClInclude Include="yaRenderer.h" />
+    <ClInclude Include="yaRendererBackend.h" />
+    <ClInclude Include="yaRendererGDI.h" />
+    <ClInclude Include="yaRendererDX11.h" />
+    <ClInclude Include="yaGraphics.h" />
+    <ClInclude Include="yaGraphicDevice_Dx11.h" />
+    <ClInclude Include="yaConstantBuffer.h" />
+    <ClInclude Include="yaMesh.h" />
+    <ClInclude Include="yaShader.h" />
+    <ClInclude Include="yaTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaBackCastle.cpp" />
@@ -270,6 +284,36 @@
     <ClCompile Include="yaTransform.cpp" />
     <ClCompile Include="yaUIDebugOverlay.cpp" />
     <ClCompile Include="yaUIDraw.cpp" />
+    <ClCompile Include="yaRenderer.cpp" />
+    <ClCompile Include="yaRendererGDI.cpp" />
+    <ClCompile Include="yaRendererDX11.cpp" />
+    <ClCompile Include="yaGraphicDevice_Dx11.cpp" />
+    <ClCompile Include="yaConstantBuffer.cpp" />
+    <ClCompile Include="yaMesh.cpp" />
+    <ClCompile Include="yaShader.cpp" />
+    <ClCompile Include="yaTexture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 셰이더는 빌드할 때 컴파일해서 $(IntDir)<이름>.hlsl.h 의 바이트 배열 g_<이름> 으로 넣는다 -->
+    <FxCompile Include="Shaders\SpriteVS.hlsl">
+      <ShaderType>Vertex</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+      <EntryPointName>main</EntryPointName>
+      <VariableName>g_%(Filename)</VariableName>
+      <HeaderFileOutput>$(IntDir)%(Filename)%(Extension).h</HeaderFileOutput>
+      <ObjectFileOutput>
+      </ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Shaders\SpritePS.hlsl">
+      <ShaderType>Pixel</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+      <EntryPointName>main</EntryPointName>
+      <VariableName>g_%(Filename)</VariableName>
+      <HeaderFileOutput>$(IntDir)%(Filename)%(Extension).h</HeaderFileOutput>
+      <ObjectFileOutput>
+      </ObjectFileOutput>
+    </FxCompile>
+    <None Include="Shaders\globals.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

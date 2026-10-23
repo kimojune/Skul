@@ -58,11 +58,21 @@ namespace ya
 
 		Animation* GetAnimaiton() { return mActiveAnimation; }
 
+		// 좌우 반전과 전체 투명도. 지금 재생 중인 애니메이션과 이후에 재생하는 애니메이션 모두에 적용된다.
+		// 반전은 프레임 안에서만 뒤집고 offset 은 그대로 쓴다. 이 게임의 왼쪽 시트(SkulLeft.bmp 등)는
+		// 오른쪽 시트를 뒤집은 그림에 같은 offset 을 쓰므로, Right 애니메이션 + SetFlipX(true) 가 Left 애니메이션과 같게 그려진다
+		void SetFlipX(bool flip) { mbFlipX = flip; }
+		bool IsFlipX() { return mbFlipX; }
+		void SetAlpha(BYTE alpha) { mAlpha = alpha; }	// 0(투명) ~ 255(불투명)
+		BYTE GetAlpha() { return mAlpha; }
+
 	private:
 		std::map<std::wstring, Animation*> mAnimations;
 		std::map<std::wstring, Events*> mEvents;
 		Animation* mActiveAnimation;
 		Image* mSpriteSheet;
 		bool mbLoop;
+		bool mbFlipX;
+		BYTE mAlpha;
 	};
 }

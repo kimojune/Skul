@@ -3,6 +3,7 @@
 #include "yaCamera.h"
 #include "yaTransform.h"
 #include "yaImage.h"
+#include "yaRenderer.h"
 
 namespace ya
 {
@@ -23,13 +24,11 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		Vector2 renderPos = Camera::CaluatePos(tr->GetPos());
 
-		TransparentBlt(hdc
-			, renderPos.x, renderPos.y
+		Renderer::DrawImage(mImage
+			, (int)renderPos.x, (int)renderPos.y
 			, 2112, 1800
-			, mImage->GetHdc()
 			, 0, 0
-			, mImage->GetWidth(), mImage->GetHeight()
-			, RGB(255, 0, 255));
+			, mImage->GetWidth(), mImage->GetHeight());
 
 
 

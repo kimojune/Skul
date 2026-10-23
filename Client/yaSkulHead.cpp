@@ -233,23 +233,19 @@ namespace ya
 		switch (mDirect)
 		{
 		case eDirection::Left:
-			TransparentBlt(hdc
-				, pos.x, pos.y - 50.0f
-				, mLeftImage->GetWidth() * 2.8f, mLeftImage->GetHeight() * 2.8f
-				, mLeftImage->GetHdc()
+			Renderer::DrawImage(mLeftImage
+				, (int)pos.x, (int)(pos.y - 50.0f)
+				, (int)(mLeftImage->GetWidth() * 2.8f), (int)(mLeftImage->GetHeight() * 2.8f)
 				, 0, 0
-				, mLeftImage->GetWidth(), mLeftImage->GetHeight()
-				, RGB(255, 0, 255));
+				, mLeftImage->GetWidth(), mLeftImage->GetHeight());
 			break;
 
 		case eDirection::Right:
-			TransparentBlt(hdc
-				, pos.x, pos.y - 50.0f
-				, mRightImage->GetWidth() * 2.8f, mRightImage->GetHeight() * 2.8f
-				, mRightImage->GetHdc()
+			Renderer::DrawImage(mRightImage
+				, (int)pos.x, (int)(pos.y - 50.0f)
+				, (int)(mRightImage->GetWidth() * 2.8f), (int)(mRightImage->GetHeight() * 2.8f)
 				, 0, 0
-				, mRightImage->GetWidth(), mRightImage->GetHeight()
-				, RGB(255, 0, 255));
+				, mRightImage->GetWidth(), mRightImage->GetHeight());
 			break;
 
 		default:

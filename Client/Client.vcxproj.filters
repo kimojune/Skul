@@ -98,6 +98,15 @@
     <Filter Include="Engine\Component\Common">
       <UniqueIdentifier>{d42a1fa5-9531-4c3c-a86f-c83344ca355f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Renderer">
+      <UniqueIdentifier>{6f1c2b7e-3d4a-4e8b-9c51-2a7d8e0f4b13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Renderer\Graphics">
+      <UniqueIdentifier>{0b9e5d21-7a4c-4f36-8e12-5c3d9a6b7e40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Renderer\Shaders">
+      <UniqueIdentifier>{c4a8e1f2-2b6d-4d97-a35e-81f0b7c9d256}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -237,6 +246,36 @@
     </ClInclude>
     <ClInclude Include="yaUIDebugOverlay.h">
       <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRenderer.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRendererBackend.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRendererGDI.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRendererDX11.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGraphics.h">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGraphicDevice_Dx11.h">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="yaConstantBuffer.h">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMesh.h">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="yaShader.h">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTexture.h">
+      <Filter>Engine\Renderer\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="yaToolScene.h">
       <Filter>Contents\Scene</Filter>
@@ -442,6 +481,41 @@
     <ClCompile Include="yaUIDebugOverlay.cpp">
       <Filter>Contents\UI</Filter>
     </ClCompile>
+    <ClCompile Include="yaRenderer.cpp">
+      <Filter>Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRendererGDI.cpp">
+      <Filter>Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRendererDX11.cpp">
+      <Filter>Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGraphicDevice_Dx11.cpp">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="yaConstantBuffer.cpp">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMesh.cpp">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="yaShader.cpp">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTexture.cpp">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\SpriteVS.hlsl">
+      <Filter>Engine\Renderer\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\SpritePS.hlsl">
+      <Filter>Engine\Renderer\Shaders</Filter>
+    </FxCompile>
+    <None Include="Shaders\globals.hlsli">
+      <Filter>Engine\Renderer\Shaders</Filter>
+    </None>
     <ClCompile Include="yaToolScene.cpp">
       <Filter>Contents\Scene</Filter>
     </ClCompile>

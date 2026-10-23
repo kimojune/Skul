@@ -62,13 +62,11 @@ namespace ya
 
 		Vector2 renderPos = Camera::CaluatePos(tr->GetPos());
 
-		TransparentBlt(hdc
-			, renderPos.x, renderPos.y
+		Renderer::DrawImage(mAtlas
+			, (int)renderPos.x, (int)renderPos.y
 			, TILE_SIZE_X, TILE_SIZE_Y
-			, mAtlas->GetHdc()
 			, TILE_SIZE_X * mX, TILE_SIZE_Y * mY
-			, TILE_SIZE_X, TILE_SIZE_X
-			, RGB(255, 0, 255));
+			, TILE_SIZE_X, TILE_SIZE_X);
 
 		GameObject::Render(hdc);
 	}

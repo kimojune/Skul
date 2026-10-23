@@ -1,6 +1,7 @@
 #pragma once
 #include "yaEntity.h"
 #include "yaComponent.h"
+#include "yaRenderer.h" // Render(HDC) 안에서 Renderer::DrawImage 등을 바로 쓴다
 
 namespace ya
 {

@@ -152,18 +152,10 @@ namespace ya
 		if (sourceAlpha == 0)
 			return;
 
-		BLENDFUNCTION func = {};
-		func.BlendOp = AC_SRC_OVER;
-		func.BlendFlags = 0;
-		func.AlphaFormat = 0;
-		func.SourceConstantAlpha = sourceAlpha;
-
-		AlphaBlend(hdc, 0, 0
+		// 화면 전체를 검은색 반투명 사각형으로 덮는다 (mCutton 과 같은 검은색)
+		Renderer::FillRect(0, 0
 			, (int)mResolution.x, (int)mResolution.y
-			, mCutton->GetHdc()
-			, 0, 0
-			, mCutton->GetWidth(), mCutton->GetHeight()
-			, func);
+			, RGB(0, 0, 0), sourceAlpha);
 	}
 
 	void Camera::Clear()

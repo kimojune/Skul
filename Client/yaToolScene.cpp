@@ -78,8 +78,9 @@ namespace ya
 
     void ToolScene::Render(HDC hdc)
     {
-        HPEN redPen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));
-        HPEN oldPen = (HPEN)SelectObject(hdc, redPen);
+        // 타일 격자 (흰색 2px 선)
+        const COLORREF gridColor = RGB(255, 255, 255);
+        const int gridThickness = 2;
 
         Vector2 startPos(0, 0);
         startPos = Camera::CaluatePos(startPos);
@@ -87,17 +88,17 @@ namespace ya
         int maxRow = application.GetHeight() / TILE_SIZE_Y + 1;
         for (size_t y = 0; y < maxRow * 3; y++)
         {
-            MoveToEx(hdc, startPos.x, TILE_SIZE_Y * y + startPos.y, NULL);
-            LineTo(hdc, application.GetWidth(), TILE_SIZE_Y * y + startPos.y);
+            Renderer::DrawLine((int)startPos.x, (int)(TILE_SIZE_Y * y + startPos.y)
+                , (int)application.GetWidth(), (int)(TILE_SIZE_Y * y + startPos.y)
+                , gridColor, gridThickness);
         }
         int maxColumn = application.GetWidth() / TILE_SIZE_X + 1;
         for (size_t x = 0; x < maxColumn * 3; x++)
         {
-            MoveToEx(hdc, TILE_SIZE_X * x + startPos.x , startPos.y, NULL);
-            LineTo(hdc, TILE_SIZE_X * x + startPos.x, application.GetHeight());
+            Renderer::DrawLine((int)(TILE_SIZE_X * x + startPos.x), (int)startPos.y
+                , (int)(TILE_SIZE_X * x + startPos.x), (int)application.GetHeight()
+                , gridColor, gridThickness);
         }
-        (HPEN)SelectObject(hdc, oldPen);
-        DeleteObject(redPen);
 
         Scene::Render(hdc);
     }

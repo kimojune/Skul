@@ -2,6 +2,7 @@
 #include "yaResources.h"
 #include "yaCamera.h"
 #include "yaTransform.h"
+#include "yaRenderer.h"
 
 namespace ya
 {
@@ -29,15 +30,11 @@ namespace ya
 		
 		Count = renderPos.x / -1600;
 		
-		TransparentBlt(hdc
-			, Count * 1600 + renderPos.x, renderPos.y
+		Renderer::DrawImage(mImage[0]
+			, (int)(Count * 1600 + renderPos.x), (int)renderPos.y
 			, mImage[0]->GetWidth(), mImage[0]->GetHeight()
-			, mImage[0]->GetHdc()
 			, 0, 0
-			, mImage[0]->GetWidth(), mImage[0]->GetHeight()
-			, RGB(255, 0, 255));
-
-		//TransparentBlt(hdc, 0, 900 - mImage->GetHeight(), mImage->GetWidth(), 900, mImage->GetHdc(), 0, 0, mImage->GetWidth(), mImage->GetHeight(), RGB(255, 0, 255));
+			, mImage[0]->GetWidth(), mImage[0]->GetHeight());
 	}
 	void PlayBG::Release()
 	{

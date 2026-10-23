@@ -9,6 +9,7 @@
 #include "yaPlayeScene.h"
 #include "yaTransform.h"
 #include "yaApplication.h"
+#include "yaRenderer.h"
 
 extern ya::Application application;
 
@@ -41,7 +42,8 @@ namespace ya
 			fpsTime = 0.0;
 		}
 
-		wchar_t lines[3][96] = {};
+		const int lineCount = 5;
+		wchar_t lines[lineCount][160] = {};
 		swprintf_s(lines[0], L"FPS %.1f (%.2f ms)", fps, fps > 0.0 ? 1000.0 / fps : 0.0);
 
 		eSceneType sceneType = SceneManager::GetActiveSceneType();
@@ -60,6 +62,11 @@ namespace ya
 			swprintf_s(lines[2], L"Player -");
 		}
 
+		// 그리기 백엔드와 GPU, 지난 프레임 전체(이 정보창 포함)에서 그린 양
+		swprintf_s(lines[3], L"Renderer %ls  %ls", Renderer::GetName(), Renderer::GetAdapterName().c_str());
+		const RenderStats& stats = Renderer::GetLastFrameStats();
+		swprintf_s(lines[4], L"Draw calls %u  (sprites %u, 2D %u, culled %u)", stats.drawCalls, stats.sprites, stats.shapes, stats.culled);
+
 		UIDraw::TextStyle style;
 		style.face = L"Consolas";
 		style.size = 16;
@@ -72,9 +79,9 @@ namespace ya
 			if (width < size.cx)
 				width = size.cx;
 		}
-		UIDraw::DrawShade(hdc, 8, 8, width + 16, lineHeight * 3 + 10, RGB(0, 0, 0), 150);
+		UIDraw::DrawShade(hdc, 8, 8, width + 16, lineHeight * lineCount + 10, RGB(0, 0, 0), 150);
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < lineCount; i++)
 		{
 			style.color = RGB(235, 235, 235);
 			if (i == 0)

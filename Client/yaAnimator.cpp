@@ -93,6 +93,8 @@ namespace ya
 		, mActiveAnimation(nullptr)
 		, mSpriteSheet(nullptr)
 		, mbLoop(false)
+		, mbFlipX(false)
+		, mAlpha(255)
 	{
 
 	}
@@ -263,6 +265,8 @@ namespace ya
 
 			index++;
 		}
+		// GDI 로 직접 그렸으므로 GPU 텍스처가 있다면 다시 올리게 한다
+		mSpriteSheet->MarkModified();
 		CreateAnimation(key, mSpriteSheet, Vector2::Zero,1, index, 1, index, offset, duration);
 	}
 

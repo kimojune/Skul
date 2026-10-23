@@ -14,6 +14,8 @@ namespace ya
 	Application::Application()
 		: mHwnd(NULL)
 		, mHdc(NULL)
+		, mRendererType(eRendererType::DX11)
+		, mbForceWarp(false)
 		, mHeadless(false)
 		, mScenario(nullptr)
 		, mSmokeTest(false)
@@ -27,6 +29,7 @@ namespace ya
 		//SceneManager::Release();
 		//Time::Release();
 		delete mScenario;
+		Renderer::Release();
 	}
 
 	void Application::SetSmokeTest(const std::wstring& shotDir)
@@ -67,13 +70,20 @@ namespace ya
 			ShowWindow(hWnd, true);
 		}
 
-		mBackBuffer = CreateCompatibleBitmap(mHdc, mWidth, mHeight);
-		mBackHDC = CreateCompatibleDC(mHdc);
+		if (!Renderer::Initialize(mRendererType, mHwnd, mWidth, mHeight, mbForceWarp))
+		{
+			// Direct3D 11 장치를 만들 수 없으면 GDI 로 그린다
+			OutputDebugStringW(L"[Renderer] DX11 initialization failed, falling back to GDI\n");
+			mRendererType = eRendererType::GDI;
+			Renderer::Initialize(mRendererType, mHwnd, mWidth, mHeight);
+		}
+		if (mHeadless)
+		{
+			// 자동 검증 기록에 어떤 백엔드로 그렸는지 남긴다
+			fwprintf(stderr, L"renderer=%ls adapter=%ls\n", Renderer::GetName(), Renderer::GetAdapterName().c_str());
+			fflush(stderr);
+		}
 		mMenubar = LoadMenu(nullptr, MAKEINTRESOURCE(IDI_CLIENT));
-
-		HBITMAP defaultBitmap	
-			= (HBITMAP)SelectObject(mBackHDC, mBackBuffer);
-		DeleteObject(defaultBitmap);
 
 		Time::Initiailize();
 		Input::Initialize();
@@ -121,26 +131,20 @@ namespace ya
 	void Application::Render()
 	{
 		// clear
-		clear();
+		Renderer::BeginFrame(RGB(121, 121, 121));
 
-		Time::Render(mBackHDC);
-		Input::Render(mBackHDC);
-		SceneManager::Render(mBackHDC);
-		Camera::Render(mBackHDC);
+		// GDI는 백버퍼 DC, DX11은 쓰지 않는 DC. 그리기는 모두 Renderer를 거친다
+		HDC hdc = Renderer::GetHdc();
+		Time::Render(hdc);
+		Input::Render(hdc);
+		SceneManager::Render(hdc);
+		Camera::Render(hdc);
 #ifdef _DEBUG
 		// 디버그 정보창은 페이드 효과보다도 위에 그린다
-		UIDebugOverlay::Render(mBackHDC);
+		UIDebugOverlay::Render(hdc);
 #endif
-		// 백버퍼에 있는 그림을 원본버퍼에 그려줘야한다.
-		BitBlt(mHdc, 0, 0, mWidth, mHeight, mBackHDC, 0, 0, SRCCOPY);
-	}
-	void Application::clear()
-	{
-		HBRUSH grayBrush = CreateSolidBrush(RGB(121, 121, 121));
-		HBRUSH oldBrush = (HBRUSH)SelectObject(mBackHDC, grayBrush);
-		Rectangle(mBackHDC, -1, -1, 1602, 902);
-		SelectObject(mBackHDC, oldBrush);
-		DeleteObject(grayBrush);
+		// 백버퍼에 있는 그림을 화면에 내보낸다.
+		Renderer::EndFrame();
 	}
 	void Application::updateSmokeTest()
 	{
@@ -181,44 +185,8 @@ namespace ya
 	}
 	void Application::SaveScreenshot(const std::wstring& path)
 	{
-		// 백버퍼는 DC에 선택된 상태라 직접 읽지 않고 DIB에 복사해서 24비트 BMP로 쓴다.
-		BITMAPINFO info = {};
-		info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-		info.bmiHeader.biWidth = mWidth;
-		info.bmiHeader.biHeight = mHeight;
-		info.bmiHeader.biPlanes = 1;
-		info.bmiHeader.biBitCount = 24;
-		info.bmiHeader.biCompression = BI_RGB;
-
-		void* bits = nullptr;
-		HBITMAP dib = CreateDIBSection(mBackHDC, &info, DIB_RGB_COLORS, &bits, nullptr, 0);
-		if (dib == nullptr)
-			return;
-
-		HDC dibDC = CreateCompatibleDC(mBackHDC);
-		HBITMAP oldBitmap = (HBITMAP)SelectObject(dibDC, dib);
-		BitBlt(dibDC, 0, 0, mWidth, mHeight, mBackHDC, 0, 0, SRCCOPY);
-		GdiFlush();
-
-		DWORD imageSize = ((mWidth * 3 + 3) / 4) * 4 * mHeight;
-		BITMAPFILEHEADER fileHeader = {};
-		fileHeader.bfType = 0x4D42; // "BM"
-		fileHeader.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
-		fileHeader.bfSize = fileHeader.bfOffBits + imageSize;
-
-		FILE* file = nullptr;
-		_wfopen_s(&file, path.c_str(), L"wb");
-		if (file != nullptr)
-		{
-			fwrite(&fileHeader, sizeof(fileHeader), 1, file);
-			fwrite(&info.bmiHeader, sizeof(BITMAPINFOHEADER), 1, file);
-			fwrite(bits, imageSize, 1, file);
-			fclose(file);
-		}
-
-		SelectObject(dibDC, oldBitmap);
-		DeleteDC(dibDC);
-		DeleteObject(dib);
+		// 마지막으로 그린 백버퍼를 24비트 BMP로 쓴다 (GDI는 백버퍼 비트맵, DX11은 GPU 렌더 타깃에서 읽는다)
+		Renderer::SaveScreenshot(path);
 	}
 	void Application::SetMenuBar(bool power)
 	{
