@@ -1,0 +1,36 @@
+# G1 픽셀 지면: 발판(OneWay, 맵에서 노랑)은 아래에서 뚫고 올라가 윗면에 서고 ↓로 내려갈 수 있다.
+# 단단한 땅(마젠타)에서는 ↓가 아무 일도 하지 않는다.
+# 경로: Stage2 난간 → 바닥 → 점프해서 높은 땅(윗면 1660) → 오른쪽 아래 발판(x 1296~1727, 윗면 약 1518) 밑에서 점프
+# 기준 동작(2026-10-23): 326프레임 높은 땅 착지, 550프레임 발판 착지(y 1495), 560프레임 ↓, 596프레임 높은 땅 착지(y 1637)
+scene Stage2
+frames 700
+
+hold  RIGHT 30 240                  # 난간에서 떨어져 바닥으로
+press C     245                     # 바닥에서 점프해 높은 땅 위로
+hold  RIGHT 245 330
+hold  RIGHT 345 470                 # 발판 밑까지 (x≈1328)
+press C     480                     # 발판 아래에서 점프 → 발판을 통과해 올라감
+press DOWN  560                     # 발판에서 내려가기
+press DOWN  640                     # 단단한 땅에서는 아무 일도 없음
+hold  DOWN  650 670
+shot 555
+shot 600
+shot 699
+
+expect 340 player.ground == 1
+expect 340 map.player_under == 1    # 높은 땅(단단한 땅) 위
+expect 482 player.y >= 1600         # 점프 직후: 발(위치 + 23)이 발판 그림(1516~1555)보다 아래
+expect 500 player.ground == 0       # 발판을 아래에서 통과해 올라가는 중
+expect 500 player.y <= 1490         # 발이 발판 윗면보다 위
+expect 555 player.ground == 1
+expect 555 map.player_under == 2    # 발판 위에 섬
+expect 555 map.player_touch == 1
+expect 555 player.y == 1495         # 발 1518 = 발판 풀 윗면
+expect 562 player.ground == 0       # ↓로 발판에서 떨어짐
+expect 620 player.ground == 1       # 아래 높은 땅에 착지
+expect 620 map.player_under == 1
+expect 620 player.y == 1637         # 발 1660 = 높은 땅 풀 윗면
+expect 645 player.ground == 1       # 단단한 땅에서 ↓를 눌러도 그대로
+expect 680 player.ground == 1
+expect 680 player.y == 1637
+always     player.y <= 1712
