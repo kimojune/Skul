@@ -21,6 +21,7 @@
 
 namespace ya
 {
+	eDirection Skul::mLastPressedDirection = eDirection::Right;
 
 
 	Skul::Skul()
@@ -142,6 +143,12 @@ namespace ya
 		// 서 있는 동안은 점프 횟수와 공중 투척 제한을 되돌린다
 		if (mRigidbody->GetGround() && mState != eSkulState::Fall_Dead)
 			PlayerStats::OnGrounded();
+
+		// 좌우를 같이 누를 때 어느 쪽으로 갈지 정하려고 마지막으로 누른 방향을 기억한다 (경직 중에도)
+		if (Input::GetKeyDown(eKeyCode::LEFT))
+			mLastPressedDirection = eDirection::Left;
+		if (Input::GetKeyDown(eKeyCode::RIGHT))
+			mLastPressedDirection = eDirection::Right;
 
 		// 맞은 직후 잠깐은 입력을 받지 않는다 (상태 전환도 경직이 끝난 뒤에)
 		if (mHitStunTime > 0.0f && mState != eSkulState::Fall_Dead)
@@ -378,6 +385,28 @@ namespace ya
 		return true;
 	}
 
+	int Skul::moveInput()
+	{
+		// 둘 다 누르고 있으면 나중에 누른 쪽으로 간다 (→를 누른 채 ←를 눌러 돌아서는 경우).
+		// 전에는 둘 다 누르면 Idle에 묶여 점프·공격·대시 입력까지 모두 무시됐다
+		bool left = Input::GetKey(eKeyCode::LEFT);
+		bool right = Input::GetKey(eKeyCode::RIGHT);
+		if (left && right)
+			return (mLastPressedDirection == eDirection::Left) ? -1 : 1;
+		if (left)
+			return -1;
+		if (right)
+			return 1;
+		return 0;
+	}
+
+	void Skul::enterIdleAndHandleInput()
+	{
+		mState = eSkulState::Idle;
+		playDirectional(L"LeftIdle", L"RightIdle", true);
+		Idle();
+	}
+
 	void Skul::SetDirect(eDirection direct)
 	{
 		mDirect = direct;
@@ -429,12 +458,11 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
 
-		if (
-			!(Input::GetKey(eKeyCode::LEFT) && Input::GetKey(eKeyCode::RIGHT))
-			)
+		// 전에는 아래 입력 처리 전체가 "좌우를 같이 누르고 있지 않을 때"로 감싸여 있어서,
+		// 돌아서는 동안(두 키가 겹치는 동안) 점프·공격·대시가 무시되고 떨어지지도 않았다
 		{
-
-			if (Input::GetKey(eKeyCode::LEFT))
+			int move = moveInput();
+			if (move < 0)
 			{
 				mState = eSkulState::Move;
 				mDirect = eDirection::Left;
@@ -442,8 +470,7 @@ namespace ya
 				mAnimator->Play(L"LeftRun", true);
 
 			}
-
-			if (Input::GetKey(eKeyCode::RIGHT))
+			else if (move > 0)
 			{
 				mState = eSkulState::Move;
 				mDirect = eDirection::Right;
@@ -562,28 +589,7 @@ namespace ya
 
 
 
-		if (Input::GetKey(eKeyCode::LEFT)
-			&& Input::GetKey(eKeyCode::RIGHT))
-		{
-			mState = eSkulState::Idle;
-
-
-			switch (mDirect)
-			{
-			case eDirection::Left:
-			{
-				mAnimator->Play(L"LeftIdle", true);
-				break;
-			}
-			case eDirection::Right:
-			{
-				mAnimator->Play(L"RightIdle", true);
-				break;
-			}
-			}
-
-
-		}
+		// 좌우를 같이 누르면 전에는 Idle로 바뀌어 모든 입력이 막혔다. 이제는 나중에 누른 쪽으로 계속 걷는다 (moveInput)
 
 
 		if (Input::GetKeyDown(eKeyCode::Z))
@@ -646,8 +652,9 @@ namespace ya
 			Vector2 pos = tr->GetPos();
 			Animation* mAnimation = mAnimator->GetAnimaiton();
 			std::wstring mAnimationName = mAnimation->GetAnimationName();
+			int move = moveInput();
 
-			if (Input::GetKey(eKeyCode::LEFT))
+			if (move < 0)
 			{
 				mDirect = eDirection::Left;
 
@@ -661,7 +668,7 @@ namespace ya
 				//mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
 			}
 
-			if (Input::GetKey(eKeyCode::RIGHT))
+			if (move > 0)
 			{
 				mDirect = eDirection::Right;
 				if (pos.x <= GROUN_SIZE_X)
@@ -693,21 +700,9 @@ namespace ya
 
 		mRigidbody->SetVelocity(velocity);
 
-		if (mDirect == eDirection::Left && velocity.x == 0)
-		{
-			mState = eSkulState::Idle;
-
-			mAnimator->Play(L"LeftIdle", true);
-
-		}
-
-		else if (mDirect == eDirection::Right && velocity.x == 0)
-		{
-			mState = eSkulState::Idle;
-
-			mAnimator->Play(L"RightIdle", true);
-
-		}
+		// 대시가 끝난 프레임에 눌린 키도 받는다
+		if (velocity.x == 0)
+			enterIdleAndHandleInput();
 	}
 	void Skul::Jump()
 	{
@@ -782,15 +777,16 @@ namespace ya
 
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
+		int move = moveInput();
 
-		if (Input::GetKey(eKeyCode::LEFT))
+		if (move < 0)
 		{
 			if (pos.x >= 0)
 			pos.x -= 200.0f * Time::DeltaTime();
 			//mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
 		}
 
-		if (Input::GetKey(eKeyCode::RIGHT))
+		if (move > 0)
 		{
 			if(pos.x<= GROUN_SIZE_X)
 			pos.x += 200.0f * Time::DeltaTime();
@@ -806,22 +802,12 @@ namespace ya
 
 		if (rd->GetGround())
 		{
-			mState = eSkulState::Idle;
 			SecondDash = true;
 			SecondJump = true;
 
-			switch (mDirect)
-			{
-			case eDirection::Left:
-				mAnimator->Play(L"LeftIdle", true);
-				break;
-			case eDirection::Right:
-				mAnimator->Play(L"RightIdle", true);
-				break;
-			default:
-				break;
-			}
-
+			// 착지한 프레임에 눌린 키는 지상 입력으로 받는다 (전에는 X가 공중 공격이 되어 바로 끝나고, 착지 프레임 입력이 사라졌다)
+			enterIdleAndHandleInput();
+			return;
 		}
 
 
@@ -873,15 +859,16 @@ namespace ya
 		//이동 부
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
+		int move = moveInput();
 
-		if (Input::GetKey(eKeyCode::LEFT))
+		if (move < 0)
 		{
 			if(pos.x >= 0)
 			pos.x -= 100.0f * Time::DeltaTime();
 			/*		mRigidbody->AddForce(Vector2(-200.0f, 0.0f));*/
 		}
 
-		if (Input::GetKey(eKeyCode::RIGHT))
+		if (move > 0)
 		{
 			if(pos.x <= GROUN_SIZE_X)
 			pos.x += 100.0f * Time::DeltaTime();
@@ -954,22 +941,8 @@ namespace ya
 
 			else
 			{
-				mState = eSkulState::Idle;
-
-
-
-				switch (mDirect)
-				{
-				case eDirection::Left:
-					mAnimator->Play(L"LeftIdle", true);
-					break;
-				case eDirection::Right:
-					mAnimator->Play(L"RightIdle", true);
-					break;
-				default:
-					break;
-				}
-
+				// 공격이 끝난 프레임에 눌린 점프·대시 등도 받는다
+				enterIdleAndHandleInput();
 			}
 
 		}
@@ -999,22 +972,8 @@ namespace ya
 
 		if (rd->GetGround())
 		{
-			mState = eSkulState::Idle;
-
-
-			switch (mDirect)
-			{
-			case eDirection::Left:
-				mAnimator->Play(L"LeftIdle", true);
-				break;
-			case eDirection::Right:
-				mAnimator->Play(L"RightIdle", true);
-				break;
-			default:
-				break;
-			}
-
-
+			// 착지한 프레임에 눌린 키도 받는다
+			enterIdleAndHandleInput();
 		}
 
 	}
