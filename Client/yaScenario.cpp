@@ -7,6 +7,7 @@
 #include "yaRigidbody.h"
 #include "yaTime.h"
 #include "yaCamera.h"
+#include "yaPlayerStats.h"
 #include <algorithm>
 #include <fstream>
 #include <sstream>
@@ -68,6 +69,8 @@ namespace ya
 		snprintf(buffer, sizeof(buffer), "%.6g", value);
 		return buffer;
 	}
+
+	std::map<std::string, double> Scenario::mPublished;
 
 	Scenario::Scenario()
 		: mStartScene(eSceneType::Title)
@@ -171,6 +174,14 @@ namespace ya
 					return parseError(lineNumber, "usage: shot <frame>");
 				mShots.push_back(frame);
 			}
+			else if (command == "damage")
+			{
+				// 적 없이도 피격·체력바·사망을 검사할 수 있도록 플레이어에게 직접 피해를 준다
+				std::pair<UINT, int> damage = {};
+				if (!(tokens >> damage.first >> damage.second))
+					return parseError(lineNumber, "usage: damage <frame> <amount>");
+				mDamages.push_back(damage);
+			}
 			else if (command == "expect" || command == "always")
 			{
 				Check check = {};
@@ -236,6 +247,18 @@ namespace ya
 
 		for (UINT i = 0; i < (UINT)eKeyCode::END; i++)
 			Input::SetScriptedKey((eKeyCode)i, down[i]);
+
+		for (const std::pair<UINT, int>& damage : mDamages)
+		{
+			if (damage.first != mFrame)
+				continue;
+
+			// 피해 방향은 플레이어 바로 앞(바라보는 쪽과 무관하게 왼쪽)에서 맞은 것으로 둔다
+			PlayeScene* playScene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
+			Skul* skul = (playScene != nullptr) ? playScene->GetSkul() : nullptr;
+			Vector2 pos = (skul != nullptr) ? skul->GetComponent<Transform>()->GetPos() : Vector2::Zero;
+			PlayerStats::TakeDamage(damage.second, pos - Vector2(10.0f, 0.0f));
+		}
 	}
 
 	void Scenario::EndFrame()
@@ -311,6 +334,13 @@ namespace ya
 		state["player.vy"] = velocity.y;
 		state["player.ground"] = ground;
 		state["player.state"] = (skul != nullptr) ? (double)skul->GetSkulState() : -1.0;
+		state["player.hp"] = PlayerStats::GetHP();
+		state["player.maxhp"] = PlayerStats::GetMaxHP();
+		state["player.invincible"] = PlayerStats::IsInvincible();
+
+		// 게임 코드가 Scenario::Publish로 내보낸 변수 (보스 HP 등)
+		for (const auto& [name, value] : mPublished)
+			state[name] = value;
 
 		// 카메라가 보는 월드 좌표 = 화면 가운데 (Camera::mLookPosition). 화면 왼쪽 위는 (x - 800, y - 450)
 		Vector2 cameraLook = Camera::GetLookPosition();

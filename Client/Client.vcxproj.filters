@@ -151,6 +151,9 @@
     <ClInclude Include="yaPlayeScene.h">
       <Filter>Contents\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="yaPlayerStats.h">
+      <Filter>Contents\Player</Filter>
+    </ClInclude>
     <ClInclude Include="yaTime.h">
       <Filter>Engine\Time</Filter>
     </ClInclude>
@@ -354,6 +357,9 @@
     </ClCompile>
     <ClCompile Include="yaScenario.cpp">
       <Filter>Engine\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayerStats.cpp">
+      <Filter>Contents\Player</Filter>
     </ClCompile>
     <ClCompile Include="yaInput.cpp">
       <Filter>Engine\Input</Filter>

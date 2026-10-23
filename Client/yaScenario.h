@@ -17,6 +17,10 @@ namespace ya
 		void BeginFrame();
 		void EndFrame();
 
+		// 게임 코드가 시나리오 상태 변수를 내보낸다 (예: Scenario::Publish("boss.hp", hp)).
+		// 대본의 변수 이름은 시작할 때 검사하므로 Initialize에서 초깃값을 한 번 내보내야 한다.
+		static void Publish(const std::string& name, double value) { mPublished[name] = value; }
+
 	private:
 		struct KeyHold
 		{
@@ -52,9 +56,12 @@ namespace ya
 		UINT mFrame;
 		std::vector<KeyHold> mHolds;
 		std::vector<UINT> mShots;
+		std::vector<std::pair<UINT, int>> mDamages; // (프레임, 피해량)
 		std::vector<Check> mChecks;
 		std::vector<std::string> mErrors;
 		FILE* mStateLog;
 		bool mFinished;
+
+		static std::map<std::string, double> mPublished;
 	};
 }

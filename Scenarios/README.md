@@ -29,6 +29,7 @@ cd Client
 | `hold <KEY> <from> <to>` | from~to 프레임 동안 키를 누름 (양끝 포함) |
 | `press <KEY> <frame>` | 한 프레임만 누름 |
 | `shot <frame>` | 해당 프레임을 그린 직후 화면 저장 |
+| `damage <frame> <amount>` | 해당 프레임 시작에 플레이어에게 피해 (`PlayerStats::TakeDamage`). 대시 무적 중이면 무시됨 |
 | `expect <frame> <var> <op> <number>` | 해당 프레임이 끝난 뒤 검사 |
 | `always <var> <op> <number>` | 매 프레임 검사. 처음 실패한 프레임을 보고 |
 
@@ -56,6 +57,8 @@ cd Client
 | `player.state` | `Skul::eSkulState` 값: Idle 0, Move 1, Dash 2, Jump 3, Fall 4, Attack 5, Attack2 6, JumpAttack 7, SkillA 8, SkillS 9, ChangeSkill 10 |
 | `count.<layer>` | 레이어의 활성(Active) 오브젝트 수. layer: `bg` `struct` `boss` `tile` `gate` `monster` `player` `bullet` `enemybullet` `ground` `test` `effect` `ui` |
 | `objects` | 씬의 전체 오브젝트 수 (Pause·Death 포함, 누수 감시용) |
+| `player.hp`, `player.maxhp`, `player.invincible` | `PlayerStats`의 HP, 최대 HP, 무적 여부(대시 중 등) |
+| 그 밖의 이름 | 게임 코드가 `Scenario::Publish("이름", 값)`으로 내보낸 값 (예: `boss.hp`). Initialize에서 초깃값을 내보내야 대본 시작 검사를 통과합니다 |
 | `camera.x`, `camera.y` | 화면 가운데가 보는 월드 좌표. 화면 왼쪽 위는 (x−800, y−450). 플레이 씬의 카메라 경계는 x 800~2550 |
 
 새 기능을 검사하려면 `yaScenario.cpp`의 `Scenario::collectState`에 변수를 추가하세요. 예를 들어 `player.hp`, `boss.hp`가 있습니다. 대본에 없는 변수를 쓰면 시작할 때 실패로 알려줍니다.
