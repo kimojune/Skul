@@ -54,10 +54,12 @@ cd Client
 | `player.x`, `player.y` | 위치. y는 아래로 갈수록 커짐. Stage 지면이 y=1726 |
 | `player.vx`, `player.vy` | Rigidbody 속도. 걷기는 Transform을 직접 옮기므로 vx가 0일 수 있습니다 |
 | `player.ground` | 착지 상태(1/0) |
-| `player.state` | `Skul::eSkulState` 값: Idle 0, Move 1, Dash 2, Jump 3, Fall 4, Attack 5, Attack2 6, JumpAttack 7, SkillA 8, SkillS 9, ChangeSkill 10 |
+| `player.state` | `Skul::eSkulState` 값: Idle 0, Move 1, Dash 2, Jump 3, Fall 4, Attack 5, Attack2 6, JumpAttack 7, SkillA 8, SkillS 9, ChangeSkill 10, Fall_Dead 11(사망) |
 | `count.<layer>` | 레이어의 활성(Active) 오브젝트 수. layer: `bg` `struct` `boss` `tile` `gate` `monster` `player` `bullet` `enemybullet` `ground` `test` `effect` `ui` |
 | `objects` | 씬의 전체 오브젝트 수 (Pause·Death 포함, 누수 감시용) |
 | `player.hp`, `player.maxhp`, `player.invincible` | `PlayerStats`의 HP, 최대 HP, 무적 여부(대시 중 등) |
+| `player.jumpCount`, `player.dashCharges`, `player.headOut`, `player.skillACooldown`, `player.skillSCooldown` | `PlayerStats`가 내보내는 이동·스킬 값: 이번 공중에서 쓴 점프 수(최대 2), 남은 대시 충전(최대 2), 머리를 던졌는지(1/0), A·S 남은 쿨다운(초) |
+| `head.state`, `head.x`, `head.y` | 던진 머리(`SkulHead`): 0 몸에 붙음, 1 날아감, 2 튀어 떨어짐, 3 바닥에 놓임. 위치는 머리 Transform (그림 아래 끝 = y − 14) |
 | 그 밖의 이름 | 게임 코드가 `Scenario::Publish("이름", 값)`으로 내보낸 값 (예: `boss.hp`). Initialize에서 초깃값을 내보내야 대본 시작 검사를 통과합니다 |
 | `camera.x`, `camera.y` | 화면 가운데가 보는 월드 좌표. 화면 왼쪽 위는 (x−800, y−450). 플레이 씬의 카메라 경계는 x 800~2550 |
 

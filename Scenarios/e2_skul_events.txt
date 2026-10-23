@@ -2,28 +2,37 @@
 # 기준 동작(2026-10-23): 공격 A+B 60~122, 점프 공격 165~191 뒤 Fall, 스킬 S 240~275,
 # 스킬 A 330~357 뒤 머리 없는 스컬로 교체, 머리가 8초 뒤 돌아와 810~845 스킬 S.
 # 완료 이벤트를 한 번만 부르도록 바꾼 전후로 state.jsonl이 같았다.
+#
+# Phase 2(G2)에서 원작 규칙으로 바꾸면서 기대값을 고쳤다.
+#  - S는 머리가 떨어져 있을 때만 쓴다: 240의 S는 무시된다 (전: 250에 SkillS, 300에 Idle)
+#  - 머리는 8초 뒤 SkillS로 돌아오지 않는다: 바닥에 놓여 있다가 줍거나, S로 이동하거나, A 쿨다운(6초)이 끝나면 돌아온다.
+#    SkillS 완료 이벤트는 420의 S(바닥에 놓인 머리로 순간이동 -> 일어나는 애니메이션)로 확인한다 (전: 820에 SkillS, 880에 Idle).
+#    쿨다운 복귀는 몬스터가 없는 g2_head_pickup에서 확인한다.
 scene Stage2
-frames 900
+frames 600
 
 press X 60                          # 공격 A
 press X 66                          # 연타 -> 공격 B
 press C 150                         # 점프
 press X 165                         # 점프 공격 -> 완료 이벤트로 Fall
-press S 240                         # 스킬 S -> 완료 이벤트로 Idle
+press S 240                         # 머리가 붙어 있어 무시
 press A 330                         # 스킬 A -> 완료 이벤트로 머리 없는 스컬로 교체
+press S 420                         # 바닥에 놓인 머리로 순간이동 -> SkillS -> 완료 이벤트로 Idle
 
 expect 100 player.state == 5        # 연타라서 공격 B까지 이어짐
 expect 140 player.state == 0
 expect 170 player.state == 7        # JumpAttack
 expect 200 player.state == 4        # 점프 공격 완료 -> Fall
-expect 250 player.state == 9        # SkillS
-expect 300 player.state == 0        # 스킬 S 완료 -> Idle
+expect 250 player.state == 0        # S 무시 (Idle 그대로)
+expect 250 player.skillSCooldown == 0
 expect 335 player.state == 8        # SkillA
 expect 335 count.bullet == 1        # 머리 발사
 expect 400 player.state == 0        # 스킬 A 완료 -> 머리 없는 스컬 Idle
-expect 820 player.state == 9        # 머리가 돌아와 기본 스컬 SkillS
-expect 820 count.bullet == 0
-expect 880 player.state == 0
+expect 400 player.headOut == 1
+expect 425 player.state == 9        # 순간이동한 기본 스컬 SkillS
+expect 425 count.bullet == 0
+expect 425 player.headOut == 0
+expect 500 player.state == 0        # SkillS 완료 -> Idle
 always     player.found == 1
 always     count.player == 1        # 조작 중인 스컬은 항상 하나
 always     player.y <= 1730

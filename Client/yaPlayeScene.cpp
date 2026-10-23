@@ -24,6 +24,9 @@
 #include "yaBossGate.h"
 #include "yaItemGate.h"
 #include "yaRigidbody.h"
+#include "yaTime.h"
+#include "yaPlayerStats.h"
+#include "yaSkulHead.h"
 
 namespace ya
 {
@@ -31,7 +34,10 @@ namespace ya
 
 
 	PlayeScene::PlayeScene()
-			
+		: Chapter1(nullptr)
+		, Chapter1_BossBG(nullptr)
+		, mActiveSkul(nullptr)
+		, mSkulHead(nullptr)
 	{
 
 	}
@@ -51,9 +57,19 @@ namespace ya
 		Chapter1_BossBG = Resources::Load<Sound>(L"Chapter1_Boss", L"..\\Resources\\Sound\\Chapter1_Boss.wav");
 		//Chapter1->Play(true);
 		
-		object::Instantiate<SkulHead>(Vector2(0.0f, 0.0f), eLayerType::Bullet);
+		mSkulHead = object::Instantiate<SkulHead>(Vector2(0.0f, 0.0f), eLayerType::Bullet);
 		object::Instantiate<SkulAttack>(Vector2(500.0f, 600.0f), eLayerType::Effect);
 
+		// 적·보스가 PlayerStats::TakeDamage로 준 피해를 지금 조작 중인 스컬에게 전달한다 (피격 반응, 사망).
+		// 콜백은 하나뿐이라 플레이 씬마다 같은 함수를 다시 등록해도 된다
+		PlayerStats::SetOnDamaged([](int damage, Vector2 sourcePos)
+			{
+				PlayeScene* playScene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
+				if (playScene == nullptr || playScene->GetSkul() == nullptr)
+					return;
+
+				playScene->GetSkul()->OnDamaged(damage, sourcePos);
+			});
 	}
 
 	void PlayeScene::Update()
@@ -64,6 +80,20 @@ namespace ya
 		//}
 
 		Scene::Update();
+
+		PlayerStats::Update((float)Time::DeltaTime());
+
+		// 사망 연출이 끝나면 HP를 채우고 타이틀로 돌아간다.
+		// 씬 전환은 모든 오브젝트 Update가 끝난 여기서 한다 (Update 도중에 바꾸면 뒤에 도는 오브젝트가 타이틀 씬을 플레이 씬으로 착각한다).
+		// Phase 3에서 결과 화면과 스테이지 리셋으로 바꾼다. 지금은 스테이지 상태(몬스터 등)가 그대로 남는다.
+		if (mActiveSkul != nullptr && mActiveSkul->IsDeathFinished())
+		{
+			mActiveSkul->ResetForNewRun();
+			PlayerStats::Reset();
+			Camera::SetTarget(nullptr);	// BossStage::OnExit는 PlayeScene::OnExit를 부르지 않는다
+			SceneManager::LoadScene(eSceneType::Title);
+			Camera::FadeIn(Skul::DeadFadeTime);
+		}
 	}
 
 	void PlayeScene::Render(HDC hdc)
@@ -103,6 +133,17 @@ namespace ya
 	}
 	void PlayeScene::OnExit()
 	{
+		// 머리는 씬마다 따로 있어서 던진 채로 씬을 옮기면 다음 씬에서 찾을 수 없다. 나가기 전에 몸으로 돌려 둔다
+		if (PlayerStats::IsHeadOut())
+		{
+			Nohead* nohead = dynamic_cast<Nohead*>(mSkuls[(UINT)Skul::eSkulType::Nohead]);
+			if (nohead != nullptr && nohead->GetState() == GameObject::eState::Active)
+				nohead->TakeHeadBack(false, false);
+			else if (mSkulHead != nullptr)
+				mSkulHead->Hide();
+			PlayerStats::OnHeadRetrieved(false);
+		}
+
 		Camera::SetTarget(nullptr);
 		//mCuphead->SetPos(Vector2{ 0.0f, 0.0f });
 	}

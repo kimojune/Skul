@@ -2,6 +2,8 @@
 # 교대는 GameObject Pause로 한다. 다시 활성화된 스컬이 지면에 서 있는지,
 # Pause된 머리가 계속 충돌해서 몬스터를 때리지 않는지 본다.
 # 기준 동작(2026-10-23): 머리는 약 1060px/s로 날아가고, 프레임 121에 x≈1060으로 이동
+# Phase 2(G2) 이후: 원작처럼 머리가 몬스터에 부딪히면 뒤로 튀어 바닥에 놓인다. seed 1에서는 x≈350의 몬스터에
+# 부딪혀 프레임 111에 x≈211에 놓이고, 프레임 121에 그 위치(x≈232)로 이동한다. 그래서 125프레임 x 기준을 1000 -> 200으로 바꿨다.
 scene Stage2
 frames 300
 
@@ -14,7 +16,7 @@ expect 59  player.ground == 1       # 던지기 전에 착지 완료
 expect 100 count.bullet == 1        # 머리가 날아가는 중
 expect 100 player.ground == 1       # 교대된 Nohead도 지면에 서 있음
 expect 119 player.x <= 1            # Nohead는 제자리
-expect 125 player.x >= 1000         # 머리 위치로 이동
+expect 125 player.x >= 200          # 머리 위치로 이동 (수정 전 1000: 머리가 몬스터를 뚫고 계속 날았다)
 expect 125 count.bullet == 0        # 머리는 다시 Pause
 expect 299 player.ground == 1
 expect 299 player.y >= 1720

@@ -1,0 +1,41 @@
+﻿# G2: S 순간이동. 머리가 떨어져 있을 때만, 쿨다운 3초. 이동하면 머리를 회수하고 A 쿨다운도 초기화한다
+# (원작에서 순간이동이 머리를 회수하는지는 불확실. 이 클론의 가정).
+# 공중에서 날아가는 머리로 이동하면 몸이 공중에 나타나 떨어져 착지해야 한다 (수정 전에는 착지 상태를 복사해서 떠 있었다).
+# Stage1은 몬스터가 없어 seed와 무관하다. 플레이어는 113프레임쯤 x=0에 착지한다.
+scene Stage1
+frames 480
+
+press S 125                         # 머리가 붙어 있으면 무시
+expect 126 player.state == 0
+expect 126 player.skillSCooldown == 0
+
+press C 140                         # 점프해서
+press A 150                         # 공중에서 던지기 (y 약 1637 높이로 날아감)
+press S 178                         # 머리가 날아가는 중에 순간이동
+shot 181
+expect 177 player.headOut == 1
+expect 177 player.x <= 1            # 아직 제자리의 머리 없는 몸
+expect 180 player.headOut == 0      # 머리 회수
+expect 180 count.bullet == 0
+expect 180 player.x >= 400          # 머리 위치로 이동
+expect 180 player.y <= 1680         # 공중에 나타나서
+expect 180 player.ground == 0
+expect 180 player.state == 4        # Fall
+expect 180 player.skillSCooldown >= 2.9
+expect 180 player.skillACooldown == 0   # 회수해서 A 쿨다운 초기화
+expect 240 player.ground == 1       # 떨어져서 착지
+expect 240 player.y >= 1720
+
+press A 250                         # A가 초기화돼서 바로 다시 던질 수 있다
+press S 300                         # S 쿨다운(프레임 359까지) 중이라 무시
+press S 380                         # 쿨다운이 끝나 바닥에 놓인 머리로 이동 -> 일어나는 애니메이션(SkillS)
+expect 251 player.headOut == 1
+expect 302 player.headOut == 1
+expect 302 player.state != 9
+expect 382 player.headOut == 0
+expect 382 player.state == 9
+expect 382 player.y >= 1720         # 바닥 위에 선다
+expect 470 player.state == 0
+always     player.found == 1
+always     count.player == 1
+always     player.y <= 1730

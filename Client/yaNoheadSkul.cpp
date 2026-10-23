@@ -11,6 +11,8 @@
 #include "yaPlayeScene.h"
 #include "yaSceneManager.h"
 #include "yaRigidbody.h"
+#include "yaPlayerStats.h"
+#include "yaSound.h"
 
 namespace ya
 {
@@ -20,6 +22,7 @@ namespace ya
 
 		Image* LeftHeadlessImage = Resources::Load<Image>(L"LeftHeadless", L"..\\Resources\\LeftHeadless.bmp");
 		Image* RightHeadlessImage = Resources::Load<Image>(L"RightHeadless", L"..\\Resources\\RightHeadless.bmp");
+		Skul_SkullBack = Resources::Load<Sound>(L"Skul_SkullBack", L"..\\Resources\\Sound\\Skul\\Skul_SkullBack.wav");
 
 		mAnimator = AddComponent<Animator>();
 
@@ -65,28 +68,78 @@ namespace ya
 	{
 		mState = eSkulState::Idle;
 	}
+	bool Nohead::CanUseSkillS()
+	{
+		// 원작: 머리가 떨어져 있을 때만, 쿨다운 3초
+		return PlayerStats::CanTeleport();
+	}
+
 	void Nohead::SkillS()
 	{
-		Transform* tr = GetComponent<Transform>();
-
+		// 머리 위치로 순간이동하고 머리를 회수한다.
+		// 원작에서 순간이동이 머리도 회수하는지는 불확실하다. 이 클론은 회수로 보고 A 쿨다운도 초기화한다.
 		Basic* basic = dynamic_cast<Basic*>(mSkuls[(UINT)eSkulType::Basic]);
-		SkulHead* mSkulHead = basic->GetSkulHead();
-		Transform* headPos = mSkulHead->GetComponent<Transform>();
-		Scene* ActiveScene = SceneManager::GetActiveScene();
+		PlayeScene* playscene = dynamic_cast<PlayeScene*> (SceneManager::GetActiveScene());
+		SkulHead* head = playscene->GetSkulHead();
 
-		basic->GetComponent<Transform>()->SetPos(headPos->GetPos());
-		bool ground = this->GetComponent<Rigidbody>()->GetGround();
-		basic->GetComponent<Rigidbody>()->SetGround(ground);
+		PlayerStats::OnTeleported();
+		PlayerStats::OnHeadRetrieved(true);
 
-		mSkulHead->SetState(eState::Pause);
-		
-		PlayeScene* playscene = dynamic_cast<PlayeScene*> (ActiveScene);
+		basic->GetComponent<Transform>()->SetPos(head->GetTeleportPos());
+
+		// 착지 상태는 복사하지 않는다. 전에는 Nohead의 착지 상태를 복사해서 공중으로 이동하면 몸이 떠 있었다.
+		// 땅 위면 다음 충돌 검사에서 바로 착지한다
+		Rigidbody* basicRigidbody = basic->GetComponent<Rigidbody>();
+		basicRigidbody->SetGround(false);
+		basicRigidbody->SetVelocity(Vector2::Zero);
+
+		bool landedHead = head->GetHeadState() == SkulHead::eHeadState::Landed;
+		head->Hide();
+
 		playscene->SetSkul(eSkulType::Basic);
+		basic->SetDirect(mDirect);
 
-		basic->SetSkulState(eSkulState::SkillS);
+		// 바닥에 놓인 머리면 누워 있다 일어나는 애니메이션(SkillS), 공중이면 바로 떨어진다
+		if (landedHead)
+		{
+			basic->SetSkulState(eSkulState::SkillS);
+		}
+		else
+		{
+			basic->SetSkulState(eSkulState::Fall);
+			basic->GetComponent<Animator>()->Play(mDirect == eDirection::Left ? L"LeftFall" : L"RightFall", false);
+		}
 
+		mState = eSkulState::Idle;
 		SetState(eState::Pause);
+	}
 
+	void Nohead::Die()
+	{
+		Skul* basic = TakeHeadBack(false, false);
+		basic->Die();
+	}
 
+	bool Nohead::CanTakeHeadBack()
+	{
+		if (GetState() != eState::Active)
+			return false;
+
+		return mState != eSkulState::Dash
+			&& mState != eSkulState::SkillS
+			&& mState != eSkulState::Fall_Dead;
+	}
+
+	Skul* Nohead::TakeHeadBack(bool resetCooldown, bool playSound)
+	{
+		PlayeScene* playscene = dynamic_cast<PlayeScene*> (SceneManager::GetActiveScene());
+		if (playscene != nullptr && playscene->GetSkulHead() != nullptr)
+			playscene->GetSkulHead()->Hide();
+
+		PlayerStats::OnHeadRetrieved(resetCooldown);
+		if (playSound)
+			Skul_SkullBack->Play(false);
+
+		return SwitchSkul(eSkulType::Basic);
 	}
 }

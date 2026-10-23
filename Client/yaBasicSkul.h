@@ -32,8 +32,14 @@ public:
 	virtual void CompleteChangeSkill() override;
 	virtual void EndChangeSkill() override;
 
+	virtual void Die() override;
+
 
 	SkulHead* GetSkulHead() { return mSkulHead; }
+
+protected:
+	// 머리를 던질 수 있는가 (쿨다운, 공중 1회 제한은 PlayerStats::CanThrowHead)
+	virtual bool CanUseSkillA() override;
 
 private:
 	Animator* mAnimator;

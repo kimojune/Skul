@@ -7,6 +7,7 @@ namespace ya
 	class Skul;
 	class Sound;
 	class TitleBG;
+	class SkulHead;
 
 	extern Skul* mSkuls[(UINT)Skul::eSkulType::End];
 
@@ -27,13 +28,16 @@ namespace ya
 		
 		virtual void SetSkul(Skul::eSkulType type);
 		Skul* GetSkul() { return mActiveSkul;}
-		
+		// 이 씬의 던지는 머리 (씬마다 하나)
+		SkulHead* GetSkulHead() { return mSkulHead; }
+
 		//Image* GetPixMap() { return mPixelMap; }
 	protected:
 
 		Sound* Chapter1;
 		Sound* Chapter1_BossBG;
 		Skul* mActiveSkul;
+		SkulHead* mSkulHead;
 	private:
 
 
