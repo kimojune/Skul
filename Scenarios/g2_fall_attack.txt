@@ -1,0 +1,17 @@
+﻿# G2: Skul::Update의 case Fall에 break가 없어서 Fall 중에 Attack()도 돌던 버그.
+# 떨어지면서 X(공중 공격)를 누르면 Attack()이 연타 입력(AttackCount)을 남겨서, 착지 뒤 X를 한 번만 눌러도
+# 지상 공격이 A -> B 두 번 이어졌다 (수정 전: 300프레임에 아직 Attack 5). 수정 후에는 A 한 번 뒤 Idle.
+# Stage1은 몬스터가 없어 seed와 무관하다. 플레이어는 113프레임쯤 착지한다.
+scene Stage1
+frames 330
+
+press C 130                         # 점프 (175프레임쯤 Fall)
+press X 185                         # Fall 중 공중 공격
+press X 260                         # 착지 뒤 지상 공격 한 번
+
+expect 184 player.state == 4        # Fall
+expect 186 player.state == 7        # JumpAttack
+expect 250 player.ground == 1
+expect 261 player.state == 5        # Attack (A)
+expect 300 player.state == 0        # A 한 번으로 끝 (B로 이어지지 않음)
+always     player.y <= 1730

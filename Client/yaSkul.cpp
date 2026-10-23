@@ -151,6 +151,7 @@ namespace ya
 			break;
 		case ya::Skul::eSkulState::Fall:
 			Fall();
+			break;
 		case ya::Skul::eSkulState::Attack:
 			Attack();
 			break;
@@ -1066,6 +1067,10 @@ namespace ya
 	void Skul::StartJumpAttack()
 	{
 		Skul_Jump_Atk->Play(false);
+
+		// 공중 공격마다 한 번 맞힐 수 있게 다시 켠다. 전에는 착지로 끊긴 공중 공격이 맞힌 뒤
+		// 다음 지상 공격 전까지 꺼진 채라 그다음 공중 공격이 피해를 주지 못했다
+		IsAttack = true;
 	}
 
 	void Skul::CompleteJumpAttack()

@@ -32,7 +32,8 @@ namespace ya
 		Image* RightImage = Resources::Load<Image>(L"RightSkul", L"..\\Resources\\SkulRight.bmp");
 
 		Skul_SkullThrowing = Resources::Load<Sound>(L"Skul_SkullThrowing", L"..\\Resources\\Sound\\Skul\\Skul_SkullThrowing.wav");
-		Skul_Reborn_Rise = Resources::Load<Sound>(L"Skul_SkullThrowing", L"..\\Resources\\Sound\\Skul\\Skul_Reborn_Rise.wav");
+		// 전에는 키가 "Skul_SkullThrowing"이라 던지는 소리가 대신 나왔다
+		Skul_Reborn_Rise = Resources::Load<Sound>(L"Skul_Reborn_Rise", L"..\\Resources\\Sound\\Skul\\Skul_Reborn_Rise.wav");
 	
 
 		mAnimator = AddComponent<Animator>();
