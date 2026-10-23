@@ -24,6 +24,7 @@ namespace ya
 
 		static void SetTarget(GameObject* target) { mTarget = target; }
 		static Vector2 CaluatePos(Vector2 pos) { return pos - mDistance; }
+		static Vector2 GetLookPosition() { return mLookPosition; }
 
 	private:
 		static Vector2 mResolution;

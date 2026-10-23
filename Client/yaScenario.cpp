@@ -6,6 +6,7 @@
 #include "yaTransform.h"
 #include "yaRigidbody.h"
 #include "yaTime.h"
+#include "yaCamera.h"
 #include <algorithm>
 #include <fstream>
 #include <sstream>
@@ -310,6 +311,11 @@ namespace ya
 		state["player.vy"] = velocity.y;
 		state["player.ground"] = ground;
 		state["player.state"] = (skul != nullptr) ? (double)skul->GetSkulState() : -1.0;
+
+		// 카메라가 보는 월드 좌표 = 화면 가운데 (Camera::mLookPosition). 화면 왼쪽 위는 (x - 800, y - 450)
+		Vector2 cameraLook = Camera::GetLookPosition();
+		state["camera.x"] = cameraLook.x;
+		state["camera.y"] = cameraLook.y;
 
 		// 레이어별 활성 오브젝트 수, 전체 오브젝트 수 (누수 감시용)
 		double objects = 0.0;
