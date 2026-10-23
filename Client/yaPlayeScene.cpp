@@ -26,6 +26,7 @@
 #include "yaRigidbody.h"
 #include "yaTime.h"
 #include "yaPlayerStats.h"
+#include "yaPlayerHUD.h"
 #include "yaSkulHead.h"
 
 namespace ya
@@ -59,6 +60,9 @@ namespace ya
 		
 		mSkulHead = object::Instantiate<SkulHead>(Vector2(0.0f, 0.0f), eLayerType::Bullet);
 		object::Instantiate<SkulAttack>(Vector2(500.0f, 600.0f), eLayerType::Effect);
+
+		// 좌하단 HP 바·스킬 HUD (UI 레이어는 가장 나중에 그려진다)
+		object::Instantiate<PlayerHUD>(eLayerType::UI);
 
 		// 적·보스가 PlayerStats::TakeDamage로 준 피해를 지금 조작 중인 스컬에게 전달한다 (피격 반응, 사망).
 		// 콜백은 하나뿐이라 플레이 씬마다 같은 함수를 다시 등록해도 된다

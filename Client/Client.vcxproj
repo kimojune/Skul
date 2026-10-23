@@ -184,6 +184,7 @@
     <ClInclude Include="YamYamEngine.h" />
     <ClInclude Include="yaPlayeScene.h" />
     <ClInclude Include="yaPlayerStats.h" />
+    <ClInclude Include="yaPlayerHUD.h" />
     <ClInclude Include="yaResource.h" />
     <ClInclude Include="yaScene.h" />
     <ClInclude Include="yaScenario.h" />
@@ -247,6 +248,7 @@
     <ClCompile Include="yaMath.cpp" />
     <ClCompile Include="yaPlayeScene.cpp" />
     <ClCompile Include="yaPlayerStats.cpp" />
+    <ClCompile Include="yaPlayerHUD.cpp" />
     <ClCompile Include="yaResource.cpp" />
     <ClCompile Include="yaScenario.cpp" />
     <ClCompile Include="yaScene.cpp" />
