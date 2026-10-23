@@ -60,6 +60,11 @@ cd Client
 | `player.hp`, `player.maxhp`, `player.invincible` | `PlayerStats`의 HP, 최대 HP, 무적 여부(대시 중 등) |
 | `player.jumpCount`, `player.dashCharges`, `player.headOut`, `player.skillACooldown`, `player.skillSCooldown` | `PlayerStats`가 내보내는 이동·스킬 값: 이번 공중에서 쓴 점프 수(최대 2), 남은 대시 충전(최대 2), 머리를 던졌는지(1/0), A·S 남은 쿨다운(초) |
 | `head.state`, `head.x`, `head.y` | 던진 머리(`SkulHead`): 0 몸에 붙음, 1 날아감, 2 튀어 떨어짐, 3 바닥에 놓임. 위치는 머리 Transform (그림 아래 끝 = y − 14) |
+| `boss.hp` | 1장 보스(`Chapter1_Boss`) HP. 1페이즈 40 + 2페이즈 40 = 80에서 시작. 플레이어 공격 한 대에 1 |
+| `boss.phase` | 1 또는 2. HP가 40이 되면 2 |
+| `boss.state` | `Chapter1_Boss::eBossState` 값: Intro 0, Idle 1, Punch 2, Sweep 3, EnergyBall 4, Groggy 5, PhaseChange 6, EnergyRain 7, TripleSlam 8, Dead 9 |
+| `boss.groggy` | 그로기 중이면 1. 이때는 머리 말고 몸통·손도 맞는다 (state가 5로 바뀐 다음 프레임부터) |
+| `boss.volleys` | 이번 에너지볼 패턴에서 쏜 횟수 (3이면 그로기로 넘어감). 다음 에너지볼 패턴이 시작될 때 0 |
 | 그 밖의 이름 | 게임 코드가 `Scenario::Publish("이름", 값)`으로 내보낸 값 (예: `boss.hp`). Initialize에서 초깃값을 내보내야 대본 시작 검사를 통과합니다 |
 | `camera.x`, `camera.y` | 화면 가운데가 보는 월드 좌표. 화면 왼쪽 위는 (x−800, y−450). 플레이 씬의 카메라 경계는 x 800~2550 |
 
