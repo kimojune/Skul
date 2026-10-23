@@ -27,7 +27,7 @@ expect 180 player.state == 4        # Fall
 expect 180 player.skillSCooldown >= 2.9
 expect 180 player.skillACooldown == 0   # 회수해서 A 쿨다운 초기화
 expect 240 player.ground == 1       # 떨어져서 착지
-expect 240 player.y >= 1720
+expect 240 player.y >= 1705         # Stage1 바닥: 발 1732(보이는 풀 윗면) = 위치 1709
 
 hold  LEFT 244 245                  # 왼쪽을 보고
 press A 250                         # A가 초기화돼서 바로 다시 던질 수 있다 (왼쪽, 벽에 튕겨 x≈100에 놓임)
@@ -42,7 +42,7 @@ expect 359 player.headOut == 1      # 쿨다운 중에는 머리가 그대로 �
 expect 359 player.x >= 300          # 머리 없는 몸은 제자리 근처 (머리는 x≈100)
 expect 430 player.headOut == 0
 expect 430 player.x <= 250          # 머리 위치로 이동
-expect 430 player.y >= 1720         # 바닥 위에 선다
+expect 430 player.y >= 1705         # 바닥 위에 선다
 expect 470 player.ground == 1
 always     player.found == 1
 always     count.player == 1
