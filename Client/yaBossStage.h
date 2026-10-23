@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "yaPlayeScene.h"
 
 namespace ya
@@ -18,9 +18,6 @@ namespace ya
 
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
-
-	private:
-		Sound* ElderEnt_Roar;
 	};
 
 

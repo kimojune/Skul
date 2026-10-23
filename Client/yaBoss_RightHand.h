@@ -1,81 +1,14 @@
-#pragma once
-
-
-#include "yaGameObject.h"
+﻿#pragma once
+#include "yaBoss_Hand.h"
 
 namespace ya
 {
-	class Animator;
-	class Image;
-	class Chapter1_Boss;
-	class Boss_RightHand : public GameObject
+	// 보스 오른손. 동작은 Boss_Hand와 같고 그림만 오른손 것을 쓴다.
+	// (예전에는 Boss_Hand를 통째로 복사한 클래스였다)
+	class Boss_RightHand : public Boss_Hand
 	{
 	public:
 		Boss_RightHand();
-		~Boss_RightHand();
-
-		enum class eHandState
-		{
-			Idle,
-			Down,
-			Punch,
-			Smash,
-		};
-
-		virtual void Initialize()override;
-		virtual void Update()override;
-		virtual void Render(HDC hdc)override;
-		virtual void Release()override;
-
-		void SetPlayed(bool mPlay) { mPlayed = mPlay; }
-		void SetHandState(eHandState state) { mHandState = state; }
-		void SetTargetPos(Vector2 pos) { mTargetPos = pos; }
-		void SetHandDirection(eDirection direct) { mDirection = direct; }
-		bool GetHandComplete() { return mComplete; }
-		Animator* GetAnimator() { return mAnimator; }
-
-
-	protected:
-
-		void Idle();
-		void Down();
-		void Punch();
-		void Smash();
-
-		void StartIdle();
-		void CompleteIdle();
-		void EndIdle();
-
-		void StartDown();
-		void CompleteDown();
-		void EndDown();
-
-		void StartPunch();
-		void CompletePunch();
-		void EndPunch();
-
-		void StartSmash();
-		void CompleteSmash();
-		void EndSmash();
-
-	private:
-		Animator* mAnimator;
-		Image* mLeftImage[4];
-		Image* mRightImage[4];
-		eDirection mDirection;
-		eHandState mHandState;
-		Vector2 mTargetPos;
-		Vector2 mPrevPos;
-		Chapter1_Boss* mBoss;
-		bool mPlayed;
-		bool mComplete;
-		bool mSound;
-		float mTime;
-		Sound* ElderEnt_FistSlam_Recovery;
-		Sound* ElderEnt_Sweeping_Ready;
-		Sound* ElderEnt_FistSlam;
-		Sound* ElderEnt_Sweeping;
-
+		virtual ~Boss_RightHand();
 	};
-
 }
