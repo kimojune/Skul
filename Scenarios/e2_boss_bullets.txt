@@ -1,0 +1,23 @@
+# Boss: 8방향 탄 애니메이션(BulletLoop, 20장 0.1초) 프레임 순서 확인용 스크린샷
+# seed 1에서 탄은 300~658프레임 동안 활성. 패턴 선택은 rand()라 seed에 따라 달라진다.
+# 프레임 파일명이 _0 ~ _19로 0을 채우지 않아서, 이름순으로 읽으면 0,1,10..19,2..9 순서로 재생됐다.
+# 자연 정렬 후에는 0,1,2..19 순서. 탄 모양은 shot 끼리 비교해서 본다.
+scene Boss
+seed 1
+frames 660
+
+expect 360 count.enemybullet == 8
+expect 630 count.enemybullet == 8
+always     player.y <= 1730
+always     objects <= 500
+shot 330
+shot 360
+shot 390
+shot 420
+shot 450
+shot 480
+shot 510
+shot 540
+shot 570
+shot 600
+shot 630

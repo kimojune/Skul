@@ -1,9 +1,72 @@
 #include "yaAnimator.h"
 #include "yaResources.h"
+#include <algorithm>
 
 
 namespace ya
 {
+	static bool AnimatorIsDigit(wchar_t ch)
+	{
+		return L'0' <= ch && ch <= L'9';
+	}
+
+	// 프레임 파일명 비교. 숫자 구간은 값으로 비교해서 _2 가 _10 보다 앞에 온다.
+	// 나머지 글자는 대소문자를 무시하고 비교한다.
+	static bool AnimatorFrameNameLess(const std::wstring& left, const std::wstring& right)
+	{
+		size_t i = 0;
+		size_t j = 0;
+		while (i < left.size() && j < right.size())
+		{
+			if (AnimatorIsDigit(left[i]) && AnimatorIsDigit(right[j]))
+			{
+				size_t leftEnd = i;
+				while (leftEnd < left.size() && AnimatorIsDigit(left[leftEnd]))
+					leftEnd++;
+				size_t rightEnd = j;
+				while (rightEnd < right.size() && AnimatorIsDigit(right[rightEnd]))
+					rightEnd++;
+
+				// 앞자리 0은 건너뛰고 자릿수 -> 숫자 순으로 비교
+				size_t leftStart = i;
+				while (leftStart + 1 < leftEnd && left[leftStart] == L'0')
+					leftStart++;
+				size_t rightStart = j;
+				while (rightStart + 1 < rightEnd && right[rightStart] == L'0')
+					rightStart++;
+
+				size_t leftLength = leftEnd - leftStart;
+				size_t rightLength = rightEnd - rightStart;
+				if (leftLength != rightLength)
+					return leftLength < rightLength;
+
+				int compare = left.compare(leftStart, leftLength, right, rightStart, rightLength);
+				if (compare != 0)
+					return compare < 0;
+
+				i = leftEnd;
+				j = rightEnd;
+				continue;
+			}
+
+			wchar_t leftChar = towupper(left[i]);
+			wchar_t rightChar = towupper(right[j]);
+			if (leftChar != rightChar)
+				return leftChar < rightChar;
+
+			i++;
+			j++;
+		}
+
+		size_t leftRest = left.size() - i;
+		size_t rightRest = right.size() - j;
+		if (leftRest != rightRest)
+			return leftRest < rightRest;
+
+		// "01" 과 "1" 처럼 같은 값이면 원래 문자열 순서로 고정
+		return left < right;
+	}
+
 	Animator::Animator()
 		: Component(eComponentType::Animator)
 		, mActiveAnimation(nullptr)
@@ -94,15 +157,27 @@ namespace ya
 
 
 		std::filesystem::path fs(path);
-		std::vector<Image*> images = {};
-		for (const auto& p : std::filesystem::recursive_directory_iterator(path))
+
+		// 디렉터리 순서는 이름순이라 _10 이 _2 보다 먼저 나온다.
+		// .bmp 파일 이름만 모아서 숫자 순으로 정렬한 뒤 읽는다.
+		std::vector<std::wstring> fileNames = {};
+		for (const auto& p : std::filesystem::directory_iterator(path))
 		{
-			std::wstring fileName = p.path().filename();
-			std::wstring fullName = path + L"\\" + fileName;
+			if (!p.is_regular_file())
+				continue;
 
 			const std::wstring ext = p.path().extension();
-			if (ext == L".png")
+			if (_wcsicmp(ext.c_str(), L".bmp") != 0)
 				continue;
+
+			fileNames.push_back(p.path().filename());
+		}
+		std::sort(fileNames.begin(), fileNames.end(), AnimatorFrameNameLess);
+
+		std::vector<Image*> images = {};
+		for (const std::wstring& fileName : fileNames)
+		{
+			std::wstring fullName = path + L"\\" + fileName;
 
 			Image* image = Resources::Load<Image>(fileName, fullName);
 			images.push_back(image);
