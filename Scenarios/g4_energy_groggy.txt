@@ -1,0 +1,25 @@
+# Boss (G4): 가만히 서 있으면 에너지볼 3회 -> 그로기. 플레이어는 구체에 맞아 HP가 준다.
+# seed 1에서 첫 패턴이 에너지볼이다 (패턴 선택은 rand()라 seed에 따라 달라진다).
+# boss.state: Intro 0, Idle 1, Punch 2, Sweep 3, EnergyBall 4, Groggy 5, PhaseChange 6, EnergyRain 7, TripleSlam 8, Dead 9
+# 기록(seed 1): 등장 0~157, 대기 158~255, 에너지볼 256~732 (발사 378, 537, 696), 그로기 733~1003
+scene Boss
+seed 1
+frames 760
+
+expect 0   boss.hp == 80
+expect 0   boss.phase == 1
+expect 0   boss.state == 0        # 등장 연출
+expect 170 boss.state == 1        # 등장이 끝나고 대기 (보스 바가 보인다)
+expect 300 boss.state == 4        # 에너지볼: 이마 마석에 2초 충전
+expect 400 boss.volleys == 1      # 큰 조준 구체 1 + 8방향 작은 구체 8
+expect 400 count.enemybullet >= 9
+expect 560 boss.volleys == 2
+expect 720 boss.volleys == 3
+expect 745 boss.state == 5        # 3회 뒤 그로기
+expect 745 boss.groggy == 1
+expect 745 player.hp < 100        # 가만히 서 있으면 구체에 맞는다
+always     boss.hp == 80          # 공격하지 않았으니 보스 HP는 그대로
+always     objects <= 480         # 시작 472개 (탄 24·이펙트 8은 미리 만들어 돌려 쓴다)
+shot 200
+shot 380
+shot 745
