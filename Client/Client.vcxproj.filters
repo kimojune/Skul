@@ -220,6 +220,12 @@
     <ClInclude Include="yaTransform.h">
       <Filter>Engine\Component\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="yaUIDraw.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yaUIDebugOverlay.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
     <ClInclude Include="yaToolScene.h">
       <Filter>Contents\Scene</Filter>
     </ClInclude>
@@ -405,6 +411,12 @@
     </ClCompile>
     <ClCompile Include="yaTransform.cpp">
       <Filter>Engine\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="yaUIDraw.cpp">
+      <Filter>Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="yaUIDebugOverlay.cpp">
+      <Filter>Contents\UI</Filter>
     </ClCompile>
     <ClCompile Include="yaToolScene.cpp">
       <Filter>Contents\Scene</Filter>
