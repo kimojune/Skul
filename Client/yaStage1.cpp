@@ -77,6 +77,9 @@ namespace ya
 	}
 	void Stage1::OnEnter()
 	{
+		// 카메라 경계: 오른쪽 3350은 기존 값, 아래 2250은 바닥 충돌체 아래 끝 (1750 + 500)
+		Camera::SetBounds(0.0f, 0.0f, 3350.0f, 2250.0f);
+
 		const std::wstring& path = { L"..\\Tile\\stage1" };
 		TilePalatte::Load(path);
 		Chapter1->Play(true);
