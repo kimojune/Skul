@@ -22,8 +22,7 @@ namespace ya
 		
 		image->mHdc = CreateCompatibleDC(mainHdc);
 
-		HBITMAP oldBitmap = (HBITMAP)SelectObject(image->mHdc, image->mBitmap);
-		DeleteObject(oldBitmap);
+		image->mOldBitmap = (HBITMAP)SelectObject(image->mHdc, image->mBitmap);
 
 		image->mWidth = widht;
 		image->mHeight = height;
@@ -42,6 +41,7 @@ namespace ya
 	}
 	Image::Image()
 		: mBitmap(NULL)
+		, mOldBitmap(NULL)
 		, mHdc(NULL)
 		, mWidth(0)
 		, mHeight(0)
@@ -52,7 +52,21 @@ namespace ya
 
 	Image::~Image()
 	{
+		// 원래 비트맵을 DC에 되돌려야 우리 비트맵이 선택 해제되어 지울 수 있다.
+		if (mHdc != NULL)
+		{
+			if (mOldBitmap != NULL)
+				SelectObject(mHdc, mOldBitmap);
 
+			DeleteDC(mHdc);
+			mHdc = NULL;
+		}
+
+		if (mBitmap != NULL)
+		{
+			DeleteObject(mBitmap);
+			mBitmap = NULL;
+		}
 	}
 
 	HRESULT Image::Load(const std::wstring& path)
@@ -73,8 +87,7 @@ namespace ya
 		HDC mainDC = application.GetHdc();
 		mHdc = CreateCompatibleDC(mainDC);
 
-		HBITMAP oldBitmap = (HBITMAP)SelectObject(mHdc, mBitmap);
-		DeleteObject(oldBitmap);
+		mOldBitmap = (HBITMAP)SelectObject(mHdc, mBitmap);
 
 		return S_OK;
 	}

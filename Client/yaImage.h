@@ -11,6 +11,10 @@ namespace ya
 		Image();
 		~Image();
 
+		// HDC/HBITMAP 을 소유하므로 복사하면 두 번 해제된다.
+		Image(const Image&) = delete;
+		Image& operator=(const Image&) = delete;
+
 		virtual HRESULT Load(const std::wstring& path) override;
 
 		HDC GetHdc() { return mHdc; }
@@ -23,6 +27,7 @@ namespace ya
 
 	private:
 		HBITMAP mBitmap;
+		HBITMAP mOldBitmap; // mHdc 를 만들 때 원래 선택돼 있던 비트맵. 해제 전에 되돌린다
 		HDC mHdc;
 		UINT mWidth;
 		UINT mHeight;
