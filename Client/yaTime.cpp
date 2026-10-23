@@ -6,6 +6,7 @@ extern ya::Application application;
 namespace ya
 {
 	double Time::mDeltaTime = 0.0l;
+	double Time::mFixedDeltaTime = 0.0;
 	double Time::mSecond = 0.0f;
 	LARGE_INTEGER Time::mCpuFrequency = {};
 	LARGE_INTEGER Time::mPrevFrequency = {};
@@ -27,7 +28,9 @@ namespace ya
 		double differnceFrequency = mCurFrequency.QuadPart - mPrevFrequency.QuadPart;
 
 		mDeltaTime = differnceFrequency / mCpuFrequency.QuadPart;
-		
+		if (mFixedDeltaTime > 0.0)
+			mDeltaTime = mFixedDeltaTime;
+
 		mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
 	}
 

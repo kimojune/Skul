@@ -15,8 +15,34 @@ namespace ya
 		VK_LBUTTON, VK_RBUTTON,
 	};
 
+	// 시나리오 대본에서 쓰는 키 이름 (ASCII 배열과 같은 순서)
+	const char* KeyNames[(UINT)eKeyCode::END] =
+	{
+		"Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
+		"A", "S", "D", "F", "G", "H", "J", "K", "L",
+		"Z", "X", "C", "V", "B", "N", "M",
+
+		"UP", "DOWN", "LEFT", "RIGHT",
+		"LBUTTON", "RBUTTON",
+	};
+
 	std::vector<Input::Key> Input::mKeys;
 	Vector2 Input::mMousePos = Vector2::Zero;
+	bool Input::mScripted = false;
+	bool Input::mScriptedDown[(UINT)eKeyCode::END] = {};
+
+	bool Input::FindKeyCode(const std::string& name, eKeyCode& keyCode)
+	{
+		for (UINT i = 0; i < (UINT)eKeyCode::END; i++)
+		{
+			if (name == KeyNames[i])
+			{
+				keyCode = (eKeyCode)i;
+				return true;
+			}
+		}
+		return false;
+	}
 
 	void Input::Initialize()
 	{
@@ -33,11 +59,12 @@ namespace ya
 
 	void Input::Update()
 	{
-		if (GetFocus())
+		if (mScripted || GetFocus())
 		{
 			for (UINT i = 0; i < (UINT)eKeyCode::END; i++)
 			{
-				if (GetAsyncKeyState(ASCII[i]) & 0x8000)
+				bool down = mScripted ? mScriptedDown[i] : (GetAsyncKeyState(ASCII[i]) & 0x8000) != 0;
+				if (down)
 				{
 					// 이전 프레임에도 눌려 있었다
 					if (mKeys[i].bPressed)

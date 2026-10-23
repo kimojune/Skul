@@ -2,6 +2,7 @@
 //
 
 #include "framework.h"
+#include <shellapi.h>
 #include "Client.h"
 #include "yaApplication.h"
 #include "yaSceneManager.h"
@@ -34,15 +35,34 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-    // --smoke [폴더] : 창을 띄우지 않고 씬을 순서대로 돌린 뒤 종료한다 (빌드 후 자동 검증용)
-    //                   폴더를 주면 씬마다 마지막 화면을 BMP로 저장한다.
-    const wchar_t* smokeArg = wcsstr(lpCmdLine, L"--smoke");
-    if (smokeArg != nullptr)
+    // 자동 검증 실행 (빌드 후 확인용, 창 없이 소리 없이 돈다)
+    //   --smoke [폴더]           : 씬을 순서대로 돌리고, 폴더를 주면 씬마다 마지막 화면을 BMP로 저장
+    //   --scenario <대본> <폴더> : 입력 대본을 재생하며 상태를 기록·검사 (Scenarios/README.md)
+    int argc = 0;
+    LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
+    for (int i = 1; argv != nullptr && i < argc; i++)
     {
-        std::wstring shotDir = smokeArg + wcslen(L"--smoke");
-        shotDir.erase(0, shotDir.find_first_not_of(L" \""));
-        shotDir.erase(shotDir.find_last_not_of(L" \"") + 1);
+        std::wstring arg = argv[i];
+        if (arg == L"--smoke")
+        {
+            std::wstring shotDir = (i + 1 < argc && argv[i + 1][0] != L'-') ? argv[++i] : L"";
+            application.SetSmokeTest(shotDir);
+        }
+        else if (arg == L"--scenario" && i + 2 < argc)
+        {
+            std::wstring path = argv[++i];
+            std::wstring outDir = argv[++i];
+            if (!application.LoadScenario(path, outDir))
+            {
+                LocalFree(argv);
+                return 2;
+            }
+        }
+    }
+    LocalFree(argv);
 
+    if (application.IsHeadless())
+    {
         // 크래시나 assert가 나도 대화상자에서 멈추지 않고 실패 종료 코드로 끝나게 한다.
         SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
         _set_error_mode(_OUT_TO_STDERR);
@@ -50,7 +70,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);
         _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
         _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
-        application.SetSmokeTest(true, shotDir);
     }
     //_CrtSetBreakAlloc(217); // 추가
     // 1. 윈도우의 정보를 담고있는 클래스를 정의(메모리에 등록)해주어야한다.
@@ -164,7 +183,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
       return FALSE;
    }
 
-   if (!application.IsSmokeTest())
+   if (!application.IsHeadless())
    {
        ShowWindow(hWnd, nCmdShow);
        UpdateWindow(hWnd);

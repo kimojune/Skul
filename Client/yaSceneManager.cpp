@@ -66,6 +66,16 @@ namespace ya
 		mActiveScene->Destroy();
 	}
 
+	eSceneType SceneManager::GetActiveSceneType()
+	{
+		for (UINT i = 0; i < mScenes.size(); i++)
+		{
+			if (mScenes[i] == mActiveScene)
+				return (eSceneType)i;
+		}
+		return eSceneType::End;
+	}
+
 	void SceneManager::LoadScene(eSceneType type)
 	{
 		Camera::Clear();

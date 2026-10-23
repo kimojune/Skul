@@ -4,6 +4,8 @@
 
 namespace ya
 {
+	class Scenario;
+
 	class Application
 	{
 	public:
@@ -24,13 +26,15 @@ namespace ya
 		void SetToolHwnd(HWND hwnd) { mToolHwnd = hwnd;}
 		void SetMenuBar(bool power);
 
-		void SetSmokeTest(bool smokeTest, const std::wstring& shotDir) { mSmokeTest = smokeTest; mSmokeShotDir = shotDir; }
-		bool IsSmokeTest() { return mSmokeTest; }
+		// 자동 검증 모드. 둘 다 창을 숨기고 소리를 끈 채 고정 프레임 시간(1/60초)으로 돈다.
+		void SetSmokeTest(const std::wstring& shotDir);
+		bool LoadScenario(const std::wstring& path, const std::wstring& outDir);
+		bool IsHeadless() { return mHeadless; }
+		void SaveScreenshot(const std::wstring& path);
 
 	private:
 		void clear();
 		void updateSmokeTest();
-		void saveScreenshot(const std::wstring& path);
 
 	private:
 		//main
@@ -51,7 +55,9 @@ namespace ya
 
 		Vector2 mPos;
 
-		//자동 검증 (--smoke)
+		//자동 검증 (--smoke, --scenario)
+		bool mHeadless;
+		Scenario* mScenario;
 		bool mSmokeTest;
 		UINT mSmokeStep;
 		double mSmokeTime;

@@ -68,8 +68,15 @@ namespace ya
 
 		static __forceinline Vector2 GetMousePos() { return mMousePos; }
 
+		// 시나리오(자동 검증) 실행 중에는 키보드 대신 대본이 키 상태를 정한다.
+		static void SetScripted(bool scripted) { mScripted = scripted; }
+		static void SetScriptedKey(eKeyCode keyCode, bool down) { mScriptedDown[(UINT)keyCode] = down; }
+		static bool FindKeyCode(const std::string& name, eKeyCode& keyCode);
+
 	private:
 		static std::vector<Key> mKeys;
 		static Vector2 mMousePos;
+		static bool mScripted;
+		static bool mScriptedDown[(UINT)eKeyCode::END];
 	};
 }

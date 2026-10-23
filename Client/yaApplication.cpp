@@ -6,12 +6,15 @@
 #include "yaCamera.h"
 #include "Resource.h"
 #include "yaSoundManager.h"
+#include "yaScenario.h"
 
 namespace ya
 {
 	Application::Application()
 		: mHwnd(NULL)
 		, mHdc(NULL)
+		, mHeadless(false)
+		, mScenario(nullptr)
 		, mSmokeTest(false)
 		, mSmokeStep(0)
 		, mSmokeTime(0.0)
@@ -22,6 +25,23 @@ namespace ya
 	{
 		//SceneManager::Release();
 		//Time::Release();
+		delete mScenario;
+	}
+
+	void Application::SetSmokeTest(const std::wstring& shotDir)
+	{
+		mHeadless = true;
+		mSmokeTest = true;
+		mSmokeShotDir = shotDir;
+		Time::SetFixedDeltaTime(1.0 / 60.0);
+	}
+
+	bool Application::LoadScenario(const std::wstring& path, const std::wstring& outDir)
+	{
+		mHeadless = true;
+		Time::SetFixedDeltaTime(1.0 / 60.0); // 대본의 dt 명령이 있으면 Load에서 덮어쓴다
+		mScenario = new Scenario();
+		return mScenario->Load(path, outDir);
 	}
 
 	void Application::Initialize(HWND hWnd)
@@ -35,8 +55,8 @@ namespace ya
 		RECT rect = { 0, 0, mWidth , mHeight };
 		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
 
-		// 윈도우 크기 변경및 출력 설정 (smoke 검증 중에는 창을 숨긴 채로 둔다)
-		if (!mSmokeTest)
+		// 윈도우 크기 변경및 출력 설정 (자동 검증 중에는 창을 숨긴 채로 둔다)
+		if (!mHeadless)
 		{
 			SetWindowPos(mHwnd
 				, nullptr, 0, 0
@@ -56,22 +76,30 @@ namespace ya
 
 		Time::Initiailize();
 		Input::Initialize();
-		SoundManager::SetMute(mSmokeTest);
+		SoundManager::SetMute(mHeadless);
 		SoundManager::Initialize();
 		SceneManager::Initialize();
 		Camera::Initialize();
 
 		SetMenuBar(false);
+
+		if (mScenario != nullptr)
+			mScenario->Start();
 	}
 
 	void Application::Run()
 	{
+		if (mScenario != nullptr)
+			mScenario->BeginFrame();
+
 		Update();
 		Render();
 		SceneManager::Destroy();
 
 		if (mSmokeTest)
 			updateSmokeTest();
+		if (mScenario != nullptr)
+			mScenario->EndFrame();
 	}
 
 	void Application::Update()
@@ -131,7 +159,7 @@ namespace ya
 		if (!mSmokeShotDir.empty())
 		{
 			std::wstring path = mSmokeShotDir + L"\\" + std::to_wstring(mSmokeStep) + L"_" + steps[mSmokeStep].name + L".bmp";
-			saveScreenshot(path);
+			SaveScreenshot(path);
 		}
 
 		mSmokeTime = 0.0;
@@ -140,7 +168,7 @@ namespace ya
 		else
 			PostQuitMessage(0); // 크래시 없이 끝까지 돌았으면 종료 코드 0
 	}
-	void Application::saveScreenshot(const std::wstring& path)
+	void Application::SaveScreenshot(const std::wstring& path)
 	{
 		// 백버퍼는 DC에 선택된 상태라 직접 읽지 않고 DIB에 복사해서 24비트 BMP로 쓴다.
 		BITMAPINFO info = {};
@@ -183,7 +211,7 @@ namespace ya
 	}
 	void Application::SetMenuBar(bool power)
 	{
-		if (mSmokeTest)
+		if (mHeadless)
 			return;
 
 		SetMenu(mHwnd, mMenubar);
