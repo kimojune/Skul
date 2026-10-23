@@ -2,43 +2,44 @@
 # 예전 동작: 피해를 Hit 상태로 0.3초 지난 뒤에 적용했다. 그 사이 3초 배회 타이머가 상태를 Idle/Move로 덮어쓰면
 #   피해가 사라졌고(mbPlay도 안 풀려 피격 애니메이션이 다시 안 나옴), Hit 중에 또 맞으면 무시됐다.
 #   지금은 맞는 순간 적용하므로 ent.hits(누적 피격)와 ent.hpsum(살아 있는 엔트 HP 합)이 항상 같이 움직인다.
-# 기준 동작(2026-10-23, seed 1): 163, 192, 222, 252, 282, 312프레임에 명중. 312에 HP 0 → 0.35초 뒤(332) 폭발하며 사라짐.
-#   계속 맞는 동안에는 경직 때문에 예고를 시작하지 못한다 (일반 엔트는 슈퍼아머 없음).
+# 픽셀 지면(G1) 이후 Stage2 시작 위치는 바닥보다 142px 높은 난간 위(y 1567)라 바닥의 엔트에 공격이 닿지 않는다.
+#   그래서 먼저 오른쪽으로 걸어 난간에서 내려와 x=900 엔트 쪽(x≈788)에 서서 공격한다.
+#   x=400 엔트는 난간 밑에서 한 번 헛치고(126프레임), 뒤에서 따라와 450프레임에 내려친다. 검사는 그 전까지.
+# 기준 동작(2026-10-23, seed 1, G1 병합 후): 256, 291, 319, 354, 382, 417프레임에 명중.
+#   417에 HP 0 → 0.35초 뒤(437) 폭발하며 사라짐. 계속 맞는 동안에는 경직 때문에 내려치지 못한다.
 scene Stage2
 seed 1
-frames 420
+frames 500
 
-press X 150
-press X 170
-press X 190
-press X 210
-press X 230
-press X 250
-press X 270
-press X 290
-press X 310
-press X 330
-press X 350
-press X 370
-press X 390
+hold  RIGHT 0 250                       # 난간에서 내려와 오른쪽 엔트 쪽으로
+press X 255
+press X 275
+press X 295
+press X 315
+press X 335
+press X 355
+press X 375
+press X 395
+press X 415
 
-expect 170 ent.hits == 1
-expect 170 ent.hpsum == 17
-expect 200 ent.hits == 2
-expect 200 ent.hpsum == 16
-expect 230 ent.hits == 3
-expect 230 ent.hpsum == 15
-expect 260 ent.hits == 4
-expect 260 ent.hpsum == 14
-expect 290 ent.hits == 5
-expect 290 ent.hpsum == 13
-expect 320 ent.hits == 6
-expect 320 ent.hpsum == 12               # 한 마리 HP 6이 모두 깎였다
-expect 320 count.monster == 3            # 쓰러지는 중 (0.35초)
-expect 340 count.monster == 2            # 사라짐
-expect 340 count.effect >= 3             # 폭발 + 먼지 (+ 항상 있는 SkulAttack 판정 1)
-expect 419 count.effect == 1             # 효과는 끝나면 스스로 사라진다
-always     ent.slams == 0
-always     player.hp == 100
-shot 320
-shot 345
+expect 255 ent.slams == 1                # x=400 엔트가 난간 밑에서 헛친 것 (닿지 않음)
+expect 260 ent.hits == 1
+expect 260 ent.hpsum == 17
+expect 295 ent.hits == 2
+expect 295 ent.hpsum == 16
+expect 325 ent.hits == 3
+expect 325 ent.hpsum == 15
+expect 360 ent.hits == 4
+expect 360 ent.hpsum == 14
+expect 390 ent.hits == 5
+expect 390 ent.hpsum == 13
+expect 420 ent.hits == 6
+expect 420 ent.hpsum == 12               # 한 마리 HP 6이 모두 깎였다
+expect 420 count.monster == 3            # 쓰러지는 중 (0.35초)
+expect 440 count.monster == 2            # 사라짐
+expect 440 count.effect >= 3             # 폭발 + 먼지 (+ 항상 있는 SkulAttack 판정 1)
+expect 440 ent.slams == 1                # 맞는 동안 내려치지 못했다
+expect 440 player.hp == 100
+expect 499 count.effect == 1             # 효과는 끝나면 스스로 사라진다
+shot 420
+shot 440

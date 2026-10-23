@@ -2,21 +2,24 @@
 # map.* 변수는 yaGround.cpp가 내보낸다. monsters: 리지드바디가 있는 몬스터 수, monsters_ground: 그중 착지,
 # monsters_touch: 그중 발 바로 아래 줄이 맵의 윗면인 수, m0~m2.x/y: 앞의 몬스터 3마리 위치
 # 생성 위치(y 1700)는 발이 땅 속이라 가장 가까운 윗면으로 올라선다.
-# 엔트 배회는 rand()라 seed에 따라 다르다. seed 2에서는 0번 엔트(생성 x 900)가 360프레임쯤부터 바닥(x≈598)에 서 있다.
+# G3 이후 엔트는 플레이어를 쫓는다. 플레이어가 시작 난간(y 1567)에 있으면 x=400 엔트가 난간 벽 속(바닥 높이)으로
+# 걸어 들어가 발이 윗면에 닿지 않으므로, 플레이어를 바닥으로 내려보내 엔트들이 바닥에서 쫓아오게 한다.
+# 기준 동작(2026-10-23, seed 1, G1 병합 후): 228프레임부터 세 마리 모두 윗면에 닿아 있고, 0번 엔트는 420프레임에 x 605, y 1678
 scene Stage2
-seed 2
+seed 1
 frames 450
 
+hold RIGHT 0 165                        # 플레이어가 난간에서 걸어 내려와 바닥(x≈505)에 선다
 shot 60
 shot 420
 
 expect 0   map.monsters == 3
 expect 0   map.monsters_ground == 3
 expect 0   map.monsters_touch == 3
-expect 170 map.monsters_ground == 3     # 3초 동안 가만히 서 있음
-expect 170 map.monsters_touch == 3
+expect 230 map.monsters_touch == 3      # 쫓아온 세 마리 모두 보이는 바닥 위에 섰다
 expect 420 map.m0.x >= 590
 expect 420 map.m0.x <= 610
 expect 420 map.m0.y == 1678             # 발 1732 = 바닥 풀 윗면
 always     map.monsters == 3
+always     map.monsters_ground == 3     # 쫓아다니는 동안에도 공중에 뜨지 않는다
 always     count.monster == 3
