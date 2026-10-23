@@ -5,9 +5,10 @@ namespace ya
 {
 	class Image;
 
-	// 화면 좌표로 그리는 GDI 도우미. 카메라 위치를 쓰지 않으므로 HUD처럼 화면에 고정된 것을 그릴 때 쓴다.
+	// 화면 좌표로 그리는 UI 도우미. 카메라 위치를 쓰지 않으므로 HUD처럼 화면에 고정된 것을 그릴 때 쓴다.
 	// (월드에 있는 것은 Camera::CaluatePos로 바꾼 뒤 그린다)
-	// 그린 뒤에는 DC의 폰트·글자색·배경 모드·정렬을 원래대로 돌려놓는다.
+	// 실제 그리기는 Renderer가 한다. hdc는 예전 GDI 시절 호출과 맞추려고 남겨 둔 인자이고 쓰지 않는다.
+	// GDI 백엔드는 그린 뒤 백버퍼 DC의 폰트·글자색·배경 모드·정렬을 원래대로 돌려놓는다.
 	//
 	// HUD 사용 예 (UI 레이어 오브젝트의 Render(HDC hdc) 안에서. 숫자는 예시):
 	//   HP 바       UIDraw::DrawBar(hdc, 90, 830, 240, 18, hp / maxHp, hpBar, shownHp / maxHp); // shownHp: 천천히 따라오는 값
@@ -72,12 +73,6 @@ namespace ya
 		static void Release();
 
 	private:
-		static HFONT getFont(const TextStyle& style);
 		static void fillRect(HDC hdc, int x, int y, int width, int height, COLORREF color);
-
-		static std::map<std::wstring, HFONT> mFonts;
-		static HDC mShadeHdc;
-		static HBITMAP mShadeBitmap;
-		static HBITMAP mShadeOldBitmap;
 	};
 }

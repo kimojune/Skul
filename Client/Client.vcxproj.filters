@@ -98,6 +98,9 @@
     <Filter Include="Engine\Component\Common">
       <UniqueIdentifier>{d42a1fa5-9531-4c3c-a86f-c83344ca355f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Renderer">
+      <UniqueIdentifier>{6f1c2b7e-3d4a-4e8b-9c51-2a7d8e0f4b13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -225,6 +228,15 @@
     </ClInclude>
     <ClInclude Include="yaUIDebugOverlay.h">
       <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRenderer.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRendererBackend.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRendererGDI.h">
+      <Filter>Engine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="yaToolScene.h">
       <Filter>Contents\Scene</Filter>
@@ -417,6 +429,12 @@
     </ClCompile>
     <ClCompile Include="yaUIDebugOverlay.cpp">
       <Filter>Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRenderer.cpp">
+      <Filter>Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRendererGDI.cpp">
+      <Filter>Engine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="yaToolScene.cpp">
       <Filter>Contents\Scene</Filter>

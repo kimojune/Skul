@@ -1,14 +1,10 @@
 ﻿#include "yaUIDraw.h"
 #include "yaImage.h"
+#include "yaRenderer.h"
 
 namespace ya
 {
-	std::map<std::wstring, HFONT> UIDraw::mFonts;
-	HDC UIDraw::mShadeHdc = nullptr;
-	HBITMAP UIDraw::mShadeBitmap = nullptr;
-	HBITMAP UIDraw::mShadeOldBitmap = nullptr;
-
-	// Application 소멸자를 거치지 않고도 종료 때 폰트를 지우기 위한 전역 객체 (mFonts보다 먼저 소멸)
+	// 종료 때 Renderer가 캐시한 폰트를 지우기 위한 전역 객체
 	struct UIDrawReleaseAtExit
 	{
 		~UIDrawReleaseAtExit() { UIDraw::Release(); }
@@ -25,53 +21,34 @@ namespace ya
 		return value;
 	}
 
-	// 글자를 그리는 동안 DC의 폰트·배경 모드·글자색·정렬을 바꿨다가 돌려놓는다
-	struct UIDrawTextScope
+	static RenderFont UIDrawFont(const UIDraw::TextStyle& style)
 	{
-		UIDrawTextScope(HDC hdc, HFONT font, UINT align)
-			: mHdc(hdc)
-		{
-			mOldFont = (HFONT)SelectObject(hdc, font);
-			mOldMode = SetBkMode(hdc, TRANSPARENT);
-			mOldColor = GetTextColor(hdc);
-			mOldAlign = SetTextAlign(hdc, align);
-		}
-		~UIDrawTextScope()
-		{
-			SetTextAlign(mHdc, mOldAlign);
-			SetTextColor(mHdc, mOldColor);
-			SetBkMode(mHdc, mOldMode);
-			SelectObject(mHdc, mOldFont);
-		}
+		RenderFont font;
+		font.face = style.face;
+		font.size = style.size;
+		font.bold = style.bold;
+		return font;
+	}
 
-		HDC mHdc;
-		HFONT mOldFont;
-		int mOldMode;
-		COLORREF mOldColor;
-		UINT mOldAlign;
-	};
+	static eTextAlign UIDrawAlign(UIDraw::eAlign align)
+	{
+		if (align == UIDraw::eAlign::Center)
+			return eTextAlign::Center;
+		if (align == UIDraw::eAlign::Right)
+			return eTextAlign::Right;
+		return eTextAlign::Left;
+	}
 
 	void UIDraw::DrawLabel(HDC hdc, int x, int y, const std::wstring& text, const TextStyle& style)
 	{
 		if (text.empty())
 			return;
 
-		UINT align = TA_TOP | TA_NOUPDATECP;
-		if (style.align == eAlign::Center)
-			align |= TA_CENTER;
-		else if (style.align == eAlign::Right)
-			align |= TA_RIGHT;
-		else
-			align |= TA_LEFT;
-
-		UIDrawTextScope scope(hdc, getFont(style), align);
+		RenderFont font = UIDrawFont(style);
+		eTextAlign align = UIDrawAlign(style.align);
 		if (style.shadow)
-		{
-			SetTextColor(hdc, RGB(0, 0, 0));
-			TextOutW(hdc, x + 1, y + 1, text.c_str(), (int)text.size());
-		}
-		SetTextColor(hdc, style.color);
-		TextOutW(hdc, x, y, text.c_str(), (int)text.size());
+			Renderer::DrawString(text, x + 1, y + 1, font, RGB(0, 0, 0), align);
+		Renderer::DrawString(text, x, y, font, style.color, align);
 	}
 
 	void UIDraw::DrawLabelBox(HDC hdc, int x, int y, int width, int height, const std::wstring& text, const TextStyle& style)
@@ -79,32 +56,16 @@ namespace ya
 		if (text.empty())
 			return;
 
-		UINT format = DT_SINGLELINE | DT_VCENTER | DT_NOPREFIX | DT_NOCLIP;
-		if (style.align == eAlign::Center)
-			format |= DT_CENTER;
-		else if (style.align == eAlign::Right)
-			format |= DT_RIGHT;
-		else
-			format |= DT_LEFT;
-
-		UIDrawTextScope scope(hdc, getFont(style), TA_LEFT | TA_TOP | TA_NOUPDATECP);
+		RenderFont font = UIDrawFont(style);
+		eTextAlign align = UIDrawAlign(style.align);
 		if (style.shadow)
-		{
-			RECT shadowRect = { x + 1, y + 1, x + width + 1, y + height + 1 };
-			SetTextColor(hdc, RGB(0, 0, 0));
-			DrawTextW(hdc, text.c_str(), (int)text.size(), &shadowRect, format);
-		}
-		RECT rect = { x, y, x + width, y + height };
-		SetTextColor(hdc, style.color);
-		DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, format);
+			Renderer::DrawStringBox(text, x + 1, y + 1, width, height, font, RGB(0, 0, 0), align);
+		Renderer::DrawStringBox(text, x, y, width, height, font, style.color, align);
 	}
 
 	SIZE UIDraw::MeasureLabel(HDC hdc, const std::wstring& text, const TextStyle& style)
 	{
-		SIZE size = {};
-		UIDrawTextScope scope(hdc, getFont(style), TA_LEFT | TA_TOP | TA_NOUPDATECP);
-		GetTextExtentPoint32W(hdc, text.c_str(), (int)text.size(), &size);
-		return size;
+		return Renderer::MeasureString(text, UIDrawFont(style));
 	}
 
 	void UIDraw::DrawBar(HDC hdc, int x, int y, int width, int height, float ratio, const BarStyle& style, float trailRatio)
@@ -144,25 +105,8 @@ namespace ya
 	{
 		if (width <= 0 || height <= 0 || alpha == 0)
 			return;
-		if (alpha == 255)
-		{
-			fillRect(hdc, x, y, width, height, color);
-			return;
-		}
 
-		// 1x1 비트맵 한 점을 색으로 칠하고 AlphaBlend로 늘려 그린다
-		if (mShadeHdc == nullptr)
-		{
-			mShadeHdc = CreateCompatibleDC(hdc);
-			mShadeBitmap = CreateCompatibleBitmap(hdc, 1, 1);
-			mShadeOldBitmap = (HBITMAP)SelectObject(mShadeHdc, mShadeBitmap);
-		}
-		::SetPixel(mShadeHdc, 0, 0, color);
-
-		BLENDFUNCTION blend = {};
-		blend.BlendOp = AC_SRC_OVER;
-		blend.SourceConstantAlpha = alpha;
-		AlphaBlend(hdc, x, y, width, height, mShadeHdc, 0, 0, 1, 1, blend);
+		Renderer::FillRect(x, y, width, height, color, alpha);
 	}
 
 	void UIDraw::DrawImage(HDC hdc, Image* image, int x, int y, float scale)
@@ -181,9 +125,7 @@ namespace ya
 		if (image == nullptr || width <= 0 || height <= 0 || srcWidth <= 0 || srcHeight <= 0)
 			return;
 
-		TransparentBlt(hdc, x, y, width, height
-			, image->GetHdc(), srcX, srcY, srcWidth, srcHeight
-			, RGB(255, 0, 255));
+		Renderer::DrawImage(image, x, y, width, height, srcX, srcY, srcWidth, srcHeight);
 	}
 
 	void UIDraw::DrawCooldown(HDC hdc, int x, int y, int width, int height, float remainRatio, float remainSeconds)
@@ -213,37 +155,7 @@ namespace ya
 
 	void UIDraw::Release()
 	{
-		for (auto& font : mFonts)
-			DeleteObject(font.second);
-		mFonts.clear();
-
-		if (mShadeHdc != nullptr)
-		{
-			SelectObject(mShadeHdc, mShadeOldBitmap);
-			DeleteObject(mShadeBitmap);
-			DeleteDC(mShadeHdc);
-			mShadeHdc = nullptr;
-			mShadeBitmap = nullptr;
-			mShadeOldBitmap = nullptr;
-		}
-	}
-
-	HFONT UIDraw::getFont(const TextStyle& style)
-	{
-		std::wstring key = std::wstring(style.face) + L"|" + std::to_wstring(style.size) + (style.bold ? L"|b" : L"");
-		auto iter = mFonts.find(key);
-		if (iter != mFonts.end())
-			return iter->second;
-
-		// 높이를 음수로 주면 셀 높이가 아니라 글자 높이 기준이 된다
-		HFONT font = CreateFontW(-style.size, 0, 0, 0, style.bold ? FW_BOLD : FW_NORMAL
-			, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS
-			, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, style.face);
-		if (font == nullptr)
-			return (HFONT)GetStockObject(DEFAULT_GUI_FONT);
-
-		mFonts.insert(std::make_pair(key, font));
-		return font;
+		Renderer::ReleaseCache();
 	}
 
 	void UIDraw::fillRect(HDC hdc, int x, int y, int width, int height, COLORREF color)
@@ -251,9 +163,6 @@ namespace ya
 		if (width <= 0 || height <= 0)
 			return;
 
-		RECT rect = { x, y, x + width, y + height };
-		HBRUSH brush = CreateSolidBrush(color);
-		FillRect(hdc, &rect, brush);
-		DeleteObject(brush);
+		Renderer::FillRect(x, y, width, height, color);
 	}
 }

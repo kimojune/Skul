@@ -5,6 +5,7 @@
 #include "yaTransform.h"
 #include "yaGameObject.h"
 #include "yaCamera.h"
+#include "yaRenderer.h"
 
 namespace ya
 {
@@ -62,29 +63,13 @@ namespace ya
         pos.x -= mSpriteSheet[mSpriteIndex].size.x / 2.0f;
         pos.y -= mSpriteSheet[mSpriteIndex].size.y;
 
-        TransparentBlt(hdc, pos.x, pos.y
-            , mSpriteSheet[mSpriteIndex].size.x * scale.x
-            , mSpriteSheet[mSpriteIndex].size.y * scale.y
-            , mSheetImage->GetHdc()
-            , mSpriteSheet[mSpriteIndex].leftTop.x, mSpriteSheet[mSpriteIndex].leftTop.y
-            , mSpriteSheet[mSpriteIndex].size.x, mSpriteSheet[mSpriteIndex].size.y,
-            RGB(255, 0, 255));
-
-        // 연산량이 많다.
-    //BLENDFUNCTION func = {};
-    //func.BlendOp = AC_SRC_OVER;
-    //func.BlendFlags = 0;
-    //func.AlphaFormat = AC_SRC_ALPHA;
-    //func.SourceConstantAlpha = 255; // 0(투명) ~ 255(불투명) 알파값
-
-    //AlphaBlend(hdc, pos.x, pos.y
-    //    , mSpriteSheet[mSpriteIndex].size.x * scale.x
-    //    , mSpriteSheet[mSpriteIndex].size.y * scale.y
-    //    , mSheetImage->GetHdc()
-    //    , mSpriteSheet[mSpriteIndex].leftTop.x, mSpriteSheet[mSpriteIndex].leftTop.y
-    //    , mSpriteSheet[mSpriteIndex].size.x, mSpriteSheet[mSpriteIndex].size.y
-    //    , func);
-
+        // 좌표와 크기는 GDI 때와 같이 소수점 아래를 버린 정수 픽셀로 넘긴다
+        const Sprite& sprite = mSpriteSheet[mSpriteIndex];
+        Renderer::DrawImage(mSheetImage
+            , (int)pos.x, (int)pos.y
+            , (int)(sprite.size.x * scale.x), (int)(sprite.size.y * scale.y)
+            , (int)sprite.leftTop.x, (int)sprite.leftTop.y
+            , (int)sprite.size.x, (int)sprite.size.y);
     }
 
     void Animation::Create(Image* sheet, Vector2 leftTop

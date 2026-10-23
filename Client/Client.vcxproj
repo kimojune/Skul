@@ -200,6 +200,9 @@
     <ClInclude Include="yaTransform.h" />
     <ClInclude Include="yaUIDebugOverlay.h" />
     <ClInclude Include="yaUIDraw.h" />
+    <ClInclude Include="yaRenderer.h" />
+    <ClInclude Include="yaRendererBackend.h" />
+    <ClInclude Include="yaRendererGDI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaBackCastle.cpp" />
@@ -262,6 +265,8 @@
     <ClCompile Include="yaTransform.cpp" />
     <ClCompile Include="yaUIDebugOverlay.cpp" />
     <ClCompile Include="yaUIDraw.cpp" />
+    <ClCompile Include="yaRenderer.cpp" />
+    <ClCompile Include="yaRendererGDI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />
