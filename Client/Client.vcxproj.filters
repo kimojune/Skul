@@ -187,6 +187,9 @@
     <ClInclude Include="yaCollisionManager.h">
       <Filter>Engine\Component\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="yaCollisionMap.h">
+      <Filter>Engine\Component\Collider</Filter>
+    </ClInclude>
     <ClInclude Include="yaPlayBG.h">
       <Filter>Contents\BG</Filter>
     </ClInclude>
@@ -386,6 +389,9 @@
       <Filter>Engine\Component\Collider</Filter>
     </ClCompile>
     <ClCompile Include="yaCollisionManager.cpp">
+      <Filter>Engine\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCollisionMap.cpp">
       <Filter>Engine\Component\Collider</Filter>
     </ClCompile>
     <ClCompile Include="yaPlayBG.cpp">
