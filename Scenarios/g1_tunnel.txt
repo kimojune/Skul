@@ -1,0 +1,23 @@
+# G1 픽셀 지면: 최대 낙하 속도(1000px/s, 프레임당 16.7px)로 발판에 떨어져도 뚫지 않고 착지한다.
+# Rigidbody가 이번 스텝에 발이 지나간 줄을 모두 훑어 처음 닿는 윗면에 세운다. (예전 Platform은 Stay 콜백에서만 착지시켰다)
+# 보스 스테이지 발판(x 1350~1570, 윗면 1600). 타일 그림이 없어 Platform 사각형 전체가 발판이다.
+# 주의: 공중에서 C를 다시 누르면 또 점프하는 지금 동작으로 높이 올라간다. 점프 횟수를 제한하면 높이가 모자라 최대 속도에 못 미친다.
+# 기준 동작(2026-10-23): 318프레임 최고점(y 829), 394~400프레임 vy 1000, 401프레임 발판 착지(y 1577)
+scene Boss
+frames 420
+
+hold  RIGHT 60 125                  # 발판 아래로 (x≈1413)
+press C 140                         # 발판을 아래에서 통과해 올라감
+press C 185                         # 공중 점프 3번 더
+press C 230
+press C 275
+shot 419
+
+expect 320 player.y <= 860          # 발판보다 700px 이상 위
+expect 400 player.vy >= 999.5       # 최대 낙하 속도로 떨어지는 중
+expect 401 player.ground == 1
+expect 401 player.y == 1577         # 발(위치 + 23) 1600 = 발판 윗면
+expect 401 map.player_under == 2    # 발판
+expect 419 player.y == 1577
+always     player.vy <= 1000.5
+always     player.y <= 1709.5

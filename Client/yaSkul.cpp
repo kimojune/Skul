@@ -115,8 +115,9 @@ namespace ya
 		mAnimator->GetEndEvent(L"RightJumpAttack") = std::bind(&Skul::EndJumpAttack, this);
 
 
+		// 콜라이더 아래 변 = 발. 기본 스컬 Idle 스프라이트의 보이는 맨 아래 줄 바로 밑 (위치.y + 23)
 		Collider* collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(-20.0f, -25.0f));
+		collider->SetCenter(Vector2(-20.0f, -27.0f));
 		collider->SetSize(Vector2(50.0f, 50.0f));
 
 		mRigidbody = AddComponent<Rigidbody>();

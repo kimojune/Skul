@@ -1,6 +1,8 @@
 ﻿#include "yaTilePalatte.h"
 #include "yaResources.h"
 #include "yaInput.h"
+#include "yaCollisionMap.h"
+#include "yaSceneManager.h"
 #include <commdlg.h>
 
 namespace ya
@@ -170,6 +172,8 @@ namespace ya
 		}
 
 		fclose(file);
+
+		CollisionMap::MarkDirty(SceneManager::GetActiveScene());
 	}
 
 	void TilePalatte::Load(const std::wstring& path)
@@ -185,6 +189,7 @@ namespace ya
 
 		FILE* file = nullptr;
 		_wfopen_s(&file, lpwstr, L"rb");
+		delete[] lpwstr;
 
 		if (file == nullptr)
 			return;
@@ -199,17 +204,15 @@ namespace ya
 
 			if (fread(&id.id, sizeof(TileID), 1, file) == NULL)
 				break;
-			
-			CreateTile(index, Vector2(id.x, id.y));
-			
-		
-			//mPixel = Image::Create(L"Pixels", id.x, id.y,RGB(255,0,255));
 
+			CreateTile(index, Vector2(id.x, id.y));
 		}
-				
+
 		fclose(file);
 
-		delete[] lpwstr;
+		// 타일이 바뀌었으니 지금 씬의 픽셀 충돌 맵을 다시 만든다 (보이는 타일 픽셀 = 땅).
+		// 실제로 만드는 것은 처음 쓸 때 한 번 (Stage2처럼 파일을 둘 불러와도 한 번만 만든다)
+		CollisionMap::MarkDirty(SceneManager::GetActiveScene());
 	}
 
 

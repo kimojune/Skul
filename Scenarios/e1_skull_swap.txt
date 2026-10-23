@@ -19,7 +19,7 @@ expect 119 player.x <= 1            # Nohead는 제자리
 expect 125 player.x >= 200          # 머리 위치로 이동 (수정 전 1000: 머리가 몬스터를 뚫고 계속 날았다)
 expect 125 count.bullet == 0        # 머리는 다시 Pause
 expect 299 player.ground == 1
-expect 299 player.y >= 1720
+expect 299 player.y >= 1630        # 머리 위치(x≈1060)에서 떨어져 높은 땅(보이는 윗면 1660, y 1637)에 착지
 expect 299 player.state == 0        # SkillS가 끝나고 Idle
 expect 299 count.monster == 3       # Pause된 머리가 몬스터를 계속 때리지 않음 (수정 전: 프레임 268에 1마리 죽음)
 always     player.found == 1

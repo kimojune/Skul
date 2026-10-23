@@ -1,0 +1,22 @@
+# G1 픽셀 지면: 엔트가 보이는 땅 위에 선다 (발 = 콜라이더 아래 변 = 위치.y + 54)
+# map.* 변수는 yaGround.cpp가 내보낸다. monsters: 리지드바디가 있는 몬스터 수, monsters_ground: 그중 착지,
+# monsters_touch: 그중 발 바로 아래 줄이 맵의 윗면인 수, m0~m2.x/y: 앞의 몬스터 3마리 위치
+# 생성 위치(y 1700)는 발이 땅 속이라 가장 가까운 윗면으로 올라선다.
+# 엔트 배회는 rand()라 seed에 따라 다르다. seed 2에서는 0번 엔트(생성 x 900)가 360프레임쯤부터 바닥(x≈598)에 서 있다.
+scene Stage2
+seed 2
+frames 450
+
+shot 60
+shot 420
+
+expect 0   map.monsters == 3
+expect 0   map.monsters_ground == 3
+expect 0   map.monsters_touch == 3
+expect 170 map.monsters_ground == 3     # 3초 동안 가만히 서 있음
+expect 170 map.monsters_touch == 3
+expect 420 map.m0.x >= 590
+expect 420 map.m0.x <= 610
+expect 420 map.m0.y == 1678             # 발 1732 = 바닥 풀 윗면
+always     map.monsters == 3
+always     count.monster == 3

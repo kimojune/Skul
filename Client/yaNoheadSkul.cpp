@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 
 #include "yaNoheadSkul.h"
@@ -13,6 +13,7 @@
 #include "yaRigidbody.h"
 #include "yaPlayerStats.h"
 #include "yaSound.h"
+#include "yaCollider.h"
 
 namespace ya
 {
@@ -51,6 +52,9 @@ namespace ya
 
 
 		Skul::Initialize();
+
+		// 머리 없는 스컬은 스프라이트가 더 높게 그려져 발이 위치.y + 16 이다
+		GetComponent<Collider>()->SetCenter(Vector2(-20.0f, -34.0f));
 	}
 	void Nohead::Update()
 	{
