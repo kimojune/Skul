@@ -53,18 +53,15 @@ namespace ya
 			mVelocity += mGravity * Time::DeltaTime();
 		}
 
-		// 중력가속도 최대 속도 제한
-		Vector2 gravity = mGravity;
-		gravity.Normalize();
-		float dot = math::Dot(mVelocity, gravity);
-		gravity = gravity * dot;
+		// 최대 속도 제한: 속도를 중력 방향 성분과 옆 성분으로 나눠서 각각 제한한다
+		Vector2 gravityDir = mGravity;
+		gravityDir.Normalize();
+		float fallSpeed = math::Dot(mVelocity, gravityDir);
+		Vector2 sideVelocity = mVelocity - gravityDir * fallSpeed;
 
-		Vector2 sideVelocity = mVelocity - gravity;
-		if (mLimitedVelocity.y < gravity.Length())
-		{
-			gravity.Normalize();
-			gravity *= mLimitedVelocity.y;
-		}
+		// 중력 방향은 떨어지는 속도만 제한한다 (점프로 올라가는 속도는 그대로)
+		if (mLimitedVelocity.y < fallSpeed)
+			fallSpeed = mLimitedVelocity.y;
 
 		if (mLimitedVelocity.x < sideVelocity.Length())
 		{
@@ -72,24 +69,25 @@ namespace ya
 			sideVelocity *= mLimitedVelocity.x;
 		}
 
-		// 마찰력 조건 ( 적용된 힘이 없고, 속도가 0이 아님)
-		if (!(mVelocity.x == Vector2::Zero.x))
+		// 마찰력은 옆 성분에만 적용한다 (낙하·점프 속도는 줄이지 않는다)
+		float sideSpeed = sideVelocity.Length();
+		if (sideSpeed > 0.0f)
 		{
-			//속도에 반대방향으로 마찰력이 적용된다.
-			Vector2 friction = -mVelocity;
-			friction = friction.Normalize() * mFriction * mMass * Time::DeltaTime();
+			float friction = mFriction * mMass * (float)Time::DeltaTime();
 
-			//마찰력으로 인한 속도 감소는 현재 속도보다 큰 경우
-
-			if (mVelocity.Length() < friction.Length())
+			// 마찰력으로 인한 속도 감소가 현재 속도보다 크면 멈춘다
+			if (sideSpeed <= friction)
 			{
-				mVelocity = Vector2::Zero;
+				sideVelocity = Vector2::Zero;
 			}
 			else
 			{
-				mVelocity += friction;
+				sideVelocity.Normalize();
+				sideVelocity *= sideSpeed - friction;
 			}
 		}
+
+		mVelocity = gravityDir * fallSpeed + sideVelocity;
 
 		// 속도에 맞게끔 물체를 이동시킨다.
 		Transform* tr = GetOwner()->GetComponent<Transform>();
