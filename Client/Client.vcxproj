@@ -138,6 +138,7 @@
     <ClInclude Include="yaBossBullet.h" />
     <ClInclude Include="yaBossEffect.h" />
     <ClInclude Include="yaBossGate.h" />
+    <ClInclude Include="yaBossHpBar.h" />
     <ClInclude Include="yaBossStage.h" />
     <ClInclude Include="yaBoss_Body.h" />
     <ClInclude Include="yaBoss_Chin.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="yaBossBullet.cpp" />
     <ClCompile Include="yaBossEffect.cpp" />
     <ClCompile Include="yaBossGate.cpp" />
+    <ClCompile Include="yaBossHpBar.cpp" />
     <ClCompile Include="yaBossStage.cpp" />
     <ClCompile Include="yaBoss_Body.cpp" />
     <ClCompile Include="yaBoss_Chin.cpp" />

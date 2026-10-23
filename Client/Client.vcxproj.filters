@@ -307,6 +307,9 @@
     <ClInclude Include="yaBossEffect.h">
       <Filter>Contents\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="yaBossHpBar.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -507,6 +510,9 @@
     </ClCompile>
     <ClCompile Include="yaBossEffect.cpp">
       <Filter>Contents\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBossHpBar.cpp">
+      <Filter>Contents\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@
 #include "yaBoss_Chin.h"
 #include "yaBossBullet.h"
 #include "yaBossEffect.h"
+#include "yaBossHpBar.h"
 #include "yaTime.h"
 #include "yaSkul.h"			// yaPlayeScene.h가 Skul을 쓰므로 먼저 (unity 빌드에서 순서가 섞인다)
 #include "yaPlayeScene.h"
@@ -153,6 +154,9 @@ namespace ya
 			mBullets[i] = object::Instantiate<BossBullet>(bosspos, eLayerType::EnemyBullet);
 		for (int i = 0; i < EffectCount; i++)
 			mEffects[i] = object::Instantiate<BossEffect>(bosspos, eLayerType::Effect);
+
+		mHpBar = object::Instantiate<BossHpBar>(eLayerType::UI);
+		mHpBar->SetBoss(this);
 
 		mAppearance = Resources::Load<Sound>(L"ElderEnt_Appearance", L"..\\Resources\\Sound\\Boss\\ElderEnt_Appearance.wav");
 		mRoar = Resources::Load<Sound>(L"ElderEnt_Roar", L"..\\Resources\\Sound\\Boss\\ElderEnt_Roar.wav");
