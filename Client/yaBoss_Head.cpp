@@ -44,8 +44,10 @@ namespace ya
 		mAnimator->CreateAnimation(L"BossHead_3", image[2], Vector2(0, 0), 0, 1, 1, 1, Vector2(-85.0f, -50.0f), 0.1f);
 		mAnimator->Play(L"BossHead_1", false);
 
+		// 맞는 범위 아래 끝은 y 1585. 픽셀 지면(서 있는 발 y 1709)에서 땅 공격 판정 윗변이 1599라
+		// 300 높이(아래 끝 1600)면 머리 밑에 서서 땅 공격만으로 1픽셀 겹쳐 맞았다. 머리는 점프·뿌리 발판으로 때린다
 		Collider* collider = AddComponent<Collider>();
-		collider->SetSize(Vector2(300.0f, 300.0f));
+		collider->SetSize(Vector2(300.0f, 285.0f));
 		collider->SetCenter(Vector2(-25.0f, -100.0f));
 
 		GameObject::Initialize();
