@@ -121,7 +121,7 @@ namespace ya
 	void Sound::SetVolume(float volume)
 	{
 		mVolume = GetDecibel(volume);
-		mSoundBuffer->SetVolume(mVolume);
+		mSoundBuffer->SetVolume(SoundManager::IsMute() ? DSBVOLUME_MIN : mVolume);
 	}
 	int Sound::GetDecibel(float volume)
 	{

@@ -24,8 +24,13 @@ namespace ya
 		void SetToolHwnd(HWND hwnd) { mToolHwnd = hwnd;}
 		void SetMenuBar(bool power);
 
+		void SetSmokeTest(bool smokeTest, const std::wstring& shotDir) { mSmokeTest = smokeTest; mSmokeShotDir = shotDir; }
+		bool IsSmokeTest() { return mSmokeTest; }
+
 	private:
 		void clear();
+		void updateSmokeTest();
+		void saveScreenshot(const std::wstring& path);
 
 	private:
 		//main
@@ -45,5 +50,11 @@ namespace ya
 		UINT mHeight;
 
 		Vector2 mPos;
+
+		//자동 검증 (--smoke)
+		bool mSmokeTest;
+		UINT mSmokeStep;
+		double mSmokeTime;
+		std::wstring mSmokeShotDir;
 	};
 }

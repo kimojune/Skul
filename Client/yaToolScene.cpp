@@ -33,7 +33,12 @@ namespace ya
         Vector2  temp = Input::GetMousePos();
 
 
-        if (Input::GetKey(eKeyCode::LBUTTON))
+        // 창 밖 클릭 무시. CreateTile은 씬의 타일 로드에도 쓰이므로 검사는 여기서만 한다.
+        Vector2 mousePos = Input::GetMousePos();
+        bool mouseInWindow = mousePos.x > 0.0f && mousePos.x < 1600.0f
+            && mousePos.y > 0.0f && mousePos.y < 900.0f;
+
+        if (mouseInWindow && Input::GetKey(eKeyCode::LBUTTON))
         {
             Vector2 pos = Input::GetMousePos();
             pos -= Camera::CaluatePos(Vector2::Zero);
@@ -102,9 +107,12 @@ namespace ya
     }
     void ToolScene::OnEnter()
     {
+        // 아틀라스 창은 타일 편집 중에만 보여준다.
+        ShowWindow(application.GetToolHwnd(), SW_SHOWNOACTIVATE);
     }
     void ToolScene::OnExit()
     {
+        ShowWindow(application.GetToolHwnd(), SW_HIDE);
     }
 }
 
@@ -125,7 +133,6 @@ LRESULT CALLBACK AtlasWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
             , rect.right - rect.left
             , rect.bottom - rect.top
             , 0);
-        ShowWindow(hWnd, true);
     }
 
     case WM_LBUTTONDOWN:

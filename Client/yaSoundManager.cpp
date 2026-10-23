@@ -6,6 +6,7 @@ extern ya::Application application;
 namespace ya
 {
 	LPDIRECTSOUND8 SoundManager::mSoundDevice;
+	bool SoundManager::mMute = false;
 
 	bool SoundManager::Initialize()
 	{

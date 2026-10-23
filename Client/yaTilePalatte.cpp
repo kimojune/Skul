@@ -25,12 +25,6 @@ namespace ya
 	}
 	void TilePalatte::CreateTile(int index, Vector2 pos)
 	{
-		Vector2 mousPos = Input::GetMousePos();
-		if (mousPos.x >= 1600.0f || mousPos.x <= 0.0f)
-			return;
-		if (mousPos.y >= 900.0f || mousPos.y <= 0.0f)
-			return;
-
 		TileID id;
 		id.x = (UINT32)pos.x;
 		id.y = (UINT32)pos.y;

@@ -32,8 +32,26 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+    // --smoke [폴더] : 창을 띄우지 않고 씬을 순서대로 돌린 뒤 종료한다 (빌드 후 자동 검증용)
+    //                   폴더를 주면 씬마다 마지막 화면을 BMP로 저장한다.
+    const wchar_t* smokeArg = wcsstr(lpCmdLine, L"--smoke");
+    if (smokeArg != nullptr)
+    {
+        std::wstring shotDir = smokeArg + wcslen(L"--smoke");
+        shotDir.erase(0, shotDir.find_first_not_of(L" \""));
+        shotDir.erase(shotDir.find_last_not_of(L" \"") + 1);
+
+        // 크래시나 assert가 나도 대화상자에서 멈추지 않고 실패 종료 코드로 끝나게 한다.
+        SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
+        _set_error_mode(_OUT_TO_STDERR);
+        _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
+        _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);
+        _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
+        _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
+        application.SetSmokeTest(true, shotDir);
+    }
     //_CrtSetBreakAlloc(217); // 추가
     // 1. 윈도우의 정보를 담고있는 클래스를 정의(메모리에 등록)해주어야한다.
     // 2. CreateWindow함수를 통해서 메모리상에 윈도우를 할당해준다.
@@ -146,11 +164,13 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
       return FALSE;
    }
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+   if (!application.IsSmokeTest())
+   {
+       ShowWindow(hWnd, nCmdShow);
+       UpdateWindow(hWnd);
+   }
 
-   ShowWindow(hWnd2, nCmdShow);
-   UpdateWindow(hWnd2);
+   // 아틀라스(hWnd2) 창은 ToolScene에 들어갈 때만 보여준다.
 
    application.Initialize(hWnd);
    application.SetToolHwnd(hWnd2);
