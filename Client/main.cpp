@@ -38,12 +38,27 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 자동 검증 실행 (빌드 후 확인용, 창 없이 소리 없이 돈다)
     //   --smoke [폴더]           : 씬을 순서대로 돌리고, 폴더를 주면 씬마다 마지막 화면을 BMP로 저장
     //   --scenario <대본> <폴더> : 입력 대본을 재생하며 상태를 기록·검사 (Scenarios/README.md)
+    // 그리기 백엔드
+    //   --renderer gdi|dx11      : 기본 dx11. DX11 장치를 만들 수 없으면 gdi 로 그린다
+    //   --warp                   : dx11 을 그래픽 카드 대신 WARP(CPU)로 돌린다
     int argc = 0;
     LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
     for (int i = 1; argv != nullptr && i < argc; i++)
     {
         std::wstring arg = argv[i];
-        if (arg == L"--smoke")
+        if (arg == L"--renderer" && i + 1 < argc)
+        {
+            std::wstring type = argv[++i];
+            if (type == L"gdi")
+                application.SetRendererType(ya::eRendererType::GDI);
+            else if (type == L"dx11")
+                application.SetRendererType(ya::eRendererType::DX11);
+        }
+        else if (arg == L"--warp")
+        {
+            application.SetForceWarp(true);
+        }
+        else if (arg == L"--smoke")
         {
             std::wstring shotDir = (i + 1 < argc && argv[i + 1][0] != L'-') ? argv[++i] : L"";
             application.SetSmokeTest(shotDir);

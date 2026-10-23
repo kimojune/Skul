@@ -129,6 +129,10 @@ namespace ya
 		int srcX = src.x;
 		int srcY = src.y;
 
+		// PNG 처럼 알파가 있는 이미지는 마젠타 키 대신 알파로 섞는다
+		if (image->HasAlpha())
+			blend = eImageBlend::AlphaChannel;
+
 		if (flipX)
 		{
 			// TransparentBlt·AlphaBlend는 뒤집어 그리지 못하므로 좌우를 바꾼 사본에서 그린다

@@ -56,8 +56,9 @@ namespace ya
 	class Renderer
 	{
 	public:
-		// 실패하면 false. 이때는 다른 백엔드로 다시 부를 수 있다
-		static bool Initialize(eRendererType type, HWND hWnd, UINT width, UINT height);
+		// 실패하면 false. 이때는 다른 백엔드로 다시 부를 수 있다.
+		// forceWarp: DX11 을 그래픽 카드 대신 WARP(CPU 소프트웨어 래스터라이저)로 만든다 (확인용)
+		static bool Initialize(eRendererType type, HWND hWnd, UINT width, UINT height, bool forceWarp = false);
 		static void Release();
 
 		static void BeginFrame(COLORREF clearColor);

@@ -1,6 +1,7 @@
 ﻿#include "yaRenderer.h"
 #include "yaRendererBackend.h"
 #include "yaRendererGDI.h"
+#include "yaRendererDX11.h"
 #include "yaImage.h"
 
 namespace ya
@@ -9,7 +10,7 @@ namespace ya
 	eRendererType Renderer::mType = eRendererType::GDI;
 	RenderStats Renderer::mLastStats = {};
 
-	bool Renderer::Initialize(eRendererType type, HWND hWnd, UINT width, UINT height)
+	bool Renderer::Initialize(eRendererType type, HWND hWnd, UINT width, UINT height, bool forceWarp)
 	{
 		Release();
 
@@ -18,6 +19,9 @@ namespace ya
 		{
 		case eRendererType::GDI:
 			backend = new RendererGDI();
+			break;
+		case eRendererType::DX11:
+			backend = new RendererDX11(forceWarp);
 			break;
 		default:
 			return false;

@@ -27,8 +27,9 @@ namespace ya
 		void SetToolHwnd(HWND hwnd) { mToolHwnd = hwnd;}
 		void SetMenuBar(bool power);
 
-		// 그리기 백엔드. Initialize 전에 고른다 (--renderer gdi|dx11, 기본 dx11)
+		// 그리기 백엔드. Initialize 전에 고른다 (--renderer gdi|dx11, 기본 dx11. --warp 는 DX11 을 CPU 로)
 		void SetRendererType(eRendererType type) { mRendererType = type; }
+		void SetForceWarp(bool warp) { mbForceWarp = warp; }
 		eRendererType GetRendererType() { return mRendererType; }
 
 		// 자동 검증 모드. 둘 다 창을 숨기고 소리를 끈 채 고정 프레임 시간(1/60초)으로 돈다.
@@ -52,6 +53,7 @@ namespace ya
 
 		//그리기 (백버퍼는 Renderer의 백엔드가 가진다)
 		eRendererType mRendererType;
+		bool mbForceWarp;
 
 		UINT mWidth;
 		UINT mHeight;

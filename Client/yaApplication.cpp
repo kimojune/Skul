@@ -14,7 +14,8 @@ namespace ya
 	Application::Application()
 		: mHwnd(NULL)
 		, mHdc(NULL)
-		, mRendererType(eRendererType::GDI)
+		, mRendererType(eRendererType::DX11)
+		, mbForceWarp(false)
 		, mHeadless(false)
 		, mScenario(nullptr)
 		, mSmokeTest(false)
@@ -69,7 +70,19 @@ namespace ya
 			ShowWindow(hWnd, true);
 		}
 
-		Renderer::Initialize(mRendererType, mHwnd, mWidth, mHeight);
+		if (!Renderer::Initialize(mRendererType, mHwnd, mWidth, mHeight, mbForceWarp))
+		{
+			// Direct3D 11 장치를 만들 수 없으면 GDI 로 그린다
+			OutputDebugStringW(L"[Renderer] DX11 initialization failed, falling back to GDI\n");
+			mRendererType = eRendererType::GDI;
+			Renderer::Initialize(mRendererType, mHwnd, mWidth, mHeight);
+		}
+		if (mHeadless)
+		{
+			// 자동 검증 기록에 어떤 백엔드로 그렸는지 남긴다
+			fwprintf(stderr, L"renderer=%ls adapter=%ls\n", Renderer::GetName(), Renderer::GetAdapterName().c_str());
+			fflush(stderr);
+		}
 		mMenubar = LoadMenu(nullptr, MAKEINTRESOURCE(IDI_CLIENT));
 
 		Time::Initiailize();
