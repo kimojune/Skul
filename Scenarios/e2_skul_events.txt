@@ -7,7 +7,9 @@
 #  - S는 머리가 떨어져 있을 때만 쓴다: 240의 S는 무시된다 (전: 250에 SkillS, 300에 Idle)
 #  - 머리는 8초 뒤 SkillS로 돌아오지 않는다: 바닥에 놓여 있다가 줍거나, S로 이동하거나, A 쿨다운(6초)이 끝나면 돌아온다.
 #    SkillS 완료 이벤트는 420의 S(바닥에 놓인 머리로 순간이동 -> 일어나는 애니메이션)로 확인한다 (전: 820에 SkillS, 880에 Idle).
-#    쿨다운 복귀는 몬스터가 없는 g2_head_pickup에서 확인한다.
+#    쿨다운 복귀는 g2_head_pickup에서 확인한다.
+#  - G3 통합 뒤: 엔트가 옆에서 내려쳐(421프레임) 피격 경직(0.15초) 동안 순간이동이 미뤄진다(431프레임).
+#    그래서 순간이동 결과 검사를 425 -> 440으로 옮겼다.
 scene Stage2
 frames 600
 
@@ -29,9 +31,9 @@ expect 335 player.state == 8        # SkillA
 expect 335 count.bullet == 1        # 머리 발사
 expect 400 player.state == 0        # 스킬 A 완료 -> 머리 없는 스컬 Idle
 expect 400 player.headOut == 1
-expect 425 player.state == 9        # 순간이동한 기본 스컬 SkillS
-expect 425 count.bullet == 0
-expect 425 player.headOut == 0
+expect 440 player.state == 9        # 순간이동한 기본 스컬 SkillS
+expect 440 count.bullet == 0
+expect 440 player.headOut == 0
 expect 500 player.state == 0        # SkillS 완료 -> Idle
 always     player.found == 1
 always     count.player == 1        # 조작 중인 스컬은 항상 하나
