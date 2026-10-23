@@ -103,7 +103,7 @@ namespace ya
 		if (mType == eCameraEffectType::FadeIn
 			|| mType == eCameraEffectType::FadeOut)
 		{
-			mAlphaTime += Time::DeltaTime();
+			mAlphaTime += (float)Time::DeltaTime();
 			float ratio = (mEndTime > 0.0f) ? (mAlphaTime / mEndTime) : 1.0f;
 			if (ratio > 1.0f)
 				ratio = 1.0f;
@@ -126,7 +126,7 @@ namespace ya
 		// rand()를 쓰면 게임 쪽 rand() 순서(보스 패턴 등)가 바뀌므로 sin/cos 로 흔든다.
 		if (mShakeTime < mShakeDuration)
 		{
-			mShakeTime += Time::DeltaTime();
+			mShakeTime += (float)Time::DeltaTime();
 
 			float power = mShakeIntensity * (1.0f - mShakeTime / mShakeDuration);
 			if (power < 0.0f)
@@ -159,7 +159,7 @@ namespace ya
 		func.SourceConstantAlpha = sourceAlpha;
 
 		AlphaBlend(hdc, 0, 0
-			, mResolution.x, mResolution.y
+			, (int)mResolution.x, (int)mResolution.y
 			, mCutton->GetHdc()
 			, 0, 0
 			, mCutton->GetWidth(), mCutton->GetHeight()
