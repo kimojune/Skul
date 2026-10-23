@@ -76,7 +76,7 @@ namespace ya
 
 		const std::wstring& path = { L"..\\Tile\\stage1" };
 		Chapter1->Stop(true);
-		//Chapter1_BossBG->Play(true);
+		Chapter1_BossBG->Play(true);
 		TilePalatte::Load(path);
 
 		for (Skul* skul : mSkuls)
@@ -99,6 +99,6 @@ namespace ya
 	}
 	void BossStage::OnExit()
 	{
-		//Chapter1_BossBG->Stop(true);
+		Chapter1_BossBG->Stop(true);
 	}
 }
