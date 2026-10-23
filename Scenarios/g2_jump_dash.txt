@@ -1,0 +1,44 @@
+﻿# G2: 2단 점프 제한, 대시 2회 충전·재충전(1회당 1초, 원작 수치 불확실), 대시 중 무적.
+# 수정 전에는 점프와 대시를 무한히 이어 쓸 수 있었다.
+# Stage1은 몬스터가 없어 seed와 무관하다. 플레이어는 113프레임쯤 x=0에 착지해서 오른쪽을 본다.
+scene Stage1
+frames 480
+
+# 점프 세 번: 세 번째는 무시
+press C 130
+press C 150
+press C 170
+expect 131 player.jumpCount == 1
+expect 151 player.jumpCount == 2
+expect 150 player.vy <= -580        # 2단 점프는 위로 600 (전에는 지금 속도에 -600을 더해 -930쯤). 한 프레임 중력 뒤 -587
+expect 170 player.vy >= -400        # 세 번째를 받았다면 -587
+expect 171 player.jumpCount == 2
+expect 270 player.ground == 1       # 착지하면
+expect 270 player.jumpCount == 0    # 횟수가 돌아온다
+
+# 대시 세 번: 세 번째는 충전이 없어 무시
+press Z 280
+press Z 295
+press Z 310
+damage 283 30                       # 대시 중 무적이라 무시
+damage 320 10                       # 대시가 끝난 뒤에는 맞는다
+expect 280 player.state == 2        # Dash
+expect 280 player.invincible == 1
+expect 280 player.dashCharges == 1
+expect 283 player.hp == 100
+expect 295 player.dashCharges == 0
+expect 310 player.state != 2        # 세 번째 대시 없음
+expect 312 player.state != 2
+expect 320 player.invincible == 0
+expect 320 player.hp == 90
+expect 335 player.dashCharges == 0  # 첫 대시(280)부터 1초 뒤에 1회
+expect 345 player.dashCharges == 1
+expect 395 player.dashCharges == 1  # 그 뒤 1초에 1회 더
+expect 405 player.dashCharges == 2
+press Z 420                         # 다시 대시할 수 있다
+expect 421 player.state == 2
+
+always     player.jumpCount <= 2
+always     player.dashCharges >= 0
+always     player.dashCharges <= 2
+always     player.y <= 1730

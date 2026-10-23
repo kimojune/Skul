@@ -1,0 +1,23 @@
+﻿# G2: damage 명령으로 HP가 깎이고, 좌하단 HUD의 HP 바·숫자·잔상이 바뀌는지. 피격 반응(경직·넉백)도 본다.
+# Stage1은 몬스터가 없어 결과가 seed와 무관하다. 플레이어는 113프레임쯤 x=0에 착지한다.
+# 원작은 피격 후 무적이 없으므로 2프레임 뒤의 두 번째 피해도 들어가야 한다.
+scene Stage1
+frames 300
+
+damage 150 25                       # 100 -> 75
+damage 152 10                       # 75 -> 65 (피격 후 무적 없음)
+shot 149                            # HUD 기준: 100 / 100
+shot 153                            # 맞은 직후: 붉은 화면 테두리, HP 바 잔상(흰색)
+shot 290                            # 잔상이 따라 내려간 뒤: 65 / 100
+
+expect 1   count.ui == 1            # 플레이 씬마다 HUD 하나
+expect 149 player.hp == 100
+expect 150 player.hp == 75
+expect 152 player.hp == 65
+expect 149 player.x <= 1
+expect 170 player.x >= 30           # 피해 위치가 왼쪽이라 오른쪽으로 밀림 (300px/s x 경직 0.15초씩)
+expect 170 player.x <= 80
+expect 299 player.hp == 65
+expect 299 player.state == 0        # 경직이 끝나고 Idle
+always     player.maxhp == 100
+always     player.invincible == 0   # 피격으로는 무적이 켜지지 않는다

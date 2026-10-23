@@ -1,0 +1,41 @@
+﻿# G2: 두개골 투척 -> 머리가 날다가 튀어 올라 바닥에 놓임 -> 머리 없는 몸으로 걸어가 닿으면 머리 회수, A 쿨다운 초기화.
+# 줍지 않으면 A 쿨다운(6초)이 끝날 때 머리가 몸으로 돌아온다 (전에는 8초 고정 복귀).
+# head.state: 0 숨김(몸에 붙음), 1 날아감, 2 튀어 떨어짐, 3 바닥에 놓임. head.y는 머리 Transform y (그림 아래 끝 = y - 14)
+# Stage1은 몬스터가 없어 머리가 부딪히지 않고 0.6초(약 640px) 날아간 뒤 튄다. 플레이어는 x=0에서 던진다.
+# A를 누른 프레임에 SkillA 상태가 되고, 다음 프레임(SkillA 첫 갱신)에 머리가 나간다.
+scene Stage1
+frames 860
+
+press A 130                         # 오른쪽으로 던지기 (쿨다운 6초)
+hold  RIGHT 220 430                 # 머리 쪽으로 걷기
+press A 470                         # 다시 던질 수 있다
+shot 210                            # 바닥에 놓인 머리, HUD: 머리 없는 초상화, A 쿨다운 숫자
+shot 600                            # 두 번째 머리가 놓인 채 쿨다운 진행 중
+
+expect 130 player.state == 8        # SkillA
+expect 131 head.state == 1          # 날아가는 중
+expect 131 player.headOut == 1
+expect 131 player.skillACooldown >= 5.9
+expect 160 player.headOut == 1      # 던지기 애니메이션이 끝나 Nohead
+expect 210 head.state == 3          # 바닥에 놓임
+expect 210 head.x >= 600
+expect 210 head.y >= 1762           # 바닥 윗면 1750 + 14
+expect 210 head.y <= 1766
+expect 215 player.skillACooldown > 4
+expect 440 player.headOut == 0      # 걸어가 닿아서 회수
+expect 440 head.state == 0
+expect 440 count.bullet == 0
+expect 440 player.skillACooldown == 0   # 회수하면 쿨다운 초기화 (안 했으면 약 0.8초 남음)
+expect 470 player.state == 8        # 바로 다시 던지기 (SkillA)
+expect 471 player.headOut == 1
+
+# 두 번째 머리는 줍지 않고 기다린다: 471 + 6초(360프레임) 뒤 몸으로 돌아온다
+expect 820 player.headOut == 1
+expect 820 head.state == 3
+expect 840 player.headOut == 0
+expect 840 count.bullet == 0
+expect 840 player.state == 0        # 그 자리에서 머리 있는 몸 Idle
+expect 840 player.skillACooldown == 0
+always     player.found == 1
+always     count.player == 1
+always     player.y <= 1730
