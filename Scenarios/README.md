@@ -25,7 +25,7 @@ cd Client
 | `scene <Title\|Stage1\|Stage2\|Boss\|Tool>` | 시작 씬 (기본값 Title) |
 | `frames <n>` | 총 실행 프레임 수 (기본값 600) |
 | `seed <n>` | `rand()` 시드 (기본값 1). 몬스터 배회와 보스 패턴 선택이 바뀝니다 |
-| `dt <초>` | 고정 프레임 시간 (기본값 1/60) |
+| `dt <초>` | 고정 프레임 시간 (기본값 1/60). 엔진이 프레임 시간을 1/30초로 제한하므로 그보다 큰 값은 1/30으로 처리됩니다 |
 | `hold <KEY> <from> <to>` | from~to 프레임 동안 키를 누름 (양끝 포함) |
 | `press <KEY> <frame>` | 한 프레임만 누름 |
 | `shot <frame>` | 해당 프레임을 그린 직후 화면 저장 |
@@ -56,6 +56,7 @@ cd Client
 | `player.state` | `Skul::eSkulState` 값: Idle 0, Move 1, Dash 2, Jump 3, Fall 4, Attack 5, Attack2 6, JumpAttack 7, SkillA 8, SkillS 9, ChangeSkill 10 |
 | `count.<layer>` | 레이어의 활성(Active) 오브젝트 수. layer: `bg` `struct` `boss` `tile` `gate` `monster` `player` `bullet` `enemybullet` `ground` `test` `effect` `ui` |
 | `objects` | 씬의 전체 오브젝트 수 (Pause·Death 포함, 누수 감시용) |
+| `camera.x`, `camera.y` | 화면 가운데가 보는 월드 좌표. 화면 왼쪽 위는 (x−800, y−450). 플레이 씬의 카메라 경계는 x 800~2550 |
 
 새 기능을 검사하려면 `yaScenario.cpp`의 `Scenario::collectState`에 변수를 추가하세요. 예를 들어 `player.hp`, `boss.hp`가 있습니다. 대본에 없는 변수를 쓰면 시작할 때 실패로 알려줍니다.
 
