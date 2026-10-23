@@ -63,6 +63,8 @@ namespace ya
 				delete pair.second;
 				pair.second = nullptr;
 			}
+			// 다시 불려도 이미 지운 포인터를 또 지우지 않도록 비운다.
+			mResources.clear();
 		}
 
 	private:

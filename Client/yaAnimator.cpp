@@ -244,6 +244,8 @@ namespace ya
 		HBRUSH magentaBrush = CreateSolidBrush(RGB(255, 0, 255));
 		HBRUSH oldBrush = (HBRUSH)SelectObject(mSpriteSheet->GetHdc(), magentaBrush);
 		Rectangle(mSpriteSheet->GetHdc(), -1, -2, width * fileCount + 2, height + 1);
+		// 선택된 채로는 지워지지 않으므로 원래 브러시를 먼저 되돌린다.
+		SelectObject(mSpriteSheet->GetHdc(), oldBrush);
 		DeleteObject(magentaBrush);
 
 		int index = 0;
@@ -259,7 +261,6 @@ namespace ya
 				, image->GetWidth(), image->GetHeight()
 				, image->GetHdc(), 0, 0, SRCCOPY);
 
-			SelectObject(mSpriteSheet->GetHdc(), oldBrush);
 			index++;
 		}
 		CreateAnimation(key, mSpriteSheet, Vector2::Zero,1, index, 1, index, offset, duration);
