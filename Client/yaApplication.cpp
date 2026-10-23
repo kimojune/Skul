@@ -90,12 +90,19 @@ namespace ya
 
 	void Application::Run()
 	{
-		if (mScenario != nullptr)
-			mScenario->BeginFrame();
+		// 게임 로직은 항상 1/60초 단위로 진행하고, 화면은 그 결과를 한 번 그린다.
+		// 화면이 느리게 그려지는 PC에서도 게임 속도와 물리 결과가 자동 검증과 같다.
+		UINT steps = Time::Update();
+		for (UINT i = 0; i < steps; i++)
+		{
+			if (mScenario != nullptr)
+				mScenario->BeginFrame();
 
-		Update();
+			Update();
+			SceneManager::Destroy();
+		}
+
 		Render();
-		SceneManager::Destroy();
 
 		if (mSmokeTest)
 			updateSmokeTest();
@@ -105,7 +112,6 @@ namespace ya
 
 	void Application::Update()
 	{
-		Time::Update();
 		Input::Update();
 		SceneManager::Update();
 		CollisionManager::Update();

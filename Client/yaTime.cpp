@@ -5,6 +5,7 @@ extern ya::Application application;
 
 namespace ya
 {
+	double Time::mAccumulator = 0.0;
 	double Time::mDeltaTime = 0.0l;
 	double Time::mUnscaledDeltaTime = 0.0;
 	double Time::mRealDeltaTime = 0.0;
@@ -26,7 +27,7 @@ namespace ya
 		QueryPerformanceCounter(&mPrevFrequency);
 	}
 
-	void Time::Update()
+	UINT Time::Update()
 	{
 		// 실제 플레이만 60 FPS로 제한한다. 고정 프레임 시간(자동 검증)일 때는 기다리지 않는다.
 		if (mFixedDeltaTime <= 0.0)
@@ -37,19 +38,36 @@ namespace ya
 		double differnceFrequency = (double)(mCurFrequency.QuadPart - mPrevFrequency.QuadPart);
 
 		mRealDeltaTime = differnceFrequency / mCpuFrequency.QuadPart;
-
-		double deltaTime = mRealDeltaTime;
-		if (mFixedDeltaTime > 0.0)
-			deltaTime = mFixedDeltaTime;
-
-		// 긴 프레임(로딩, 창 드래그, 대화상자)에서 한 번에 크게 움직여 발판을 뚫지 않도록 제한
-		if (deltaTime > MaxDeltaTime)
-			deltaTime = MaxDeltaTime;
-
-		mUnscaledDeltaTime = deltaTime;
-		mDeltaTime = deltaTime * mTimeScale;
-
 		mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
+
+		if (mFixedDeltaTime > 0.0)
+		{
+			// 자동 검증: 실제 시간과 무관하게 화면 한 번에 로직 한 단계
+			double deltaTime = (mFixedDeltaTime > MaxDeltaTime) ? MaxDeltaTime : mFixedDeltaTime;
+			mUnscaledDeltaTime = deltaTime;
+			mDeltaTime = deltaTime * mTimeScale;
+			return 1;
+		}
+
+		// 실제 플레이: 흐른 시간을 쌓아 두고 StepTime씩 꺼내 쓴다.
+		// 화면이 느리게 그려져도 로직을 여러 번 돌려서 게임 속도는 그대로 유지한다.
+		// (로딩·창 드래그처럼 아주 긴 프레임은 MaxStepsPerFrame 만큼만 따라잡고 나머지는 버린다)
+		mAccumulator += mRealDeltaTime;
+
+		// 60 FPS 대기 오차로 0번·2번이 번갈아 나오지 않도록 0.5ms 여유를 둔다
+		const double tolerance = 0.0005;
+		UINT steps = 0;
+		while (mAccumulator + tolerance >= StepTime && steps < MaxStepsPerFrame)
+		{
+			mAccumulator -= StepTime;
+			steps++;
+		}
+		if (steps == MaxStepsPerFrame || mAccumulator < 0.0)
+			mAccumulator = 0.0;
+
+		mUnscaledDeltaTime = StepTime;
+		mDeltaTime = StepTime * mTimeScale;
+		return steps;
 	}
 
 	void Time::waitForNextFrame()

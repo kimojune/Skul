@@ -8,6 +8,9 @@
 #include "yaSkul.h"
 #include "yaPlayeScene.h"
 #include "yaTransform.h"
+#include "yaApplication.h"
+
+extern ya::Application application;
 
 namespace ya
 {
@@ -19,16 +22,18 @@ namespace ya
 
 	void UIDebugOverlay::Render(HDC hdc)
 	{
-		// FPS는 0.5초마다 평균을 낸다. 자동 검증(--smoke, --scenario)은 프레임 시간이 고정이라 항상 60
+		// FPS는 0.5초마다 평균을 낸다. 실제 플레이는 화면 한 번 그리는 데 걸린 실제 시간으로 재고,
+		// 자동 검증(--smoke, --scenario)은 스크린샷이 매번 같도록 고정 프레임 시간으로 잰다 (항상 60)
 		static UINT frame = 0;
 		static UINT fpsFrames = 0;
 		static double fpsTime = 0.0;
 		static double fps = 0.0;
 
+		double frameTime = application.IsHeadless() ? Time::DeltaTime() : Time::RealDeltaTime();
 		fpsFrames++;
-		fpsTime += Time::DeltaTime();
-		if (fps == 0.0 && Time::DeltaTime() > 0.0)
-			fps = 1.0 / Time::DeltaTime();
+		fpsTime += frameTime;
+		if (fps == 0.0 && frameTime > 0.0)
+			fps = 1.0 / frameTime;
 		if (fpsTime >= 0.5)
 		{
 			fps = fpsFrames / fpsTime;
