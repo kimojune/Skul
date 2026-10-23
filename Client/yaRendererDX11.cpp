@@ -20,6 +20,7 @@ namespace ya
 		, mConstantBuffers{}
 		, mFrameCB{}
 		, mbPipelineBound(false)
+		, mb2DDrawing(false)
 		, mDummyHdc(nullptr)
 		, mDummyBitmap(nullptr)
 		, mDummyOldBitmap(nullptr)
@@ -28,7 +29,15 @@ namespace ya
 
 	RendererDX11::~RendererDX11()
 	{
+		if (mb2DDrawing)
+			mD2DContext->EndDraw();
 		ReleaseCache();
+		mBrush = nullptr;
+		mD2DTarget = nullptr;
+		mD2DContext = nullptr;
+		mD2DDevice = nullptr;
+		mD2DFactory = nullptr;
+		mDWriteFactory = nullptr;
 
 		for (graphics::ConstantBuffer*& buffer : mConstantBuffers)
 		{
@@ -66,6 +75,9 @@ namespace ya
 			return false;
 
 		if (!loadShader() || !setupState() || !loadMesh() || !loadBuffer())
+			return false;
+
+		if (!create2D())
 			return false;
 
 		// 카메라 이동은 그리는 쪽이 Camera::CaluatePos 로 이미 뺐으므로 View 는 단위 행렬이다.
@@ -245,6 +257,51 @@ namespace ya
 		return true;
 	}
 
+	bool RendererDX11::create2D()
+	{
+		D2D1_FACTORY_OPTIONS options = {};
+		if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, __uuidof(ID2D1Factory1), &options, (void**)mD2DFactory.GetAddressOf())))
+			return false;
+
+		// Direct3D 장치를 그대로 써서 Direct2D 장치를 만든다 (BGRA 지원으로 만든 장치라야 한다)
+		Microsoft::WRL::ComPtr<IDXGIDevice> dxgiDevice = nullptr;
+		if (FAILED(mDevice->GetID3D11Device()->QueryInterface(__uuidof(IDXGIDevice), (void**)dxgiDevice.GetAddressOf())))
+			return false;
+		if (FAILED(mD2DFactory->CreateDevice(dxgiDevice.Get(), mD2DDevice.GetAddressOf())))
+			return false;
+		if (FAILED(mD2DDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, mD2DContext.GetAddressOf())))
+			return false;
+
+		// 프레임 렌더 타깃 텍스처를 Direct2D 비트맵으로 감싸 그리기 대상으로 삼는다
+		Microsoft::WRL::ComPtr<IDXGISurface> surface = nullptr;
+		if (FAILED(mDevice->GetRenderTarget()->QueryInterface(__uuidof(IDXGISurface), (void**)surface.GetAddressOf())))
+			return false;
+
+		D2D1_BITMAP_PROPERTIES1 targetProperties = {};
+		targetProperties.pixelFormat.format = DXGI_FORMAT_B8G8R8A8_UNORM;
+		targetProperties.pixelFormat.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
+		targetProperties.dpiX = 96.0f;
+		targetProperties.dpiY = 96.0f;
+		targetProperties.bitmapOptions = D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW;
+		if (FAILED(mD2DContext->CreateBitmapFromDxgiSurface(surface.Get(), &targetProperties, mD2DTarget.GetAddressOf())))
+			return false;
+
+		mD2DContext->SetTarget(mD2DTarget.Get());
+		mD2DContext->SetDpi(96.0f, 96.0f);	// 1 DIP = 1 px
+		// 사각형은 픽셀 경계에 딱 맞게(GDI FillRect 처럼), 글자는 회색조 안티에일리어싱(GDI ANTIALIASED_QUALITY 처럼)
+		mD2DContext->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+		mD2DContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
+
+		D2D1_COLOR_F white = { 1.0f, 1.0f, 1.0f, 1.0f };
+		if (FAILED(mD2DContext->CreateSolidColorBrush(white, mBrush.GetAddressOf())))
+			return false;
+
+		if (FAILED(DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), (IUnknown**)mDWriteFactory.GetAddressOf())))
+			return false;
+
+		return true;
+	}
+
 	void RendererDX11::BeginFrame(COLORREF clearColor)
 	{
 		FLOAT color[4] =
@@ -262,6 +319,7 @@ namespace ya
 
 	void RendererDX11::EndFrame()
 	{
+		end2D();
 		mDevice->Present(false);
 	}
 
@@ -293,8 +351,30 @@ namespace ya
 
 	void RendererDX11::begin3D()
 	{
+		end2D();
 		if (!mbPipelineBound)
 			bindPipeline();
+	}
+
+	void RendererDX11::begin2D()
+	{
+		if (mb2DDrawing)
+			return;
+
+		mD2DContext->BeginDraw();
+		mb2DDrawing = true;
+	}
+
+	void RendererDX11::end2D()
+	{
+		if (!mb2DDrawing)
+			return;
+
+		// 모아 둔 Direct2D 그리기를 GPU 에 넘긴다. Direct2D 가 파이프라인 상태를 바꿨을 수 있으므로 다시 묶게 한다
+		mD2DContext->EndDraw();
+		mb2DDrawing = false;
+		mbPipelineBound = false;
+		mStats.drawCalls++;
 	}
 
 	void RendererDX11::bindPipeline()
@@ -360,33 +440,146 @@ namespace ya
 		mStats.drawCalls++;
 	}
 
+	void RendererDX11::setBrushColor(COLORREF color, BYTE alpha)
+	{
+		D2D1_COLOR_F brushColor =
+		{
+			GetRValue(color) / 255.0f,
+			GetGValue(color) / 255.0f,
+			GetBValue(color) / 255.0f,
+			alpha / 255.0f,
+		};
+		mBrush->SetColor(brushColor);
+	}
+
 	void RendererDX11::FillRect(const RenderRect& rect, COLORREF color, BYTE alpha)
 	{
+		begin2D();
+		setBrushColor(color, alpha);
+
+		D2D1_RECT_F area = { (float)rect.x, (float)rect.y, (float)(rect.x + rect.width), (float)(rect.y + rect.height) };
+		mD2DContext->FillRectangle(area, mBrush.Get());
 	}
 
 	void RendererDX11::DrawRect(const RenderRect& rect, COLORREF color, int thickness)
 	{
+		begin2D();
+		setBrushColor(color, 255);
+
+		// GDI Rectangle 처럼 펜의 가운데가 (x, y) ~ (x + width - 1, y + height - 1) 픽셀을 지나게 한다.
+		// 홀수 두께는 픽셀 가운데, 짝수 두께는 픽셀 경계가 선의 가운데
+		float offset = (thickness % 2 == 1) ? 0.5f : 0.0f;
+		D2D1_RECT_F area =
+		{
+			rect.x + offset,
+			rect.y + offset,
+			rect.x + rect.width - 1 + offset,
+			rect.y + rect.height - 1 + offset,
+		};
+		mD2DContext->DrawRectangle(area, mBrush.Get(), (float)thickness);
 	}
 
 	void RendererDX11::DrawLine(int x1, int y1, int x2, int y2, COLORREF color, int thickness)
 	{
+		begin2D();
+		setBrushColor(color, 255);
+
+		// 홀수 두께는 픽셀 가운데를 지나야 한 줄로 딱 맞는다
+		float offset = (thickness % 2 == 1) ? 0.5f : 0.0f;
+		D2D1_POINT_2F from = { x1 + offset, y1 + offset };
+		D2D1_POINT_2F to = { x2 + offset, y2 + offset };
+		mD2DContext->DrawLine(from, to, mBrush.Get(), (float)thickness);
+	}
+
+	IDWriteTextFormat* RendererDX11::getTextFormat(const RenderFont& font)
+	{
+		std::wstring key = std::wstring(font.face) + L"|" + std::to_wstring(font.size) + (font.bold ? L"|b" : L"");
+		auto iter = mTextFormats.find(key);
+		if (iter != mTextFormats.end())
+			return iter->second.Get();
+
+		// GDI 에서 높이를 -size 로 준 것과 같이 글자(em) 높이가 size px
+		Microsoft::WRL::ComPtr<IDWriteTextFormat> format = nullptr;
+		if (FAILED(mDWriteFactory->CreateTextFormat(font.face, nullptr
+			, font.bold ? DWRITE_FONT_WEIGHT_BOLD : DWRITE_FONT_WEIGHT_NORMAL
+			, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL
+			, (float)font.size, L"ko-KR", format.GetAddressOf())))
+			return nullptr;
+
+		format->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP);
+		mTextFormats.insert(std::make_pair(key, format));
+		return format.Get();
+	}
+
+	Microsoft::WRL::ComPtr<IDWriteTextLayout> RendererDX11::createTextLayout(const std::wstring& text, const RenderFont& font, float width, float height)
+	{
+		Microsoft::WRL::ComPtr<IDWriteTextLayout> layout = nullptr;
+		IDWriteTextFormat* format = getTextFormat(font);
+		if (format != nullptr)
+			mDWriteFactory->CreateTextLayout(text.c_str(), (UINT32)text.size(), format, width, height, layout.GetAddressOf());
+
+		return layout;
 	}
 
 	void RendererDX11::DrawString(const std::wstring& text, int x, int y, const RenderFont& font, COLORREF color, eTextAlign align)
 	{
+		Microsoft::WRL::ComPtr<IDWriteTextLayout> layout = createTextLayout(text, font, 8192.0f, 8192.0f);
+		if (layout == nullptr)
+			return;
+
+		// GDI TA_CENTER, TA_RIGHT 처럼 x 를 가운데나 오른쪽 끝으로 맞춘다
+		DWRITE_TEXT_METRICS metrics = {};
+		layout->GetMetrics(&metrics);
+		float left = (float)x;
+		if (align == eTextAlign::Center)
+			left -= floorf(metrics.widthIncludingTrailingWhitespace / 2.0f);
+		else if (align == eTextAlign::Right)
+			left -= ceilf(metrics.widthIncludingTrailingWhitespace);
+
+		begin2D();
+		setBrushColor(color, 255);
+		D2D1_POINT_2F origin = { left, (float)y };
+		mD2DContext->DrawTextLayout(origin, layout.Get(), mBrush.Get());
 	}
 
 	void RendererDX11::DrawStringBox(const std::wstring& text, const RenderRect& box, const RenderFont& font, COLORREF color, eTextAlign align)
 	{
+		Microsoft::WRL::ComPtr<IDWriteTextLayout> layout = createTextLayout(text, font, (float)box.width, (float)box.height);
+		if (layout == nullptr)
+			return;
+
+		// 한 줄, 세로 가운데 (GDI DT_SINGLELINE | DT_VCENTER). 상자 밖으로 나가도 자르지 않는다 (DT_NOCLIP)
+		DWRITE_TEXT_ALIGNMENT textAlignment = DWRITE_TEXT_ALIGNMENT_LEADING;
+		if (align == eTextAlign::Center)
+			textAlignment = DWRITE_TEXT_ALIGNMENT_CENTER;
+		else if (align == eTextAlign::Right)
+			textAlignment = DWRITE_TEXT_ALIGNMENT_TRAILING;
+		layout->SetTextAlignment(textAlignment);
+		layout->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+
+		begin2D();
+		setBrushColor(color, 255);
+		D2D1_POINT_2F origin = { (float)box.x, (float)box.y };
+		mD2DContext->DrawTextLayout(origin, layout.Get(), mBrush.Get());
 	}
 
 	SIZE RendererDX11::MeasureString(const std::wstring& text, const RenderFont& font)
 	{
-		return SIZE{};
+		SIZE size = {};
+		Microsoft::WRL::ComPtr<IDWriteTextLayout> layout = createTextLayout(text, font, 8192.0f, 8192.0f);
+		if (layout == nullptr)
+			return size;
+
+		DWRITE_TEXT_METRICS metrics = {};
+		layout->GetMetrics(&metrics);
+		size.cx = (LONG)ceilf(metrics.widthIncludingTrailingWhitespace);
+		size.cy = (LONG)ceilf(metrics.height);
+		return size;
 	}
 
 	void RendererDX11::ReleaseCache()
 	{
+		mTextFormats.clear();
 	}
 
 	std::wstring RendererDX11::GetAdapterName()

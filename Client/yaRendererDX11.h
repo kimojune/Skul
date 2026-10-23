@@ -20,6 +20,8 @@ namespace ya
 	//  픽셀 셰이더: 화면 픽셀마다 원본 텍셀을 정수로 골라(GDI StretchBlt 와 같은 규칙) 점 샘플링,
 	//              premultiplied 색 x 전체 알파
 	//  출력 병합기: ONE, INV_SRC_ALPHA 블렌드, 깊이 없음
+	// 글자·사각형·선(UI, 디버그 그림, 화면 페이드)은 같은 렌더 타깃에 Direct2D + DirectWrite 로 그린다.
+	// 둘을 섞어 불러도 부른 순서대로 그려지도록 바뀔 때마다 Direct2D 의 BeginDraw/EndDraw 를 열고 닫는다.
 	class RendererDX11 : public RendererBackend
 	{
 	public:
@@ -52,10 +54,18 @@ namespace ya
 		bool loadMesh();
 		bool loadBuffer();
 
+		bool create2D();
+
 		// 이미지를 그리기 전에 파이프라인을 묶는다 (프레임 처음, Direct2D 를 쓴 뒤)
 		void begin3D();
 		void bindPipeline();
+		// Direct2D 그리기를 열고 닫는다. 닫으면 Direct3D 상태를 다시 묶어야 한다
+		void begin2D();
+		void end2D();
 		graphics::Texture* prepareTexture(Image* image, eImageBlend blend);
+		IDWriteTextFormat* getTextFormat(const RenderFont& font);
+		Microsoft::WRL::ComPtr<IDWriteTextLayout> createTextLayout(const std::wstring& text, const RenderFont& font, float width, float height);
+		void setBrushColor(COLORREF color, BYTE alpha);
 
 		bool mbForceWarp;
 		graphics::GraphicDevice_Dx11* mDevice;
@@ -65,6 +75,16 @@ namespace ya
 		graphics::PipelineStates mStates;
 		graphics::FrameCB mFrameCB;
 		bool mbPipelineBound;
+
+		// Direct2D + DirectWrite. 같은 D3D 장치에서 만들고 같은 렌더 타깃에 그린다
+		Microsoft::WRL::ComPtr<ID2D1Factory1> mD2DFactory;
+		Microsoft::WRL::ComPtr<ID2D1Device> mD2DDevice;
+		Microsoft::WRL::ComPtr<ID2D1DeviceContext> mD2DContext;
+		Microsoft::WRL::ComPtr<ID2D1Bitmap1> mD2DTarget;
+		Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> mBrush;
+		Microsoft::WRL::ComPtr<IDWriteFactory> mDWriteFactory;
+		std::map<std::wstring, Microsoft::WRL::ComPtr<IDWriteTextFormat>> mTextFormats;
+		bool mb2DDrawing;
 
 		// Render(HDC) 에 넘길 DC. 화면에 나오지 않는다
 		HDC mDummyHdc;
