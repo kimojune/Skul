@@ -67,6 +67,27 @@ namespace ya
 		return left < right;
 	}
 
+	// 같은 메시지는 한 번만 디버그 출력에 남긴다 (매 프레임 Play 해도 한 줄).
+	static void AnimatorLogOnce(const std::wstring& message)
+	{
+		static std::map<std::wstring, bool> loggedMessages;
+		if (loggedMessages.find(message) != loggedMessages.end())
+			return;
+
+		loggedMessages[message] = true;
+		OutputDebugStringW((L"[Animator] " + message + L"\n").c_str());
+	}
+
+	// 없는 애니메이션의 이벤트를 요청하면 아무 데도 연결되지 않은 빈 이벤트를 돌려준다.
+	static std::function<void()>& AnimatorUnknownEvent(const wchar_t* where, const std::wstring& name)
+	{
+		AnimatorLogOnce(std::wstring(where) + L": unknown animation '" + name + L"'");
+
+		static std::function<void()> unusedEvent;
+		unusedEvent = nullptr;
+		return unusedEvent;
+	}
+
 	Animator::Animator()
 		: Component(eComponentType::Animator)
 		, mActiveAnimation(nullptr)
@@ -160,8 +181,16 @@ namespace ya
 
 		// 디렉터리 순서는 이름순이라 _10 이 _2 보다 먼저 나온다.
 		// .bmp 파일 이름만 모아서 숫자 순으로 정렬한 뒤 읽는다.
+		std::error_code error;
+		std::filesystem::directory_iterator directory(path, error);
+		if (error)
+		{
+			AnimatorLogOnce(L"CreateAnimations: cannot open folder '" + path + L"'");
+			return;
+		}
+
 		std::vector<std::wstring> fileNames = {};
-		for (const auto& p : std::filesystem::directory_iterator(path))
+		for (const auto& p : directory)
 		{
 			if (!p.is_regular_file())
 				continue;
@@ -192,6 +221,12 @@ namespace ya
 				height = image->GetHeight();
 			}
 			fileCount++;
+		}
+
+		if (fileCount == 0)
+		{
+			AnimatorLogOnce(L"CreateAnimations: no .bmp frames in '" + path + L"'");
+			return;
 		}
 
 		// 애니메이션 이름은 "상위폴더명 + 폴더명" (예: BulletLoop)
@@ -238,6 +273,14 @@ namespace ya
 	}
 	void Animator::Play(const std::wstring& name, bool loop)
 	{
+		Animation* animation = FindAnimation(name);
+		if (animation == nullptr)
+		{
+			// 없는 이름이면 아무것도 바꾸지 않는다 (지금 애니메이션과 이벤트 그대로)
+			AnimatorLogOnce(L"Play: unknown animation '" + name + L"'");
+			return;
+		}
+
 		if (mActiveAnimation != nullptr)
 		{
 			Animator::Events* prevEvents
@@ -247,7 +290,7 @@ namespace ya
 				prevEvents->mEndEvent();
 		}
 
-		mActiveAnimation = FindAnimation(name);
+		mActiveAnimation = animation;
 		mActiveAnimation->Reset();
 		mbLoop = loop;
 
@@ -273,30 +316,28 @@ namespace ya
 
 		return iter->second;
 	}
+	// 이벤트는 CreateAnimation 에서 애니메이션과 같은 이름으로 만들어진다.
 	std::function<void()>& Animator::GetStartEvent(const std::wstring& name)
 	{
-		Animation* animation = FindAnimation(name);
-
-		Animator::Events* events
-			= FindEvents(animation->GetAnimationName());
+		Animator::Events* events = FindEvents(name);
+		if (events == nullptr)
+			return AnimatorUnknownEvent(L"GetStartEvent", name);
 
 		return events->mStartEvent.mEvent;
 	}
 	std::function<void()>& Animator::GetCompleteEvent(const std::wstring& name)
 	{
-		Animation* animation = FindAnimation(name);
-
-		Animator::Events* events
-			= FindEvents(animation->GetAnimationName());
+		Animator::Events* events = FindEvents(name);
+		if (events == nullptr)
+			return AnimatorUnknownEvent(L"GetCompleteEvent", name);
 
 		return events->mCompleteEvent.mEvent;
 	}
 	std::function<void()>& Animator::GetEndEvent(const std::wstring& name)
 	{
-		Animation* animation = FindAnimation(name);
-
-		Animator::Events* events
-			= FindEvents(animation->GetAnimationName());
+		Animator::Events* events = FindEvents(name);
+		if (events == nullptr)
+			return AnimatorUnknownEvent(L"GetEndEvent", name);
 
 		return events->mEndEvent.mEvent;
 	}
