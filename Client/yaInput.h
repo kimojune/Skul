@@ -12,6 +12,10 @@ namespace ya
 		UP,DOWN,LEFT,RIGHT,
 
 		LBUTTON, RBUTTON,
+
+		// 값이 배열 인덱스이므로 새 키는 항상 END 바로 앞에 추가한다.
+		SPACE, SHIFT, ESC, ENTER, TAB,
+		NUM1, NUM2, NUM3, NUM4, // 키보드 윗줄 숫자 키 (키패드 아님)
 		END,
 	};
 

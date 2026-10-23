@@ -13,6 +13,9 @@ namespace ya
 
 		VK_UP, VK_DOWN, VK_LEFT ,VK_RIGHT,
 		VK_LBUTTON, VK_RBUTTON,
+
+		VK_SPACE, VK_SHIFT, VK_ESCAPE, VK_RETURN, VK_TAB,
+		'1', '2', '3', '4',
 	};
 
 	// 시나리오 대본에서 쓰는 키 이름 (ASCII 배열과 같은 순서)
@@ -24,6 +27,9 @@ namespace ya
 
 		"UP", "DOWN", "LEFT", "RIGHT",
 		"LBUTTON", "RBUTTON",
+
+		"SPACE", "SHIFT", "ESC", "ENTER", "TAB",
+		"1", "2", "3", "4",
 	};
 
 	std::vector<Input::Key> Input::mKeys;
@@ -90,8 +96,8 @@ namespace ya
 			GetCursorPos(&mousePos);
 
 			ScreenToClient(application.GetHwnd(), &mousePos);
-			mMousePos.x = mousePos.x;
-			mMousePos.y = mousePos.y;
+			mMousePos.x = (float)mousePos.x;
+			mMousePos.y = (float)mousePos.y;
 
 		}
 		else

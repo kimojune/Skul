@@ -1,0 +1,18 @@
+# 새 키(SPACE SHIFT ESC ENTER TAB 1~4)가 대본에서 읽히는지 확인한다.
+# 아직 이 키를 쓰는 게임 코드가 없으므로 게임이 계속 도는지만 검사한다. (키 이름이 틀리면 종료 코드 2)
+scene Stage2
+frames 150
+
+press SPACE 30
+press SHIFT 40
+press ESC   50
+press ENTER 60
+press TAB   70
+press 1     80
+press 2     90
+press 3     100
+press 4     110
+hold  SHIFT 120 130                 # 누르고 있기도 확인
+
+always player.found == 1
+shot 140                            # 디버그 오버레이 확인용
