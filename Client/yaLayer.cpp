@@ -27,8 +27,15 @@ namespace ya
 	}
 	void Layer::Update()
 	{
-		for (GameObject* gameObj : mGameObjects)
+		// Update 중에 object::Instantiate로 오브젝트가 추가되면 벡터가 재할당될 수 있어
+		// range-for 대신 인덱스로 돈다. 새로 생긴 오브젝트는 다음 프레임부터 Update된다.
+		const size_t count = mGameObjects.size();
+		for (size_t i = 0; i < count && i < mGameObjects.size(); i++)
 		{
+			GameObject* gameObj = mGameObjects[i];
+			if (gameObj == nullptr)
+				continue;
+
 			if (gameObj->GetState()
 				!= GameObject::eState::Active)
 				continue;
@@ -38,8 +45,13 @@ namespace ya
 	}
 	void Layer::Render(HDC hdc)
 	{
-		for (GameObject* gameObj : mGameObjects)
+		const size_t count = mGameObjects.size();
+		for (size_t i = 0; i < count && i < mGameObjects.size(); i++)
 		{
+			GameObject* gameObj = mGameObjects[i];
+			if (gameObj == nullptr)
+				continue;
+
 			if (gameObj->GetState()
 				!= GameObject::eState::Active)
 				continue;
