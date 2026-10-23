@@ -28,14 +28,27 @@ namespace ya
 		 std::vector<GameObject*>&  lefts = scene->GetGameObjects(left);
 		 std::vector<GameObject*>& rights = scene->GetGameObjects(right);
 
-		for ( auto leftObject : lefts)
+		// 충돌 처리 중에 오브젝트가 생겨도(벡터 재할당) 안전하도록 인덱스로 돈다.
+		// 새 오브젝트는 다음 프레임부터 충돌 검사를 받는다.
+		const size_t leftCount = lefts.size();
+		const size_t rightCount = rights.size();
+
+		for (size_t i = 0; i < leftCount && i < lefts.size(); i++)
 		{
+			GameObject* leftObject = lefts[i];
+			if (leftObject == nullptr)
+				continue;
+
 			Collider* leftCollider = leftObject->GetComponent<Collider>();
 			if (leftCollider == nullptr)
 				continue;
 
-			for (auto rightObject : rights)
+			for (size_t j = 0; j < rightCount && j < rights.size(); j++)
 			{
+				GameObject* rightObject = rights[j];
+				if (rightObject == nullptr)
+					continue;
+
 				Collider* rightCollider = rightObject->GetComponent<Collider>();
 				if (rightCollider == nullptr)
 					continue;
@@ -43,9 +56,37 @@ namespace ya
 				if (leftObject == rightObject)
 					continue;
 
+				// Pause·Death 오브젝트는 충돌하지 않는다.
+				// 충돌 중이던 쌍이면 Exit를 한 번만 보내고 그 뒤로는 검사하지 않는다.
+				if (leftObject->GetState() != GameObject::eState::Active
+					|| rightObject->GetState() != GameObject::eState::Active)
+				{
+					InactiveCollision(leftCollider, rightCollider);
+					continue;
+				}
+
 				ColliderCollision(leftCollider, rightCollider, left, right);
 			}
 		}
+	}
+
+	void CollisionManager::InactiveCollision(Collider* leftCol, Collider* rightCol)
+	{
+		ColliderID colliderID = {};
+		colliderID.left = (UINT)leftCol->GetID();
+		colliderID.right = (UINT)rightCol->GetID();
+
+		std::map<UINT64, bool>::iterator iter
+			= mCollisionMap.find(colliderID.id);
+
+		if (iter == mCollisionMap.end() || iter->second == false)
+			return;
+
+		// 콜백 안에서 씬이 바뀌어(Clear) iter가 무효가 될 수 있으니 먼저 기록한다
+		iter->second = false;
+
+		leftCol->OnCollisionExit(rightCol);
+		rightCol->OnCollisionExit(leftCol);
 	}
 
 	void CollisionManager::ColliderCollision(Collider* leftCol, Collider* rightCol, eLayerType left, eLayerType right)
@@ -67,12 +108,13 @@ namespace ya
 		if (Intersect(leftCol, rightCol))
 		{
 			// 최초 충돌 시작했을때 enter
+			// (콜백 안에서 씬이 바뀌어 맵이 비워질 수 있으니 상태를 먼저 기록한다)
 			if (iter->second == false)
 			{
+				iter->second = true;
+
 				leftCol->OnCollisionEnter(rightCol);
 				rightCol->OnCollisionEnter(leftCol);
-
-				iter->second = true;
 			}
 			else // 충돌 중인상태 stay
 			{
@@ -87,10 +129,10 @@ namespace ya
 			// 현재는 충돌 X 
 			if (iter->second == true)
 			{
+				iter->second = false;
+
 				leftCol->OnCollisionExit(rightCol);
 				rightCol->OnCollisionExit(leftCol);
-
-				iter->second = false;
 			}
 		}
 	}
