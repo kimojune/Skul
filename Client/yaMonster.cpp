@@ -43,8 +43,9 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\Monster\\Ent\\RightHit", Vector2(-14.0f,-8.0f), 0.1f);
 
 
+		// 콜라이더 아래 변 = 발. 엔트 Idle 스프라이트의 보이는 맨 아래 줄 바로 밑 (위치.y + 54, 크기 기본값 100)
 		Collider* collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(-40.0f, -45.0f));
+		collider->SetCenter(Vector2(-40.0f, -46.0f));
 		mRigidbody = AddComponent<Rigidbody>();
 
 		mRigidbody->SetMass(1.0f);
