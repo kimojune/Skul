@@ -1,9 +1,9 @@
-# Stage1 시작 낙하(y=450 → 1726): 낙하 속도가 Rigidbody 최대 속도(y 1000)를 넘지 않는지
+# Stage1 시작 낙하(y=450 → 1709): 낙하 속도가 Rigidbody 최대 속도(y 1000)를 넘지 않는지
 # 기준 동작(2026-10-23, 수정 전): 제한이 적용되지 않아 착지 직전 vy 1440까지 빨라짐
 scene Stage1
 frames 240
 
 expect 200 player.ground == 1       # 결국 지면에 착지
-expect 200 player.y >= 1720
+expect 200 player.y >= 1705
 always     player.vy <= 1000.5      # 최대 낙하 속도
 always     player.vy >= -1000.5

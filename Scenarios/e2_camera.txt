@@ -5,19 +5,21 @@
 #   - 오른쪽: 816프레임쯤부터 camera.x = 2550 (화면 오른쪽 끝 3350)에서 멈춤
 #   - 바닥에 서 있으면 camera.y = 1501 (player.y 1726 - 225)
 #   - 플레이어는 바닥(x 0~3400)을 지나 약 4000까지 걸어간다
+# 픽셀 충돌 맵 이후(보이는 타일이 땅): camera.y = player.y - 225는 같고, 서 있는 높이가 지형을 따른다.
+#   시작 난간 y 1567 → camera.y 1342, x 3384 뒤 통로 바닥(윗면 1800) y 1777 → 1552
 scene Stage2
 frames 1300
 
 hold RIGHT 50 1250
 
 expect 50   camera.x == 800
-expect 50   camera.y == 1501
+expect 50   camera.y == 1342
 expect 500  camera.x >= 1490        # 가운데 구간은 플레이어를 따라감
 expect 900  camera.x == 2550
 expect 1250 player.x >= 3900
 expect 1250 camera.x == 2550
-expect 1299 camera.y == 1501
+expect 1299 camera.y == 1552
 always      camera.x >= 800
 always      camera.x <= 2550
-always      camera.y <= 1505        # 착지 순간 player.y가 1730까지 파고들 때 1505
+always      camera.y <= 1552.5      # 가장 낮은 바닥(통로, player.y 1777)에 섰을 때 1552. 착지 순간에도 파고들지 않음
 shot 1299
