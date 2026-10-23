@@ -179,7 +179,8 @@ namespace ya
 		{
 			std::wstring fullName = path + L"\\" + fileName;
 
-			Image* image = Resources::Load<Image>(fileName, fullName);
+			// 다른 폴더에 같은 파일명이 많아서 캐시 키는 전체 경로로 쓴다.
+			Image* image = Resources::Load<Image>(fullName, fullName);
 			images.push_back(image);
 
 			if (width < image->GetWidth())
@@ -193,11 +194,13 @@ namespace ya
 			fileCount++;
 		}
 
+		// 애니메이션 이름은 "상위폴더명 + 폴더명" (예: BulletLoop)
 		std::wstring key = fs.parent_path().filename();
 		//std::wstring key = fs.filename();
 		key += fs.filename();
 
-		mSpriteSheet = Image::Create(key, width * fileCount, height);
+		// 합친 시트 이미지는 이름이 겹치지 않도록 폴더 전체 경로를 키로 쓴다.
+		mSpriteSheet = Image::Create(path, width * fileCount, height);
 
 		HBRUSH magentaBrush = CreateSolidBrush(RGB(255, 0, 255));
 		HBRUSH oldBrush = (HBRUSH)SelectObject(mSpriteSheet->GetHdc(), magentaBrush);
