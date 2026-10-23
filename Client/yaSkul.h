@@ -134,6 +134,10 @@ namespace ya
 		// 대시 충전·점프 횟수가 남았으면 상태를 바꾸고 true
 		bool startDash();
 		bool startJump();
+		// 좌우 입력: -1 왼쪽, 1 오른쪽, 0 없음. 둘 다 누르고 있으면 나중에 누른 쪽
+		int moveInput();
+		// 상태가 바뀐 프레임(착지, 대시·공격 끝)에 눌린 키를 잃지 않도록 그 프레임에 Idle 입력 처리를 바로 한다
+		void enterIdleAndHandleInput();
 		void playDirectional(const wchar_t* left, const wchar_t* right, bool loop);
 
 		eDirection mDirect;
@@ -156,6 +160,9 @@ namespace ya
 		float mHitStunTime;		// 남은 경직 시간
 		float mKnockback;		// 경직 동안 x 이동 속도 (부호가 방향)
 		float mDeadTime;		// 쓰러진 뒤 흐른 시간
+
+		// 마지막으로 누른 방향키. Basic·Nohead가 교대해도 이어지도록 공유한다
+		static eDirection mLastPressedDirection;
 
 		//Skul* mSecondSkul;
 
