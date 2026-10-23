@@ -7,6 +7,7 @@
 #include "Resource.h"
 #include "yaSoundManager.h"
 #include "yaScenario.h"
+#include "yaUIDebugOverlay.h"
 
 namespace ya
 {
@@ -120,6 +121,10 @@ namespace ya
 		Input::Render(mBackHDC);
 		SceneManager::Render(mBackHDC);
 		Camera::Render(mBackHDC);
+#ifdef _DEBUG
+		// 디버그 정보창은 페이드 효과보다도 위에 그린다
+		UIDebugOverlay::Render(mBackHDC);
+#endif
 		// 백버퍼에 있는 그림을 원본버퍼에 그려줘야한다.
 		BitBlt(mHdc, 0, 0, mWidth, mHeight, mBackHDC, 0, 0, SRCCOPY);
 	}

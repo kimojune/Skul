@@ -13,6 +13,9 @@ namespace ya
 
 		VK_UP, VK_DOWN, VK_LEFT ,VK_RIGHT,
 		VK_LBUTTON, VK_RBUTTON,
+
+		VK_SPACE, VK_SHIFT, VK_ESCAPE, VK_RETURN, VK_TAB,
+		'1', '2', '3', '4',
 	};
 
 	// 시나리오 대본에서 쓰는 키 이름 (ASCII 배열과 같은 순서)
@@ -24,6 +27,9 @@ namespace ya
 
 		"UP", "DOWN", "LEFT", "RIGHT",
 		"LBUTTON", "RBUTTON",
+
+		"SPACE", "SHIFT", "ESC", "ENTER", "TAB",
+		"1", "2", "3", "4",
 	};
 
 	std::vector<Input::Key> Input::mKeys;
@@ -59,11 +65,14 @@ namespace ya
 
 	void Input::Update()
 	{
-		if (mScripted || GetFocus())
+		// 자동 검증(--smoke, --scenario) 중에는 실제 키보드·마우스를 읽지 않는다.
+		// GetAsyncKeyState는 다른 창에서 친 키도 읽기 때문에 결과가 달라질 수 있다. 대본이 없으면 모든 키가 떼어진 상태
+		bool scripted = mScripted || application.IsHeadless();
+		if (scripted || GetFocus())
 		{
 			for (UINT i = 0; i < (UINT)eKeyCode::END; i++)
 			{
-				bool down = mScripted ? mScriptedDown[i] : (GetAsyncKeyState(ASCII[i]) & 0x8000) != 0;
+				bool down = scripted ? mScriptedDown[i] : (GetAsyncKeyState(ASCII[i]) & 0x8000) != 0;
 				if (down)
 				{
 					// 이전 프레임에도 눌려 있었다
@@ -86,13 +95,15 @@ namespace ya
 				}
 			}
 
-			POINT mousePos = {};
-			GetCursorPos(&mousePos);
+			if (!scripted)
+			{
+				POINT mousePos = {};
+				GetCursorPos(&mousePos);
 
-			ScreenToClient(application.GetHwnd(), &mousePos);
-			mMousePos.x = mousePos.x;
-			mMousePos.y = mousePos.y;
-
+				ScreenToClient(application.GetHwnd(), &mousePos);
+				mMousePos.x = (float)mousePos.x;
+				mMousePos.y = (float)mousePos.y;
+			}
 		}
 		else
 		{

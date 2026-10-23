@@ -34,7 +34,7 @@ cd Client
 
 - `op`: `<` `<=` `>` `>=` `==` `!=`
 - 위치나 속도가 NaN 또는 무한대가 되면 대본과 관계없이 바로 실패합니다.
-- KEY: `Q`~`M`(알파벳), `UP` `DOWN` `LEFT` `RIGHT` `LBUTTON` `RBUTTON`. 이 목록은 `yaInput.cpp`의 `KeyNames`와 같습니다.
+- KEY: `Q`~`M`(알파벳), `UP` `DOWN` `LEFT` `RIGHT` `LBUTTON` `RBUTTON`, `SPACE` `SHIFT` `ESC` `ENTER` `TAB`, `1` `2` `3` `4`(키보드 윗줄 숫자). 이 목록은 `yaInput.cpp`의 `KeyNames`와 같습니다.
 - 게임 조작:
   - ←→: 이동
   - C: 점프

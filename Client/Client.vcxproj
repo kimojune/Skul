@@ -198,6 +198,8 @@
     <ClInclude Include="yaTitleScene.h" />
     <ClInclude Include="yaToolScene.h" />
     <ClInclude Include="yaTransform.h" />
+    <ClInclude Include="yaUIDebugOverlay.h" />
+    <ClInclude Include="yaUIDraw.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaBackCastle.cpp" />
@@ -258,6 +260,8 @@
     <ClCompile Include="yaTitleScene.cpp" />
     <ClCompile Include="yaToolScene.cpp" />
     <ClCompile Include="yaTransform.cpp" />
+    <ClCompile Include="yaUIDebugOverlay.cpp" />
+    <ClCompile Include="yaUIDraw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />
