@@ -1,0 +1,41 @@
+# Boss (G4): 그로기가 아니면 머리만 맞고, 그로기 중에는 손·몸도 맞는다. damage 명령 없이 실제 공격 입력만 쓴다.
+# 플레이어 공격 판정(SkulAttack)은 G2 담당이고, 보스 쪽에서 맞은 부위와 그로기 여부를 보고 피해를 정한다.
+# seed 1: 에너지볼 3회 뒤 733~1003 그로기. 플레이어 이동·공격 시간에 맞춘 값이라 Skul 조작이 바뀌면 다시 맞춘다.
+scene Boss
+seed 1
+frames 1000
+
+# 1) 시작 자리(x 1200)에서 오른쪽을 보고 공격: 공격 판정이 대기 중인 왼손과만 겹친다 -> 피해 없음
+press X 170
+press X 190
+expect 230 boss.hp == 80
+
+# 2) 머리 밑(x 약 1487)까지 걸어가 땅에서 공격: 몸통과 겹치지만 머리에는 닿지 않는다 -> 피해 없음
+hold RIGHT 210 320
+press X 330
+press X 350
+expect 390 boss.hp == 80
+
+# 3) 점프 공격으로 머리를 때린다 -> 피해 (뿌리 발판 위에 내려선다)
+press C 400
+press X 410
+expect 430 boss.hp < 80
+expect 730 boss.groggy == 0
+
+# 4) 그로기 중 왼쪽으로 내려가 바닥을 짚은 왼손을 때린다 (머리·몸통에는 닿지 않는 자리) -> 피해
+hold LEFT 740 850
+press X 860
+press X 878
+press X 896
+press X 914
+press X 932
+press X 950
+press X 968
+expect 855 boss.groggy == 1
+expect 855 boss.hp == 79
+expect 990 boss.hp <= 76
+
+always     boss.phase == 1
+shot 180
+shot 420
+shot 880

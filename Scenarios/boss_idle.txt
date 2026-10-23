@@ -5,7 +5,7 @@ seed 1
 frames 900
 
 expect 120 player.ground == 1
-expect 450 count.enemybullet >= 1   # seed 1에서는 이 시점에 8방향 탄 패턴 진행 중
+expect 450 count.enemybullet >= 1   # seed 1에서는 이 시점에 에너지볼 패턴 진행 중 (G4 개편 후: 378 첫 발사, 415부터 두 번째 충전)
 always     player.y <= 1730
-always     objects <= 500           # 시작 446개, 누수 감시
+always     objects <= 500           # 시작 472개 (G4 개편 전 446개. 보스 탄 24·이펙트 8·예고·HP 바를 미리 만든다), 누수 감시
 shot 450
