@@ -1,0 +1,29 @@
+# G3 Stage2: 가만히 서 있는 플레이어를 엔트가 쫓아와서, 예고한 뒤 내려친다. 내려칠 때마다 HP 10
+# 기준 동작(2026-10-23, seed 1):
+#   - x=400 엔트가 걸어와 182프레임에 거리 110에서 멈추고 예고 시작 (주먹 든 자세 + 바닥의 붉은 띠)
+#   - 0.9초 뒤 237프레임에 내려침 → HP 90. 판정(EnemyBullet)은 0.1초만 있다
+#   - 그 뒤 2.5초(152프레임)마다 반복: 389 → HP 80, 541 → HP 70
+#   - 나머지 두 마리(x 900, 2800)는 감지 거리(500) 밖이라 배회만 한다
+scene Stage2
+seed 1
+frames 560
+
+expect 0   ent.nearest >= 300          # 처음엔 멀리 있다
+expect 0   ent.hpsum == 18             # 엔트 3마리 x HP 6
+expect 170 ent.nearest <= 140          # 플레이어 쪽으로 걸어왔다 (추격)
+expect 170 ent.windups == 0
+expect 200 ent.windups == 1            # 예고 중
+expect 200 ent.slams == 0
+expect 236 player.hp == 100            # 예고 동안은 피해 없음
+expect 237 ent.slams == 1              # 예고 0.9초 뒤 내려침
+expect 237 count.enemybullet == 1      # 내려치기 판정
+expect 237 player.hp == 90             # 한 번에 10
+expect 260 count.enemybullet == 0      # 판정은 잠깐만
+expect 385 player.hp == 90             # 쿨다운 동안 추가 피해 없음
+expect 400 player.hp == 80             # 두 번째 내려치기
+expect 559 player.hp == 70
+expect 559 ent.slams == 3
+always     player.hp >= 70
+always     count.monster == 3
+shot 200                               # 예고
+shot 240                               # 내려친 직후 (먼지)
