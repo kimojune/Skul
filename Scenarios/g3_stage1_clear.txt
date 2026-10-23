@@ -1,0 +1,86 @@
+# G3 Stage1: 엔트 3마리를 모두 쓰러뜨려야 ItemGate 가 열린다 (원작: 방의 적을 다 잡아야 문이 열림)
+# 기준 동작(2026-10-23, seed 1):
+#   - 첫째(x 800): x≈397에 서서 공격 → 591프레임에 사라짐
+#   - 둘째(x 1250): x≈993까지 걸어가 공격 → 1237프레임
+#   - 셋째(x 2400): 문(트리거 x 약 1670~1970) 안쪽 x≈1927까지 걸어가 공격 → 2015프레임. count.monster 3 → 0
+#   - 엔트가 남아 있을 때 F: 그대로 Stage1. 다 잡은 뒤 F: Stage2 로 넘어감
+# 엔트는 감지 거리(500) 밖에서는 rand()로 배회하므로, seed 를 바꾸면 걷는 구간을 다시 맞춰야 한다.
+scene Stage1
+seed 1
+frames 2300
+
+hold  RIGHT 120 240
+press X 280
+press X 304
+press X 328
+press X 352
+press X 376
+press X 400
+press X 424
+press X 448
+press X 472
+press X 496
+press X 520
+press X 544
+press X 568
+press X 592
+press X 616
+press X 640
+hold  RIGHT 700 880
+press X 900
+press X 924
+press X 948
+press X 972
+press X 996
+press X 1020
+press X 1044
+press X 1068
+press X 1092
+press X 1116
+press X 1140
+press X 1164
+press X 1188
+press X 1212
+press X 1236
+press X 1260
+press X 1284
+press X 1308
+press X 1332
+press X 1356
+press X 1380
+hold  RIGHT 1420 1720
+press F 1730                            # 문 앞이지만 엔트가 남아 있다
+press X 1740
+press X 1764
+press X 1788
+press X 1812
+press X 1836
+press X 1860
+press X 1884
+press X 1908
+press X 1932
+press X 1956
+press X 1980
+press X 2004
+press X 2028
+press X 2052
+press X 2076
+press X 2100
+press X 2124
+press X 2148
+press X 2172
+press X 2196
+press F 2260                            # 다 잡은 뒤
+
+expect 0    count.monster == 3
+expect 600  count.monster == 2
+expect 1250 count.monster == 1
+expect 1735 player.x >= 1700            # 문 앞
+expect 1735 scene == 1                  # 아직 안 열림
+expect 2100 count.monster == 0
+expect 2100 ent.hpsum == 0
+expect 2259 scene == 1
+expect 2262 scene == 2                  # 문이 열려 Stage2 로
+always      player.hp >= 50
+shot 1735
+shot 2100

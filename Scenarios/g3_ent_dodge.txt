@@ -1,0 +1,22 @@
+# G3 Stage1: 엔트가 예고하는 동안 대시로 물러나면 내려치기를 피한다
+# 기준 동작(2026-10-23, seed 1):
+#   - 오른쪽으로 걸어가 x≈397에 서면 x=800 엔트가 다가와 441프레임에 예고 시작
+#   - 가만히 있으면 496프레임에 HP 90 (g3_ent_slam 과 같은 흐름)
+#   - 462프레임에 왼쪽으로 대시하면 x≈163까지 물러나서 496프레임 내려치기가 빗나간다
+# 대시 무적이 아직 없어도(player.invincible 은 항상 0) 거리로 피한다.
+scene Stage1
+seed 1
+frames 560
+
+hold  RIGHT 120 240
+hold  LEFT  460 462                    # 돌아서서
+press Z     462                        # 대시
+
+expect 450 ent.windups == 1            # 예고 시작
+expect 450 ent.nearest <= 115          # 주먹이 닿는 거리에서
+expect 470 ent.nearest >= 250          # 대시로 물러남
+expect 500 ent.slams == 1              # 내려치기는 했지만
+expect 559 player.hp == 100            # 맞지 않았다
+always     player.hp == 100
+shot 470
+shot 497
