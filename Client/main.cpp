@@ -2,11 +2,11 @@
 //
 
 #include "framework.h"
-#include <shellapi.h>
 #include "Client.h"
 #include "yaApplication.h"
 #include "yaSceneManager.h"
 #include "yaResources.h"
+#include <shellapi.h> // CommandLineToArgvW (windows.h 다음에 와야 한다)
 
 #define MAX_LOADSTRING 100
 
