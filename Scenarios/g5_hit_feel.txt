@@ -1,0 +1,20 @@
+﻿# G5 타격감: 엔트를 때리면 히트스톱(시간 배율 0)이 잠깐 걸렸다 풀리고, 맞은 엔트가 번쩍이고, 소리·흔들림이 난다
+# Stage2 시작, 오른쪽 엔트 쪽으로 걸어가 x=790 근처에서 X 한 번 (g3_ent_hits 와 같은 시작)
+scene Stage2
+seed 1
+frames 360
+hold RIGHT 0 250
+press X 255
+shot 256
+expect 250 fx.timescale == 1
+expect 250 fx.hitstops == 0
+expect 250 fx.flashing == 0
+expect 255 ent.hits == 0
+expect 256 ent.hits == 1               # 타격은 255 프레임 충돌 처리에서 일어나 256 프레임 기록에 보인다
+expect 256 fx.hitstops == 1
+expect 256 fx.flashing >= 1            # 맞은 엔트가 번쩍인다
+expect 256 fx.timescale == 0           # 히트스톱 중 (약 4프레임)
+expect 259 fx.timescale == 0
+expect 265 fx.timescale == 1           # 반드시 풀린다
+expect 300 fx.flashing == 0            # 번쩍임도 끝난다
+expect 300 ent.hits == 1

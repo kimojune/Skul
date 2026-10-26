@@ -36,3 +36,4 @@ always     player.hp >= 60
 always     count.monster == 3
 shot 230                               # 예고
 shot 285                               # 내려친 직후 (먼지)
+timefx off  # 히트스톱·슬로모션이 프레임 타이밍을 밀기 때문에 끈다 (기대값은 그대로)

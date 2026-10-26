@@ -126,7 +126,7 @@ namespace ya
 		// rand()를 쓰면 게임 쪽 rand() 순서(보스 패턴 등)가 바뀌므로 sin/cos 로 흔든다.
 		if (mShakeTime < mShakeDuration)
 		{
-			mShakeTime += (float)Time::DeltaTime();
+			mShakeTime += (float)Time::UnscaledDeltaTime(); // 히트스톱 중에도 흔들린다
 
 			float power = mShakeIntensity * (1.0f - mShakeTime / mShakeDuration);
 			if (power < 0.0f)
@@ -186,6 +186,14 @@ namespace ya
 
 	void Camera::Shake(float intensity, float duration)
 	{
+		// 작은 흔들림(타격감)이 진행 중인 큰 흔들림(보스 연출)을 끊지 않는다
+		if (mShakeTime < mShakeDuration)
+		{
+			float remaining = mShakeIntensity * (1.0f - mShakeTime / mShakeDuration);
+			if (intensity <= remaining)
+				return;
+		}
+
 		mShakeIntensity = intensity;
 		mShakeDuration = duration;
 		mShakeTime = 0.0f;

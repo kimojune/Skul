@@ -1,5 +1,6 @@
 ﻿#include "yaBoss_Body.h"
 #include "yaAnimator.h"
+#include "yaHitFeedback.h"
 #include "yaResources.h"
 #include "yaTransform.h"
 #include "yaCollider.h"
@@ -72,7 +73,8 @@ namespace ya
 		if (dynamic_cast<SkulAttack*>(other->GetOwner()) == nullptr)
 			return;
 
-		mBoss->OnPartAttacked(Chapter1_Boss::ePart::Body);
+		if (mBoss->OnPartAttacked(Chapter1_Boss::ePart::Body))
+			mAnimator->FlashFor(HitFx::FlashTime);
 	}
 	void Boss_Body::OnCollisionExit(Collider* other)
 	{

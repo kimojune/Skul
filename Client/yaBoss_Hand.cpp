@@ -1,5 +1,6 @@
 ﻿#include "yaBoss_Hand.h"
 #include "yaAnimator.h"
+#include "yaHitFeedback.h"
 #include "yaTransform.h"
 #include "yaResources.h"
 #include "yaImage.h"
@@ -136,7 +137,8 @@ namespace ya
 		if (dynamic_cast<SkulAttack*>(owner) != nullptr)
 		{
 			if (mBoss != nullptr)
-				mBoss->OnPartAttacked(Chapter1_Boss::ePart::Hand);
+				if (mBoss->OnPartAttacked(Chapter1_Boss::ePart::Hand))
+					mAnimator->FlashFor(HitFx::FlashTime);
 			return;
 		}
 

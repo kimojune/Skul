@@ -123,7 +123,7 @@ namespace ya
 	}
 
 	void RendererGDI::DrawImage(Image* image, const RenderRect& dst, const RenderRect& src
-		, eImageBlend blend, BYTE alpha, bool flipX)
+		, eImageBlend blend, BYTE alpha, bool flipX, BYTE flash)
 	{
 		HDC srcHdc = image->GetHdc();
 		int srcX = src.x;

@@ -84,3 +84,5 @@ expect 2262 scene == 2                  # 문이 열려 Stage2 로
 always      player.hp >= 50
 shot 1735
 shot 2100
+timefx off  # 히트스톱·슬로모션이 프레임 타이밍을 밀기 때문에 끈다 (기대값은 그대로)
+fxknock off  # 엔트 넉백을 세게 만든 뒤라 20프레임 간격 연타가 닿지 않는다. 예전 넉백으로 돌린다 (기대값은 그대로)

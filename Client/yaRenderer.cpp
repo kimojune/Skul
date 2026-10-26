@@ -110,7 +110,7 @@ namespace ya
 
 	void Renderer::DrawImage(Image* image, int x, int y, int width, int height
 		, int srcX, int srcY, int srcWidth, int srcHeight
-		, eImageBlend blend, BYTE alpha, bool flipX)
+		, eImageBlend blend, BYTE alpha, bool flipX, BYTE flash)
 	{
 		if (mBackend == nullptr || image == nullptr || alpha == 0)
 			return;
@@ -126,7 +126,7 @@ namespace ya
 		}
 
 		mBackend->GetStats().sprites++;
-		mBackend->DrawImage(image, { x, y, width, height }, { srcX, srcY, srcWidth, srcHeight }, blend, alpha, flipX);
+		mBackend->DrawImage(image, { x, y, width, height }, { srcX, srcY, srcWidth, srcHeight }, blend, alpha, flipX, flash);
 	}
 
 	void Renderer::FillRect(int x, int y, int width, int height, COLORREF color, BYTE alpha)

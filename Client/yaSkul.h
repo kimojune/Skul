@@ -63,6 +63,8 @@ namespace ya
 		eDirection GetDirect() { return mDirect;}
 		bool GetIsAttack() { return IsAttack; }
 		void SetIsAttack(bool mtrue) { IsAttack = mtrue; }
+		// 지상 공격 2타(AttackB)를 재생 중인가 (타격감을 더 세게 줄 때 쓴다)
+		bool IsSecondComboHit() { return mState == eSkulState::Attack && !SecondAttack; }
 
 
 		void SetSkulState(eSkulState state) { mState = state; }
@@ -145,6 +147,7 @@ namespace ya
 
 	private:
 		void updateHitStun();
+		void updateAttackLunge();
 		void updateDashInvincible();
 
 		Animator* mAnimator;

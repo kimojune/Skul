@@ -42,3 +42,4 @@ always     scene == 4
 shot 180
 shot 375
 shot 790
+timefx off  # 히트스톱·슬로모션이 프레임 타이밍을 밀기 때문에 끈다 (기대값은 그대로)

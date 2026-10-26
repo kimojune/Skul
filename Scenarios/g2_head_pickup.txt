@@ -42,3 +42,4 @@ expect 840 player.skillACooldown == 0
 always     player.found == 1
 always     count.player == 1
 always     player.y <= 1730
+timefx off  # 히트스톱·슬로모션이 프레임 타이밍을 밀기 때문에 끈다 (기대값은 그대로)

@@ -68,10 +68,11 @@ namespace ya
 		static bool SaveScreenshot(const std::wstring& path);
 
 		// 이미지의 (srcX, srcY, srcWidth, srcHeight) 부분을 (x, y, width, height)에 늘려 그린다.
-		// alpha는 전체 투명도(0 투명 ~ 255 불투명), flipX는 좌우 반전
+		// alpha는 전체 투명도(0 투명 ~ 255 불투명), flipX는 좌우 반전,
+		// flash는 흰색으로 섞는 정도(0 ~ 255, DX11만. GDI 는 무시)
 		static void DrawImage(Image* image, int x, int y, int width, int height
 			, int srcX, int srcY, int srcWidth, int srcHeight
-			, eImageBlend blend = eImageBlend::ColorKey, BYTE alpha = 255, bool flipX = false);
+			, eImageBlend blend = eImageBlend::ColorKey, BYTE alpha = 255, bool flipX = false, BYTE flash = 0);
 		static void FillRect(int x, int y, int width, int height, COLORREF color, BYTE alpha = 255);
 		static void DrawRect(int x, int y, int width, int height, COLORREF color, int thickness = 1);
 		static void DrawLine(int x1, int y1, int x2, int y2, COLORREF color, int thickness = 1);

@@ -52,6 +52,8 @@ namespace ya
 		std::wstring mOutDir;
 		eSceneType mStartScene;
 		UINT mSeed;
+		bool mbFxKnockOff;	// fxknock off: 엔트 넉백·경직을 예전 값으로, 공격 돌진 끔
+		bool mbTimeFxOff;	// timefx off: 히트스톱·슬로모션의 시간 배율만 끈다
 		UINT mFrames;
 		UINT mFrame;
 		std::vector<KeyHold> mHolds;

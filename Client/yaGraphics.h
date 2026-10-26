@@ -103,7 +103,7 @@ namespace ya::graphics
 		DirectX::XMFLOAT4 tint;
 		DirectX::XMFLOAT2 textureSize;
 		UINT flipX;
-		float pad;
+		float flash;	// 0~1 흰색으로 섞는 정도
 	};
 
 	// 파이프라인 상태 묶음. RendererDX11 이 만들고 Shader::Binds 가 골라서 묶는다

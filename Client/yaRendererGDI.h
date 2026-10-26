@@ -17,7 +17,7 @@ namespace ya
 		virtual bool ReadPixels(std::vector<BYTE>& pixels, UINT& width, UINT& height) override;
 
 		virtual void DrawImage(Image* image, const RenderRect& dst, const RenderRect& src
-			, eImageBlend blend, BYTE alpha, bool flipX) override;
+			, eImageBlend blend, BYTE alpha, bool flipX, BYTE flash) override;
 		virtual void FillRect(const RenderRect& rect, COLORREF color, BYTE alpha) override;
 		virtual void DrawRect(const RenderRect& rect, COLORREF color, int thickness) override;
 		virtual void DrawLine(int x1, int y1, int x2, int y2, COLORREF color, int thickness) override;

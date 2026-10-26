@@ -66,6 +66,15 @@ namespace ya
 		void SetAlpha(BYTE alpha) { mAlpha = alpha; }	// 0(투명) ~ 255(불투명)
 		BYTE GetAlpha() { return mAlpha; }
 
+		// 흰색으로 번쩍임 (0 없음 ~ 255 완전히 흰색). DX11만 그린다. GDI 는 번쩍이지 않는다.
+		// FlashFor 는 duration(초, 시간 배율과 무관한 실제 시간) 동안 완전히 흰색으로 그린다
+		void SetFlash(BYTE flash) { mFlash = flash; }
+		void FlashFor(float duration);
+		BYTE GetFlash() { return (mFlash > 0 || mFlashTime <= 0.0f) ? mFlash : 255; }
+		bool IsFlashing() { return mFlashTime > 0.0f; }
+		// 지금 번쩍이는 Animator 수 (시나리오 fx.flashing)
+		static int GetFlashingCount() { return mFlashingCount; }
+
 	private:
 		std::map<std::wstring, Animation*> mAnimations;
 		std::map<std::wstring, Events*> mEvents;
@@ -74,5 +83,8 @@ namespace ya
 		bool mbLoop;
 		bool mbFlipX;
 		BYTE mAlpha;
+		BYTE mFlash;
+		float mFlashTime;
+		static int mFlashingCount;
 	};
 }

@@ -204,6 +204,7 @@
     <ClInclude Include="yaTile.h" />
     <ClInclude Include="yaTilePalatte.h" />
     <ClInclude Include="yaTime.h" />
+    <ClInclude Include="yaHitFeedback.h" />
     <ClInclude Include="yaTitleBG.h" />
     <ClInclude Include="yaTitleLogo.h" />
     <ClInclude Include="yaTitleScene.h" />
@@ -283,6 +284,7 @@
     <ClCompile Include="yaTile.cpp" />
     <ClCompile Include="yaTilePalatte.cpp" />
     <ClCompile Include="yaTime.cpp" />
+    <ClCompile Include="yaHitFeedback.cpp" />
     <ClCompile Include="yaTitleBG.cpp" />
     <ClCompile Include="yaTitleLogo.cpp" />
     <ClCompile Include="yaTitleScene.cpp" />

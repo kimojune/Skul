@@ -72,7 +72,7 @@ namespace ya
             , (int)(sprite.size.x * scale.x), (int)(sprite.size.y * scale.y)
             , (int)sprite.leftTop.x, (int)sprite.leftTop.y
             , (int)sprite.size.x, (int)sprite.size.y
-            , eImageBlend::ColorKey, mAnimator->GetAlpha(), flipX);
+            , eImageBlend::ColorKey, mAnimator->GetAlpha(), flipX, mAnimator->GetFlash());
     }
 
     void Animation::Create(Image* sheet, Vector2 leftTop

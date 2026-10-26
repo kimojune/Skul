@@ -35,6 +35,8 @@ namespace ya
 		void Reset();
 
 		bool IsComplete() { return mbComplete; }
+		// 모든 프레임 시간의 합 (초)
+		float GetTotalDuration() { float total = 0.0f; for (const Sprite& sprite : mSpriteSheet) total += sprite.duration; return total; }
 		void SetAnimator(Animator* animator) { mAnimator = animator; }
 		void SetAnimationName(const std::wstring& name) { mAnimationName = name; }
 		std::wstring& GetAnimationName() { return mAnimationName; }
