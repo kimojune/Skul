@@ -57,6 +57,13 @@ namespace ya
 		std::vector<KeyHold> mHolds;
 		std::vector<UINT> mShots;
 		std::vector<std::pair<UINT, int>> mDamages; // (프레임, 피해량)
+		struct Teleport
+		{
+			UINT frame;
+			float x;
+			float y;
+		};
+		std::vector<Teleport> mTeleports;
 		std::vector<Check> mChecks;
 		std::vector<std::string> mErrors;
 		FILE* mStateLog;

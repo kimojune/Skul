@@ -1,0 +1,36 @@
+# 통합 (G1 충돌 맵 + G2 입력): Stage2 두 발판의 왼쪽 끝·가운데·오른쪽 끝에서 ↓를 누르면 아래로 내려간다.
+# teleport로 발판 위 60px에 놓고 착지(45프레임) → ↓ → 35프레임 뒤 발판 아래에 있어야 한다.
+# 발판 A: x 790~1225, 윗면 y 1374 (선 위치 y≈1349)   발판 B: x 1295~1725, 윗면 y 1518 (선 위치 y≈1493)
+scene Stage2
+seed 1
+frames 560
+
+teleport 10 800 1291
+hold DOWN 55 60
+expect 54 player.ground == 1
+expect 95 player.y >= 1450
+
+teleport 100 1005 1291
+hold DOWN 145 150
+expect 144 player.ground == 1
+expect 185 player.y >= 1450
+
+teleport 190 1215 1291
+hold DOWN 235 240
+expect 234 player.ground == 1
+expect 275 player.y >= 1450
+
+teleport 280 1305 1435
+hold DOWN 325 330
+expect 324 player.ground == 1
+expect 365 player.y >= 1590
+
+teleport 370 1510 1435
+hold DOWN 415 420
+expect 414 player.ground == 1
+expect 455 player.y >= 1590
+
+teleport 460 1715 1435
+hold DOWN 505 510
+expect 504 player.ground == 1
+expect 545 player.y >= 1590

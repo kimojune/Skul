@@ -182,6 +182,14 @@ namespace ya
 					return parseError(lineNumber, "usage: damage <frame> <amount>");
 				mDamages.push_back(damage);
 			}
+			else if (command == "teleport")
+			{
+				// 플레이어를 원하는 위치로 옮긴다 (속도 0, 공중 상태). 맵의 여러 지점을 하나의 대본으로 훑을 때 쓴다
+				Teleport teleport = {};
+				if (!(tokens >> teleport.frame >> teleport.x >> teleport.y))
+					return parseError(lineNumber, "usage: teleport <frame> <x> <y>");
+				mTeleports.push_back(teleport);
+			}
 			else if (command == "expect" || command == "always")
 			{
 				Check check = {};
@@ -258,6 +266,25 @@ namespace ya
 			Skul* skul = (playScene != nullptr) ? playScene->GetSkul() : nullptr;
 			Vector2 pos = (skul != nullptr) ? skul->GetComponent<Transform>()->GetPos() : Vector2::Zero;
 			PlayerStats::TakeDamage(damage.second, pos - Vector2(10.0f, 0.0f));
+		}
+
+		for (const Teleport& teleport : mTeleports)
+		{
+			if (teleport.frame != mFrame)
+				continue;
+
+			PlayeScene* playScene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
+			Skul* skul = (playScene != nullptr) ? playScene->GetSkul() : nullptr;
+			if (skul == nullptr)
+				continue;
+
+			skul->GetComponent<Transform>()->SetPos(Vector2(teleport.x, teleport.y));
+			Rigidbody* rigidbody = skul->GetComponent<Rigidbody>();
+			if (rigidbody != nullptr)
+			{
+				rigidbody->SetVelocity(Vector2::Zero);
+				rigidbody->SetGround(false);
+			}
 		}
 	}
 

@@ -29,6 +29,7 @@ cd Client
 | `hold <KEY> <from> <to>` | from~to 프레임 동안 키를 누름 (양끝 포함) |
 | `press <KEY> <frame>` | 한 프레임만 누름 |
 | `shot <frame>` | 해당 프레임을 그린 직후 화면 저장 |
+| `teleport <frame> <x> <y>` | 해당 프레임 시작에 플레이어를 (x, y)로 옮김 (속도 0, 공중). 맵 여러 지점을 한 대본으로 훑을 때 사용 |
 | `damage <frame> <amount>` | 해당 프레임 시작에 플레이어에게 피해 (`PlayerStats::TakeDamage`). 대시 무적 중이면 무시됨 |
 | `expect <frame> <var> <op> <number>` | 해당 프레임이 끝난 뒤 검사 |
 | `always <var> <op> <number>` | 매 프레임 검사. 처음 실패한 프레임을 보고 |
