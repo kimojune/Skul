@@ -138,6 +138,8 @@ namespace ya
 			PlayeScene* playscene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
 			mSkulHead = playscene->GetSkulHead();
 			mSkulHead->Throw(tr->GetPos(), mDirect);
+			// 머리가 날아가는 순간에 소리를 낸다. 전에는 던지는 애니메이션이 끝날 때(CompleteSkillA, 약 0.4초 뒤) 나서 늦게 들렸다
+			Skul_SkullThrowing->Play(false);
 
 			// 쿨다운 6초 시작. 공중이면 착지 전까지 다시 못 던진다
 			PlayerStats::OnHeadThrown(GetComponent<Rigidbody>()->GetGround());
@@ -205,7 +207,6 @@ namespace ya
 
 	void Basic::CompleteSkillA()
 	{
-		Skul_SkullThrowing->Play(false);
 		Skul* skul = SwitchSkul(eSkulType::Nohead);
 		
 		skul->SetSkulState(eSkulState::Idle);
