@@ -98,7 +98,8 @@ namespace ya
 		int mHP;
 		float mTime;		// 배회: 다음 행동을 고를 때까지 쌓는 시간
 		float mStunTime;		// 이번 피격의 경직 시간
-		float mKnockbackSpeed;	// 이번 피격의 처음 넉백 속도 (경직이 끝날 때까지 0으로 줄어든다)
+		float mKnockbackSpeed;	// 이번 피격의 처음 넉백 속도 (mKnockbackTime 동안 0으로 줄어든다)
+		float mKnockbackTime;	// 이번 피격에서 밀려나는 시간 (경직보다 짧다)
 		float mDelay;		// 지금 상태(피격, 공격 단계, 죽는 중)에 들어온 뒤 지난 시간
 		float mCooldown;	// 다음 내려치기까지 남은 시간
 		float mHomeX;		// 배치된 x. 배회는 이 근처에서만 한다

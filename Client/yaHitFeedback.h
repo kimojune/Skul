@@ -9,9 +9,10 @@ namespace ya
 	namespace HitFx
 	{
 		// 1. 히트스톱 (초, 시간 배율과 무관한 실제 시간). 시간 배율 0으로 멈춘다
-		constexpr float HitStopNormal = 0.06f;		// 일반 타격
-		constexpr float HitStopStrong = 0.10f;		// 2타째와 처치
-		constexpr float HitStopPlayerHurt = 0.08f;	// 플레이어가 맞았을 때
+		// (플레이테스트: 0.06/0.10/0.08은 답답했다 → 절반으로)
+		constexpr float HitStopNormal = 0.03f;		// 일반 타격
+		constexpr float HitStopStrong = 0.05f;		// 2타째와 처치
+		constexpr float HitStopPlayerHurt = 0.04f;	// 플레이어가 맞았을 때
 
 		// 2. 흰색 번쩍임 (초)
 		constexpr float FlashTime = 0.08f;
@@ -22,15 +23,21 @@ namespace ya
 		constexpr float ShakeStrongPower = 5.0f;
 		constexpr float ShakeStrongTime = 0.12f;
 
-		// 5. 엔트 넉백(밀려나는 거리 px)과 경직(초). 경직 동안 속도가 점점 줄어든다
-		constexpr float EntKnockbackNormal = 60.0f;
-		constexpr float EntKnockbackStrong = 110.0f;
+		// 5. 엔트 넉백(밀려나는 거리 px)과 경직(초).
+		//    밀리는 건 처음 EntKnockbackTime 동안만 빠르게 하고 나머지 경직은 제자리.
+		//    (플레이테스트: 60/110px를 경직 내내 밀면 미끄러져 보이고, 2타째가 멀어 다음 공격이 안 닿았다)
+		//    공격 돌진(35px)보다 작게 둬서, 붙어서 연타하면 계속 닿는다
+		constexpr float EntKnockbackNormal = 20.0f;
+		constexpr float EntKnockbackStrong = 30.0f;
+		constexpr float EntKnockbackTime = 0.1f;
 		constexpr float EntStunNormal = 0.4f;
 		constexpr float EntStunStrong = 0.55f;
 
-		// 6. 공격 돌진 (px). 지상 공격 애니메이션이 재생되는 동안 앞으로 나간다
+		// 6. 공격 돌진 (px). 공격 시작 후 LungeTime 동안만 빠르게 나가고 멈춘다
+		//    (플레이테스트: 애니메이션 내내 나가면 미끄러져 보였다. 거리는 1·2타 모두 35px로 고정)
 		constexpr float LungeHit1 = 35.0f;
-		constexpr float LungeHit2 = 55.0f;
+		constexpr float LungeHit2 = 35.0f;
+		constexpr float LungeTime = 0.08f;
 
 		// 7. 슬로모션: 마지막 엔트 처치, 보스 페이즈 전환, 보스 사망 (실제 시간 초)
 		constexpr float SlowMoScale = 0.3f;

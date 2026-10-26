@@ -99,6 +99,7 @@ namespace ya
 		, mTime(0.0f)
 		, mStunTime(EntTuning::HitStunTime)
 		, mKnockbackSpeed(0.0f)
+		, mKnockbackTime(EntTuning::HitStunTime)
 		, mDelay(0.0f)
 		, mCooldown(0.0f)
 		, mHomeX(0.0f)
@@ -306,8 +307,8 @@ namespace ya
 		// 때린 쪽(바라보는 쪽)의 반대로 밀려난다
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
-		// 처음에 가장 빠르고 경직이 끝날 때 0이 된다 (밀린 거리 = 속도 x 경직 / 2)
-		float remain = (mStunTime > 0.0f) ? (1.0f - mDelay / mStunTime) : 0.0f;
+		// 처음에 가장 빠르고 mKnockbackTime 이 지나면 0이 된다 (밀린 거리 = 속도 x 넉백 시간 / 2). 나머지 경직은 제자리
+		float remain = (mKnockbackTime > 0.0f) ? (1.0f - mDelay / mKnockbackTime) : 0.0f;
 		if (remain < 0.0f)
 			remain = 0.0f;
 		float push = mKnockbackSpeed * remain * deltaTime;
@@ -484,13 +485,15 @@ namespace ya
 		bool strong = HitFeedback::IsStrongHit(killed);
 		mStunTime = strong ? HitFx::EntStunStrong : HitFx::EntStunNormal;
 		float distance = strong ? HitFx::EntKnockbackStrong : HitFx::EntKnockbackNormal;
+		mKnockbackTime = HitFx::EntKnockbackTime;
 		if (!HitFeedback::IsEntKnockbackEnabled())
 		{
-			// 시나리오 fxknock off: 예전 값 (60px/s 로 0.3초)
+			// 시나리오 fxknock off: 예전 값 (60px/s 로 0.3초, 경직 내내 밀림)
 			mStunTime = EntTuning::HitStunTime;
 			distance = EntTuning::KnockbackSpeed * EntTuning::HitStunTime;
+			mKnockbackTime = mStunTime;
 		}
-		mKnockbackSpeed = 2.0f * distance / mStunTime;
+		mKnockbackSpeed = 2.0f * distance / mKnockbackTime;
 		mAnimator->FlashFor(HitFx::FlashTime);
 		HitFeedback::EnemyHit(killed);
 

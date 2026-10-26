@@ -13,8 +13,8 @@ expect 255 ent.hits == 0
 expect 256 ent.hits == 1               # 타격은 255 프레임 충돌 처리에서 일어나 256 프레임 기록에 보인다
 expect 256 fx.hitstops == 1
 expect 256 fx.flashing >= 1            # 맞은 엔트가 번쩍인다
-expect 256 fx.timescale == 0           # 히트스톱 중 (약 4프레임)
-expect 259 fx.timescale == 0
+expect 256 fx.timescale == 0           # 히트스톱 중 (0.03초 ≈ 2프레임. 플레이테스트 후 0.06 → 0.03)
+expect 260 fx.timescale == 1           # 짧게 끝난다 (답답하지 않게)
 expect 265 fx.timescale == 1           # 반드시 풀린다
 expect 300 fx.flashing == 0            # 번쩍임도 끝난다
 expect 300 ent.hits == 1

@@ -361,12 +361,25 @@ namespace ya
 		if (animation == nullptr || animation->IsComplete())
 			return;
 
-		float duration = animation->GetTotalDuration();
-		if (duration <= 0.0f)
+		// 공격 시작 후 LungeTime 동안만, 처음에 빠르고 끝에서 느려지게(ease-out) 나간다.
+		// 이번 단계에서 나갈 거리 = 지금까지 나가야 할 거리 - 직전 단계까지 나갔어야 할 거리
+		const float lungeTime = HitFx::LungeTime;
+		float elapsed = animation->GetElapsed();
+		float previous = elapsed - (float)Time::DeltaTime();
+		if (previous >= lungeTime)
 			return;
+		auto lungeProgress = [lungeTime](float t)
+		{
+			if (t <= 0.0f)
+				return 0.0f;
+			if (t >= lungeTime)
+				return 1.0f;
+			float k = 1.0f - t / lungeTime;
+			return 1.0f - k * k;
+		};
 
 		float distance = SecondAttack ? HitFx::LungeHit1 : HitFx::LungeHit2;
-		float step = distance / duration * (float)Time::DeltaTime();
+		float step = distance * (lungeProgress(elapsed) - lungeProgress(previous));
 		if (mDirect == eDirection::Left)
 			step = -step;
 
@@ -379,13 +392,14 @@ namespace ya
 		if (moved.x > GROUN_SIZE_X)
 			moved.x = GROUN_SIZE_X;
 
-		// 엔트 몸 안으로 파고들지 않는다 (지나치면 반대편을 보고 휘둘러 빗나간다)
+		// 엔트 몸 안으로 파고들지 않는다 (지나치면 반대편을 보고 휘둘러 빗나간다).
+		// 닿는 지점까지만 나간다. 전에는 겹칠 것 같으면 아예 안 나가서, 붙어서 연타하면 넉백만 쌓여 3타째부터 안 닿았다
 		Collider* mine = GetComponent<Collider>();
 		if (mine != nullptr)
 		{
-			Vector2 shift = moved - pos;
-			Vector2 minePos = mine->GetPos() + shift;
+			Vector2 minePos = mine->GetPos();
 			Vector2 mineSize = mine->GetSize();
+			float allowed = step;
 			for (GameObject* obj : SceneManager::GetActiveScene()->GetGameObjects(eLayerType::Monster))
 			{
 				Monster* ent = dynamic_cast<Monster*>(obj);
@@ -395,11 +409,25 @@ namespace ya
 
 				Vector2 otherPos = other->GetPos();
 				Vector2 otherSize = other->GetSize();
-				bool overlapX = minePos.x < otherPos.x + otherSize.x && otherPos.x < minePos.x + mineSize.x;
 				bool overlapY = minePos.y < otherPos.y + otherSize.y && otherPos.y < minePos.y + mineSize.y;
-				if (overlapX && overlapY)
-					return;
+				if (!overlapY)
+					continue;
+
+				// 나가는 쪽에 있는 엔트와의 틈 (이미 겹쳐 있으면 0)
+				if (allowed > 0.0f && otherPos.x >= minePos.x)
+				{
+					float gap = otherPos.x - (minePos.x + mineSize.x);
+					allowed = (gap < 0.0f) ? 0.0f : ((gap < allowed) ? gap : allowed);
+				}
+				else if (allowed < 0.0f && otherPos.x + otherSize.x <= minePos.x + mineSize.x)
+				{
+					float gap = minePos.x - (otherPos.x + otherSize.x);
+					allowed = (gap < 0.0f) ? 0.0f : ((-gap > allowed) ? -gap : allowed);
+				}
 			}
+			if (allowed == 0.0f)
+				return;
+			moved.x = pos.x + allowed;
 		}
 
 		// 발 밑 땅이 끊기는 곳(낭떠러지)이면 나가지 않는다
