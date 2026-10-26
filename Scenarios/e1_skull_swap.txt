@@ -1,0 +1,28 @@
+# Stage2: 착지 → A(머리 던지기, Basic→Nohead 교대) → S(머리 위치로 순간이동, Nohead→Basic) → 착지
+# 교대는 GameObject Pause로 한다. 다시 활성화된 스컬이 지면에 서 있는지,
+# Pause된 머리가 계속 충돌해서 몬스터를 때리지 않는지 본다.
+# 기준 동작(2026-10-23): 머리는 약 1060px/s로 날아가고, 프레임 121에 x≈1060으로 이동
+# Phase 2(G2) 이후: 원작처럼 머리가 몬스터에 부딪히면 뒤로 튀어 바닥에 놓인다. seed 1에서는 x≈350의 몬스터에
+# 부딪혀 프레임 111에 x≈211에 놓이고, 프레임 121에 그 위치(x≈232)로 이동한다. 그래서 125프레임 x 기준을 1000 -> 200으로 바꿨다.
+# G3 통합 뒤: 엔트가 플레이어를 쫓아와 x≈260에 있어서 머리가 x≈212에서 부딪혀 x≈105에 놓이고 x≈126으로 이동한다 -> 기준 200 -> 100.
+scene Stage2
+frames 300
+
+press A 60                          # 머리 던지기 (SkillA 애니메이션이 끝나면 Nohead로 교대)
+press S 120                         # 머리 위치로 순간이동 (Basic으로 교대)
+shot 125
+shot 299
+
+expect 59  player.ground == 1       # 던지기 전에 착지 완료
+expect 100 count.bullet == 1        # 머리가 날아가는 중
+expect 100 player.ground == 1       # 교대된 Nohead도 지면에 서 있음
+expect 119 player.x <= 1            # Nohead는 제자리
+expect 125 player.x >= 100          # 머리 위치로 이동 (수정 전 1000: 머리가 몬스터를 뚫고 계속 날았다)
+expect 125 count.bullet == 0        # 머리는 다시 Pause
+expect 299 player.ground == 1
+expect 299 player.y >= 1630        # 머리 위치(x≈1060)에서 떨어져 높은 땅(보이는 윗면 1660, y 1637)에 착지
+expect 299 player.state == 0        # SkillS가 끝나고 Idle
+expect 299 count.monster == 3       # Pause된 머리가 몬스터를 계속 때리지 않음 (수정 전: 프레임 268에 1마리 죽음)
+always     player.found == 1
+always     count.player == 1        # 활성 스컬은 항상 하나
+always     player.y <= 1730

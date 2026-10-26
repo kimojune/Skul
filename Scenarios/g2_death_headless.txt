@@ -1,0 +1,18 @@
+﻿# G2: 머리를 던진 채(Nohead) 죽으면 머리를 되찾은 Basic이 쓰러지고(Nohead에는 쓰러지는 애니메이션이 없음) 타이틀로 간다.
+scene Stage1
+frames 340
+
+press A 130                         # 머리 던지기 -> 약 154프레임에 Nohead로 교대
+damage 180 200                      # 치명상 (HP는 0에서 멈춤)
+shot 200
+
+expect 170 player.headOut == 1
+expect 170 count.bullet == 1
+expect 180 player.hp == 0
+expect 180 player.state == 11       # Basic이 Fall_Dead
+expect 180 player.headOut == 0
+expect 181 count.bullet == 0        # 머리는 숨김
+expect 290 scene == 1
+expect 320 scene == 0               # 2초 뒤 타이틀
+expect 320 player.hp == 100
+expect 320 player.headOut == 0

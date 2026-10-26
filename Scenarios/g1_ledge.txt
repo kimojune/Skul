@@ -1,0 +1,22 @@
+# G1 픽셀 지면: Stage2 시작 난간(보이는 윗면 y=1590)에서 오른쪽으로 걸어 나가면 떨어져서 아래 바닥(윗면 1732)에 착지한다
+# 발 = 콜라이더 아래 변 = 위치.y + 23 (기본 스컬). 발 바로 아래 줄이 마젠타(땅)가 아니면 착지가 아니다.
+# 기준 동작(2026-10-23, 픽셀 충돌 맵 도입): 24프레임 난간 착지(y 1567), 175프레임 x≈447에서 낙하 시작, 210프레임 바닥 착지(y 1709)
+scene Stage2
+frames 260
+
+hold RIGHT 40 200                   # 난간 끝(x≈425)을 지나 계속 걷기
+shot 30
+shot 190
+shot 259
+
+expect 30  player.ground == 1       # 난간 위에 섬
+expect 30  player.y == 1567         # 발 1590 = 난간 윗면
+expect 30  map.player_touch == 1    # 발 바로 아래 줄이 맵의 윗면
+expect 30  map.player_under == 1    # 단단한 땅
+expect 170 player.ground == 1       # 아직 난간 위
+expect 180 player.ground == 0       # 난간을 벗어나 떨어지는 중
+expect 180 player.x >= 440
+expect 230 player.ground == 1       # 아래 바닥에 착지
+expect 230 player.y == 1709         # 발 1732 = 바닥 풀 윗면
+expect 230 map.player_touch == 1
+always     player.y <= 1709.5       # 바닥 아래로 파고들지 않음

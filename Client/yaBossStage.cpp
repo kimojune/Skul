@@ -1,4 +1,4 @@
-#include "yaBossStage.h"
+﻿#include "yaBossStage.h"
 #include "yaSkul.h"
 #include "yaInput.h"
 #include "yaSceneManager.h"
@@ -53,10 +53,8 @@ namespace ya
 		object::Instantiate<Ground>(Vector2(0.0f, 1750.0f), eLayerType::Ground);
 		object::Instantiate<PlayBG>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		object::Instantiate<BossBG>(Vector2(0.0f, 0.0f), eLayerType::Struct);
+		// 보스와 부품·탄·이펙트·보스 HP 바는 Chapter1_Boss가 만든다. 포효는 보스 등장 연출에서 낸다
 		object::Instantiate<Chapter1_Boss>(Vector2(1400.0f,1400.0f), eLayerType::Monster);
-		ElderEnt_Roar = Resources::Load<Sound>(L"ElderEnt_Roar", L"..\\Resources\\Sound\\Boss\\ElderEnt_Roar.wav");
-
-
 	}
 	void BossStage::Update()
 	{
@@ -73,10 +71,12 @@ namespace ya
 	}
 	void BossStage::OnEnter()
 	{
+		// 카메라 경계: 오른쪽 3350은 기존 값, 아래 2250은 바닥 충돌체 아래 끝 (1750 + 500)
+		Camera::SetBounds(0.0f, 0.0f, 3350.0f, 2250.0f);
+
 		const std::wstring& path = { L"..\\Tile\\stage1" };
 		Chapter1->Stop(true);
-		//Chapter1_BossBG->Play(true);
-		ElderEnt_Roar->Play(false);
+		Chapter1_BossBG->Play(true);
 		TilePalatte::Load(path);
 
 		for (Skul* skul : mSkuls)
@@ -99,6 +99,6 @@ namespace ya
 	}
 	void BossStage::OnExit()
 	{
-		//Chapter1_BossBG->Stop(true);
+		Chapter1_BossBG->Stop(true);
 	}
 }

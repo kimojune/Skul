@@ -48,7 +48,13 @@ namespace ya
 
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
-			SceneManager::LoadScene(eSceneType::Stage1);	
+			SceneManager::LoadScene(eSceneType::Stage1);
+		}
+
+		// 타일 편집 툴 진입 (툴에서는 N으로 타이틀 복귀)
+		if (Input::GetKeyState(eKeyCode::T) == eKeyState::Down)
+		{
+			SceneManager::LoadScene(eSceneType::Tool);
 		}
 	}
 	void TitleScene::Render(HDC hdc)

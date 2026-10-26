@@ -1,10 +1,11 @@
-#include "yaAnimation.h"
+ï»¿#include "yaAnimation.h"
 #include "yaTime.h"
 #include "yaImage.h"
 #include "yaAnimator.h"
 #include "yaTransform.h"
 #include "yaGameObject.h"
 #include "yaCamera.h"
+#include "yaRenderer.h"
 
 namespace ya
 {
@@ -54,37 +55,24 @@ namespace ya
             = mAnimator->GetOwner()->GetComponent<Transform>();
         Vector2 scale = tr->GetScale();
 
-        // ÀÌ¹ÌÁö°¡ ±×·ÁÁú ÁÂÇ¥´Â ¿ÀºêÁ§Æ® ÁÂÇ¥ÀÇ À§ÂÊ Áß°£¿¡ ±×·ÁÁø´Ù.
-        // Ä³¸¯ÅÍÀÇ ¹ßÀ» ±âÁØÀ¸·Î Æ÷Áö¼ÇÀ» °è»ê
+        // ì´ë¯¸ì§€ê°€ ê·¸ë ¤ì§ˆ ì¢Œí‘œëŠ” ì˜¤ë¸Œì íŠ¸ ì¢Œí‘œì˜ ìœ„ìª½ ì¤‘ê°„ì— ê·¸ë ¤ì§„ë‹¤.
+        // ìºë¦­í„°ì˜ ë°œì„ ê¸°ì¤€ìœ¼ë¡œ í¬ì§€ì…˜ì„ ê³„ì‚°
         Vector2 pos = tr->GetPos();
         pos = Camera::CaluatePos(pos);
         pos += mSpriteSheet[mSpriteIndex].offset;
         pos.x -= mSpriteSheet[mSpriteIndex].size.x / 2.0f;
         pos.y -= mSpriteSheet[mSpriteIndex].size.y;
 
-        TransparentBlt(hdc, pos.x, pos.y
-            , mSpriteSheet[mSpriteIndex].size.x * scale.x
-            , mSpriteSheet[mSpriteIndex].size.y * scale.y
-            , mSheetImage->GetHdc()
-            , mSpriteSheet[mSpriteIndex].leftTop.x, mSpriteSheet[mSpriteIndex].leftTop.y
-            , mSpriteSheet[mSpriteIndex].size.x, mSpriteSheet[mSpriteIndex].size.y,
-            RGB(255, 0, 255));
-
-        // ¿¬»ê·®ÀÌ ¸¹´Ù.
-    //BLENDFUNCTION func = {};
-    //func.BlendOp = AC_SRC_OVER;
-    //func.BlendFlags = 0;
-    //func.AlphaFormat = AC_SRC_ALPHA;
-    //func.SourceConstantAlpha = 255; // 0(Åõ¸í) ~ 255(ºÒÅõ¸í) ¾ËÆÄ°ª
-
-    //AlphaBlend(hdc, pos.x, pos.y
-    //    , mSpriteSheet[mSpriteIndex].size.x * scale.x
-    //    , mSpriteSheet[mSpriteIndex].size.y * scale.y
-    //    , mSheetImage->GetHdc()
-    //    , mSpriteSheet[mSpriteIndex].leftTop.x, mSpriteSheet[mSpriteIndex].leftTop.y
-    //    , mSpriteSheet[mSpriteIndex].size.x, mSpriteSheet[mSpriteIndex].size.y
-    //    , func);
-
+        // ì¢Œí‘œì™€ í¬ê¸°ëŠ” GDI ë•Œì™€ ê°™ì´ ì†Œìˆ˜ì  ì•„ëž˜ë¥¼ ë²„ë¦° ì •ìˆ˜ í”½ì…€ë¡œ ë„˜ê¸´ë‹¤.
+        // ì¢Œìš° ë°˜ì „ì€ í”„ë ˆìž„ ì‚¬ê°í˜• ì•ˆì—ì„œë§Œ ë’¤ì§‘ê³  ìœ„ì¹˜(offset)ëŠ” ê·¸ëŒ€ë¡œë‹¤
+        const Sprite& sprite = mSpriteSheet[mSpriteIndex];
+        bool flipX = mAnimator->IsFlipX();
+        Renderer::DrawImage(mSheetImage
+            , (int)pos.x, (int)pos.y
+            , (int)(sprite.size.x * scale.x), (int)(sprite.size.y * scale.y)
+            , (int)sprite.leftTop.x, (int)sprite.leftTop.y
+            , (int)sprite.size.x, (int)sprite.size.y
+            , eImageBlend::ColorKey, mAnimator->GetAlpha(), flipX, mAnimator->GetFlash());
     }
 
     void Animation::Create(Image* sheet, Vector2 leftTop

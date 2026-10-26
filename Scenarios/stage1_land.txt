@@ -1,0 +1,10 @@
+# Stage1 시작: 플레이어가 떨어져 지면(y=1709, 발 1732 = 보이는 풀 윗면)에 착지하고 타일이 모두 로드되는지
+scene Stage1
+frames 240
+
+expect 1   count.tile >= 400        # 타일 423개 (마우스 위치와 무관하게 로드돼야 함)
+expect 150 player.ground == 1
+expect 150 player.y >= 1705
+always     player.found == 1
+always     player.y <= 1709.5       # 지면 아래로 빠지지 않음 (픽셀 충돌 맵: 착지 순간에도 1709)
+shot 239

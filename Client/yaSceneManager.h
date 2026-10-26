@@ -16,6 +16,7 @@ namespace ya
 
 		static void LoadScene(eSceneType type);
 		static Scene* GetActiveScene() { return mActiveScene; }
+		static eSceneType GetActiveSceneType();
 		static void SetActiveScene(Scene* scene) { mActiveScene = scene; }
 
 

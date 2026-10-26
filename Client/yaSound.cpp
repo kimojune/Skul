@@ -1,4 +1,4 @@
-#include "yaSound.h"
+ï»¿#include "yaSound.h"
 #include "yaSoundManager.h"
 
 namespace ya
@@ -6,13 +6,13 @@ namespace ya
 	HRESULT Sound::Load(const std::wstring& path)
 	{
 		if (nullptr == SoundManager::GetDevice())
-			assert(nullptr); // »ç¿îµå °´Ã¼ »ý¼ºµÇÁö ¾ÊÀ½
+			assert(nullptr); // ì‚¬ìš´ë“œ ê°ì²´ ìƒì„±ë˜ì§€ ì•ŠìŒ
 
-		// È®ÀåÀÚ ÀÌ¸§ ±¸º°ÇÏ±â
+		// í™•ìž¥ìž ì´ë¦„ êµ¬ë³„í•˜ê¸°
 		wchar_t szExt[10] = { 0 };
 		_wsplitpath_s(path.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExt, 10);
 
-		if (!wcscmp(szExt, L".wav")) // WAV ÆÄÀÏ ·Îµå
+		if (!wcscmp(szExt, L".wav")) // WAV íŒŒì¼ ë¡œë“œ
 		{
 			if (false == LoadWavFile(path))
 				assert(nullptr);
@@ -30,15 +30,15 @@ namespace ya
 		std::wstring strFilePath = path;
 
 		//CreateFile
-		hFile = mmioOpen((wchar_t*)strFilePath.c_str(), NULL, MMIO_READ);//waveÆÄÀÏÀ» ¿¬´Ù.
+		hFile = mmioOpen((wchar_t*)strFilePath.c_str(), NULL, MMIO_READ);//waveíŒŒì¼ì„ ì—°ë‹¤.
 
 		if (nullptr == hFile)
 		{
-			MessageBox(NULL, L"»ç¿îµå ¸®¼Ò½º °æ·Î¿¡ ÆÄÀÏ ¾øÀ½", L"»ç¿îµå ·Îµù ½ÇÆÐ", MB_OK);
+			MessageBox(NULL, L"ì‚¬ìš´ë“œ ë¦¬ì†ŒìŠ¤ ê²½ë¡œì— íŒŒì¼ ì—†ìŒ", L"ì‚¬ìš´ë“œ ë¡œë”© ì‹¤íŒ¨", MB_OK);
 			return false;
 		}
 
-		//Chunk Ã»Å© ±¸Á¶Ã¼, ¹®ÀÚ¿­·Î »öÀÎÀ» ÀÎ½ÄÇØ¼­ WaveFormat ¹× ¹öÆÛ¼±¾ðÁ¤º¸¸¦ ÀÐ¾î¿Â´Ù.
+		//Chunk ì²­í¬ êµ¬ì¡°ì²´, ë¬¸ìžì—´ë¡œ ìƒ‰ì¸ì„ ì¸ì‹í•´ì„œ WaveFormat ë° ë²„í¼ì„ ì–¸ì •ë³´ë¥¼ ì½ì–´ì˜¨ë‹¤.
 		MMCKINFO	pParent;
 		memset(&pParent, 0, sizeof(pParent));
 		pParent.fccType = mmioFOURCC('W', 'A', 'V', 'E');
@@ -65,7 +65,7 @@ namespace ya
 
 		if (FAILED(SoundManager::GetDevice()->CreateSoundBuffer(&mBufferDesc, &mSoundBuffer, NULL)))
 		{
-			MessageBox(NULL, L"»ç¿îµå¹öÆÛ»ý¼º½ÇÆÐ", L"", MB_OK);
+			MessageBox(NULL, L"ì‚¬ìš´ë“œë²„í¼ìƒì„±ì‹¤íŒ¨", L"", MB_OK);
 			return false;
 		}
 
@@ -85,7 +85,7 @@ namespace ya
 
 		mmioClose(hFile, 0);
 
-		// ÃÊ±â À½·® Àý¹ÝÀ¸·Î ¼³Á¤
+		// ì´ˆê¸° ìŒëŸ‰ ì ˆë°˜ìœ¼ë¡œ ì„¤ì •
 		SetVolume(50.f);
 
 		return true;
@@ -121,7 +121,7 @@ namespace ya
 	void Sound::SetVolume(float volume)
 	{
 		mVolume = GetDecibel(volume);
-		mSoundBuffer->SetVolume(mVolume);
+		mSoundBuffer->SetVolume(SoundManager::IsMute() ? DSBVOLUME_MIN : mVolume);
 	}
 	int Sound::GetDecibel(float volume)
 	{
@@ -130,7 +130,7 @@ namespace ya
 		else if (volume <= 0.f)
 			volume = 0.00001f;
 
-		// 1 ~ 100 »çÀÌ°ªÀ» µ¥½Ãº§ ´ÜÀ§·Î º¯°æ
+		// 1 ~ 100 ì‚¬ì´ê°’ì„ ë°ì‹œë²¨ ë‹¨ìœ„ë¡œ ë³€ê²½
 		int iVolume = (LONG)(-2000.0 * log10(100.f / volume));
 
 		if (iVolume < -10000)

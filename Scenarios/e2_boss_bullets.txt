@@ -1,0 +1,27 @@
+# Boss: 에너지볼 애니메이션(Impact 11장 -> Loop 20장) 프레임 순서 확인용 스크린샷
+# 프레임 파일명이 _0 ~ _19로 0을 채우지 않아서, 이름순으로 읽으면 0,1,10..19,2..9 순서로 재생됐다.
+# 자연 정렬 후에는 0,1,2..19 순서. 탄 모양은 shot 끼리 비교해서 본다.
+# G4 보스 개편으로 시간표가 바뀌었다 (seed 1, 패턴 선택은 rand()라 seed에 따라 달라진다).
+#   이전: 8방향 탄 8개가 300~658프레임 동안 활성. 360·630에서 8개 검사, 330~630 30프레임 간격 shot
+#   이후: 257부터 이마 마석에서 큰 구체 1개가 2초 충전(Impact -> 약 302부터 Loop), 378에 큰 구체 1 + 작은 구체 8 발사.
+#         충전 중인 구체는 제자리에 있어서 Loop 순서를 보기 좋으므로 304~376을 8프레임(Loop 2장) 간격으로 찍는다
+scene Boss
+seed 1
+frames 430
+
+expect 300 count.enemybullet == 1
+expect 380 count.enemybullet == 9
+always     player.y <= 1730
+always     objects <= 500
+shot 304
+shot 312
+shot 320
+shot 328
+shot 336
+shot 344
+shot 352
+shot 360
+shot 368
+shot 376
+shot 400
+shot 420

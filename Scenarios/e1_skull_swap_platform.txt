@@ -1,0 +1,25 @@
+# Boss: 발판(x 1350~1570, 윗면 y=1600)에 올라가서 머리를 던지고, 발판 밖에 있는 머리로 순간이동하면
+# 다시 활성화된 Basic이 떨어져서 지면에 착지하는지 본다. (발판 착지 자체도 1/60초 프레임에서 확인)
+# 기준 동작(2026-10-23): 프레임 201 발판 착지(y=1576), 프레임 261 x≈2120으로 이동, 프레임 300 지면 착지
+# 픽셀 충돌 맵 이후: 발 = 콜라이더 아래 변. Basic은 위치 + 23, Nohead는 위치 + 16이라 발판 위 y가 1577 / 1584, 바닥에서 1709
+scene Boss
+frames 400
+
+hold  RIGHT 60 125                  # 발판 아래로 걷기 (x≈1413)
+press C 130                         # 점프해서 발판에 올라감
+press A 220                         # 발판 위에서 머리 던지기
+press S 260                         # 발판 밖의 머리로 순간이동
+shot 240
+shot 399
+
+expect 215 player.ground == 1       # 발판 위에 착지
+expect 215 player.y <= 1580
+expect 250 player.ground == 1       # 교대된 Nohead도 발판 위에 서 있음
+expect 250 player.y <= 1590
+expect 270 player.x >= 1700         # 발판 밖으로 이동
+expect 270 player.ground == 0       # 발판 밖이라 떨어지는 중 (공중에 떠 있지 않음)
+expect 399 player.ground == 1       # 지면에 착지
+expect 399 player.y >= 1705
+always     player.found == 1
+always     count.player == 1
+always     player.y <= 1730

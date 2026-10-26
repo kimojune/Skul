@@ -29,27 +29,27 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -77,6 +77,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,6 +93,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -105,6 +109,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -120,6 +126,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,7 +140,9 @@
     <ClInclude Include="yaBackCastle.h" />
     <ClInclude Include="yaBossBG.h" />
     <ClInclude Include="yaBossBullet.h" />
+    <ClInclude Include="yaBossEffect.h" />
     <ClInclude Include="yaBossGate.h" />
+    <ClInclude Include="yaBossHpBar.h" />
     <ClInclude Include="yaBossStage.h" />
     <ClInclude Include="yaBoss_Body.h" />
     <ClInclude Include="yaBoss_Chin.h" />
@@ -164,7 +174,10 @@
     <ClInclude Include="yaCamera.h" />
     <ClInclude Include="yaCollider.h" />
     <ClInclude Include="yaCollisionManager.h" />
+    <ClInclude Include="yaCollisionMap.h" />
     <ClInclude Include="yaMonster.h" />
+    <ClInclude Include="yaMonsterEffect.h" />
+    <ClInclude Include="yaEntSlamHitbox.h" />
     <ClInclude Include="yaResources.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="yaApplication.h" />
@@ -179,8 +192,11 @@
     <ClInclude Include="yaMath.h" />
     <ClInclude Include="YamYamEngine.h" />
     <ClInclude Include="yaPlayeScene.h" />
+    <ClInclude Include="yaPlayerStats.h" />
+    <ClInclude Include="yaPlayerHUD.h" />
     <ClInclude Include="yaResource.h" />
     <ClInclude Include="yaScene.h" />
+    <ClInclude Include="yaScenario.h" />
     <ClInclude Include="yaSceneManager.h" />
     <ClInclude Include="yaSkulShadow.h" />
     <ClInclude Include="yaSound.h" />
@@ -188,17 +204,32 @@
     <ClInclude Include="yaTile.h" />
     <ClInclude Include="yaTilePalatte.h" />
     <ClInclude Include="yaTime.h" />
+    <ClInclude Include="yaHitFeedback.h" />
     <ClInclude Include="yaTitleBG.h" />
     <ClInclude Include="yaTitleLogo.h" />
     <ClInclude Include="yaTitleScene.h" />
     <ClInclude Include="yaToolScene.h" />
     <ClInclude Include="yaTransform.h" />
+    <ClInclude Include="yaUIDebugOverlay.h" />
+    <ClInclude Include="yaUIDraw.h" />
+    <ClInclude Include="yaRenderer.h" />
+    <ClInclude Include="yaRendererBackend.h" />
+    <ClInclude Include="yaRendererGDI.h" />
+    <ClInclude Include="yaRendererDX11.h" />
+    <ClInclude Include="yaGraphics.h" />
+    <ClInclude Include="yaGraphicDevice_Dx11.h" />
+    <ClInclude Include="yaConstantBuffer.h" />
+    <ClInclude Include="yaMesh.h" />
+    <ClInclude Include="yaShader.h" />
+    <ClInclude Include="yaTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaBackCastle.cpp" />
     <ClCompile Include="yaBossBG.cpp" />
     <ClCompile Include="yaBossBullet.cpp" />
+    <ClCompile Include="yaBossEffect.cpp" />
     <ClCompile Include="yaBossGate.cpp" />
+    <ClCompile Include="yaBossHpBar.cpp" />
     <ClCompile Include="yaBossStage.cpp" />
     <ClCompile Include="yaBoss_Body.cpp" />
     <ClCompile Include="yaBoss_Chin.cpp" />
@@ -226,7 +257,10 @@
     <ClCompile Include="yaCamera.cpp" />
     <ClCompile Include="yaCollider.cpp" />
     <ClCompile Include="yaCollisionManager.cpp" />
+    <ClCompile Include="yaCollisionMap.cpp" />
     <ClCompile Include="yaMonster.cpp" />
+    <ClCompile Include="yaMonsterEffect.cpp" />
+    <ClCompile Include="yaEntSlamHitbox.cpp" />
     <ClCompile Include="yaResources.cpp" />
     <ClCompile Include="yaApplication.cpp" />
     <ClCompile Include="yaComponent.cpp" />
@@ -238,7 +272,10 @@
     <ClCompile Include="yaLayer.cpp" />
     <ClCompile Include="yaMath.cpp" />
     <ClCompile Include="yaPlayeScene.cpp" />
+    <ClCompile Include="yaPlayerStats.cpp" />
+    <ClCompile Include="yaPlayerHUD.cpp" />
     <ClCompile Include="yaResource.cpp" />
+    <ClCompile Include="yaScenario.cpp" />
     <ClCompile Include="yaScene.cpp" />
     <ClCompile Include="yaSceneManager.cpp" />
     <ClCompile Include="yaSkulShadow.cpp" />
@@ -247,11 +284,44 @@
     <ClCompile Include="yaTile.cpp" />
     <ClCompile Include="yaTilePalatte.cpp" />
     <ClCompile Include="yaTime.cpp" />
+    <ClCompile Include="yaHitFeedback.cpp" />
     <ClCompile Include="yaTitleBG.cpp" />
     <ClCompile Include="yaTitleLogo.cpp" />
     <ClCompile Include="yaTitleScene.cpp" />
     <ClCompile Include="yaToolScene.cpp" />
     <ClCompile Include="yaTransform.cpp" />
+    <ClCompile Include="yaUIDebugOverlay.cpp" />
+    <ClCompile Include="yaUIDraw.cpp" />
+    <ClCompile Include="yaRenderer.cpp" />
+    <ClCompile Include="yaRendererGDI.cpp" />
+    <ClCompile Include="yaRendererDX11.cpp" />
+    <ClCompile Include="yaGraphicDevice_Dx11.cpp" />
+    <ClCompile Include="yaConstantBuffer.cpp" />
+    <ClCompile Include="yaMesh.cpp" />
+    <ClCompile Include="yaShader.cpp" />
+    <ClCompile Include="yaTexture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 셰이더는 빌드할 때 컴파일해서 $(IntDir)<이름>.hlsl.h 의 바이트 배열 g_<이름> 으로 넣는다 -->
+    <FxCompile Include="Shaders\SpriteVS.hlsl">
+      <ShaderType>Vertex</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+      <EntryPointName>main</EntryPointName>
+      <VariableName>g_%(Filename)</VariableName>
+      <HeaderFileOutput>$(IntDir)%(Filename)%(Extension).h</HeaderFileOutput>
+      <ObjectFileOutput>
+      </ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Shaders\SpritePS.hlsl">
+      <ShaderType>Pixel</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+      <EntryPointName>main</EntryPointName>
+      <VariableName>g_%(Filename)</VariableName>
+      <HeaderFileOutput>$(IntDir)%(Filename)%(Extension).h</HeaderFileOutput>
+      <ObjectFileOutput>
+      </ObjectFileOutput>
+    </FxCompile>
+    <None Include="Shaders\globals.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

@@ -1,4 +1,4 @@
-#include "yaTile.h"
+﻿#include "yaTile.h"
 #include "yaTransform.h"
 #include "yaCamera.h"
 #include "yaCollider.h"
@@ -62,53 +62,19 @@ namespace ya
 
 		Vector2 renderPos = Camera::CaluatePos(tr->GetPos());
 
-		TransparentBlt(hdc
-			, renderPos.x, renderPos.y
+		Renderer::DrawImage(mAtlas
+			, (int)renderPos.x, (int)renderPos.y
 			, TILE_SIZE_X, TILE_SIZE_Y
-			, mAtlas->GetHdc()
 			, TILE_SIZE_X * mX, TILE_SIZE_Y * mY
-			, TILE_SIZE_X, TILE_SIZE_X
-			, RGB(255, 0, 255));
+			, TILE_SIZE_X, TILE_SIZE_X);
 
 		GameObject::Render(hdc);
 	}
 
 	void Tile::OnCollisionEnter(Collider* other)
 	{
-		GameObject* obj = other->GetOwner();
-
-		Rigidbody* rb = obj->GetComponent<Rigidbody>();
-
-		if (rb == nullptr)
-		{
-			return;
-		}
-
-		rb->SetGround(true);
-
-
-		Collider* objCol = obj->GetComponent<Collider>();
-		Vector2 objPos = objCol->GetPos();
-
-		Collider* groundCol = this->GetComponent<Collider>();
-		Vector2 groundPos = groundCol->GetPos();
-
-		float fLen = fabs(objPos.y - groundPos.y);
-
-
-		float fSize = (objCol->GetSize().y / 2.0f) + (groundCol->GetSize().y / 2.0f);
-
-		if (fLen < fSize)
-		{
-			Transform* objTr = obj->GetComponent<Transform>();
-			Transform* grTr = this->GetComponent<Transform>();
-
-			Vector2 objPos = objTr->GetPos();
-			Vector2 grPos = grTr->GetPos();
-
-			objPos.y -= (fSize - fLen) - 1.0f;
-			objTr->SetPos(objPos);
-		}
+		// 착지는 타일 그림으로 만든 픽셀 충돌 맵으로 한다 (yaCollisionMap, Rigidbody).
+		// 타일에는 콜라이더가 없고, 여기서 위치를 옮기면 맵 판정과 어긋나므로 아무것도 하지 않는다.
 	}
 
 	void Tile::OnCollisionStay(Collider* other)

@@ -1,16 +1,18 @@
-#include "yaBoss_Chin.h"
+﻿#include "yaBoss_Chin.h"
+#include "yaBoss_Head.h"
 #include "yaAnimator.h"
 #include "yaResources.h"
 #include "yaTransform.h"
 #include "yaTime.h"
-#include "yaSceneManager.h"
-#include "yaScene.h"
-#include "yaGameObject.h"
 
 namespace ya
 {
 	Boss_Chin::Boss_Chin()
-		:mTime(0.0f)
+		: mAnimator(nullptr)
+		, mHead(nullptr)
+		, mOpen(0.0f)
+		, mOpened(false)
+		, mbPhase2(false)
 	{
 	}
 	Boss_Chin::~Boss_Chin()
@@ -20,63 +22,53 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		tr->SetScale(Vector2(2.5f, 2.5f));
-		Vector2 chinPos = tr->GetPos();
 
-
-		tr->SetPos(chinPos);
-
-		Scene* scene = SceneManager::GetActiveScene();
-		mHead = scene->GetGameObjects(eLayerType::Boss)[1];
-		mImage[0] = Resources::Load<Image>(L"Boss_Chin_1", L"..\\Resources\\Boss\\Chin\\Chin_1.bmp");
-		mImage[1] = Resources::Load<Image>(L"Boss_Chin_2", L"..\\Resources\\Boss\\Chin\\Chin_2.bmp");
-		mImage[2] = Resources::Load<Image>(L"Boss_Chin_3", L"..\\Resources\\Boss\\Chin\\Chin_3.bmp");
+		Image* image[2] = {};
+		image[0] = Resources::Load<Image>(L"Boss_Chin_1", L"..\\Resources\\Boss\\Chin\\Chin_1.bmp");
+		image[1] = Resources::Load<Image>(L"Boss_Chin_2", L"..\\Resources\\Boss\\Chin\\Chin_2.bmp");
 
 		mAnimator = AddComponent<Animator>();
-
-		mAnimator->CreateAnimation(L"BossChin_1", mImage[0], Vector2(0, 0), 0, 1, 1, 1, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"BossChin_2", mImage[1], Vector2(0, 0), 0, 1, 1, 1, Vector2(-85.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimation(L"BossChin_3", mImage[2], Vector2(0, 0), 0, 1, 1, 1, Vector2(-85.0f, -50.0f), 0.1);
-
+		mAnimator->CreateAnimation(L"BossChin_1", image[0], Vector2(0, 0), 0, 1, 1, 1, Vector2(-85.0f, -50.0f), 0.1f);
+		mAnimator->CreateAnimation(L"BossChin_2", image[1], Vector2(0, 0), 0, 1, 1, 1, Vector2(-85.0f, -50.0f), 0.1f);
 		mAnimator->Play(L"BossChin_1", false);
-
-		mOpened = false;
 
 		GameObject::Initialize();
 	}
 	void Boss_Chin::Update()
 	{
-		Transform* tr = GetComponent<Transform>();
-		Transform* headtr = mHead->GetComponent<Transform>();
-		Vector2 headPos = headtr->GetPos();
-		
-		headPos.x += 150;
-		
-		if (mOpened)
+		// 입은 0.25초에 걸쳐 벌어지고 닫힌다
+		float dt = (float)Time::DeltaTime();
+		float target = mOpened ? 1.0f : 0.0f;
+		if (mOpen < target)
+			mOpen = (mOpen + dt * 4.0f < target) ? mOpen + dt * 4.0f : target;
+		else if (mOpen > target)
+			mOpen = (mOpen - dt * 4.0f > target) ? mOpen - dt * 4.0f : target;
+
+		if (mHead != nullptr)
 		{
-			headPos.y += 350;
+			// 머리 기준 위치는 원래 값(닫힘 +250, 열림 +350)을 그대로 쓴다
+			Vector2 pos = mHead->GetComponent<Transform>()->GetPos();
+			pos.x += 150.0f;
+			pos.y += 250.0f + 100.0f * mOpen;
+			GetComponent<Transform>()->SetPos(pos);
 		}
-		else
-		{
-			headPos.y += 250;
-		}
 
-		//mTime += Time::DeltaTime();
-
-		headPos.y+= std::sin(headPos.y) * 10;
-		tr->SetPos(headPos);
-
-		
 		GameObject::Update();
-
 	}
 	void Boss_Chin::Render(HDC hdc)
 	{
 		GameObject::Render(hdc);
-
 	}
 	void Boss_Chin::Release()
 	{
-
 	}
 
+	void Boss_Chin::SetPhase2(bool phase2)
+	{
+		if (mbPhase2 == phase2)
+			return;
+
+		mbPhase2 = phase2;
+		mAnimator->Play(phase2 ? L"BossChin_2" : L"BossChin_1", false);
+	}
 }

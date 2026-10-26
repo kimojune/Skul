@@ -1,0 +1,45 @@
+# Boss (G4): 그로기가 아니면 머리만 맞고, 그로기 중에는 손·몸도 맞는다. damage 명령 없이 실제 공격 입력만 쓴다.
+# 플레이어 공격 판정(SkulAttack)은 G2 담당이고, 보스 쪽에서 맞은 부위와 그로기 여부를 보고 피해를 정한다.
+# seed 1: 에너지볼 발사 378·537·696, 733~1003 그로기. 픽셀 지면(발 y 1709)과 G2 조작(피격 경직·넉백) 기준으로 맞춘 값.
+# 플레이어가 HP 0이 되면 타이틀로 돌아가므로, 머리를 때린 뒤 왼쪽으로 물러나 구체 몇 개만 맞는다 (기록: 최저 45)
+scene Boss
+seed 1
+frames 1000
+
+# 1) 시작 자리(x 1200)에서 오른쪽을 보고 공격: 공격 판정이 대기 중인 왼손과만 겹친다 -> 피해 없음
+press X 170
+press X 190
+expect 230 boss.hp == 80
+
+# 2) 머리 밑(x 약 1487)까지 걸어가 땅에서 공격: 몸통과 겹치지만 머리에는 닿지 않는다 -> 피해 없음
+hold RIGHT 210 320
+press X 322
+expect 352 boss.hp == 80
+
+# 3) 첫 발사(378) 전에 점프 공격으로 머리를 때린다 -> 피해 (구체에 맞으면 경직으로 공격이 끊긴다)
+press C 362
+press X 370
+expect 385 boss.hp < 80
+
+# 4) 발판에서 왼쪽으로 내려가 기다리다가, 그로기 중 바닥을 짚은 왼손을 때린다 (머리·몸통에는 닿지 않는 자리) -> 피해
+hold LEFT 450 525
+press X 750
+press X 768
+press X 786
+press X 804
+press X 822
+press X 840
+press X 858
+press X 876
+expect 730 boss.groggy == 0
+expect 745 boss.groggy == 1
+expect 745 boss.hp == 79
+expect 900 boss.hp <= 76
+
+always     boss.phase == 1
+always     player.hp > 0           # 죽으면 타이틀로 돌아가 검사가 무의미해진다
+always     scene == 4
+shot 180
+shot 375
+shot 790
+timefx off  # 히트스톱·슬로모션이 프레임 타이밍을 밀기 때문에 끈다 (기대값은 그대로)

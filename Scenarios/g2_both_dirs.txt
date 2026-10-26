@@ -1,0 +1,24 @@
+﻿# G2: 좌우를 같이 누른 동안에도 점프·공격·대시가 먹는지 (사용자 보고: "Skul 상태가 바뀔 때 간헐적으로 조작이 안 됨").
+# 돌아설 때 →를 누른 채 ←를 누르면 두 키가 겹친다. 수정 전에는 둘 다 누르면 Move -> Idle로 바뀌고,
+# Idle은 둘 다 눌린 동안 입력 처리 전체를 건너뛰어 X·C·Z가 모두 무시됐다 (165프레임에 상태 0).
+# 규칙: 둘 다 누르고 있으면 나중에 누른 방향으로 걷는다 (Skul::moveInput).
+# 플레이어는 x=0 근처에 머물러 엔트(x 800)의 감지 거리 밖이다.
+scene Stage1
+frames 400
+
+hold  RIGHT 130 340                 # → 누른 채
+hold  LEFT  160 340                 # ← 겹침: 160~340 동안 둘 다
+press X 170                         # 겹친 채 공격
+press C 230                         # 겹친 채 점프 (공격은 200쯤 끝남)
+press Z 335                         # 겹친 채 대시 (착지 뒤)
+
+expect 129 player.ground == 1       # 시작 전에 착지
+expect 159 player.state == 1        # →로 걷는 중
+expect 159 player.x >= 80
+expect 168 player.state == 1        # 겹치면 나중에 누른 ←로 걷는다 (전: Idle 0)
+expect 168 player.x <= 85           # 왼쪽으로 돌아섰다
+expect 170 player.state == 5        # Attack
+expect 230 player.state == 3        # Jump
+expect 330 player.ground == 1       # 착지
+expect 335 player.state == 2        # Dash
+always     player.found == 1

@@ -41,6 +41,9 @@
     <Filter Include="Engine\Time">
       <UniqueIdentifier>{7c9dd5dd-ff83-4569-8dd4-eadf4291d98c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Test">
+      <UniqueIdentifier>{3f6b2a1e-8c4d-4e7a-9b15-2d0c6e9a7f41}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Input">
       <UniqueIdentifier>{b83d2245-1653-45b1-a441-0cbeba1623c4}</UniqueIdentifier>
     </Filter>
@@ -95,6 +98,15 @@
     <Filter Include="Engine\Component\Common">
       <UniqueIdentifier>{d42a1fa5-9531-4c3c-a86f-c83344ca355f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Renderer">
+      <UniqueIdentifier>{6f1c2b7e-3d4a-4e8b-9c51-2a7d8e0f4b13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Renderer\Graphics">
+      <UniqueIdentifier>{0b9e5d21-7a4c-4f36-8e12-5c3d9a6b7e40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Renderer\Shaders">
+      <UniqueIdentifier>{c4a8e1f2-2b6d-4d97-a35e-81f0b7c9d256}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -148,8 +160,20 @@
     <ClInclude Include="yaPlayeScene.h">
       <Filter>Contents\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="yaPlayerStats.h">
+      <Filter>Contents\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPlayerHUD.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
     <ClInclude Include="yaTime.h">
       <Filter>Engine\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="yaHitFeedback.h">
+      <Filter>Engine\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="yaScenario.h">
+      <Filter>Engine\Test</Filter>
     </ClInclude>
     <ClInclude Include="yaInput.h">
       <Filter>Engine\Input</Filter>
@@ -172,10 +196,19 @@
     <ClInclude Include="yaMonster.h">
       <Filter>Contents\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="yaMonsterEffect.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="yaEntSlamHitbox.h">
+      <Filter>Contents\Monster</Filter>
+    </ClInclude>
     <ClInclude Include="yaCollider.h">
       <Filter>Engine\Component\Collider</Filter>
     </ClInclude>
     <ClInclude Include="yaCollisionManager.h">
+      <Filter>Engine\Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCollisionMap.h">
       <Filter>Engine\Component\Collider</Filter>
     </ClInclude>
     <ClInclude Include="yaPlayBG.h">
@@ -213,6 +246,42 @@
     </ClInclude>
     <ClInclude Include="yaTransform.h">
       <Filter>Engine\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="yaUIDraw.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yaUIDebugOverlay.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRenderer.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRendererBackend.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRendererGDI.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRendererDX11.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGraphics.h">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGraphicDevice_Dx11.h">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="yaConstantBuffer.h">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMesh.h">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="yaShader.h">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTexture.h">
+      <Filter>Engine\Renderer\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="yaToolScene.h">
       <Filter>Contents\Scene</Filter>
@@ -289,6 +358,12 @@
     <ClInclude Include="yaBoss_RightHand.h">
       <Filter>Contents\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="yaBossEffect.h">
+      <Filter>Contents\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBossHpBar.h">
+      <Filter>Contents\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -340,6 +415,18 @@
     <ClCompile Include="yaTime.cpp">
       <Filter>Engine\Time</Filter>
     </ClCompile>
+    <ClCompile Include="yaHitFeedback.cpp">
+      <Filter>Engine\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="yaScenario.cpp">
+      <Filter>Engine\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayerStats.cpp">
+      <Filter>Contents\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayerHUD.cpp">
+      <Filter>Contents\UI</Filter>
+    </ClCompile>
     <ClCompile Include="yaInput.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
@@ -361,10 +448,19 @@
     <ClCompile Include="yaMonster.cpp">
       <Filter>Contents\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="yaMonsterEffect.cpp">
+      <Filter>Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="yaEntSlamHitbox.cpp">
+      <Filter>Contents\Monster</Filter>
+    </ClCompile>
     <ClCompile Include="yaCollider.cpp">
       <Filter>Engine\Component\Collider</Filter>
     </ClCompile>
     <ClCompile Include="yaCollisionManager.cpp">
+      <Filter>Engine\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCollisionMap.cpp">
       <Filter>Engine\Component\Collider</Filter>
     </ClCompile>
     <ClCompile Include="yaPlayBG.cpp">
@@ -397,6 +493,47 @@
     <ClCompile Include="yaTransform.cpp">
       <Filter>Engine\Component\Transform</Filter>
     </ClCompile>
+    <ClCompile Include="yaUIDraw.cpp">
+      <Filter>Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="yaUIDebugOverlay.cpp">
+      <Filter>Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRenderer.cpp">
+      <Filter>Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRendererGDI.cpp">
+      <Filter>Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRendererDX11.cpp">
+      <Filter>Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGraphicDevice_Dx11.cpp">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="yaConstantBuffer.cpp">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMesh.cpp">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="yaShader.cpp">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTexture.cpp">
+      <Filter>Engine\Renderer\Graphics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\SpriteVS.hlsl">
+      <Filter>Engine\Renderer\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\SpritePS.hlsl">
+      <Filter>Engine\Renderer\Shaders</Filter>
+    </FxCompile>
+    <None Include="Shaders\globals.hlsli">
+      <Filter>Engine\Renderer\Shaders</Filter>
+    </None>
     <ClCompile Include="yaToolScene.cpp">
       <Filter>Contents\Scene</Filter>
     </ClCompile>
@@ -474,6 +611,12 @@
     </ClCompile>
     <ClCompile Include="yaBoss_RightHand.cpp">
       <Filter>Contents\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBossEffect.cpp">
+      <Filter>Contents\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBossHpBar.cpp">
+      <Filter>Contents\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

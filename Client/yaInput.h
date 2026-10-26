@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "YamYamEngine.h"
 
 namespace ya
@@ -12,6 +12,10 @@ namespace ya
 		UP,DOWN,LEFT,RIGHT,
 
 		LBUTTON, RBUTTON,
+
+		// 값이 배열 인덱스이므로 새 키는 항상 END 바로 앞에 추가한다.
+		SPACE, SHIFT, ESC, ENTER, TAB,
+		NUM1, NUM2, NUM3, NUM4, // 키보드 윗줄 숫자 키 (키패드 아님)
 		END,
 	};
 
@@ -42,9 +46,9 @@ namespace ya
 			return mKeys[(UINT)keyCode].state;
 		};
 
-		//GetKey()		Ű�� ������ �ð���ŭ true�� ��ȯ
-		//GetKeyDown()	Ű�� ������ ��, �� �ѹ� true�� ��ȯ
-		//GetKeyUp()	Ű�� ������ ���� ��, �� �ѹ� true�� ��ȯ
+		//GetKey()		키를 누르는 시간만큼 true를 반환
+		//GetKeyDown()	키를 눌렀을 때, 딱 한번 true를 반환
+		//GetKeyUp()	키를 누르다 땠을 때, 딱 한번 true를 반환
 
 		static __forceinline bool GetKey(eKeyCode keyCode)
 		{
@@ -68,8 +72,17 @@ namespace ya
 
 		static __forceinline Vector2 GetMousePos() { return mMousePos; }
 
+		// 시나리오(자동 검증) 실행 중에는 키보드 대신 대본이 키 상태를 정한다.
+		static void SetScripted(bool scripted) { mScripted = scripted; }
+		static void SetScriptedKey(eKeyCode keyCode, bool down) { mScriptedDown[(UINT)keyCode] = down; }
+		// 대본 실행 중 마우스 위치 (창 클라이언트 좌표). 실제 마우스는 읽지 않으므로 이 값이 유지된다
+		static void SetScriptedMousePos(Vector2 pos) { mMousePos = pos; }
+		static bool FindKeyCode(const std::string& name, eKeyCode& keyCode);
+
 	private:
 		static std::vector<Key> mKeys;
 		static Vector2 mMousePos;
+		static bool mScripted;
+		static bool mScriptedDown[(UINT)eKeyCode::END];
 	};
 }

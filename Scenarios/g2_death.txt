@@ -1,0 +1,24 @@
+﻿# G2: 치명상 -> Fall_Dead(11) -> 약 2초 뒤 타이틀, HP 100으로 회복. 타이틀에서 N으로 다시 시작하면 조작할 수 있는지.
+# 사망 뒤 처리는 Phase 3(결과 화면, 스테이지 리셋) 전까지의 최소 처리다. 스테이지 상태(몬스터 등)는 그대로 남는다.
+# 몬스터는 rand()로 돌아다니지만 아직 플레이어를 때리지 않으므로 결과는 seed와 무관하다.
+scene Stage2
+frames 420
+
+damage 100 100                      # 치명상
+damage 150 50                       # 죽은 뒤 피해는 무시
+press  N   260                      # 타이틀 -> Stage1
+shot 130                            # 무너지는 중 (HUD 0 / 100)
+
+expect 99  player.hp == 100
+expect 100 player.hp == 0
+expect 100 player.state == 11       # Fall_Dead
+expect 150 player.hp == 0
+expect 200 player.state == 11       # 입력을 받지 않고 쓰러진 채
+expect 210 scene == 2               # 아직 Stage2
+expect 230 scene == 0               # 2초(120프레임) 뒤 타이틀
+expect 230 player.hp == 100         # PlayerStats::Reset
+expect 230 player.invincible == 0
+expect 270 scene == 1               # 다시 시작
+expect 400 player.ground == 1       # Stage1 시작 위치에서 떨어져 착지
+expect 400 player.state == 0        # 다시 조작할 수 있는 Idle
+expect 400 player.hp == 100

@@ -1,4 +1,4 @@
-#include "yaPlatform.h"
+﻿#include "yaPlatform.h"
 #include "yaCollider.h"
 #include "yaSkul.h"
 #include "yaRigidbody.h"
@@ -23,7 +23,8 @@ namespace ya
 
 	void Platform::Initialize()
 	{
-
+		// 발판 사각형. 씬에 들어갈 때 CollisionMap이 이 사각형에 걸친 타일 그림을 OneWay 발판으로 칠한다.
+		// 착지는 Rigidbody가 맵으로 하므로 충돌 콜백에서는 아무것도 하지 않는다.
 		mCollider = AddComponent<Collider>();
 		mCollider->SetSize(Vector2(220.0f, 72.0f));
 
@@ -35,7 +36,19 @@ namespace ya
 	{
 		GameObject::Update();
 
+		// ↓: 플레이어가 발판(OneWay) 위에 서 있으면 아래로 내려간다. 단단한 땅 위에서는 아무 일도 없다.
+		// 발판이 여러 개여도 DropThrough는 한 번만 효과가 있다 (착지 상태일 때만 동작).
+		if (!Input::GetKeyDown(eKeyCode::DOWN) && !Input::GetKey(eKeyCode::DOWN))
+			return;
 
+		PlayeScene* playScene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
+		Skul* skul = (playScene != nullptr) ? playScene->GetSkul() : nullptr;
+		if (skul == nullptr)
+			return;
+
+		Rigidbody* rb = skul->GetComponent<Rigidbody>();
+		if (rb != nullptr)
+			rb->DropThrough();
 	}
 
 	void Platform::Render(HDC hdc)
@@ -97,54 +110,10 @@ namespace ya
 	}
 	void Platform::OnCollisionStay(Collider* other)
 	{
-		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
-		if (skul == nullptr)
-			return;
-
-		Rigidbody* rb = skul->GetComponent<Rigidbody>();
-
-		if (rb == nullptr)
-		{
-			return;
-		}
-
-		Vector2 velo = rb->GetVelocity();
-		
-		Transform* objtr = skul->GetComponent<Transform>();
-		Vector2 objpos = objtr->GetPos();
-		
-		Collider* objCol = skul->GetComponent<Collider>();
-		objpos.y -= (objCol->GetSize().y / 2);
-
-		Transform* pftr = GetComponent<Transform>();
-		Vector2 pfpos= pftr->GetPos();
-		
-		if (Input::GetKeyState(eKeyCode::DOWN) == eKeyState::Pressed)
-		{
-			objpos.y += 30.0f;
-			objtr->SetPos(objpos);
-			rb->SetGround(false);
-			
-		}
-
-		if (velo.y > 0&& objpos.y + (objCol->GetSize().y / 2) < pfpos.y )
-		{
-			rb->SetGround(true);
-			objpos.y = pfpos.y - (objCol->GetSize().y / 2) + 1;
-			objtr->SetPos(objpos);
-		}
-
+		// 예전에는 Stay에서만 착지시켜서 빠르게 떨어지면 뚫고 지나갈 수 있었다.
+		// 이제 착지와 ↓ 내려가기는 픽셀 충돌 맵 기준이다 (Rigidbody, Platform::Update).
 	}
 	void Platform::OnCollisionExit(Collider* other)
 	{
-		Skul* skul = dynamic_cast<Skul*>(other->GetOwner());
-
-
-		Rigidbody* rb = other->GetOwner()->GetComponent<Rigidbody>();
-		//Rigidbody* rb = skul->GetComponent<Rigidbody>();
-		if (rb == nullptr)
-			return;
-		rb->SetGround(false);
-
 	}
 }

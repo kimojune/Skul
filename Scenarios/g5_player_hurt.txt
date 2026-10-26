@@ -1,0 +1,14 @@
+﻿# G5 플레이어가 맞으면 히트스톱이 걸린다 (적 없이 damage 명령으로)
+scene Stage1
+seed 1
+frames 240
+damage 100 10
+shot 101
+expect 99 fx.hitstops == 0
+expect 99 fx.timescale == 1
+expect 101 fx.hitstops == 1
+expect 101 fx.timescale == 0           # 맞은 다음 프레임부터 멈춘다 (0.04초 ≈ 3프레임. 플레이테스트 후 0.08 → 0.04)
+expect 106 fx.timescale == 1           # 짧게 끝난다
+expect 120 fx.timescale == 1           # 풀린다
+expect 120 player.hp == 90
+expect 239 fx.hitstops == 1

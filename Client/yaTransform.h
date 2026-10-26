@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "yaComponent.h"
 
-// std::map API ³¡³ª°í dx µé¾î°¡±âÀü¿¡ ÇÑ 3~5ÀÏ ¸¸µç´Ù.
-// top down ¹æ½Ä
-// ÀÌ·Ğ -> ¿¬½À
-// ¿¬½À -> ÀÌ·Ğ
+// std::map API ëë‚˜ê³  dx ë“¤ì–´ê°€ê¸°ì „ì— í•œ 3~5ì¼ ë§Œë“ ë‹¤.
+// top down ë°©ì‹
+// ì´ë¡  -> ì—°ìŠµ
+// ì—°ìŠµ -> ì´ë¡ 
 
 namespace ya
 {

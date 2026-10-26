@@ -6,6 +6,7 @@
 #include "yaApplication.h"
 #include "yaSceneManager.h"
 #include "yaResources.h"
+#include <shellapi.h> // CommandLineToArgvW (windows.h 다음에 와야 한다)
 
 #define MAX_LOADSTRING 100
 
@@ -32,8 +33,59 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+    // 자동 검증 실행 (빌드 후 확인용, 창 없이 소리 없이 돈다)
+    //   --smoke [폴더]           : 씬을 순서대로 돌리고, 폴더를 주면 씬마다 마지막 화면을 BMP로 저장
+    //   --scenario <대본> <폴더> : 입력 대본을 재생하며 상태를 기록·검사 (Scenarios/README.md)
+    // 그리기 백엔드
+    //   --renderer gdi|dx11      : 기본 dx11. DX11 장치를 만들 수 없으면 gdi 로 그린다
+    //   --warp                   : dx11 을 그래픽 카드 대신 WARP(CPU)로 돌린다
+    int argc = 0;
+    LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
+    for (int i = 1; argv != nullptr && i < argc; i++)
+    {
+        std::wstring arg = argv[i];
+        if (arg == L"--renderer" && i + 1 < argc)
+        {
+            std::wstring type = argv[++i];
+            if (type == L"gdi")
+                application.SetRendererType(ya::eRendererType::GDI);
+            else if (type == L"dx11")
+                application.SetRendererType(ya::eRendererType::DX11);
+        }
+        else if (arg == L"--warp")
+        {
+            application.SetForceWarp(true);
+        }
+        else if (arg == L"--smoke")
+        {
+            std::wstring shotDir = (i + 1 < argc && argv[i + 1][0] != L'-') ? argv[++i] : L"";
+            application.SetSmokeTest(shotDir);
+        }
+        else if (arg == L"--scenario" && i + 2 < argc)
+        {
+            std::wstring path = argv[++i];
+            std::wstring outDir = argv[++i];
+            if (!application.LoadScenario(path, outDir))
+            {
+                LocalFree(argv);
+                return 2;
+            }
+        }
+    }
+    LocalFree(argv);
+
+    if (application.IsHeadless())
+    {
+        // 크래시나 assert가 나도 대화상자에서 멈추지 않고 실패 종료 코드로 끝나게 한다.
+        SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
+        _set_error_mode(_OUT_TO_STDERR);
+        _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
+        _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);
+        _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
+        _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
+    }
     //_CrtSetBreakAlloc(217); // 추가
     // 1. 윈도우의 정보를 담고있는 클래스를 정의(메모리에 등록)해주어야한다.
     // 2. CreateWindow함수를 통해서 메모리상에 윈도우를 할당해준다.
@@ -138,22 +190,26 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       0, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
 
+   // 아틀라스 창은 메인 창의 소유 창(owner = hWnd)이라 항상 메인 창보다 위에 그려진다
    HWND hWnd2 = CreateWindowW(L"AtlasWindow", szTitle, WS_OVERLAPPEDWINDOW,
-       1600, 0, 500, 500, nullptr, nullptr, hInstance, nullptr);
+       1600, 0, 500, 500, hWnd, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
       return FALSE;
    }
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+   if (!application.IsHeadless())
+   {
+       ShowWindow(hWnd, nCmdShow);
+       UpdateWindow(hWnd);
+   }
 
-   ShowWindow(hWnd2, nCmdShow);
-   UpdateWindow(hWnd2);
+   // 아틀라스(hWnd2) 창은 ToolScene에 들어갈 때만 보여준다.
 
-   application.Initialize(hWnd);
+   // Initialize 안에서 첫 씬에 들어가므로(시나리오는 Tool에서 바로 시작할 수 있다) 툴 창 핸들을 먼저 넘긴다
    application.SetToolHwnd(hWnd2);
+   application.Initialize(hWnd);
    //ShowWindow(hWnd2, nCmdShow);
    //UpdateWindow(hWnd2);
 

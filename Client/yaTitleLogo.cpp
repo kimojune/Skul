@@ -1,7 +1,8 @@
-#include "yaTitleLogo.h"
+﻿#include "yaTitleLogo.h"
 #include "yaResources.h"
 #include "yaTime.h"
 #include "yaTransform.h"
+#include "yaRenderer.h"
 
 namespace ya
 {
@@ -35,13 +36,11 @@ namespace ya
 		Vector2 pos = tr->GetPos();
 
 
-		BLENDFUNCTION func = {};
-		func.BlendOp = AC_SRC_OVER;
-		func.BlendFlags = 0;
-		func.AlphaFormat = AC_SRC_ALPHA;
-		func.SourceConstantAlpha = 100 * mTime; // 0(����) ~ 255(������) ���İ�
+		// 이미지의 알파 채널로 섞고, 전체 알파는 시간에 따라 바뀐다
+		BYTE alpha = (BYTE)(100 * mTime); // 0(투명) ~ 255(불투명) 알파값
 
-		AlphaBlend(hdc,pos.x , pos.y, mImage->GetWidth(), mImage->GetHeight(), mImage->GetHdc(), 0, 0, mImage->GetWidth(), mImage->GetHeight(), func);
+		Renderer::DrawImage(mImage, (int)pos.x, (int)pos.y, mImage->GetWidth(), mImage->GetHeight()
+			, 0, 0, mImage->GetWidth(), mImage->GetHeight(), eImageBlend::AlphaChannel, alpha);
 
 		GameObject::Render(hdc);
 

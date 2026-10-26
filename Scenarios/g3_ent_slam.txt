@@ -1,0 +1,39 @@
+# G3 Stage2: 엔트가 플레이어를 쫓아와서, 예고한 뒤 내려친다. 내려칠 때마다 HP 10
+# 픽셀 지면(G1) 이후 Stage2 시작 위치는 바닥보다 142px 높은 난간 위(y 1567)라, 바닥의 엔트가 내려쳐도 닿지 않는다.
+#   그래서 먼저 오른쪽으로 걸어 난간에서 내려와(183프레임에 바닥 y 1709, x 505) 그 자리에 서 있는다.
+#   x=400 엔트는 난간 밑에서 한 번 헛친다(126프레임). 바닥에서는 왼쪽(x=400)과 오른쪽(x=900) 엔트가 번갈아 내려친다.
+# 기준 동작(2026-10-23, seed 1, G1 병합 후):
+#   - 225프레임 거리 109에서 예고 → 0.9초 뒤 280프레임 내려침 → HP 90. 판정(EnemyBullet)은 0.1초만 있다
+#   - 이어서 345 → 80, 432 → 70, 497 → 60 (엔트마다 2.5초 간격, 맞으면 밀려나 x가 25씩 바뀐다)
+scene Stage2
+seed 1
+frames 560
+
+hold RIGHT 0 165                       # 난간에서 걸어 내려와 바닥에 선다
+
+expect 0   ent.nearest >= 300          # 처음엔 멀리 있다
+expect 0   ent.hpsum == 18             # 엔트 3마리 x HP 6
+expect 170 ent.slams == 1              # 난간 밑에서 내려친 것은 닿지 않는다
+expect 170 player.hp == 100
+expect 183 player.y == 1709            # 바닥에 섰다
+expect 220 ent.nearest <= 140          # 플레이어 쪽으로 걸어왔다 (추격)
+expect 220 ent.windups == 1
+expect 230 ent.windups == 2            # 예고 중
+expect 230 ent.slams == 1
+# 내려치는 프레임은 입력 처리 타이밍에 따라 ±1 프레임 움직이므로(G2 입력 수정 후 280→279) 전후 2프레임 여유를 둔다
+expect 277 player.hp == 100            # 예고 동안은 피해 없음
+expect 280 ent.slams == 2              # 예고 0.9초 뒤 내려침
+expect 280 count.enemybullet == 1      # 내려치기 판정
+expect 282 player.hp == 90             # 한 번에 10
+expect 300 count.enemybullet == 0      # 판정은 잠깐만
+expect 342 player.hp == 90
+expect 347 player.hp == 80             # 다른 엔트의 내려치기
+expect 429 player.hp == 80             # 쿨다운 동안 추가 피해 없음
+expect 434 player.hp == 70
+expect 559 player.hp == 60
+expect 559 ent.slams == 5
+always     player.hp >= 60
+always     count.monster == 3
+shot 230                               # 예고
+shot 285                               # 내려친 직후 (먼지)
+timefx off  # 히트스톱·슬로모션이 프레임 타이밍을 밀기 때문에 끈다 (기대값은 그대로)
