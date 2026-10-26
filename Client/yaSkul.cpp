@@ -15,6 +15,10 @@
 #include "yaPlayeScene.h"
 #include "yaCamera.h"
 #include "yaSkulAttack.h"
+#include "yaHitFeedback.h"
+#include "yaMonster.h"
+#include "yaAnimation.h"
+#include "yaCollisionMap.h"
 #include "yaSound.h"
 #include "yaPlayerStats.h"
 
@@ -284,6 +288,7 @@ namespace ya
 		mKnockback = (sourcePos.x <= pos.x) ? KnockbackSpeed : -KnockbackSpeed;
 		Skul_Hit_1->Play(false);
 		Camera::Shake(6.0f, 0.15f);
+		HitFeedback::PlayerHurt();
 	}
 
 	void Skul::Die()
@@ -342,6 +347,65 @@ namespace ya
 		if (pos.x > GROUN_SIZE_X)
 			pos.x = GROUN_SIZE_X;
 		tr->SetPos(pos);
+	}
+
+	void Skul::updateAttackLunge()
+	{
+		// 지상 공격 애니메이션이 재생되는 동안 바라보는 쪽으로 조금 나간다 (히트스톱 중에는 DeltaTime 이 0이라 멈춘다)
+		if (mRigidbody == nullptr || !mRigidbody->GetGround())
+			return;
+		if (!HitFeedback::IsEntKnockbackEnabled())	// 시나리오 fxknock off
+			return;
+
+		Animation* animation = mAnimator->GetAnimaiton();
+		if (animation == nullptr || animation->IsComplete())
+			return;
+
+		float duration = animation->GetTotalDuration();
+		if (duration <= 0.0f)
+			return;
+
+		float distance = SecondAttack ? HitFx::LungeHit1 : HitFx::LungeHit2;
+		float step = distance / duration * (float)Time::DeltaTime();
+		if (mDirect == eDirection::Left)
+			step = -step;
+
+		Transform* tr = GetComponent<Transform>();
+		Vector2 pos = tr->GetPos();
+		Vector2 moved = pos;
+		moved.x += step;
+		if (moved.x < 0.0f)
+			moved.x = 0.0f;
+		if (moved.x > GROUN_SIZE_X)
+			moved.x = GROUN_SIZE_X;
+
+		// 엔트 몸 안으로 파고들지 않는다 (지나치면 반대편을 보고 휘둘러 빗나간다)
+		Collider* mine = GetComponent<Collider>();
+		if (mine != nullptr)
+		{
+			Vector2 shift = moved - pos;
+			Vector2 minePos = mine->GetPos() + shift;
+			Vector2 mineSize = mine->GetSize();
+			for (GameObject* obj : SceneManager::GetActiveScene()->GetGameObjects(eLayerType::Monster))
+			{
+				Monster* ent = dynamic_cast<Monster*>(obj);
+				Collider* other = (ent != nullptr && ent->GetState() == eState::Active) ? ent->GetComponent<Collider>() : nullptr;
+				if (other == nullptr)
+					continue;
+
+				Vector2 otherPos = other->GetPos();
+				Vector2 otherSize = other->GetSize();
+				bool overlapX = minePos.x < otherPos.x + otherSize.x && otherPos.x < minePos.x + mineSize.x;
+				bool overlapY = minePos.y < otherPos.y + otherSize.y && otherPos.y < minePos.y + mineSize.y;
+				if (overlapX && overlapY)
+					return;
+			}
+		}
+
+		// 발 밑 땅이 끊기는 곳(낭떠러지)이면 나가지 않는다
+		tr->SetPos(moved);
+		if (mRigidbody->GetFootSurface(nullptr) == CollisionMap::NoSurface)
+			tr->SetPos(pos);
 	}
 
 	void Skul::updateDashInvincible()
@@ -881,6 +945,8 @@ namespace ya
 
 	void Skul::Attack()
 	{
+		updateAttackLunge();
+
 		if (AttackCount < 1 && Input::GetKeyDown(eKeyCode::X))
 		{
 			AttackCount = 1;

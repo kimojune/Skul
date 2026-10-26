@@ -7,6 +7,7 @@
 #include "Resource.h"
 #include "yaSoundManager.h"
 #include "yaScenario.h"
+#include "yaHitFeedback.h"
 #include "yaUIDebugOverlay.h"
 
 namespace ya
@@ -91,6 +92,7 @@ namespace ya
 		SoundManager::Initialize();
 		SceneManager::Initialize();
 		Camera::Initialize();
+		HitFeedback::Initialize();
 
 		SetMenuBar(false);
 
@@ -122,6 +124,7 @@ namespace ya
 
 	void Application::Update()
 	{
+		HitFeedback::Update();
 		Input::Update();
 		SceneManager::Update();
 		CollisionManager::Update();

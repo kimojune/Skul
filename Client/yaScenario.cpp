@@ -2,6 +2,7 @@
 #include "yaApplication.h"
 #include "yaSceneManager.h"
 #include "yaSkul.h"
+#include "yaHitFeedback.h"
 #include "yaPlayeScene.h"
 #include "yaTransform.h"
 #include "yaRigidbody.h"
@@ -75,6 +76,8 @@ namespace ya
 	Scenario::Scenario()
 		: mStartScene(eSceneType::Title)
 		, mSeed(1)
+		, mbTimeFxOff(false)
+		, mbFxKnockOff(false)
 		, mFrames(600)
 		, mFrame(0)
 		, mStateLog(nullptr)
@@ -174,6 +177,24 @@ namespace ya
 					return parseError(lineNumber, "usage: shot <frame>");
 				mShots.push_back(frame);
 			}
+			else if (command == "timefx")
+			{
+				// 히트스톱·슬로모션이 프레임 타이밍을 밀어 기대값이 어긋나는 대본에서 끈다. 소리·흔들림·번쩍임은 그대로
+				std::string mode;
+				tokens >> mode;
+				if (mode != "off" && mode != "on")
+					return parseError(lineNumber, "usage: timefx <on|off>");
+				mbTimeFxOff = (mode == "off");
+			}
+			else if (command == "fxknock")
+			{
+				// 엔트 넉백을 세게 하고 공격 돌진을 넣은 뒤로는 20프레임마다 때리는 대본이 맞지 않는다. 그런 대본에서 예전 값으로 되돌리고 돌진을 끈다
+				std::string mode;
+				tokens >> mode;
+				if (mode != "off" && mode != "on")
+					return parseError(lineNumber, "usage: fxknock <on|off>");
+				mbFxKnockOff = (mode == "off");
+			}
 			else if (command == "damage")
 			{
 				// 적 없이도 피격·체력바·사망을 검사할 수 있도록 플레이어에게 직접 피해를 준다
@@ -233,6 +254,8 @@ namespace ya
 	{
 		Input::SetScripted(true);
 		srand(mSeed);
+		HitFeedback::SetTimeFxEnabled(!mbTimeFxOff);
+		HitFeedback::SetEntKnockbackEnabled(!mbFxKnockOff);
 
 		if (mStartScene != SceneManager::GetActiveSceneType())
 			SceneManager::LoadScene(mStartScene);

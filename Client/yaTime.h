@@ -14,7 +14,7 @@ namespace ya
 		static void Render(HDC hdc);
 
 		// 게임 로직 한 단계의 시간 = StepTime(자동 검증은 고정값, 최대 MaxDeltaTime) x 시간 배율
-		__forceinline static double DeltaTime() { return mDeltaTime; }
+		__forceinline static double DeltaTime() { return mUnscaledDeltaTime * mTimeScale; }
 		// 시간 배율을 적용하지 않은 한 단계의 시간 (UI, 히트스톱처럼 배율과 무관하게 흘러야 하는 것)
 		__forceinline static double UnscaledDeltaTime() { return mUnscaledDeltaTime; }
 		// 직전 화면 프레임에 실제로 걸린 시간 (FPS 표시용)

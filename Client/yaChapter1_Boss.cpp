@@ -1,5 +1,6 @@
 ﻿#include "yaChapter1_Boss.h"
 #include "yaTransform.h"
+#include "yaHitFeedback.h"
 #include "yaCamera.h"
 #include "yaObject.h"
 #include "yaBoss_Body.h"
@@ -271,26 +272,30 @@ namespace ya
 		return applyDamage(1);
 	}
 
-	void Chapter1_Boss::OnPartAttacked(ePart part)
+	bool Chapter1_Boss::OnPartAttacked(ePart part)
 	{
 		// 그로기가 아니면 머리만 맞는다 (머리는 SkulAttack이 직접 Boss_Head::Hit을 부른다)
 		if (!mbGroggy || part == ePart::Head)
-			return;
+			return false;
 
 		// SkulAttack이 머리에 적용하는 것과 같은 조건: 지상·점프 공격 중이고, 이번 공격이 아직 아무것도 맞히지 않음
 		PlayeScene* scene = dynamic_cast<PlayeScene*>(SceneManager::GetActiveScene());
 		Skul* skul = (scene != nullptr) ? scene->GetSkul() : nullptr;
 		if (skul == nullptr)
-			return;
+			return false;
 
 		Skul::eSkulState state = skul->GetSkulState();
 		if (state != Skul::eSkulState::Attack && state != Skul::eSkulState::JumpAttack)
-			return;
+			return false;
 		if (!skul->GetIsAttack())
-			return;
+			return false;
 
 		if (applyDamage(1))
+		{
 			skul->SetIsAttack(false);
+			return true;
+		}
+		return false;
 	}
 
 	void Chapter1_Boss::debugSkipPhase()
@@ -311,18 +316,26 @@ namespace ya
 			return false;
 
 		mHP -= amount;
+		bool special = false;
 		if (mPhase == 1 && mHP <= Phase2HP)
 		{
 			// 1페이즈에서 남은 피해는 넘기지 않는다
 			mHP = Phase2HP;
 			enterState(eBossState::PhaseChange);
+			special = true;
 		}
 		else if (mHP <= 0)
 		{
 			mHP = 0;
 			enterState(eBossState::Dead);
+			special = true;
 		}
 		publish();
+
+		// 타격감. 페이즈 전환과 사망은 센 타격 + 슬로모션
+		HitFeedback::EnemyHit(special);
+		if (special)
+			HitFeedback::SlowMo();
 		return true;
 	}
 

@@ -109,7 +109,8 @@ namespace ya
 		// 피해가 들어갔으면 true (등장·전환·사망 연출 중에는 false)
 		bool OnHeadHit();
 		// 몸통·손이 플레이어 공격 판정(SkulAttack)과 겹쳤을 때 부른다. 그로기일 때만 피해를 받는다
-		void OnPartAttacked(ePart part);
+		// 피해가 들어갔으면 true (호출한 부위가 번쩍인다)
+		bool OnPartAttacked(ePart part);
 
 		eBossState GetBossState() { return mState; }
 		int GetHP() { return mHP; }

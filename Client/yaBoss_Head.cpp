@@ -1,5 +1,6 @@
 ﻿#include "yaBoss_Head.h"
 #include "yaAnimator.h"
+#include "yaHitFeedback.h"
 #include "yaTransform.h"
 #include "yaResources.h"
 #include "yaCollider.h"
@@ -131,6 +132,9 @@ namespace ya
 
 		// 피해가 들어갔을 때만 움찔한다 (등장·전환·사망 연출 중에는 무시)
 		if (mBoss->OnHeadHit())
+		{
 			mHitShake = 0.12f;
+			mAnimator->FlashFor(HitFx::FlashTime);
+		}
 	}
 }

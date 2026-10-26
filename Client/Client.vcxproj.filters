@@ -169,6 +169,9 @@
     <ClInclude Include="yaTime.h">
       <Filter>Engine\Time</Filter>
     </ClInclude>
+    <ClInclude Include="yaHitFeedback.h">
+      <Filter>Engine\Time</Filter>
+    </ClInclude>
     <ClInclude Include="yaScenario.h">
       <Filter>Engine\Test</Filter>
     </ClInclude>
@@ -410,6 +413,9 @@
       <Filter>Contents\Scene</Filter>
     </ClCompile>
     <ClCompile Include="yaTime.cpp">
+      <Filter>Engine\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="yaHitFeedback.cpp">
       <Filter>Engine\Time</Filter>
     </ClCompile>
     <ClCompile Include="yaScenario.cpp">

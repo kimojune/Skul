@@ -18,6 +18,7 @@
 #include "yaPlayerStats.h"
 #include "yaMonsterEffect.h"
 #include "yaEntSlamHitbox.h"
+#include "yaHitFeedback.h"
 
 
 namespace ya
@@ -96,6 +97,8 @@ namespace ya
 		, mDeadSound(nullptr)
 		, mHP(EntTuning::MaxHP)
 		, mTime(0.0f)
+		, mStunTime(EntTuning::HitStunTime)
+		, mKnockbackSpeed(0.0f)
 		, mDelay(0.0f)
 		, mCooldown(0.0f)
 		, mHomeX(0.0f)
@@ -303,12 +306,16 @@ namespace ya
 		// 때린 쪽(바라보는 쪽)의 반대로 밀려난다
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
-		float push = EntTuning::KnockbackSpeed * deltaTime;
+		// 처음에 가장 빠르고 경직이 끝날 때 0이 된다 (밀린 거리 = 속도 x 경직 / 2)
+		float remain = (mStunTime > 0.0f) ? (1.0f - mDelay / mStunTime) : 0.0f;
+		if (remain < 0.0f)
+			remain = 0.0f;
+		float push = mKnockbackSpeed * remain * deltaTime;
 		pos.x += (mDirection == eDirection::Left) ? push : -push;
 		clampToMap(pos);
 		tr->SetPos(pos);
 
-		if (mDelay >= EntTuning::HitStunTime)
+		if (mDelay >= mStunTime)
 		{
 			mDelay = 0.0f;
 			mState = eMonsterState::Idle;
@@ -462,7 +469,8 @@ namespace ya
 			mDirection = (EntGetPlayerCenter(player).x < getBodyCenterX()) ? eDirection::Left : eDirection::Right;
 
 		mDelay = 0.0f;
-		if (mHP <= 0)
+		bool killed = (mHP <= 0);
+		if (killed)
 		{
 			mHP = 0;
 			mState = eMonsterState::Dead;
@@ -471,6 +479,24 @@ namespace ya
 		{
 			mState = eMonsterState::Hit;
 		}
+
+		// 타격감: 2타째와 처치는 더 세게 밀고 더 오래 굳는다. 흰색 번쩍임, 소리, 흔들림, 히트스톱
+		bool strong = HitFeedback::IsStrongHit(killed);
+		mStunTime = strong ? HitFx::EntStunStrong : HitFx::EntStunNormal;
+		float distance = strong ? HitFx::EntKnockbackStrong : HitFx::EntKnockbackNormal;
+		if (!HitFeedback::IsEntKnockbackEnabled())
+		{
+			// 시나리오 fxknock off: 예전 값 (60px/s 로 0.3초)
+			mStunTime = EntTuning::HitStunTime;
+			distance = EntTuning::KnockbackSpeed * EntTuning::HitStunTime;
+		}
+		mKnockbackSpeed = 2.0f * distance / mStunTime;
+		mAnimator->FlashFor(HitFx::FlashTime);
+		HitFeedback::EnemyHit(killed);
+
+		// 방 안의 마지막 엔트를 쓰러뜨리면 슬로모션
+		if (killed && isLastEnt())
+			HitFeedback::SlowMo();
 
 		// 연달아 맞아도 피격 애니메이션을 처음부터 다시 재생한다
 		playAnimation(L"Hit", false);
@@ -606,6 +632,21 @@ namespace ya
 		Scenario::Publish("ent.windups", EntStats::Windups);
 		Scenario::Publish("ent.slams", EntStats::Slams);
 		Scenario::Publish("ent.hits", EntStats::Hits);
+	}
+
+	bool Monster::isLastEnt()
+	{
+		Scene* scene = SceneManager::GetActiveScene();
+		for (GameObject* obj : scene->GetGameObjects(eLayerType::Monster))
+		{
+			Monster* ent = dynamic_cast<Monster*>(obj);
+			if (ent == nullptr || ent == this
+				|| ent->GetState() != eState::Active
+				|| ent->mState == eMonsterState::Dead)
+				continue;
+			return false;
+		}
+		return true;
 	}
 
 	Skul* Monster::findPlayer()

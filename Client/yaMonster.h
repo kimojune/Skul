@@ -70,6 +70,8 @@ namespace ya
 		void changeMove(eMonsterState state, eDirection direction);
 		void playAnimation(const std::wstring& action, bool loop);
 		void takeHit(int damage);
+		// 살아 있는(죽는 중이 아닌) 엔트가 이 엔트 말고 없는가
+		bool isLastEnt();
 		void startWindup();
 		void slam();
 		void cancelAttack();
@@ -95,6 +97,8 @@ namespace ya
 
 		int mHP;
 		float mTime;		// 배회: 다음 행동을 고를 때까지 쌓는 시간
+		float mStunTime;		// 이번 피격의 경직 시간
+		float mKnockbackSpeed;	// 이번 피격의 처음 넉백 속도 (경직이 끝날 때까지 0으로 줄어든다)
 		float mDelay;		// 지금 상태(피격, 공격 단계, 죽는 중)에 들어온 뒤 지난 시간
 		float mCooldown;	// 다음 내려치기까지 남은 시간
 		float mHomeX;		// 배치된 x. 배회는 이 근처에서만 한다
