@@ -1,5 +1,6 @@
 #include "yaAnimator.h"
 #include "yaResources.h"
+#include "yaTime.h"
 #include <algorithm>
 
 
@@ -95,11 +96,15 @@ namespace ya
 		, mbLoop(false)
 		, mbFlipX(false)
 		, mAlpha(255)
+		, mFlash(0)
+		, mFlashTime(0.0f)
 	{
 
 	}
 	Animator::~Animator()
 	{
+		if (mFlashTime > 0.0f)
+			mFlashingCount--;
 		for (auto animation : mAnimations)
 		{
 			delete animation.second;
@@ -121,8 +126,30 @@ namespace ya
 		SelectObject(mSpriteHdc, oldBrush);
 		DeleteObject(magentaBrush);*/
 	}
+	int Animator::mFlashingCount = 0;
+
+	void Animator::FlashFor(float duration)
+	{
+		if (duration <= 0.0f)
+			return;
+		if (mFlashTime <= 0.0f)
+			mFlashingCount++;
+		if (duration > mFlashTime)
+			mFlashTime = duration;
+	}
+
 	void Animator::Update()
 	{
+		if (mFlashTime > 0.0f)
+		{
+			mFlashTime -= (float)Time::UnscaledDeltaTime();
+			if (mFlashTime <= 0.0f)
+			{
+				mFlashTime = 0.0f;
+				mFlashingCount--;
+			}
+		}
+
 		if (mActiveAnimation)
 		{
 			// 완료 이벤트는 끝나는 순간에 한 번만 부른다.

@@ -411,7 +411,7 @@ namespace ya
 	}
 
 	void RendererDX11::DrawImage(Image* image, const RenderRect& dst, const RenderRect& src
-		, eImageBlend blend, BYTE alpha, bool flipX)
+		, eImageBlend blend, BYTE alpha, bool flipX, BYTE flash)
 	{
 		graphics::Texture* texture = prepareTexture(image, blend);
 		if (texture == nullptr)
@@ -433,6 +433,7 @@ namespace ya
 		float tint = alpha / 255.0f;
 		spriteCB.tint = DirectX::XMFLOAT4(tint, tint, tint, tint);
 		spriteCB.flipX = flipX ? 1 : 0;
+		spriteCB.flash = flash / 255.0f;
 
 		mConstantBuffers[(UINT)graphics::eCBType::Sprite]->SetData(&spriteCB);
 		texture->BindShaderResource(graphics::eShaderStage::PS, 0);

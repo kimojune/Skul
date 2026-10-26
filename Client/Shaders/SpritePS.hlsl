@@ -30,5 +30,8 @@ float4 main(VSOut In) : SV_TARGET
     if (color.a <= 0.0f)
         discard;
 
+    // 피격 번쩍임: premultiplied 라서 흰색은 (a, a, a, a). 알파는 그대로 두고 색만 흰색 쪽으로
+    color.rgb = lerp(color.rgb, color.aaa, Flash);
+
     return color;
 }
