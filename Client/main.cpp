@@ -190,8 +190,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       0, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
 
+   // 아틀라스 창은 메인 창의 소유 창(owner = hWnd)이라 항상 메인 창보다 위에 그려진다
    HWND hWnd2 = CreateWindowW(L"AtlasWindow", szTitle, WS_OVERLAPPEDWINDOW,
-       1600, 0, 500, 500, nullptr, nullptr, hInstance, nullptr);
+       1600, 0, 500, 500, hWnd, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -206,8 +207,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    // 아틀라스(hWnd2) 창은 ToolScene에 들어갈 때만 보여준다.
 
-   application.Initialize(hWnd);
+   // Initialize 안에서 첫 씬에 들어가므로(시나리오는 Tool에서 바로 시작할 수 있다) 툴 창 핸들을 먼저 넘긴다
    application.SetToolHwnd(hWnd2);
+   application.Initialize(hWnd);
    //ShowWindow(hWnd2, nCmdShow);
    //UpdateWindow(hWnd2);
 

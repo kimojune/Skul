@@ -182,6 +182,14 @@ namespace ya
 					return parseError(lineNumber, "usage: damage <frame> <amount>");
 				mDamages.push_back(damage);
 			}
+			else if (command == "mouse")
+			{
+				// 마우스 위치(창 클라이언트 좌표)를 정한다. 타일 툴처럼 마우스로 조작하는 화면을 검사할 때 쓴다
+				Teleport mouse = {};
+				if (!(tokens >> mouse.frame >> mouse.x >> mouse.y))
+					return parseError(lineNumber, "usage: mouse <frame> <x> <y>");
+				mMouseMoves.push_back(mouse);
+			}
 			else if (command == "teleport")
 			{
 				// 플레이어를 원하는 위치로 옮긴다 (속도 0, 공중 상태). 맵의 여러 지점을 하나의 대본으로 훑을 때 쓴다
@@ -266,6 +274,12 @@ namespace ya
 			Skul* skul = (playScene != nullptr) ? playScene->GetSkul() : nullptr;
 			Vector2 pos = (skul != nullptr) ? skul->GetComponent<Transform>()->GetPos() : Vector2::Zero;
 			PlayerStats::TakeDamage(damage.second, pos - Vector2(10.0f, 0.0f));
+		}
+
+		for (const Teleport& mouse : mMouseMoves)
+		{
+			if (mouse.frame == mFrame)
+				Input::SetScriptedMousePos(Vector2(mouse.x, mouse.y));
 		}
 
 		for (const Teleport& teleport : mTeleports)

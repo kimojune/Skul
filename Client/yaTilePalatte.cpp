@@ -75,6 +75,47 @@ namespace ya
 
 	}
 
+	void TilePalatte::PaintTile(int index, Vector2 pos)
+	{
+		TileID id;
+		id.x = (UINT32)pos.x;
+		id.y = (UINT32)pos.y;
+
+		std::unordered_map<UINT64, Tile*>::iterator iter = mTiles.find(id.id);
+		if (iter != mTiles.end())
+		{
+			if ((int)iter->second->Index() == index)
+				return;
+
+			// 다른 그림이면 기존 타일을 지우고 새로 만든다 (InitializeTile을 다시 부르면 컴포넌트까지 다시 초기화된다)
+			iter->second->SetState(GameObject::eState::Death);
+			mTiles.erase(iter);
+		}
+
+		CreateTile(index, pos);
+	}
+
+	void TilePalatte::BindToScene(Scene* scene)
+	{
+		mTiles.clear();
+		if (scene == nullptr)
+			return;
+
+		// 같은 칸에 여러 장이 있으면 나중 것(위에 그려지는 것)을 목록에 둔다
+		for (GameObject* gameObj : scene->GetGameObjects(eLayerType::Tile))
+		{
+			Tile* tile = dynamic_cast<Tile*>(gameObj);
+			if (tile == nullptr || tile->GetState() == GameObject::eState::Death)
+				continue;
+
+			Vector2 tilePos = tile->GetComponent<Transform>()->GetPos();
+			TileID id;
+			id.x = (UINT32)(tilePos.x / TILE_SIZE_X);
+			id.y = (UINT32)(tilePos.y / TILE_SIZE_Y);
+			mTiles[id.id] = tile;
+		}
+	}
+
 	void TilePalatte::CreateTiles(int index, UINT width, UINT height)
 	{
 		

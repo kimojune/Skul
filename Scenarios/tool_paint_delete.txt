@@ -1,0 +1,26 @@
+# 타일 툴: 왼쪽 버튼을 누른 채 있어도 한 칸에 타일은 한 장만 생기고, 오른쪽 클릭으로 지워진다.
+# 수정 전: 누르고 있는 프레임마다 같은 칸에 타일이 쌓이고(30프레임 = 약 29장), 목록에는 첫 장만 남아 우클릭 뒤에도 그림이 남았다.
+# 아틀라스 창은 메인 창이 있는 모니터 안쪽에 놓여야 한다 (수정 전: x=1600 고정이라 작은 화면에서 밖으로 나감).
+scene Tool
+frames 140
+
+expect 1   tool.atlasOnScreen == 1
+
+mouse 5 300 300
+hold LBUTTON 10 40                 # 30프레임 누르고 있기
+expect 45  tool.tiles == 1
+expect 45  count.tile == 1         # 화면에 실제로 있는 타일도 한 장
+
+mouse 50 300 300
+hold LBUTTON 55 60                 # 같은 칸을 다시 클릭해도 늘지 않음
+expect 65  count.tile == 1
+
+mouse 70 380 300                   # 옆 칸 (타일 72px)
+hold LBUTTON 72 75
+expect 80  tool.tiles == 2
+expect 80  count.tile == 2
+
+mouse 90 300 300
+press RBUTTON 95                   # 첫 칸 지우기
+expect 100 tool.tiles == 1
+expect 100 count.tile == 1         # 지운 칸에 그림이 남지 않음

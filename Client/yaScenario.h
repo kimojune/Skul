@@ -64,6 +64,8 @@ namespace ya
 			float y;
 		};
 		std::vector<Teleport> mTeleports;
+		std::vector<Teleport> mMouseMoves; // (프레임, x, y) 마우스 위치
+
 		std::vector<Check> mChecks;
 		std::vector<std::string> mErrors;
 		FILE* mStateLog;

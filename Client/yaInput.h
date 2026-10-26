@@ -75,6 +75,8 @@ namespace ya
 		// 시나리오(자동 검증) 실행 중에는 키보드 대신 대본이 키 상태를 정한다.
 		static void SetScripted(bool scripted) { mScripted = scripted; }
 		static void SetScriptedKey(eKeyCode keyCode, bool down) { mScriptedDown[(UINT)keyCode] = down; }
+		// 대본 실행 중 마우스 위치 (창 클라이언트 좌표). 실제 마우스는 읽지 않으므로 이 값이 유지된다
+		static void SetScriptedMousePos(Vector2 pos) { mMousePos = pos; }
 		static bool FindKeyCode(const std::string& name, eKeyCode& keyCode);
 
 	private:
