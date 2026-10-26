@@ -30,6 +30,8 @@ cd Client
 | `press <KEY> <frame>` | 한 프레임만 누름 |
 | `shot <frame>` | 해당 프레임을 그린 직후 화면 저장 |
 | `teleport <frame> <x> <y>` | 해당 프레임 시작에 플레이어를 (x, y)로 옮김 (속도 0, 공중). 맵 여러 지점을 한 대본으로 훑을 때 사용 |
+| `timefx <on\|off>` | `off`면 히트스톱·슬로모션의 시간 배율만 끈다 (소리·흔들림·번쩍임은 그대로). 히트스톱이 프레임 타이밍을 밀어 기대값이 어긋나는 대본에서 쓴다. 기본값 on |
+| `fxknock <on\|off>` | `off`면 엔트 넉백·경직을 예전 값(약 18px, 0.3초)으로 되돌리고 공격 돌진을 끈다. 20프레임 간격으로 연타하는 대본이 닿도록. 기본값 on |
 | `damage <frame> <amount>` | 해당 프레임 시작에 플레이어에게 피해 (`PlayerStats::TakeDamage`). 대시 무적 중이면 무시됨 |
 | `expect <frame> <var> <op> <number>` | 해당 프레임이 끝난 뒤 검사 |
 | `always <var> <op> <number>` | 매 프레임 검사. 처음 실패한 프레임을 보고 |
@@ -67,6 +69,10 @@ cd Client
 | `boss.groggy` | 그로기 중이면 1. 이때는 머리 말고 몸통·손도 맞는다 (state가 5로 바뀐 다음 프레임부터) |
 | `boss.volleys` | 이번 에너지볼 패턴에서 쏜 횟수 (3이면 그로기로 넘어감). 다음 에너지볼 패턴이 시작될 때 0 |
 | 그 밖의 이름 | 게임 코드가 `Scenario::Publish("이름", 값)`으로 내보낸 값 (예: `boss.hp`). Initialize에서 초깃값을 내보내야 대본 시작 검사를 통과합니다 |
+| `fx.timescale` | 지금 시간 배율. 히트스톱 중 0, 슬로모션 중 0.3, 평소 1 (`timefx off`면 항상 1) |
+| `fx.hitstops` | 히트스톱이 걸린 누적 횟수 (적을 때릴 때, 플레이어가 맞을 때) |
+| `fx.flashing` | 지금 흰색으로 번쩍이는 오브젝트(Animator) 수 |
+| `fx.slowmo` | 슬로모션이 걸린 누적 횟수 (마지막 엔트 처치, 보스 페이즈 전환, 보스 사망) |
 | `camera.x`, `camera.y` | 화면 가운데가 보는 월드 좌표. 화면 왼쪽 위는 (x−800, y−450). 플레이 씬의 카메라 경계는 x 800~2550 |
 
 새 기능을 검사하려면 `yaScenario.cpp`의 `Scenario::collectState`에 변수를 추가하세요. 예를 들어 `player.hp`, `boss.hp`가 있습니다. 대본에 없는 변수를 쓰면 시작할 때 실패로 알려줍니다.

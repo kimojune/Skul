@@ -1,0 +1,78 @@
+﻿# G5 마지막 엔트를 쓰러뜨리면 슬로모션이 걸린다 (Stage1 엔트 3마리)
+# g3_stage1_clear 와 같은 입력 대본. 히트스톱·슬로모션은 켠 채로, 엔트 넉백만 예전 값이다 (20프레임 연타가 닿도록)
+scene Stage1
+seed 1
+frames 2210
+
+hold  RIGHT 120 240
+press X 280
+press X 304
+press X 328
+press X 352
+press X 376
+press X 400
+press X 424
+press X 448
+press X 472
+press X 496
+press X 520
+press X 544
+press X 568
+press X 592
+press X 616
+press X 640
+hold  RIGHT 700 880
+press X 900
+press X 924
+press X 948
+press X 972
+press X 996
+press X 1020
+press X 1044
+press X 1068
+press X 1092
+press X 1116
+press X 1140
+press X 1164
+press X 1188
+press X 1212
+press X 1236
+press X 1260
+press X 1284
+press X 1308
+press X 1332
+press X 1356
+press X 1380
+hold  RIGHT 1420 1720
+press F 1730                            # 문 앞이지만 엔트가 남아 있다
+press X 1740
+press X 1764
+press X 1788
+press X 1812
+press X 1836
+press X 1860
+press X 1884
+press X 1908
+press X 1932
+press X 1956
+press X 1980
+press X 2004
+press X 2028
+press X 2052
+press X 2076
+press X 2100
+press X 2124
+press X 2148
+press X 2172
+press X 2196
+press F 2260                            # 다 잡은 뒤
+
+always      player.hp >= 50
+shot 1735
+shot 2100
+fxknock off  # 엔트 넉백을 세게 만든 뒤라 20프레임 간격 연타가 닿지 않는다. 예전 넉백으로 돌린다 (기대값은 그대로)
+
+always fx.timescale >= 0
+always fx.timescale <= 1
+expect 2200 count.monster == 0
+expect 2200 fx.slowmo >= 1              # 마지막 엔트를 쓰러뜨릴 때 걸린다
